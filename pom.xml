@@ -47,6 +47,8 @@
     <modules>
         <module>provider</module>
         <module>field</module>
+        <module>application</module>
+        <module>demo</module>
     </modules>
     
     <!-- Properties -->

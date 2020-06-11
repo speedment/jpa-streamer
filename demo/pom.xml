@@ -7,13 +7,12 @@
         <groupId>com.speedment</groupId>
         <version>0.1.0</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>provider</artifactId>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>application-standard</module>
-    </modules>
+    <artifactId>demo</artifactId>
+
+    <properties>
+        <module-name>jpastreamer.demo</module-name>
+    </properties>
 
 </project>
