@@ -17,6 +17,6 @@ public final class InternalJpaStreamerBuilder implements JpaStreamerBuilder {
 
     @Override
     public JpaStreamer build() {
-        return null;
+        return new StandardJpaStreamer(persistenceUnitName);
     }
 }
