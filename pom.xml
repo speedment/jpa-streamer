@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+
+    Copyright (c) 2006-2020, Speedment, Inc. All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License"); You may not
+    use this file except in compliance with the License. You may obtain a copy of
+    the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and limitations under
+    the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    
+    <!-- For OSSRH on SonaType -->
+    <!-- -->
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+    <!-- -->
+    
+    <groupId>com.speedment</groupId>
+    <artifactId>jpa-streamer-parent</artifactId>
+    <version>0.1.0</version>
+    <packaging>pom</packaging>
+
+    <!-- Project Metadata -->
+    <name>JpaStreamer</name>
+    <description>
+        JpaStreamer is a lightweight toolkit for creating Java Streams from database content
+    </description>
+    
+    <!-- Modules -->
+    <modules>
+        <module>contract</module>
+        <module>provider</module>
+    </modules>
+    
+    <!-- Properties -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <junit.jupiter.version>5.5.2</junit.jupiter.version>
+        <junit.platform.provider.version>1.5.2</junit.platform.provider.version>
+        <mockito.version>3.0.0</mockito.version>
+        <archunit.version>0.11.0</archunit.version>
+        <speedment.version>${project.version}</speedment.version>
+        <common.version>${project.version}</common.version>
+
+        <!-- later maven-javadoc-plugin versions does not support aggregate? -->
+        <maven-javadoc-plugin-version>3.1.1</maven-javadoc-plugin-version>
+        <maven-source-plugin-version>3.2.0</maven-source-plugin-version>
+        <maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
+        <maven-shade-plugin-version>3.2.1</maven-shade-plugin-version>
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    </properties>
+    
+    <organization>
+        <name>Speedment, Inc.</name>
+        <url>http://www.speedment.com/</url>
+    </organization>
+    
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    
+    <developers>
+        <developer>
+            <id>Minborg</id>
+            <name>Per Minborg</name>
+            <url>https://github.com/minborg</url>
+            <email>minborg@speedment.com</email>
+            <timezone>America/Los_Angeles</timezone>
+        </developer>
+        <developer>
+            <id>julgus</id>        
+            <name>Julia Gustafsson (GitHub:julgus)</name>
+            <timezone>Europe/Stockholm</timezone>
+        </developer>
+        <developer>
+            <id>dekmm</id>        
+             <name>Mislav Miličević (GitHub:dekmm)</name>
+            <timezone>Europe/Zagreb</timezone>
+        </developer>
+    </developers>
+    
+    <contributors>
+    </contributors>
+	
+    <!-- Distribution Details -->
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/speedment/jpa-streamer/issues</url>
+    </issueManagement>
+    
+    <scm>
+        <connection>scm:git:git://github.com/speedment/jpa-streamer.git</connection>
+        <developerConnection>scm:git:git@github.com:speedment/jpa-streamer.git</developerConnection>
+        <url>https://github.com/speedment/jpa-streamer/</url>
+    </scm>
+	
+    <distributionManagement>
+        <!-- For OSSRH on SonaType -->
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus snapshot repository</name>			  		
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Sonatype Nexus release staging repository</name>		
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+	
+    <!-- Plugins -->
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.8</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+
+                    <configuration>
+                        <useFile>false</useFile>
+                        <trimStackTrace>false</trimStackTrace>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin-version}</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin-version}</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven-javadoc-plugin-version}</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven-shade-plugin-version}</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+        
+        <plugins>
+            <plugin>
+                <groupId>com.speedment</groupId>
+                <artifactId>speedmentversion-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <minVersion>${speedment.version}</minVersion>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <configuration>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    
+                    <fork>true</fork>
+                    <optimize>true</optimize>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                    <meminitial>256m</meminitial>
+                    <maxmem>1024m</maxmem>
+                    <excludes>
+                        <exclude>**/package-info.java</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <release>8</release>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>module-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <release>9</release>
+                            <compileSourceRoots>
+                                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
+                            </compileSourceRoots>
+                            <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
+                            <compilerArgs>
+                                <arg>--patch-module</arg>
+                                <arg>${module-name}=${project.build.outputDirectory}</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>module-testCompile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <release>9</release>
+                            <compileSourceRoots>
+                                <compileSourceRoot>${project.basedir}/src/test/java9</compileSourceRoot>
+                            </compileSourceRoots>
+                            <compilerArgs>
+                                <arg>--patch-module</arg>
+                                <arg>${module-name}=${project.build.outputDirectory}</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                            <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Automatic-Module-Name>${module-name}</Automatic-Module-Name>
+                            <Multi-Release>true</Multi-Release>
+                        </manifestEntries>
+                    </archive>
+                    <skipIfEmpty>true</skipIfEmpty>
+                    <excludes>
+                        <!--Remove the module-info in the main dir because it is generated for the test phase-->
+                        <exclude>module-info.class</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.5</version>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <!-- Use mvn versions:display-plugin-updates to see available updates-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+
+            <!-- Use mvn com.ning.maven.plugins:maven-dependency-versions-check-plugin:list to analyze dependencies -->
+            <plugin>
+                <groupId>com.ning.maven.plugins</groupId>
+                <artifactId>maven-dependency-versions-check-plugin</artifactId>
+                <version>2.0.4</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+<!--            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>maven-jgitflow-plugin</artifactId>
+                <version>1.0-alpha27</version>
+                <configuration>
+                    Enable this to push to origin using SSH keys 
+                    <enableSshAgent>true</enableSshAgent>
+                    
+                    Keep your maven submodules at the same version as the parent POM 
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    
+                    Pusing in-development features to origin allows all devs to see what each other
+                    are working on
+                    
+                    <pushFeatures>true</pushFeatures>
+                    
+                    This allows the CI server (e.g. Jenkins) to automatically push new releases to
+                    origin; you can then either manually deploy them or, if you are doing Continuous
+                    Deployments, auto-deploy them to prod
+                    
+                    <pushReleases>true</pushReleases>
+                    
+                    Hot Fixes should be pushed to origin as well so that any dev can pick them up
+                    
+                    <pushHotfixes>true</pushHotfixes>
+                    
+                    Prevents deployments from dev workstations so that they can be done by a CI
+                    server
+                    
+                    <noDeploy>true</noDeploy>
+                    <flowInitContext>
+                        
+                        You can customize your development branch name. Why? Because it's faster to type
+                        'git push origin dvlp'
+                        than
+                        'git push origin develop'
+                        ;-)
+                        
+                        <developBranchName>develop-3.0</developBranchName>
+                        You can also customize your tag prefixes 
+                        <versionTagPrefix>rev-</versionTagPrefix>
+                    </flowInitContext>
+                </configuration>
+            </plugin>  -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+
+                    <!--                   <execution>
+                                           <id>default-check</id>
+                                           <goals>
+                                               <goal>check</goal>
+                                           </goals>
+                                           <configuration>
+                                               <rules>
+                                                   &lt;!&ndash;-
+                                                   <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                                       <element>BUNDLE</element>
+                                                       <limits>
+                                                           <limit implementation="org.jacoco.report.check.Limit">
+                                                               <counter>INSTRUCTION</counter>
+                                                               <value>COVEREDRATIO</value>
+                                                               <minimum>0.10</minimum>
+                                                           </limit>
+                                                           <limit implementation="org.jacoco.report.check.Limit">
+                                                               <counter>CLASS</counter>
+                                                               <value>MISSEDCOUNT</value>
+                                                               <maximum>0</maximum>
+                                                           </limit>
+                                                       </limits>
+                                                   </rule>
+                                                   &ndash;&gt;
+                                                   <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                                       <element>BUNDLE</element>
+                                                       <limits>
+                                                           <limit implementation="org.jacoco.report.check.Limit">
+                                                               <counter>COMPLEXITY</counter>
+                                                               <value>COVEREDRATIO</value>
+                                                               <minimum>0.00</minimum>
+                                                           </limit>
+                                                       </limits>
+                                                   </rule>
+                                               </rules>
+                        </configuration>
+                    </execution>-->
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <banDuplicatePomDependencyVersions/>
+                                <requireMavenVersion>
+                                    <version>[3.5.0,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[11,)</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin-version}</version>
+                        <reportSets>
+                            <reportSet>
+                                <id>aggregate</id>
+                                <reports>
+                                    <report>aggregate</report>
+                                </reports>
+                            </reportSet>
+                        </reportSets>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                        <version>3.0.5</version>
+                    </plugin>
+                </plugins>
+            </reporting>
+            
+            <build>
+                <pluginManagement>
+                    <plugins>
+
+                        <plugin>
+                            <groupId>org.sonatype.plugins</groupId>
+                            <artifactId>nexus-staging-maven-plugin</artifactId>
+                            <version>1.6.8</version>
+                        </plugin>
+                        
+                    </plugins>
+                </pluginManagement>
+                
+                <plugins>
+
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin-version}</version>
+
+                        <!--                            <inherited>true</inherited> 999 -->
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                    <!--                                    <goal>aggregate-jar</goal>-->
+                                </goals>
+                            </execution>
+                        </executions>
+
+
+                        <configuration>
+                            <!--                                <source>8</source>-->
+                            <additionalOptions>
+                                <option>--add-modules</option>
+                                <option>${module-name}</option>
+                            </additionalOptions>
+                            <groups>
+                                <group>
+                                    <title>Code Generator</title>
+                                    <packages>com.speedment.common.codegen:com.speedment.common.codegen.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Application</title>
+                                    <packages>com.speedment.runtime.application:com.speedment.runtime.application.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Database Model</title>
+                                    <packages>com.speedment.runtime.config:com.speedment.runtime.config.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Application</title>
+                                    <packages>com.speedment.runtime.application:com.speedment.runtime.application.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Expressions</title>
+                                    <packages>com.speedment.runtime.compute:com.speedment.runtime.compute.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Type Mappers</title>
+                                    <packages>com.speedment.runtime.typemapper:com.speedment.runtime.typemapper.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Fields and Predicates</title>
+                                    <packages>com.speedment.runtime.field:com.speedment.runtime.field.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Bulk Updates</title>
+                                    <packages>com.speedment.runtime.bulk:com.speedment.runtime.bulk.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Join</title>
+                                    <packages>com.speedment.runtime.join:com.speedment.runtime.join.*</packages>
+                                </group>
+                                <group>
+                                    <title>Runtime Core</title>
+                                    <packages>com.speedment.runtime.core:com.speedment.runtime.core.*</packages>
+                                </group>
+                                <group>
+                                    <title>Generator Translator System</title>
+                                    <packages>com.speedment.generator.translator:com.speedment.generator.translator.*</packages>
+                                </group>
+                                <group>
+                                    <title>Generator Built-In Translators</title>
+                                    <packages>com.speedment.generator.standard:com.speedment.generator.standard.*</packages>
+                                </group>
+                                <group>
+                                    <title>Generator Core</title>
+                                    <packages>com.speedment.generator.core:com.speedment.generator.core.*</packages>
+                                </group>
+                                <group>
+                                    <title>Tool Actions</title>
+                                    <packages>com.speedment.tool.actions:com.speedment.tool.actions.*</packages>
+                                </group>
+                                <group>
+                                    <title>Tool Configuration</title>
+                                    <packages>com.speedment.tool.config:com.speedment.tool.config.*</packages>
+                                </group>
+                                <group>
+                                    <title>Tool Property Editor</title>
+                                    <packages>com.speedment.tool.propertyeditor:com.speedment.tool.propertyeditor.*</packages>
+                                </group>
+                                <group>
+                                    <title>Tool Core</title>
+                                    <packages>com.speedment.tool.core:com.speedment.tool.core.*</packages>
+                                </group>
+                                <group>
+                                    <title>Commons Library</title>
+                                    <packages>com.speedment.common.*</packages>
+                                </group>
+                                <group>
+                                    <title>Connectors</title>
+                                    <packages>com.speedment.runtime.connector:com.speedment.runtime.connector.*</packages>
+                                </group>
+
+                            </groups>
+
+                            <!--                                <aggregate>true</aggregate>-->
+                            <keywords>true</keywords>
+                            <!--                                <docfilessubdirs>true</docfilessubdirs>-->
+                            <excludePackageNames>*.internal:*.internal.*</excludePackageNames>
+                            <!--                                <includeDependencySources>true</includeDependencySources>-->
+
+                            <additionalJOptions>
+                                <additionalJOption>-J-Xmx1g</additionalJOption>
+                            </additionalJOptions>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin-version}</version>
+                        <inherited>true</inherited>
+
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>3.5.0.1254</version>
+                    </plugin>
+                    
+                    <!--The license-maven-plugin plugin MUST BE COMMENTED OUT DURING DEPLOYMENT, otherwise nexus-staging-maven-plugin will fail (sic!)-->
+
+                    <plugin>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <version>3.0</version>
+
+                        <configuration>
+                            <header>license_header.txt</header>
+                            <properties>
+                                <currentYear>2020</currentYear>
+                            </properties>
+                            <headerDefinitions>
+                                <headerDefinition>license_header_def.xml</headerDefinition>
+                            </headerDefinitions>
+                            <excludes>
+                                <exclude>**/README</exclude>
+                                <exclude>**/README.md</exclude>
+                                <exclude>**/package-info.java</exclude>
+                                <exclude>**/nbactions.xml</exclude>
+                                <exclude>**/nb-configuration.xml</exclude>
+                                <exclude>**/*.versionsBackup</exclude>
+                                <exclude>CONTRIBUTOR_LICENSE_AGREEMENT</exclude>
+                                <exclude>LICENSE</exclude>
+                                <exclude>DISCLAIMER</exclude>
+                                <exclude>THIRD_PARTY_LICENSES</exclude>
+                                <exclude>src/test/resources/**</exclude>
+                                <exclude>src/main/resources/**</exclude>
+                                <exclude>nbproject/**</exclude>
+                                <exclude>src/main/java/com/company/sakila/db0/**</exclude>
+                                <exclude>/Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0</exclude>
+                                <exclude>build.gradle</exclude>
+                            </excludes>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
+                    <plugin>
+                        <!-- http://eclemma.org/jacoco/trunk/doc/maven.html -->
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco-maven-plugin.version}</version>
+                        
+                        <executions>
+                            <execution>
+                                <id>default-prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                                <configuration>
+                                    <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+                                    <!-- passing property which will contains settings for JaCoCo agent.
+                                    If not specified, then "argLine" would be used for "jar" packaging -->
+                                    <propertyName>surefireArgLine</propertyName>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>default-report</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- output file with report data. -->
+                                    <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+                                    <!-- output directory for the reports. -->
+                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+                                </configuration>
+                            </execution>
+<!--                            <execution>
+                                <id>default-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        &lt;!&ndash;  implementation is needed only for Maven 2  &ndash;&gt;
+                                        <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                            <element>BUNDLE</element>
+                                            <limits>
+                                                &lt;!&ndash;  implementation is needed only for Maven 2  &ndash;&gt;
+                                                <limit implementation="org.jacoco.report.check.Limit">
+                                                    <counter>COMPLEXITY</counter>
+                                                    <value>COVEREDRATIO</value>
+                                                    <minimum>0.01</minimum>
+                                                </limit>
+                                            </limits>
+                                        </rule>
+                                    </rules>
+                                </configuration>
+                            </execution>-->
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        
+                        <configuration>
+                            <keyname>${gpg.keyname}</keyname>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                            <executable>${gpg.executable}</executable>
+                        </configuration>
+                    </plugin>
+                    
+                    <plugin>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <!-- Deployment is already handled by nexus-staging-maven-plugin -->
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        
+                        <extensions>true</extensions>
+                        
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        
+                        <configuration>
+                            <serverId>sonatype-nexus-staging</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>license-check</id>
+            <build>
+                <plugins>
+                    <!--The license-maven-plugin plugin MUST BE COMMENTED OUT DURING DEPLOYMENT, otherwise nexus-staging-maven-plugin will fail (sic!)-->
+                    <plugin>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <version>3.0</version>
+
+                        <configuration>
+                            <header>license_header.txt</header>
+                            <properties>
+                                <currentYear>2020</currentYear>
+                            </properties>
+                            <headerDefinitions>
+                                <headerDefinition>license_header_def.xml</headerDefinition>
+                            </headerDefinitions>
+                            <excludes>
+                                <exclude>**/README</exclude>
+                                <exclude>**/README.md</exclude>
+                                <exclude>**/package-info.java</exclude>
+                                <exclude>**/nbactions.xml</exclude>
+                                <exclude>**/nb-configuration.xml</exclude>
+                                <exclude>**/*.versionsBackup</exclude>
+                                <exclude>CONTRIBUTOR_LICENSE_AGREEMENT</exclude>
+                                <exclude>LICENSE</exclude>
+                                <exclude>DISCLAIMER</exclude>
+                                <exclude>THIRD_PARTY_LICENSES</exclude>
+                                <exclude>src/test/resources/**</exclude>
+                                <exclude>src/main/resources/**</exclude>
+                                <exclude>nbproject/**</exclude>
+                                <exclude>src/main/java/com/company/sakila/db0/**</exclude>
+                                <exclude>
+                                    /Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0
+                                </exclude>
+                                <exclude>build.gradle</exclude>
+                            </excludes>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+    </profiles>
+    
+    <dependencyManagement>
+        <dependencies>
+            <!-- Test Dependencies -->
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
+                <version>2.1</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>4.0.0-alpha-1</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.opera</groupId>
+                <artifactId>operadriver</artifactId>
+                <scope>test</scope>
+                <version>1.5</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.seleniumhq.selenium</groupId>
+                        <artifactId>selenium-remote-driver</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--Mockito-->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-inline</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--JUnit5-->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-engine</artifactId>
+                <version>${junit.platform.provider.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-launcher</artifactId>
+                <version>${junit.platform.provider.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit</artifactId>
+                <version>${archunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5-api</artifactId>
+                <version>${archunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5-engine</artifactId>
+                <version>${archunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+</project>
