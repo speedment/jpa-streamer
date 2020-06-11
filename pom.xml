@@ -32,13 +32,13 @@
     </parent>
     <!-- -->
     
-    <groupId>com.speedment</groupId>
-    <artifactId>jpa-streamer-parent</artifactId>
+    <groupId>com.speedment.jpastreamer</groupId>
+    <artifactId>jpastreamer-parent</artifactId>
     <version>0.1.0</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
-    <name>JpaStreamer</name>
+    <name>Parent</name>
     <description>
         JpaStreamer is a lightweight toolkit for creating Java Streams from database content
     </description>
