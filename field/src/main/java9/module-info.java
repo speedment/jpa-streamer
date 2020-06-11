@@ -15,16 +15,16 @@
  * the License.
  */
 module jpastreamer.field {
-    exports com.speedment.runtime.field;
-    exports com.speedment.runtime.field.collector;
-    exports com.speedment.runtime.field.comparator;
-    exports com.speedment.runtime.field.exception;
-    exports com.speedment.runtime.field.expression;
-    exports com.speedment.runtime.field.method;
-    exports com.speedment.runtime.field.predicate;
-    exports com.speedment.runtime.field.predicate.trait;
-    exports com.speedment.runtime.field.trait;
-    exports com.speedment.runtime.field.util;
+    exports com.speedment.jpastreamer.field;
+    exports com.speedment.jpastreamer.field.collector;
+    exports com.speedment.jpastreamer.field.comparator;
+    exports com.speedment.jpastreamer.field.exception;
+    exports com.speedment.jpastreamer.field.expression;
+    exports com.speedment.jpastreamer.field.method;
+    exports com.speedment.jpastreamer.field.predicate;
+    exports com.speedment.jpastreamer.field.predicate.trait;
+    exports com.speedment.jpastreamer.field.trait;
+    exports com.speedment.jpastreamer.field.util;
 
     requires com.speedment.common.invariant;
     requires transitive com.speedment.common.tuple;
