@@ -575,4 +575,13 @@ implements EnumForeignKeyField<ENTITY, D, E, FK>,
         return result;
     }
 
+    @Override
+    public D convertToDatabaseColumn(E attribute) {
+        return (D)enumToString.apply(attribute);
+    }
+
+    @Override
+    public E convertToEntityAttribute(D dbData) {
+        return stringToEnum.apply((String)dbData);
+    }
 }

@@ -23,6 +23,8 @@ import com.speedment.jpastreamer.field.method.ReferenceSetter;
 import com.speedment.jpastreamer.field.method.SetToReference;
 import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
+
 /**
  * A representation of an Entity field that is a reference type (eg 
  * {@code Integer} and not {@code int}).
@@ -35,7 +37,7 @@ import com.speedment.runtime.typemapper.TypeMapper;
  * @author  Emil Forslund
  * @since   2.2.0
  */
-public interface HasReferenceValue<ENTITY, D, V> extends Field<ENTITY> {
+public interface HasReferenceValue<ENTITY, D, V> extends Field<ENTITY>, AttributeConverter<V, D> {
 
     @Override
     ReferenceSetter<ENTITY, V> setter();

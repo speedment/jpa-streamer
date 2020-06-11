@@ -336,4 +336,14 @@ implements StringForeignKeyField<ENTITY, D, FK_ENTITY>,
         requireNonNull(value);
         return new StringContainsIgnoreCasePredicate<>(this, value.toLowerCase());
     }
+
+    @Override
+    public D convertToDatabaseColumn(String attribute) {
+        return (D)attribute;
+    }
+
+    @Override
+    public String convertToEntityAttribute(D dbData) {
+        return (String)dbData;
+    }
 }

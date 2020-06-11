@@ -526,4 +526,15 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
         constants.stream().filter(predicate).forEach(result::add);
         return result;
     }
+
+    @Override
+    public D convertToDatabaseColumn(E attribute) {
+        return (D)enumToString.apply(attribute);
+    }
+
+    @Override
+    public E convertToEntityAttribute(D dbData) {
+        return stringToEnum.apply((String)dbData);
+    }
+
 }

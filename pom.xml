@@ -65,6 +65,7 @@
 
         <!-- later maven-javadoc-plugin versions does not support aggregate? -->
         <speedment-version>3.2.6</speedment-version>
+        <jpa.version>2.2</jpa.version>
         <maven-javadoc-plugin-version>3.1.1</maven-javadoc-plugin-version>
         <maven-source-plugin-version>3.2.0</maven-source-plugin-version>
         <maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
@@ -869,6 +870,13 @@
     
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>javax.persistence-api</artifactId>
+                <version>${jpa.version}</version>
+            </dependency>
+
             <!-- Test Dependencies -->
             <dependency>
                 <groupId>org.hamcrest</groupId>

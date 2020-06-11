@@ -125,4 +125,15 @@ implements ReferenceField<ENTITY, D, V> {
     public FieldPredicate<ENTITY> isNull() {
         return new ReferenceIsNullPredicate<>(this);
     }
+
+    @Override
+    public D convertToDatabaseColumn(V attribute) {
+        return typeMapper().toDatabaseType(attribute);
+    }
+
+    @Override
+    public V convertToEntityAttribute(D dbData) {
+        return typeMapper().toJavaType(null, null, dbData);
+    }
+
 }

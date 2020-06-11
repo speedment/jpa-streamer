@@ -276,4 +276,14 @@ implements ComparableForeignKeyField<ENTITY, D, V, FK_ENTITY>,
     public SpeedmentPredicate<ENTITY> notIn(Collection<V> values) {
         return new ReferenceNotInPredicate<>(this, CollectionUtil.collectionToSet(values));
     }
+
+    @Override
+    public D convertToDatabaseColumn(V attribute) {
+        return typeMapper().toDatabaseType(attribute);
+    }
+
+    @Override
+    public V convertToEntityAttribute(D dbData) {
+        return typeMapper().toJavaType(null, null, dbData);
+    }
 }
