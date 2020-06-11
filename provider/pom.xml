@@ -12,6 +12,8 @@
     <artifactId>provider</artifactId>
     <packaging>pom</packaging>
 
+    <name>Provider</name>
+
     <modules>
         <module>application-standard</module>
     </modules>

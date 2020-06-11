@@ -15,7 +15,7 @@
         <module-name>jpastreamer.application.standard</module-name>
     </properties>
 
-    <name>JpaStreamer - Application - Standard</name>
+    <name>Application - Standard</name>
     <description>
         Standard provider of the entry API of JpaStreamer
     </description>
@@ -23,7 +23,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.speedment</groupId>
+            <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>application</artifactId>
             <version>0.1.0</version>
         </dependency>

@@ -15,7 +15,7 @@
         <module-name>jpastreamer.application</module-name>
     </properties>
 
-    <name>JpaStreamer - Application</name>
+    <name>Application</name>
     <description>
         The entry API of JpaStreamer
     </description>

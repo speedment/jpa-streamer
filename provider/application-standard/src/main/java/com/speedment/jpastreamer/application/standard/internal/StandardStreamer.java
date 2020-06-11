@@ -1,7 +1,5 @@
 package com.speedment.jpastreamer.application.standard.internal;
 
-import com.speedment.jpastreamer.application.Streamer;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -31,7 +29,13 @@ public final class StandardStreamer<E> implements Streamer<E> {
         final Root<E> root = criteriaQuery.from(entityClass);
         final TypedQuery<E> typedQuery = entityManager.createQuery(criteriaQuery);
         criteriaQuery.select(root);
-        final Stream<E> filmStream = typedQuery.getResultStream();
-        return filmStream;
+        final Stream<E> stream = typedQuery.getResultStream();
+        return stream;
     }
+
+    @Override
+    public void close() {
+        entityManager.close();
+    }
+
 }

@@ -15,7 +15,7 @@
         <module-name>jpastreamer.field</module-name>
     </properties>
 
-    <name>JpaStreamer - Field</name>
+    <name>Field</name>
     <description>
         Partly generated model of the fields that represent columns in the
         database. Fields can be used to produce special predicates and functions
