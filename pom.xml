@@ -46,6 +46,7 @@
     <!-- Modules -->
     <modules>
         <module>provider</module>
+        <module>field</module>
     </modules>
     
     <!-- Properties -->
@@ -63,6 +64,7 @@
         <common.version>${project.version}</common.version>
 
         <!-- later maven-javadoc-plugin versions does not support aggregate? -->
+        <speedment-version>3.2.6</speedment-version>
         <maven-javadoc-plugin-version>3.1.1</maven-javadoc-plugin-version>
         <maven-source-plugin-version>3.2.0</maven-source-plugin-version>
         <maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
@@ -567,7 +569,7 @@
                                 </group>
                                 <group>
                                     <title>Runtime Fields and Predicates</title>
-                                    <packages>com.speedment.runtime.field:com.speedment.runtime.field.*</packages>
+                                    <packages>com.speedment.runtime.com.speedment.jpa.stream.field:com.speedment.runtime.com.speedment.jpa.stream.field.*</packages>
                                 </group>
                                 <group>
                                     <title>Runtime Bulk Updates</title>
