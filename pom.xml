@@ -217,7 +217,7 @@
                 <artifactId>speedmentversion-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <configuration>
-                    <minVersion>${speedment.version}</minVersion>
+                    <minVersion>${jpa-streamer.version}</minVersion>
                 </configuration>
             </plugin>
             
