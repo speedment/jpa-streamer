@@ -529,12 +529,14 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
 
     @Override
     public D convertToDatabaseColumn(E attribute) {
-        return (D)enumToString.apply(attribute);
+        return typeMapper.toDatabaseType(attribute);
+        // return (D)enumToString.apply(attribute);
     }
 
     @Override
     public E convertToEntityAttribute(D dbData) {
-        return stringToEnum.apply((String)dbData);
+        return typeMapper().toJavaType(null, null, dbData);
+        //return stringToEnum.apply((String)dbData);
     }
 
 }

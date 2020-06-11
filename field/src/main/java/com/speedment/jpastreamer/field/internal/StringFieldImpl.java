@@ -308,12 +308,12 @@ implements StringField<ENTITY, D>,
 
     @Override
     public D convertToDatabaseColumn(String attribute) {
-        return (D)attribute;
+        return typeMapper().toDatabaseType(attribute);
     }
 
     @Override
     public String convertToEntityAttribute(D dbData) {
-        return (String)dbData;
+        return typeMapper().toJavaType(null, null, dbData);
     }
 
 }
