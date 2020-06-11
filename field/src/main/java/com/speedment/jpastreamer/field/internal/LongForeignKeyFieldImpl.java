@@ -33,8 +33,6 @@ import com.speedment.runtime.config.identifier.TableIdentifier;
 import com.speedment.jpastreamer.field.comparator.LongFieldComparator;
 import com.speedment.jpastreamer.field.internal.method.BackwardFinderImpl;
 import com.speedment.jpastreamer.field.internal.method.FindFromLong;
-import com.speedment.runtime.field.internal.predicate.longs.*;
-import com.speedment.runtime.field.method.*;
 import com.speedment.runtime.typemapper.TypeMapper;
 
 import java.util.Collection;

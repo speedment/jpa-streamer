@@ -27,7 +27,6 @@ import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.ShortFieldComparator;
 import com.speedment.jpastreamer.field.internal.comparator.ShortFieldComparatorImpl;
-import com.speedment.runtime.field.internal.predicate.shorts.*;
 import com.speedment.jpastreamer.field.method.GetShort;
 import com.speedment.jpastreamer.field.method.ShortGetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;

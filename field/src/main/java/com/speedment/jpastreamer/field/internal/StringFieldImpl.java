@@ -27,8 +27,6 @@ import com.speedment.jpastreamer.field.method.ReferenceSetter;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.Field;
-import com.speedment.runtime.field.internal.predicate.reference.*;
-import com.speedment.runtime.field.internal.predicate.string.*;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;

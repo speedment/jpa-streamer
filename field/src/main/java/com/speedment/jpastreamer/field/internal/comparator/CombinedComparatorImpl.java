@@ -22,7 +22,6 @@ import com.speedment.jpastreamer.field.method.*;
 import com.speedment.jpastreamer.field.ComparableField;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.comparator.CombinedComparator;
-import com.speedment.runtime.field.method.*;
 
 import java.util.*;
 import java.util.function.Function;

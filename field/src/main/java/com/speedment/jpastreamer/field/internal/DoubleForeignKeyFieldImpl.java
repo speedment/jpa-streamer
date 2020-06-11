@@ -31,8 +31,6 @@ import com.speedment.jpastreamer.field.comparator.DoubleFieldComparator;
 import com.speedment.jpastreamer.field.internal.comparator.DoubleFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.method.BackwardFinderImpl;
 import com.speedment.jpastreamer.field.internal.method.GetDoubleImpl;
-import com.speedment.runtime.field.internal.predicate.doubles.*;
-import com.speedment.runtime.field.method.*;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.runtime.typemapper.TypeMapper;

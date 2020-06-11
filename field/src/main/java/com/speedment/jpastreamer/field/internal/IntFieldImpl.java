@@ -24,7 +24,6 @@ import com.speedment.jpastreamer.field.comparator.IntFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.internal.comparator.IntFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.method.GetIntImpl;
-import com.speedment.runtime.field.internal.predicate.ints.*;
 import com.speedment.jpastreamer.field.method.GetInt;
 import com.speedment.jpastreamer.field.method.IntGetter;
 import com.speedment.jpastreamer.field.method.IntSetter;

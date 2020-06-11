@@ -18,7 +18,6 @@ package com.speedment.jpastreamer.field.collector;
 
 import com.speedment.jpastreamer.field.*;
 import com.speedment.jpastreamer.field.internal.collector.FieldCollectorImpl;
-import com.speedment.runtime.field.*;
 
 import java.util.*;
 import java.util.function.*;

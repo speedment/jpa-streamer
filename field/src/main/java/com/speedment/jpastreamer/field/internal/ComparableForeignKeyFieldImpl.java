@@ -33,8 +33,6 @@ import com.speedment.jpastreamer.field.trait.HasComparableOperators;
 import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.runtime.config.identifier.TableIdentifier;
 import com.speedment.jpastreamer.field.internal.method.BackwardFinderImpl;
-import com.speedment.runtime.field.internal.predicate.reference.*;
-import com.speedment.runtime.field.method.*;
 import com.speedment.runtime.typemapper.TypeMapper;
 
 import java.util.Collection;

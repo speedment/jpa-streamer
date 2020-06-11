@@ -31,8 +31,6 @@ import com.speedment.jpastreamer.field.FloatForeignKeyField;
 import com.speedment.jpastreamer.field.comparator.FloatFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.internal.method.BackwardFinderImpl;
-import com.speedment.runtime.field.internal.predicate.floats.*;
-import com.speedment.runtime.field.method.*;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.runtime.typemapper.TypeMapper;

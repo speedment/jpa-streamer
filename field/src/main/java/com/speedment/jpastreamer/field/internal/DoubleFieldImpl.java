@@ -27,7 +27,6 @@ import com.speedment.jpastreamer.field.comparator.DoubleFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.internal.comparator.DoubleFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.method.GetDoubleImpl;
-import com.speedment.runtime.field.internal.predicate.doubles.*;
 import com.speedment.jpastreamer.field.method.DoubleGetter;
 import com.speedment.jpastreamer.field.method.DoubleSetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;

@@ -26,7 +26,6 @@ import com.speedment.jpastreamer.field.ComparableField;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.comparator.FieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
-import com.speedment.runtime.field.internal.predicate.reference.*;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;

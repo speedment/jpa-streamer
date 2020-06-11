@@ -30,7 +30,6 @@ import com.speedment.jpastreamer.field.method.GetFloat;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.runtime.config.identifier.ColumnIdentifier;
-import com.speedment.runtime.field.internal.predicate.floats.*;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.runtime.typemapper.TypeMapper;
 

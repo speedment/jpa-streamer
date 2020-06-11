@@ -25,7 +25,6 @@ import com.speedment.jpastreamer.field.comparator.LongFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.internal.comparator.LongFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.method.GetLongImpl;
-import com.speedment.runtime.field.internal.predicate.longs.*;
 import com.speedment.jpastreamer.field.method.GetLong;
 import com.speedment.jpastreamer.field.method.LongSetter;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;

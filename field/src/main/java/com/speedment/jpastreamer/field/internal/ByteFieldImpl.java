@@ -24,7 +24,6 @@ import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.ByteFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.internal.method.GetByteImpl;
-import com.speedment.runtime.field.internal.predicate.bytes.*;
 import com.speedment.jpastreamer.field.method.ByteGetter;
 import com.speedment.jpastreamer.field.method.ByteSetter;
 import com.speedment.jpastreamer.field.method.GetByte;

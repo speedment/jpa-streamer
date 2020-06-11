@@ -32,7 +32,6 @@ import com.speedment.jpastreamer.field.internal.predicate.enums.EnumIsNotNullPre
 import com.speedment.jpastreamer.field.internal.predicate.enums.EnumIsNullPredicate;
 import com.speedment.jpastreamer.field.internal.predicate.reference.ReferenceEqualPredicate;
 import com.speedment.jpastreamer.field.internal.predicate.reference.ReferenceInPredicate;
-import com.speedment.runtime.field.method.*;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
