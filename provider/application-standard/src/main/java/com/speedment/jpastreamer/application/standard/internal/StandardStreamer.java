@@ -2,7 +2,6 @@ package com.speedment.jpastreamer.application.standard.internal;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,9 +15,8 @@ public final class StandardStreamer<E> implements Streamer<E> {
     private final Class<E> entityClass;
     private final EntityManager entityManager;
 
-    public StandardStreamer(final Class<E> entityClass, final String persistenceUnitName) {
+    public StandardStreamer(final Class<E> entityClass, final EntityManagerFactory entityManagerFactory) {
         this.entityClass = requireNonNull(entityClass);
-        final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(requireNonNull(persistenceUnitName));
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 

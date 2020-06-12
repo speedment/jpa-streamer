@@ -15,5 +15,9 @@
  * the License.
  */
 module jpastreamer.application {
+
     exports com.speedment.jpastreamer.application;
+
+    requires transitive java.persistence;
+
 }

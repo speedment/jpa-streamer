@@ -4,12 +4,20 @@ import com.speedment.jpastreamer.application.JpaStreamer;
 import com.speedment.jpastreamer.demo.model.Film;
 import com.speedment.jpastreamer.demo.model._Film;
 
+import javax.persistence.Persistence;
+
 public class Main {
 
     public static void main(String[] args) {
 
+        // Rework to JpaStreamer.create...
+
+        //JpaStreamer.create(String persistenceName)
+        //JpaStreamer.create()
+
         JpaStreamer jpaStreamer = JpaStreamer.builder()
-                .withPersistenceUnitName("sakila")
+                //.withPersistenceUnitName("sakila")
+                .withEntityManagerFactory(Persistence.createEntityManagerFactory("sakila"))
                 .build();
 
         jpaStreamer.stream(Film.class)
