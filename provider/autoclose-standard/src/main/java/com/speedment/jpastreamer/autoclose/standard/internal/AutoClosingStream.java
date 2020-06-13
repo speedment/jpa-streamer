@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
-import com.speedment.runtime.core.stream.java9.Java9StreamAdditions;
-import com.speedment.runtime.core.stream.java9.Java9StreamUtil;
+import com.speedment.jpastreamer.javanine.Java9StreamAdditions;
+import com.speedment.jpastreamer.javanine.Java9StreamUtil;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -38,15 +38,15 @@ import java.util.stream.*;
  * @param <T>  Stream type
  * @author     Per Minborg
  */
-public final class AutoClosingReferenceStream<T>
-    extends AbstractAutoClosingStream<T, Stream<T>>
+final class AutoClosingStream<T>
+    extends AbstractAutoClosingBaseStream<T, Stream<T>>
     implements Stream<T>, Java9StreamAdditions<T> {
 
-    public AutoClosingReferenceStream(Stream<T> stream) {
+    AutoClosingStream(Stream<T> stream) {
         this(stream, false);
     }
 
-    public AutoClosingReferenceStream(
+    AutoClosingStream(
         final Stream<T> stream,
         final boolean allowStreamIteratorAndSpliterator
     ) {

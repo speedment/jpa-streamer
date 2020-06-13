@@ -24,15 +24,15 @@ import static java.util.Objects.requireNonNull;
 
 /**
  *
- * @author pemi
+ * @author     Per Minborg
  */
-abstract class AbstractAutoClosingStream<T, S extends BaseStream<T, S>> implements AutoCloseable {
+abstract class AbstractAutoClosingBaseStream<T, S extends BaseStream<T, S>> implements AutoCloseable {
 
     private final S stream;
     private final boolean allowStreamIteratorAndSpliterator;
     private final AtomicBoolean closed;
 
-    AbstractAutoClosingStream(
+    AbstractAutoClosingBaseStream(
         final S stream,
         final boolean allowStreamIteratorAndSpliterator
     ) {
@@ -103,23 +103,23 @@ abstract class AbstractAutoClosingStream<T, S extends BaseStream<T, S>> implemen
     }
 
     <U> Stream<U> wrap(Stream<U> stream) {
-        return wrap(stream, /*getStreamSet(),*/ com.speedment.runtime.core.internal.stream.autoclose.AutoClosingReferenceStream::new);
+        return wrap(stream, AutoClosingStream::new);
     }
 
     IntStream wrap(IntStream stream) {
-        return wrap(stream, /*getStreamSet(),*/ com.speedment.runtime.core.internal.stream.autoclose.AutoClosingIntStream::new);
+        return wrap(stream, AutoClosingIntStream::new);
     }
 
     LongStream wrap(LongStream stream) {
-        return wrap(stream, /*getStreamSet(),*/ com.speedment.runtime.core.internal.stream.autoclose.AutoClosingLongStream::new);
+        return wrap(stream, AutoClosingLongStream::new);
     }
 
     DoubleStream wrap(DoubleStream stream) {
-        return wrap(stream, /*getStreamSet(),*/ com.speedment.runtime.core.internal.stream.autoclose.AutoClosingDoubleStream::new);
+        return wrap(stream, AutoClosingDoubleStream::new);
     }
 
     private <U> U wrap(U stream, BiFunction<U, Boolean, U> wrapper) {
-        if (stream instanceof com.speedment.runtime.core.internal.stream.autoclose.AbstractAutoClosingStream) {
+        if (stream instanceof AbstractAutoClosingBaseStream) {
             return stream; // If we already are wrapped, then do not wrap again
         }
         return wrapper.apply(stream, allowStreamIteratorAndSpliterator);

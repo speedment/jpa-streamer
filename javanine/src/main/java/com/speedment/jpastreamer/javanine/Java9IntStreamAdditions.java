@@ -27,6 +27,6 @@ public interface Java9IntStreamAdditions {
 
     IntStream takeWhile(IntPredicate predicate);
 
-    IntStream dropWhile​(IntPredicate predicate);
+    IntStream dropWhile(IntPredicate predicate);
 
 }
