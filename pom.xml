@@ -51,7 +51,10 @@
         <module>application</module>
         <module>javanine</module>
         <module>autoclose</module>
+        <module>builder</module>
+
         <module>provider</module>
+
         <module>demo</module>
     </modules>
     
