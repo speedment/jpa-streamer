@@ -51,6 +51,7 @@
         <module>application</module>
         <module>javanine</module>
         <module>autoclose</module>
+        <module>pipeline</module>
         <module>builder</module>
 
         <module>provider</module>
@@ -921,6 +922,21 @@
                 <artifactId>autoclose-standard</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>builder</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>builder-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+
+
 
             <dependency>
                 <groupId>javax.persistence</groupId>

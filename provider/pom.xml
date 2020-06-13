@@ -17,6 +17,7 @@
     <modules>
         <module>application-standard</module>
         <module>autoclose-standard</module>
+        <module>builder-standard</module>
     </modules>
 
 </project>
