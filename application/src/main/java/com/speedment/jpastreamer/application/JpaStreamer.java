@@ -3,7 +3,6 @@ package com.speedment.jpastreamer.application;
 import com.speedment.jpastreamer.serviceloader.ServiceLoaderUtil;
 
 import javax.persistence.EntityManagerFactory;
-import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 public interface JpaStreamer {

@@ -15,7 +15,6 @@
         <module-name>jpastreamer.demo</module-name>
     </properties>
 
-
     <!--Todo: Add a bom to depend on-->
 
     <dependencies>

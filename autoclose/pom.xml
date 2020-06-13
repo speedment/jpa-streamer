@@ -3,21 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jpastreamer-parent</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
+        <artifactId>jpastreamer-parent</artifactId>
         <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>seviceloader</artifactId>
+    <artifactId>autoclose</artifactId>
 
     <properties>
-        <module-name>jpastreamer.serviceloader</module-name>
+        <module-name>jpastreamer.autoclose</module-name>
     </properties>
 
-    <name>ServiceLoader</name>
+    <name>AutoClose</name>
     <description>
-        Utility methods for handling service loading
+        This module provides auto-closing stream capability
     </description>
 
 </project>

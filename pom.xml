@@ -45,11 +45,12 @@
     
     <!-- Modules -->
     <modules>
-        <module>provider</module>
+        <module>seviceloader</module>
         <module>field</module>
         <module>application</module>
+        <module>autoclose</module>
+        <module>provider</module>
         <module>demo</module>
-        <module>seviceloader</module>
     </modules>
     
     <!-- Properties -->
