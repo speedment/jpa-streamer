@@ -20,4 +20,11 @@
         Java9 Stream Additions
     </description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>exception</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

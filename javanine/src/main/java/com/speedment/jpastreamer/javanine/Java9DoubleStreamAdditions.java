@@ -25,7 +25,7 @@ import java.util.stream.DoubleStream;
  */
 public interface Java9DoubleStreamAdditions {
 
-    DoubleStream takeWhile​(DoublePredicate predicate);
+    DoubleStream takeWhile(DoublePredicate predicate);
 
     DoubleStream dropWhile(DoublePredicate predicate);
 

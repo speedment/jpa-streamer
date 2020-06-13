@@ -25,7 +25,7 @@ import java.util.stream.LongStream;
  */
 public interface Java9LongStreamAdditions {
 
-    LongStream takeWhile​(LongPredicate predicate);
+    LongStream takeWhile(LongPredicate predicate);
 
     LongStream dropWhile(LongPredicate predicate);
 
