@@ -9,12 +9,12 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-public final class StandardJpaStreamer implements JpaStreamer {
+final class StandardJpaStreamer implements JpaStreamer {
 
     private final EntityManagerFactory entityManagerFactory;
     private final Map<Class<?>, Streamer<?>> streamerCache;
 
-    public StandardJpaStreamer(final EntityManagerFactory entityManagerFactory) {
+    StandardJpaStreamer(final EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = requireNonNull(entityManagerFactory);
         streamerCache = new ConcurrentHashMap<>();
     }

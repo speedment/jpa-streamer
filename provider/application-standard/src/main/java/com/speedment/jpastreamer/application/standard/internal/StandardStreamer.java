@@ -10,12 +10,12 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-public final class StandardStreamer<E> implements Streamer<E> {
+final class StandardStreamer<E> implements Streamer<E> {
 
     private final Class<E> entityClass;
     private final EntityManager entityManager;
 
-    public StandardStreamer(final Class<E> entityClass, final EntityManagerFactory entityManagerFactory) {
+    StandardStreamer(final Class<E> entityClass, final EntityManagerFactory entityManagerFactory) {
         this.entityClass = requireNonNull(entityClass);
         this.entityManager = entityManagerFactory.createEntityManager();
     }

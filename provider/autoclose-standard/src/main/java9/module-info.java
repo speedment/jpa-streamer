@@ -14,11 +14,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-module jpastreamer.application.standard {
-    exports com.speedment.jpastreamer.application.standard;
+module jpastreamer.autoclose.standard {
+    exports com.speedment.jpastreamer.autoclose.standard;
 
-    requires transitive jpastreamer.application;
+    requires transitive jpastreamer.autoclose;
 
-    // Todo: Enable this
-    // provides com.speedment.jpastreamer.application.JpaStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJpaStreamBuilderFactory;
+    // Todo: enable this
+    // provides com.speedment.jpastreamer.autoclose.AutoCloseFactory with com.speedment.jpastreamer.autoclose.stadard.StandardAutoCloseFactory;
 }
