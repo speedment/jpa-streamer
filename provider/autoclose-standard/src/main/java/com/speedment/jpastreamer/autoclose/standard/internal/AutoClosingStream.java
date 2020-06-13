@@ -43,7 +43,7 @@ final class AutoClosingStream<T>
     implements Stream<T>, Java9StreamAdditions<T> {
 
     AutoClosingStream(Stream<T> stream) {
-        this(stream, false);
+        this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
     }
 
     AutoClosingStream(
