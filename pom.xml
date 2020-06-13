@@ -49,6 +49,7 @@
         <module>field</module>
         <module>application</module>
         <module>demo</module>
+        <module>seviceloader</module>
     </modules>
     
     <!-- Properties -->
