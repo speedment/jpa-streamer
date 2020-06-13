@@ -18,6 +18,7 @@
         <module>application-standard</module>
         <module>autoclose-standard</module>
         <module>builder-standard</module>
+        <module>pipeline-standard</module>
     </modules>
 
 </project>
