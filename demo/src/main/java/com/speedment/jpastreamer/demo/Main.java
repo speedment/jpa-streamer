@@ -4,8 +4,6 @@ import com.speedment.jpastreamer.application.JpaStreamer;
 import com.speedment.jpastreamer.demo.model.Film;
 import com.speedment.jpastreamer.demo.model._Film;
 
-import javax.persistence.Persistence;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -15,9 +13,7 @@ public class Main {
         //JpaStreamer.create(String persistenceName)
         //JpaStreamer.create()
 
-        JpaStreamer jpaStreamer = JpaStreamer.builder()
-                //.withPersistenceUnitName("sakila")
-                .withEntityManagerFactory(Persistence.createEntityManagerFactory("sakila"))
+        JpaStreamer jpaStreamer = JpaStreamer.createJpaStreamerBuilder("sakila")
                 .build();
 
         jpaStreamer.stream(Film.class)

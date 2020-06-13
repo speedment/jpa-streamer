@@ -20,6 +20,5 @@ module jpastreamer.application.standard {
     requires transitive jpastreamer.application;
 
     // Todo: enable this
-
-    // provides com.speedment.jpastreamer.application.JpaStreamBuilder with com.speedment.jpastreamer.application.StandardJpaStreamBuilder;
+    // provides com.speedment.jpastreamer.application.JpaStreamBuilderFactory with com.speedment.jpastreamer.application.StandardJpaStreamBuilderFactory;
 }
