@@ -1,5 +1,7 @@
 package com.speedment.jpastreamer.application;
 
+import com.speedment.jpastreamer.serviceloader.ServiceLoaderUtil;
+
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
@@ -11,11 +13,15 @@ public interface JpaStreamer {
     void stop();
 
     static JpaStreamerBuilder createJpaStreamerBuilder(final String persistenceUnitName) {
-        return ServiceLoader.load(JpaStreamerBuilderFactory.class).iterator().next().create(persistenceUnitName);
+        return ServiceLoaderUtil
+                .getOrThrow(JpaStreamerBuilderFactory.class)
+                .create(persistenceUnitName);
     }
 
     static JpaStreamerBuilder createJpaStreamerBuilder(final EntityManagerFactory entityManagerFactory) {
-        return ServiceLoader.load(JpaStreamerBuilderFactory.class).iterator().next().create(entityManagerFactory);
+        return ServiceLoaderUtil
+                .getOrThrow(JpaStreamerBuilderFactory.class)
+                .create(entityManagerFactory);
     }
 
 }
