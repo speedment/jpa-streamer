@@ -1,6 +1,5 @@
-package com.speedment.jpastreamer.serviceloader.internal;
+package com.speedment.jpastreamer.rootfactory.internal;
 
-import java.rmi.server.ServerCloneException;
 import java.util.*;
 
 public final class InternalRootFactory {

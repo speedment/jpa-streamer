@@ -1,6 +1,6 @@
-package com.speedment.jpastreamer.serviceloader;
+package com.speedment.jpastreamer.rootfactory;
 
-import com.speedment.jpastreamer.serviceloader.internal.InternalRootFactory;
+import com.speedment.jpastreamer.rootfactory.internal.InternalRootFactory;
 
 import java.util.Optional;
 

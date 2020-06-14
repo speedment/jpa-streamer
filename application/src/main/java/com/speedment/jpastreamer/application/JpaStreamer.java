@@ -1,6 +1,6 @@
 package com.speedment.jpastreamer.application;
 
-import com.speedment.jpastreamer.serviceloader.RootFactory;
+import com.speedment.jpastreamer.rootfactory.RootFactory;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.stream.Stream;

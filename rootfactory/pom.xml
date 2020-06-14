@@ -9,13 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>seviceloader</artifactId>
+    <artifactId>rootfactory</artifactId>
 
     <properties>
-        <module-name>jpastreamer.serviceloader</module-name>
+        <module-name>jpastreamer.rootfactory</module-name>
     </properties>
 
-    <name>ServiceLoader</name>
+    <name>RootFactory</name>
     <description>
         Utility methods for handling service loading
     </description>

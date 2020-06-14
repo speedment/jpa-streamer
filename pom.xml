@@ -46,7 +46,7 @@
     <!-- Modules -->
     <modules>
         <module>exception</module>
-        <module>seviceloader</module>
+        <module>rootfactory</module>
         <module>field</module>
         <module>application</module>
         <module>javanine</module>
@@ -889,7 +889,7 @@
 
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>seviceloader</artifactId>
+                <artifactId>rootfactory</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
