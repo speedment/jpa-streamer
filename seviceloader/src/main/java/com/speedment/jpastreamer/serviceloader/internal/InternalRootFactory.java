@@ -5,9 +5,9 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
-public final class InternalServiceLoaderUtil {
+public final class RootFactory {
 
-    private InternalServiceLoaderUtil() {}
+    private RootFactory() {}
 
     public static <S> Optional<S> get(final Class<S> service) {
         return Optional.ofNullable(getHelper(service));
