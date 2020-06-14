@@ -20,6 +20,7 @@ import com.speedment.jpastreamer.pipeline.action.Action;
 import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperation;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Mutable Pipeline containing root (source),
@@ -85,11 +86,12 @@ public interface Pipeline {
      */
     void ordered(boolean flag);
 
+
     /**
-     * Returns the close handler for the pipeline, or null if no close handler is set.
+     * Returns the close handlers for the pipeline.
      *
-     * @return the close handler for the pipeline, or null if no close handler is set
+     * @return the close handler for the pipeline
      */
-    Runnable closeHandler();
+    List<Runnable> closeHandlers();
 
 }

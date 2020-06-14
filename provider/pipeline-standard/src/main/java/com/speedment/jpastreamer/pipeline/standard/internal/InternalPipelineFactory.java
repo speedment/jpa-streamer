@@ -7,7 +7,8 @@ import com.speedment.jpastreamer.pipeline.PipelineFactory;
 public final class InternalPipelineFactory implements PipelineFactory {
 
     @Override
-    public Pipeline createPipeline() {
-        throw new UnsupportedOperationException("todo");
+    public Pipeline createPipeline(Class<?> rootClass) {
+        return null;
     }
+
 }
