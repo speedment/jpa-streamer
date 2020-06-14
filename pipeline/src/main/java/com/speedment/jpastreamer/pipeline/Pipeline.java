@@ -17,61 +17,37 @@
 package com.speedment.jpastreamer.pipeline;
 
 import com.speedment.jpastreamer.pipeline.action.Action;
+import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperation;
 
-import java.util.function.Predicate;
-import java.util.stream.Stream;
+import java.util.LinkedList;
 
 /**
+ * Mutable Pipeline containing root (source),
+ * intermediate and terminating operations of
+ * a Stream.
+ * <p>
+ * This class is not thread-safe.
  *
  * @author  Per Minborg
  */
-public interface Pipeline extends Iterable<Action<?, ?>> {
+public interface Pipeline {
 
-    Action<?, ?> getFirst();
+    Class<?> root();
 
-    Action<?, ?> getLast();
-
-    /**
-     * Removes and returns the first element from this pipeline.
-     *
-     * @return the first element from this pipeline
-     */
-    Action<?, ?> removeFirst();
+    void root(Class<?> root);
 
     /**
-     * Removes and returns the last element from this pipeline.
+     * Returns a mutable LinkedList of the intermediate operations
+     * in the pipeline.
      *
-     * @return the first element from this pipeline
+     * @return a mutable LinkedList of the intermediate operations
+     *         in the pipeline
      */
-    Action<?, ?> removeLast();
+    LinkedList<Action<?, ?>> intermediateOperations();
 
-    void addFirst(Action<?, ?> e);
+    TerminatingOperation<?, ?> terminatingOperation();
 
-    void addLast(Action<?, ?> e);
-
-    int size();
-
-    boolean add(Action<?, ?> e);
-
-    void clear();
-
-    Action<?, ?> get(int index);
-
-    void add(int index, Action<?, ?> element);
-
-    Action<?, ?> remove(int index);
-   
-    boolean removeIf(Predicate<? super Action<?, ?>> filter);
-
-    boolean isEmpty();
-
-    Stream<Action<?, ?>> stream();
-
-    /*
-    Supplier<BaseStream<?, ?>> getInitialSupplier();
-
-    void setInitialSupplier(Supplier<BaseStream<?, ?>> initialSupplier);
-     */
+    void terminatingOperation(TerminatingOperation<?, ?> terminatingOperation);
 
     /**
      * Returns whether this pipeline, if a terminal operation were to be
@@ -83,21 +59,23 @@ public interface Pipeline extends Iterable<Action<?, ?>> {
     boolean isParallel();
 
     /**
-     * Sets if this Pipeline is parallel.
-     *
-     * @param flag <code>true</code> if the Pipeline is parallel,
-     * <code>false</code> if the Pipeline is sequential
+     * Sets this Pipeline to parallel (not sequential).
      */
-    void setParallel(boolean flag);
+    void parallel();
+
+    /**
+     * Sets this Pipeline to sequential (not parallel).
+     */
+    void sequential();
 
     /**
      * Returns whether this pipeline, if a terminal operation were to be
-     * executed, would execute in parallel.
+     * executed, would execute unordered.
      *
-     * @return {@code true} if this pipeline would execute in parallel if
+     * @return {@code true} if this pipeline would execute unordered if
      * executed
      */
-    boolean isOrdered();
+    boolean isUnordered();
 
     /**
      * Sets if this Pipeline is ordered.
@@ -105,6 +83,13 @@ public interface Pipeline extends Iterable<Action<?, ?>> {
      * @param flag <code>true</code> if the Pipeline is ordered,
      * <code>false</code> if the Pipeline is unordered
      */
-    void setOrdered(boolean flag);
+    void ordered(boolean flag);
+
+    /**
+     * Returns the close handler for the pipeline, or null if no close handler is set.
+     *
+     * @return the close handler for the pipeline, or null if no close handler is set
+     */
+    Runnable closeHandler();
 
 }

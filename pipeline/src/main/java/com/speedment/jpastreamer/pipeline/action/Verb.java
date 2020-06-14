@@ -19,7 +19,6 @@ package com.speedment.jpastreamer.pipeline.action;
 /**
  *
  * @author  Per Minborg
- * @since   2.1.0
  */
 public enum Verb {
     SET, CLEAR, PRESERVE
