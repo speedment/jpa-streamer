@@ -8,7 +8,7 @@ public final class InternalPipelineFactory implements PipelineFactory {
 
     @Override
     public Pipeline createPipeline(Class<?> rootClass) {
-        return null;
+        return new StandardPipeline(rootClass);
     }
 
 }

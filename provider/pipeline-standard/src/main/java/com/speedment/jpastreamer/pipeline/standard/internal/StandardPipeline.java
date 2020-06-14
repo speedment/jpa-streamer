@@ -10,7 +10,7 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-public final class StandardPipeline implements Pipeline {
+final class StandardPipeline implements Pipeline {
 
     private final List<Runnable> closeHandlers;
     private final LinkedList<Action<?, ?>> intermediateOperations;
@@ -20,11 +20,10 @@ public final class StandardPipeline implements Pipeline {
     private boolean parallel;
     private boolean unordered;
 
-    public StandardPipeline(final Class<?> root) {
+    StandardPipeline(final Class<?> root) {
         this.root = requireNonNull(root);
         this.closeHandlers = new ArrayList<>();
         this.intermediateOperations = new LinkedList<>();
-
     }
 
     @Override
@@ -54,7 +53,7 @@ public final class StandardPipeline implements Pipeline {
 
     @Override
     public boolean isParallel() {
-        return false;
+        return parallel;
     }
 
     @Override
