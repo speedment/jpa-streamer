@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 public final class InternalBuilderFactory implements BuilderFactory {
 
     @Override
-    public <T> Stream<T> createBuilder() {
+    public <T> Stream<T> createBuilder(final Class<T> root) {
         throw new UnsupportedOperationException("todo");
     }
 }

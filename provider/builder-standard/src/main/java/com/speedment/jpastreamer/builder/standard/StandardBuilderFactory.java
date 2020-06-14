@@ -14,7 +14,7 @@ public final class StandardBuilderFactory implements BuilderFactory {
     }
 
     @Override
-    public <T> Stream<T> createBuilder() {
-        return delegate.createBuilder();
+    public <T> Stream<T> createBuilder(final Class<T> root) {
+        return delegate.createBuilder(root);
     }
 }
