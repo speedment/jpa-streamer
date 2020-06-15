@@ -24,7 +24,7 @@ class InternalStandardTerminatingOperationFactoryTest {
 
         final TerminatingOperation<Stream<String>, Void> forEach = factory.createForEach(consumer);
 
-        assertEquals(TerminatingOperationType.FOR_EACH, forEach.terminatingOperationType());
+        assertEquals(TerminatingOperationType.FOR_EACH, forEach.type());
         assertEquals(Stream.class, forEach.streamType());
 
         assertEquals(void.class, forEach.returnType());

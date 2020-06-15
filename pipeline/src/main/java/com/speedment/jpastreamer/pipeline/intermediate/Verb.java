@@ -14,11 +14,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-module jpastreamer.pipeline {
+package com.speedment.jpastreamer.pipeline.intermediate;
 
-    exports com.speedment.jpastreamer.pipeline;
-    exports com.speedment.jpastreamer.pipeline.intermediate;
-    exports com.speedment.jpastreamer.pipeline.terminating;
-    exports com.speedment.jpastreamer.pipeline.trait;
-    // exports com.speedment.jpastreamer.pipeline.action;
+/**
+ *
+ * @author  Per Minborg
+ */
+public enum Verb {
+    PRESERVES,
+    MODIFIES,
+    CLEARS
 }

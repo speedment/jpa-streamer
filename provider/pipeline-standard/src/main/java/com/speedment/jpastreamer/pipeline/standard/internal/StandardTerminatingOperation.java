@@ -11,18 +11,18 @@ import static java.util.Objects.requireNonNull;
 
 final class StandardTerminatingOperation<S extends BaseStream<?, S>, R> implements TerminatingOperation<S, R> {
 
-    private final TerminatingOperationType terminatingOperationType;
+    private final TerminatingOperationType type;
     private final Class<? super S> streamType;
     private final Class<? super R> returnType;
     private final Object function;
     private final Object[] arguments;
 
-    StandardTerminatingOperation(final TerminatingOperationType terminatingOperationType,
-                                        final Class<? super S> streamType,
-                                        final Class<? super R> returnType,
-                                        final Object function,
-                                        final Object... arguments) {
-        this.terminatingOperationType = requireNonNull(terminatingOperationType);
+    StandardTerminatingOperation(final TerminatingOperationType type,
+                                 final Class<? super S> streamType,
+                                 final Class<? super R> returnType,
+                                 final Object function,
+                                 final Object... arguments) {
+        this.type = requireNonNull(type);
         this.streamType = requireNonNull(streamType);
         this.arguments = requireNonNull(arguments);
         this.returnType = requireNonNull(returnType);
@@ -30,8 +30,8 @@ final class StandardTerminatingOperation<S extends BaseStream<?, S>, R> implemen
     }
 
     @Override
-    public TerminatingOperationType terminatingOperationType() {
-        return terminatingOperationType;
+    public TerminatingOperationType type() {
+        return type;
     }
 
     @Override
@@ -82,7 +82,7 @@ final class StandardTerminatingOperation<S extends BaseStream<?, S>, R> implemen
     @Override
     public String toString() {
         return "StandardTerminatingOperation{" +
-                "terminatingOperationType=" + terminatingOperationType +
+                "terminatingOperationType=" + type +
                 "argLength=" + (arguments == null ? 0 : arguments.length) +
                 '}';
     }
