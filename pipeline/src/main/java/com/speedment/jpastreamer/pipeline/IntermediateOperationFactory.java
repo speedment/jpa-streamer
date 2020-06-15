@@ -14,7 +14,7 @@ public interface IntermediateOperationFactory {
     <T> IntermediateOperator<Stream<T>, Stream<T>> createFilter(Predicate<? super T> predicate);
 
 
-    <T, R> IntermediateOperator<Stream<T>, Stream<T>> createMap(Function<? super T, ? extends R> mapper);
+    <T, R> IntermediateOperator<Stream<T>, Stream<R>> createMap(Function<? super T, ? extends R> mapper);
 
     <T> IntermediateOperator<Stream<T>, IntStream> createMapToInt(ToIntFunction<? super T> mapper);
 
@@ -23,7 +23,7 @@ public interface IntermediateOperationFactory {
     <T> IntermediateOperator<Stream<T>, DoubleStream> createMapToDouble(ToDoubleFunction<? super T> mapper);
 
 
-    <T, R> IntermediateOperator<Stream<T>, Stream<T>> createFlatMap(Function<? super T, ? extends Stream<? extends R>> mapper);
+    <T, R> IntermediateOperator<Stream<T>, Stream<R>> createFlatMap(Function<? super T, ? extends Stream<? extends R>> mapper);
 
     <T> IntermediateOperator<Stream<T>, IntStream> createFlatMapToInt(Function<? super T, ? extends IntStream> mapper);
 

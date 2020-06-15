@@ -28,6 +28,13 @@
             <version>${jpa-streamer.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>javanine</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>
