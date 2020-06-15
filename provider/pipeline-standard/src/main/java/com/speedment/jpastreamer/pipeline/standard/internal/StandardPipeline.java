@@ -15,7 +15,7 @@ final class StandardPipeline<T> implements Pipeline<T> {
     private final List<Runnable> closeHandlers;
     private final LinkedList<Action<?, ?>> intermediateOperations;
 
-    private Class<T> root;
+    private final Class<T> root;
     private TerminatingOperation<?, ?> terminatingOperation;
     private boolean parallel;
     private boolean unordered;

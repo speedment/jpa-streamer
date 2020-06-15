@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rendered-standard</artifactId>
+    <artifactId>renderer-standard</artifactId>
 
     <properties>
-        <module-name>jpastreamer.rendered.standard</module-name>
+        <module-name>jpastreamer.renderer.standard</module-name>
     </properties>
 
     <name>Renderer - Standard</name>
