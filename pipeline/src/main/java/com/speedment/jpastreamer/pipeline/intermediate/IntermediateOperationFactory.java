@@ -1,6 +1,4 @@
-package com.speedment.jpastreamer.pipeline;
-
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+package com.speedment.jpastreamer.pipeline.intermediate;
 
 import java.util.Comparator;
 import java.util.function.*;

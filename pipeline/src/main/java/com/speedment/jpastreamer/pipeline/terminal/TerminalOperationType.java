@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.pipeline.terminating;
+package com.speedment.jpastreamer.pipeline.terminal;
 
 public enum TerminalOperationType {
     // BaseStream

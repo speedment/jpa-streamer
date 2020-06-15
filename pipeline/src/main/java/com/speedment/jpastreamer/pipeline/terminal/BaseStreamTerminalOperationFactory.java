@@ -1,6 +1,4 @@
-package com.speedment.jpastreamer.pipeline;
-
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+package com.speedment.jpastreamer.pipeline.terminal;
 
 import java.util.Iterator;
 import java.util.Spliterator;

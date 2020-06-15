@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.pipeline.terminating;
+package com.speedment.jpastreamer.pipeline.terminal;
 
 import com.speedment.jpastreamer.pipeline.trait.*;
 
