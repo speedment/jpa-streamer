@@ -6,8 +6,10 @@ import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.function.*;
 import java.util.stream.BaseStream;
+import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
 final class StandardTerminalOperation<S extends BaseStream<?, S>, R> implements TerminalOperation<S, R> {
 
@@ -80,10 +82,23 @@ final class StandardTerminalOperation<S extends BaseStream<?, S>, R> implements 
     }
 
     @Override
+
     public String toString() {
-        return "StandardTerminatingOperation{" +
-                "terminatingOperationType=" + type +
-                "argLength=" + (arguments == null ? 0 : arguments.length) +
-                '}';
+        return String.format("%s(%s)",
+                type.toString(),
+                arguments == null
+                        ? ""
+                        : Stream.of(arguments)
+                        .map(this::objectLabel)
+                        .collect(joining(", "))
+        );
+
+    }
+
+    private String objectLabel(Object object) {
+        if (object instanceof Long) {
+            return object.toString();
+        }
+        return object.getClass().getSimpleName();
     }
 }

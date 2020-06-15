@@ -5,8 +5,10 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 
 import java.util.function.Function;
 import java.util.stream.BaseStream;
+import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
 final class StandardIntermediateOperation<S extends BaseStream<?, S>, R extends BaseStream<?, R>>
         implements IntermediateOperation<S, R> {
@@ -53,5 +55,26 @@ final class StandardIntermediateOperation<S extends BaseStream<?, S>, R extends 
     public Object[] arguments() {
         return arguments;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s(%s)",
+                type.toString(),
+                arguments == null
+                        ? ""
+                        : Stream.of(arguments)
+                        .map(this::objectLabel)
+                        .collect(joining(", "))
+        );
+
+    }
+
+    private String objectLabel(Object object) {
+        if (object instanceof Long) {
+            return object.toString();
+        }
+        return object.getClass().getSimpleName();
+    }
+
 
 }
