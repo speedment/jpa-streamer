@@ -53,6 +53,7 @@
         <module>autoclose</module>
         <module>pipeline</module>
         <module>builder</module>
+        <module>renderer</module>
 
         <module>provider</module>
 
@@ -935,6 +936,25 @@
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>pipeline</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>pipeline-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>renderer</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
 
 
 

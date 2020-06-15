@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.speedment.jpastreamer</groupId>
+        <artifactId>jpastreamer-parent</artifactId>
+        <version>0.1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>renderer</artifactId>
+
+    <properties>
+        <module-name>jpastreamer.renderer</module-name>
+    </properties>
+
+    <name>Renderer</name>
+    <description>
+        Renderer that can render a pipeline to a Stream
+    </description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>pipeline</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+</project>
