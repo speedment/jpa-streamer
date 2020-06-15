@@ -7,20 +7,27 @@
         <artifactId>jpastreamer-parent</artifactId>
         <version>0.1.0</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>provider</artifactId>
-    <packaging>pom</packaging>
 
-    <name>Provider</name>
+    <artifactId>preoptimizer</artifactId>
 
-    <modules>
-        <module>application-standard</module>
-        <module>autoclose-standard</module>
-        <module>builder-standard</module>
-        <module>pipeline-standard</module>
-        <module>renderer-standard</module>
-        <module>preoptimizer-standard</module>
-    </modules>
+    <properties>
+        <module-name>jpastreamer.preoptimizer</module-name>
+    </properties>
+
+    <name>PreOptimizer</name>
+    <description>
+        An interface that provides pre-optimization of stream Pipelines
+    </description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>pipeline</artifactId>
+        </dependency>
+
+    </dependencies>
+
 
 </project>

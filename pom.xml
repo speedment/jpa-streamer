@@ -54,6 +54,7 @@
         <module>pipeline</module>
         <module>builder</module>
         <module>renderer</module>
+        <module>preoptimizer</module>
 
         <module>provider</module>
 
