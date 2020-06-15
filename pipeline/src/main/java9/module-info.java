@@ -18,7 +18,7 @@ module jpastreamer.pipeline {
 
     exports com.speedment.jpastreamer.pipeline;
     exports com.speedment.jpastreamer.pipeline.intermediate;
-    exports com.speedment.jpastreamer.pipeline.terminating;
+    exports com.speedment.jpastreamer.pipeline.terminal;
     exports com.speedment.jpastreamer.pipeline.trait;
     // exports com.speedment.jpastreamer.pipeline.action;
 }

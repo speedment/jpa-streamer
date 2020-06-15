@@ -16,5 +16,4 @@ public interface HasFunction<S, R> {
      *         does not have a function but perhaps a consumer
      */
     Function<S, R> function();
-
 }

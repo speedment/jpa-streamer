@@ -1,8 +1,9 @@
 package com.speedment.jpastreamer.pipeline.standard.internal;
 
-import com.speedment.jpastreamer.pipeline.IntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperator;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.standard.internal.intermediate.InternalIntermediateOperationFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -20,7 +21,7 @@ class InternalStandardIntermediateOperationFactoryTest {
     void createFilter() {
         final Predicate<String> predicate = String::isEmpty;
 
-        final IntermediateOperator<Stream<String>, Stream<String>> filter = factory.createFilter(predicate);
+        final IntermediateOperation<Stream<String>, Stream<String>> filter = factory.createFilter(predicate);
 
         assertEquals(IntermediateOperationType.FILTER, filter.type());
         assertEquals(Stream.class, filter.streamType());

@@ -5,8 +5,8 @@ import com.speedment.jpastreamer.pipeline.trait.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-public interface TerminatingOperation<S extends BaseStream<?, S>, R> extends
-        HasType<TerminatingOperationType>,
+public interface TerminalOperation<S extends BaseStream<?, S>, R> extends
+        HasType<TerminalOperationType>,
         HasStreamType<S>,
         HasReturnType<R>,
         HasArguments,

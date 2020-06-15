@@ -1,8 +1,9 @@
 package com.speedment.jpastreamer.pipeline.standard.internal;
 
-import com.speedment.jpastreamer.pipeline.TerminatingOperationFactory;
-import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperation;
-import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperationType;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
+import com.speedment.jpastreamer.pipeline.standard.internal.terminal.InternalTerminalOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -13,18 +14,18 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InternalStandardTerminatingOperationFactoryTest {
+class InternalStandardTerminalOperationFactoryTest {
 
-    private final TerminatingOperationFactory factory = new InternalTerminatingOperationFactory();
+    private final TerminalOperationFactory factory = new InternalTerminalOperationFactory();
 
     @Test
     void createForEach() {
         final List<String> list = new ArrayList<>();
         final Consumer<String> consumer = list::add;
 
-        final TerminatingOperation<Stream<String>, Void> forEach = factory.createForEach(consumer);
+        final TerminalOperation<Stream<String>, Void> forEach = factory.createForEach(consumer);
 
-        assertEquals(TerminatingOperationType.FOR_EACH, forEach.type());
+        assertEquals(TerminalOperationType.FOR_EACH, forEach.type());
         assertEquals(Stream.class, forEach.streamType());
 
         assertEquals(void.class, forEach.returnType());

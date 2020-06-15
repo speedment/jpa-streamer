@@ -1,8 +1,8 @@
-package com.speedment.jpastreamer.pipeline.standard.internal;
+package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
-import com.speedment.jpastreamer.pipeline.TerminatingOperationFactory;
-import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperation;
-import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperationType;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.*;
 import java.util.function.*;
@@ -12,15 +12,15 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-public class InternalTerminatingOperationFactory implements TerminatingOperationFactory {
+public class InternalTerminalOperationFactory implements TerminalOperationFactory {
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Void> createForEach(final Consumer<? super T> action) {
+    public <T> TerminalOperation<Stream<T>, Void> createForEach(final Consumer<? super T> action) {
         requireNonNull(action);
         final Consumer<Stream<T>> function = (Stream<T> stream) -> stream.forEach(action);
 
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.FOR_EACH,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.FOR_EACH,
                 Stream.class,
                 void.class,
                 function,
@@ -28,11 +28,11 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Void> createForEachOrdered(final Consumer<? super T> action) {
+    public <T> TerminalOperation<Stream<T>, Void> createForEachOrdered(final Consumer<? super T> action) {
         requireNonNull(action);
         final Consumer<Stream<T>> function = stream -> stream.forEachOrdered(action);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.FOR_EACH_ORDERED,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.FOR_EACH_ORDERED,
                 Stream.class,
                 void.class,
                 function,
@@ -40,10 +40,10 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Object[]> createToArray() {
+    public <T> TerminalOperation<Stream<T>, Object[]> createToArray() {
         final Function<Stream<T>, Object[]> function = Stream::toArray;
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.TO_ARRAY,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.TO_ARRAY,
                 Stream.class,
                 Object[].class,
                 function);
@@ -51,11 +51,11 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T, A> TerminatingOperation<Stream<T>, A[]> createToArray(final IntFunction<A[]> generator) {
+    public <T, A> TerminalOperation<Stream<T>, A[]> createToArray(final IntFunction<A[]> generator) {
         requireNonNull(generator);
         final Function<Stream<T>, A[]> function = (Stream<T> stream) -> stream.toArray(generator);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.TO_ARRAY,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.TO_ARRAY,
                 Stream.class,
                 Object[].class,
                 function,
@@ -63,12 +63,12 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, T> createReduce(final T identity, final BinaryOperator<T> accumulator) {
+    public <T> TerminalOperation<Stream<T>, T> createReduce(final T identity, final BinaryOperator<T> accumulator) {
         requireNonNull(identity);
         requireNonNull(accumulator);
         final Function<Stream<T>, T> function = stream -> stream.reduce(identity, accumulator);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.REDUCE,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.REDUCE,
                 Stream.class,
                 Object.class,
                 function,
@@ -76,11 +76,11 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Optional<T>> createReduce(final BinaryOperator<T> accumulator) {
+    public <T> TerminalOperation<Stream<T>, Optional<T>> createReduce(final BinaryOperator<T> accumulator) {
         requireNonNull(accumulator);
         final Function<Stream<T>, Optional<T>> function = stream -> stream.reduce(accumulator);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.REDUCE,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.REDUCE,
                 Stream.class,
                 Optional.class,
                 function,
@@ -88,15 +88,15 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T, U> TerminatingOperation<Stream<T>, U> createReduce(final U identity,
-                                                                  final BiFunction<U, ? super T, U> accumulator,
-                                                                  final BinaryOperator<U> combiner) {
+    public <T, U> TerminalOperation<Stream<T>, U> createReduce(final U identity,
+                                                               final BiFunction<U, ? super T, U> accumulator,
+                                                               final BinaryOperator<U> combiner) {
         requireNonNull(identity);
         requireNonNull(accumulator);
         requireNonNull(combiner);
         final Function<Stream<T>, U> function = stream -> stream.reduce(identity, accumulator, combiner);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.REDUCE,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.REDUCE,
                 Stream.class,
                 Object.class,
                 function,
@@ -104,15 +104,15 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T, R> TerminatingOperation<Stream<T>, R> createCollect(final Supplier<R> supplier,
-                                                                   final BiConsumer<R, ? super T> accumulator,
-                                                                   final BiConsumer<R, R> combiner) {
+    public <T, R> TerminalOperation<Stream<T>, R> createCollect(final Supplier<R> supplier,
+                                                                final BiConsumer<R, ? super T> accumulator,
+                                                                final BiConsumer<R, R> combiner) {
         requireNonNull(supplier);
         requireNonNull(accumulator);
         requireNonNull(combiner);
         final Function<Stream<T>, R> function = stream -> stream.collect(supplier, accumulator, combiner);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.COLLECT,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.COLLECT,
                 Stream.class,
                 Object.class,
                 function,
@@ -120,11 +120,11 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T, R, A> TerminatingOperation<Stream<T>, R> createCollect(final Collector<? super T, A, R> collector) {
+    public <T, R, A> TerminalOperation<Stream<T>, R> createCollect(final Collector<? super T, A, R> collector) {
         requireNonNull(collector);
         final Function<Stream<T>, R> function = stream -> stream.collect(collector);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.COLLECT,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.COLLECT,
                 Stream.class,
                 Object.class,
                 function,
@@ -132,11 +132,11 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Optional<T>> createMin(final Comparator<? super T> comparator) {
+    public <T> TerminalOperation<Stream<T>, Optional<T>> createMin(final Comparator<? super T> comparator) {
         requireNonNull(comparator);
         final Function<Stream<T>, Optional<T>> function = stream -> stream.min(comparator);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.MIN,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.MIN,
                 Stream.class,
                 Optional.class,
                 function,
@@ -144,11 +144,11 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Optional<T>> createMax(final Comparator<? super T> comparator) {
+    public <T> TerminalOperation<Stream<T>, Optional<T>> createMax(final Comparator<? super T> comparator) {
         requireNonNull(comparator);
         final Function<Stream<T>, Optional<T>> function = stream -> stream.max(comparator);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.MAX,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.MAX,
                 Stream.class,
                 Optional.class,
                 function,
@@ -156,83 +156,83 @@ public class InternalTerminatingOperationFactory implements TerminatingOperation
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Long> createCount() {
+    public <T> TerminalOperation<Stream<T>, Long> createCount() {
         final ToLongFunction<Stream<T>> function = Stream::count;
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.COUNT,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.COUNT,
                 Stream.class,
                 long.class,
                 function);
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Boolean> createAnyMatch(final Predicate<? super T> predicate) {
+    public <T> TerminalOperation<Stream<T>, Boolean> createAnyMatch(final Predicate<? super T> predicate) {
         requireNonNull(predicate);
         final Predicate<Stream<T>> function = stream -> stream.anyMatch(predicate);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.ANY_MATCH,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.ANY_MATCH,
                 Stream.class,
                 boolean.class,
                 function);
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Boolean> createAllMatch(final Predicate<? super T> predicate) {
+    public <T> TerminalOperation<Stream<T>, Boolean> createAllMatch(final Predicate<? super T> predicate) {
         requireNonNull(predicate);
         final Predicate<Stream<T>> function = stream -> stream.allMatch(predicate);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.ALL_MATCH,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.ALL_MATCH,
                 Stream.class,
                 boolean.class,
                 function);
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Boolean> createNoneMatch(final Predicate<? super T> predicate) {
+    public <T> TerminalOperation<Stream<T>, Boolean> createNoneMatch(final Predicate<? super T> predicate) {
         requireNonNull(predicate);
         final Predicate<Stream<T>> function = stream -> stream.noneMatch(predicate);
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.NONE_MATCH,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.NONE_MATCH,
                 Stream.class,
                 boolean.class,
                 function);
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Optional<T>> createFindFirst() {
+    public <T> TerminalOperation<Stream<T>, Optional<T>> createFindFirst() {
         final Function<Stream<T>, Optional<T>> function = Stream::findFirst;
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.FIND_FIRST,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.FIND_FIRST,
                 Stream.class,
                 Optional.class,
                 function);
     }
 
     @Override
-    public <T> TerminatingOperation<Stream<T>, Optional<T>> createFindAny() {
+    public <T> TerminalOperation<Stream<T>, Optional<T>> createFindAny() {
         final Function<Stream<T>, Optional<T>> function = Stream::findAny;
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.FIND_ANY,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.FIND_ANY,
                 Stream.class,
                 Optional.class,
                 function);
     }
 
     @Override
-    public <T, S extends BaseStream<T, S>> TerminatingOperation<S, Iterator<T>> createIterator() {
+    public <T, S extends BaseStream<T, S>> TerminalOperation<S, Iterator<T>> createIterator() {
         final Function<Stream<T>, Iterator<T>> function = Stream::iterator;
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.ITERATOR,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.ITERATOR,
                 BaseStream.class,
                 Iterator.class,
                 function);
     }
 
     @Override
-    public <T, S extends BaseStream<T, S>> TerminatingOperation<S, Spliterator<T>> createSpliterator() {
+    public <T, S extends BaseStream<T, S>> TerminalOperation<S, Spliterator<T>> createSpliterator() {
         final Function<Stream<T>, Spliterator<T>> function = Stream::spliterator;
-        return new StandardTerminatingOperation<>(
-                TerminatingOperationType.SPLITERATOR,
+        return new StandardTerminalOperation<>(
+                TerminalOperationType.SPLITERATOR,
                 BaseStream.class,
                 Spliterator.class,
                 function);

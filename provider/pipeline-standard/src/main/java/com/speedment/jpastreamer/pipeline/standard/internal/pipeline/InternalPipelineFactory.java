@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.pipeline.standard.internal;
+package com.speedment.jpastreamer.pipeline.standard.internal.pipeline;
 
 
 import com.speedment.jpastreamer.pipeline.Pipeline;

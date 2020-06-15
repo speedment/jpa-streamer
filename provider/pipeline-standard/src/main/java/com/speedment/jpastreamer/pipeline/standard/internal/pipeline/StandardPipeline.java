@@ -1,8 +1,8 @@
-package com.speedment.jpastreamer.pipeline.standard.internal;
+package com.speedment.jpastreamer.pipeline.standard.internal.pipeline;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
-import com.speedment.jpastreamer.pipeline.action.Action;
-import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperation;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,10 +13,10 @@ import static java.util.Objects.requireNonNull;
 final class StandardPipeline<T> implements Pipeline<T> {
 
     private final List<Runnable> closeHandlers;
-    private final LinkedList<Action<?, ?>> intermediateOperations;
+    private final LinkedList<IntermediateOperation<?, ?>> intermediateOperations;
 
     private final Class<T> root;
-    private TerminatingOperation<?, ?> terminatingOperation;
+    private TerminalOperation<?, ?> terminalOperation;
     private boolean parallel;
     private boolean unordered;
 
@@ -32,18 +32,18 @@ final class StandardPipeline<T> implements Pipeline<T> {
     }
 
     @Override
-    public LinkedList<Action<?, ?>> intermediateOperations() {
+    public LinkedList<IntermediateOperation<?, ?>> intermediateOperations() {
         return intermediateOperations;
     }
 
     @Override
-    public TerminatingOperation<?, ?> terminatingOperation() {
-        return terminatingOperation;
+    public TerminalOperation<?, ?> terminatingOperation() {
+        return terminalOperation;
     }
 
     @Override
-    public void terminatingOperation(TerminatingOperation<?, ?> terminatingOperation) {
-        this.terminatingOperation = requireNonNull(terminatingOperation);
+    public void terminatingOperation(TerminalOperation<?, ?> terminalOperation) {
+        this.terminalOperation = requireNonNull(terminalOperation);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.speedment.jpastreamer.pipeline.trait;
 
-import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperationType;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 public interface HasType<E extends Enum<E>> {
 
@@ -8,7 +8,7 @@ public interface HasType<E extends Enum<E>> {
      * Returns the type of the operation.
      *
      * @return the type of the operation
-     * @see TerminatingOperationType
+     * @see TerminalOperationType
      */
     E type();
 

@@ -1,6 +1,6 @@
 package com.speedment.jpastreamer.pipeline.terminating;
 
-public enum TerminatingOperationType {
+public enum TerminalOperationType {
     // BaseStream
     ITERATOR(OrderPreservation.REQUIRED),
     SPLITERATOR(OrderPreservation.REQUIRED),
@@ -25,7 +25,7 @@ public enum TerminatingOperationType {
 
     private final OrderPreservation orderPreservation;
 
-    TerminatingOperationType(OrderPreservation orderPreservation) {
+    TerminalOperationType(OrderPreservation orderPreservation) {
         this.orderPreservation = orderPreservation;
     }
 

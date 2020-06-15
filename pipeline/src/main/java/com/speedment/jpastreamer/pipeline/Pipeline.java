@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.pipeline;
 
-import com.speedment.jpastreamer.pipeline.action.Action;
-import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperation;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,11 +42,11 @@ public interface Pipeline<T> {
      * @return a mutable LinkedList of the intermediate operations
      *         in the pipeline
      */
-    LinkedList<Action<?, ?>> intermediateOperations();
+    LinkedList<IntermediateOperation<?, ?>> intermediateOperations();
 
-    TerminatingOperation<?, ?> terminatingOperation();
+    TerminalOperation<?, ?> terminatingOperation();
 
-    void terminatingOperation(TerminatingOperation<?, ?> terminatingOperation);
+    void terminatingOperation(TerminalOperation<?, ?> terminalOperation);
 
     /**
      * Returns whether this pipeline, if a terminal operation were to be

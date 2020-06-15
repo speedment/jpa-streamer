@@ -1,15 +1,15 @@
-package com.speedment.jpastreamer.pipeline.standard.internal;
+package com.speedment.jpastreamer.pipeline.standard.internal.intermediate;
 
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperator;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 
 import java.util.function.Function;
 import java.util.stream.BaseStream;
 
 import static java.util.Objects.requireNonNull;
 
-final class StandardIntermediateOperator<S extends BaseStream<?, S>, R extends BaseStream<?, R>>
-        implements IntermediateOperator<S, R> {
+final class StandardIntermediateOperation<S extends BaseStream<?, S>, R extends BaseStream<?, R>>
+        implements IntermediateOperation<S, R> {
 
     private final IntermediateOperationType type;
     private final Class<? super S> streamType;
@@ -17,11 +17,11 @@ final class StandardIntermediateOperator<S extends BaseStream<?, S>, R extends B
     private final Function<S, R> function;
     private final Object[] arguments;
 
-    StandardIntermediateOperator(final IntermediateOperationType type,
-                                 final Class<? super S> streamType,
-                                 final Class<? super R> returnType,
-                                 final Function<S, R> function,
-                                 final Object... arguments) {
+    StandardIntermediateOperation(final IntermediateOperationType type,
+                                  final Class<? super S> streamType,
+                                  final Class<? super R> returnType,
+                                  final Function<S, R> function,
+                                  final Object... arguments) {
         this.type = requireNonNull(type);
         this.streamType = requireNonNull(streamType);
         this.arguments = requireNonNull(arguments);

@@ -1,9 +1,9 @@
-package com.speedment.jpastreamer.pipeline.standard.internal;
+package com.speedment.jpastreamer.pipeline.standard.internal.intermediate;
 
 import com.speedment.jpastreamer.javanine.Java9StreamUtil;
-import com.speedment.jpastreamer.pipeline.IntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperator;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 
 import java.util.Comparator;
 import java.util.function.*;
@@ -17,10 +17,10 @@ import static java.util.Objects.requireNonNull;
 public class InternalIntermediateOperationFactory implements IntermediateOperationFactory {
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createFilter(final Predicate<? super T> predicate) {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createFilter(final Predicate<? super T> predicate) {
         requireNonNull(predicate);
         final UnaryOperator<Stream<T>> function = s -> s.filter(predicate);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.FILTER,
                 Stream.class,
                 Stream.class,
@@ -30,10 +30,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T, R> IntermediateOperator<Stream<T>, Stream<R>> createMap(final Function<? super T, ? extends R> mapper) {
+    public <T, R> IntermediateOperation<Stream<T>, Stream<R>> createMap(final Function<? super T, ? extends R> mapper) {
         requireNonNull(mapper);
         final Function<Stream<T>, Stream<R>> function = s -> s.map(mapper);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.MAP,
                 Stream.class,
                 Stream.class,
@@ -43,10 +43,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, IntStream> createMapToInt(final ToIntFunction<? super T> mapper) {
+    public <T> IntermediateOperation<Stream<T>, IntStream> createMapToInt(final ToIntFunction<? super T> mapper) {
         requireNonNull(mapper);
         final Function<Stream<T>, IntStream> function = s -> s.mapToInt(mapper);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.MAP_TO,
                 Stream.class,
                 IntStream.class,
@@ -55,10 +55,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, LongStream> createMapToLong(final ToLongFunction<? super T> mapper) {
+    public <T> IntermediateOperation<Stream<T>, LongStream> createMapToLong(final ToLongFunction<? super T> mapper) {
         requireNonNull(mapper);
         final Function<Stream<T>, LongStream> function = s -> s.mapToLong(mapper);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.MAP_TO,
                 Stream.class,
                 LongStream.class,
@@ -67,10 +67,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, DoubleStream> createMapToDouble(final ToDoubleFunction<? super T> mapper) {
+    public <T> IntermediateOperation<Stream<T>, DoubleStream> createMapToDouble(final ToDoubleFunction<? super T> mapper) {
         requireNonNull(mapper);
         final Function<Stream<T>, DoubleStream> function = s -> s.mapToDouble(mapper);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.MAP_TO,
                 Stream.class,
                 DoubleStream.class,
@@ -79,10 +79,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T, R> IntermediateOperator<Stream<T>, Stream<R>> createFlatMap(final Function<? super T, ? extends Stream<? extends R>> mapper) {
+    public <T, R> IntermediateOperation<Stream<T>, Stream<R>> createFlatMap(final Function<? super T, ? extends Stream<? extends R>> mapper) {
         requireNonNull(mapper);
         final Function<Stream<T>, Stream<R>> function = s -> s.flatMap(mapper);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.FLAT_MAP,
                 Stream.class,
                 Stream.class,
@@ -91,10 +91,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, IntStream> createFlatMapToInt(final Function<? super T, ? extends IntStream> mapper) {
+    public <T> IntermediateOperation<Stream<T>, IntStream> createFlatMapToInt(final Function<? super T, ? extends IntStream> mapper) {
         requireNonNull(mapper);
         final Function<Stream<T>, IntStream> function = s -> s.flatMapToInt(mapper);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.FLAT_MAP_TO,
                 Stream.class,
                 IntStream.class,
@@ -103,10 +103,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, LongStream> createFlatMapToLong(final Function<? super T, ? extends LongStream> mapper) {
+    public <T> IntermediateOperation<Stream<T>, LongStream> createFlatMapToLong(final Function<? super T, ? extends LongStream> mapper) {
         requireNonNull(mapper);
         final Function<Stream<T>, LongStream> function = s -> s.flatMapToLong(mapper);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.FLAT_MAP_TO,
                 Stream.class,
                 LongStream.class,
@@ -115,10 +115,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, DoubleStream> createFlatMapToDouble(final Function<? super T, ? extends DoubleStream> mapper) {
+    public <T> IntermediateOperation<Stream<T>, DoubleStream> createFlatMapToDouble(final Function<? super T, ? extends DoubleStream> mapper) {
         requireNonNull(mapper);
         final Function<Stream<T>, DoubleStream> function = s -> s.flatMapToDouble(mapper);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.FLAT_MAP_TO,
                 Stream.class,
                 DoubleStream.class,
@@ -127,9 +127,9 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createDistinct() {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createDistinct() {
         final UnaryOperator<Stream<T>> function = Stream::distinct;
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.DISTINCT,
                 Stream.class,
                 Stream.class,
@@ -138,9 +138,9 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createSorted() {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createSorted() {
         final UnaryOperator<Stream<T>> function = Stream::sorted;
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.SORTED,
                 Stream.class,
                 Stream.class,
@@ -148,10 +148,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createSorted(final Comparator<? super T> comparator) {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createSorted(final Comparator<? super T> comparator) {
         requireNonNull(comparator);
         final UnaryOperator<Stream<T>> function = s -> s.sorted(comparator);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.SORTED,
                 Stream.class,
                 Stream.class,
@@ -161,10 +161,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createPeek(final Consumer<? super T> action) {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createPeek(final Consumer<? super T> action) {
         requireNonNull(action);
         final UnaryOperator<Stream<T>> function = s -> s.peek(action);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.PEEK,
                 Stream.class,
                 Stream.class,
@@ -174,12 +174,12 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createLimit(final long maxSize) {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createLimit(final long maxSize) {
         if (maxSize < 0)
             throw new IllegalArgumentException(Long.toString(maxSize));
 
         final UnaryOperator<Stream<T>> function = s -> s.limit(maxSize);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.LIMIT,
                 Stream.class,
                 Stream.class,
@@ -189,12 +189,12 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createSkip(final long n) {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createSkip(final long n) {
         if (n < 0)
             throw new IllegalArgumentException(Long.toString(n));
 
         final UnaryOperator<Stream<T>> function = s -> s.skip(n);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.SKIP,
                 Stream.class,
                 Stream.class,
@@ -204,10 +204,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createTakeWhile(final Predicate<? super T> predicate) {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createTakeWhile(final Predicate<? super T> predicate) {
         requireNonNull(predicate);
         final UnaryOperator<Stream<T>> function = s -> Java9StreamUtil.takeWhile(s, predicate);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.TAKE_WHILE,
                 Stream.class,
                 Stream.class,
@@ -216,10 +216,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperator<Stream<T>, Stream<T>> createDropWhile(final Predicate<? super T> predicate) {
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> createDropWhile(final Predicate<? super T> predicate) {
         requireNonNull(predicate);
         final UnaryOperator<Stream<T>> function = s -> Java9StreamUtil.dropWhile(s, predicate);
-        return new StandardIntermediateOperator<>(
+        return new StandardIntermediateOperation<>(
                 IntermediateOperationType.DROP_WHILE,
                 Stream.class,
                 Stream.class,
