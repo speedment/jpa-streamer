@@ -19,6 +19,7 @@
         <module>autoclose-standard</module>
         <module>builder-standard</module>
         <module>pipeline-standard</module>
+        <module>renderer-standard</module>
     </modules>
 
 </project>
