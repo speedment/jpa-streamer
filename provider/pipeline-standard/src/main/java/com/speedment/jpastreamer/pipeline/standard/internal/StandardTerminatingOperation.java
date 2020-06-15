@@ -9,7 +9,7 @@ import java.util.stream.BaseStream;
 
 import static java.util.Objects.requireNonNull;
 
-public final class StandardTerminatingOperation<S extends BaseStream<?, S>, R> implements TerminatingOperation<S, R> {
+final class StandardTerminatingOperation<S extends BaseStream<?, S>, R> implements TerminatingOperation<S, R> {
 
     private final TerminatingOperationType terminatingOperationType;
     private final Class<? super S> streamType;
@@ -17,7 +17,7 @@ public final class StandardTerminatingOperation<S extends BaseStream<?, S>, R> i
     private final Object function;
     private final Object[] arguments;
 
-    public StandardTerminatingOperation(final TerminatingOperationType terminatingOperationType,
+    StandardTerminatingOperation(final TerminatingOperationType terminatingOperationType,
                                         final Class<? super S> streamType,
                                         final Class<? super R> returnType,
                                         final Object function,
