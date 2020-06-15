@@ -13,7 +13,7 @@ public final class StandardPipelineFactory implements PipelineFactory {
     }
 
     @Override
-    public Pipeline createPipeline(final Class<?> rootClass) {
+    public <T> Pipeline<T> createPipeline(final Class<T> rootClass) {
         return delegate.createPipeline(rootClass);
     }
 

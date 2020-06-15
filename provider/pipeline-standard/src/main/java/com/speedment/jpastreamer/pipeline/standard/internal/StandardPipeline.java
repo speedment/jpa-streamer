@@ -10,30 +10,25 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-final class StandardPipeline implements Pipeline {
+final class StandardPipeline<T> implements Pipeline<T> {
 
     private final List<Runnable> closeHandlers;
     private final LinkedList<Action<?, ?>> intermediateOperations;
 
-    private Class<?> root;
+    private Class<T> root;
     private TerminatingOperation<?, ?> terminatingOperation;
     private boolean parallel;
     private boolean unordered;
 
-    StandardPipeline(final Class<?> root) {
+    StandardPipeline(final Class<T> root) {
         this.root = requireNonNull(root);
         this.closeHandlers = new ArrayList<>();
         this.intermediateOperations = new LinkedList<>();
     }
 
     @Override
-    public Class<?> root() {
+    public Class<T> root() {
         return root;
-    }
-
-    @Override
-    public void root(final Class<?> root) {
-        this.root = requireNonNull(root);
     }
 
     @Override

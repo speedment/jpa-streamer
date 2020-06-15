@@ -31,11 +31,9 @@ import java.util.List;
  *
  * @author  Per Minborg
  */
-public interface Pipeline {
+public interface Pipeline<T> {
 
-    Class<?> root();
-
-    void root(Class<?> root);
+    Class<T> root();
 
     /**
      * Returns a mutable LinkedList of the intermediate operations

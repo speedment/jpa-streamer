@@ -7,8 +7,8 @@ import com.speedment.jpastreamer.pipeline.PipelineFactory;
 public final class InternalPipelineFactory implements PipelineFactory {
 
     @Override
-    public Pipeline createPipeline(Class<?> rootClass) {
-        return new StandardPipeline(rootClass);
+    public <T> Pipeline<T> createPipeline(Class<T> rootClass) {
+        return new StandardPipeline<>(rootClass);
     }
 
 }

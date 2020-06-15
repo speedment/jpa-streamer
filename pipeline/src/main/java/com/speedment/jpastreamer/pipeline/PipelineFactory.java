@@ -8,6 +8,6 @@ public interface PipelineFactory {
       * @param rootClass the entity class to be used as a root (source)
       * @author     Per Minborg
       */
-     Pipeline createPipeline(Class<?> rootClass);
+     <T> Pipeline<T> createPipeline(Class<T> rootClass);
 
 }
