@@ -1,7 +1,7 @@
 package com.speedment.jpastreamer.pipeline.standard;
 
 import com.speedment.jpastreamer.pipeline.TerminatingOperationFactory;
-import com.speedment.jpastreamer.pipeline.standard.internal.InternalStandardTerminatingOperationFactory;
+import com.speedment.jpastreamer.pipeline.standard.internal.InternalTerminatingOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminating.TerminatingOperation;
 
 import java.util.Comparator;
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 public class StandardTerminatingOperationFactory implements TerminatingOperationFactory {
 
-    private final TerminatingOperationFactory delegate = new InternalStandardTerminatingOperationFactory();
+    private final TerminatingOperationFactory delegate = new InternalTerminatingOperationFactory();
 
     @Override
     public <T> TerminatingOperation<Stream<T>, Void> createForEach(Consumer<? super T> action) {

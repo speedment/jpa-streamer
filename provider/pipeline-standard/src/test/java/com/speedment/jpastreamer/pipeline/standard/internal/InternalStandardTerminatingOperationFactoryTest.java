@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InternalStandardTerminatingOperationFactoryTest {
 
-    private final TerminatingOperationFactory factory = new InternalStandardTerminatingOperationFactory();
+    private final TerminatingOperationFactory factory = new InternalTerminatingOperationFactory();
 
     @Test
     void createForEach() {

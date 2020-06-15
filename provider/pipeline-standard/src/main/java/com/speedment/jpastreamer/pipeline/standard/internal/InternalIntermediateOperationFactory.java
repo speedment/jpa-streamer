@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-public class InternalStandardIntermediateOperationFactory implements IntermediateOperationFactory {
+public class InternalIntermediateOperationFactory implements IntermediateOperationFactory {
 
     @Override
     public <T> IntermediateOperator<Stream<T>, Stream<T>> createFilter(Predicate<? super T> predicate) {

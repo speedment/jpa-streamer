@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-public class InternalStandardTerminatingOperationFactory implements TerminatingOperationFactory {
+public class InternalTerminatingOperationFactory implements TerminatingOperationFactory {
 
     @Override
     public <T> TerminatingOperation<Stream<T>, Void> createForEach(final Consumer<? super T> action) {

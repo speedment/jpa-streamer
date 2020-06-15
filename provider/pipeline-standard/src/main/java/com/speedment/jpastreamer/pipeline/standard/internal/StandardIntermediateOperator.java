@@ -11,17 +11,16 @@ import static java.util.Objects.requireNonNull;
 final class StandardIntermediateOperator<S extends BaseStream<?, S>, R extends BaseStream<?, R>>
         implements IntermediateOperator<S, R> {
 
-
     private final IntermediateOperationType type;
     private final Class<? super S> streamType;
     private final Class<? super R> returnType;
-    private final Object function;
+    private final Function<S, R> function;
     private final Object[] arguments;
 
     StandardIntermediateOperator(final IntermediateOperationType type,
                                  final Class<? super S> streamType,
                                  final Class<? super R> returnType,
-                                 final Object function,
+                                 final Function<S, R> function,
                                  final Object... arguments) {
         this.type = requireNonNull(type);
         this.streamType = requireNonNull(streamType);
@@ -47,7 +46,7 @@ final class StandardIntermediateOperator<S extends BaseStream<?, S>, R extends B
 
     @Override
     public Function<S, R> function() {
-        return null;
+        return function;
     }
 
     @Override
