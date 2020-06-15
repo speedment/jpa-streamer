@@ -1,6 +1,8 @@
 package com.speedment.jpastreamer.rootfactory.internal;
 
 import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public final class InternalRootFactory {
 
@@ -11,13 +13,29 @@ public final class InternalRootFactory {
         return Optional.ofNullable(getHelper(service));
     }
 
-    public static <T> T getOrThrow(final Class<T> service) {
-        final T selectedService = getHelper(service);
+    public static <S> S getOrThrow(final Class<S> service) {
+        final S selectedService = getHelper(service);
         if (selectedService == null) {
             throw new NoSuchElementException("Unable to get the service " + service.getName());
         } else {
             return selectedService;
         }
+    }
+
+    public static <S> Stream<S> stream(final Class<S> service) {
+        final Iterator<S> iterator = ServiceLoader.load(service).iterator();
+        if (iterator.hasNext()) {
+            return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.NONNULL), false);
+        } else {
+            // If not found though the ServiceLoader, try to guess the standard implementation
+            try {
+                final S s = getStandard(service);
+                return Stream.of(s);
+            } catch (ServiceConfigurationError | NoSuchElementException e) {
+                return Stream.empty();
+            }
+        }
+
     }
 
     private static <S> S getHelper(final Class<S> service) {
