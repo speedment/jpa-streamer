@@ -1,6 +1,5 @@
 package com.speedment.jpastreamer.pipeline.terminating;
 
-import java.util.List;
 import java.util.function.*;
 import java.util.stream.*;
 
@@ -29,17 +28,14 @@ public interface TerminatingOperation<S extends BaseStream<?, S>, R>  {
      * @return the stream type on which the terminating operation
      *         is supposed to be invoked
      */
-    Class<S> streamType();
+    Class<? super S> streamType();
 
     /**
-     * Returns the arguments for this terminating operation.
-     * <p>
-     * If no parameters are used (e.g. for {@code count()}, an
-     * empty List is provided.
+     * Returns the arguments for this terminating operation, or {@code null}.
      *
-     * @return the arguments for this terminating operation
+     * @return the arguments for this terminating operation, or {@code null}
      */
-    List<?> arguments();
+    Object[] arguments();
 
     /**
      * Returns the return type of the terminating operation.
@@ -50,11 +46,13 @@ public interface TerminatingOperation<S extends BaseStream<?, S>, R>  {
      *     <li>{@code Object.class}, e.g. for {@code collect()}</li>
      *     <li>{@code void.class}, e.g. for {@code forEach()}</li>
      *     <li>{@code boolean.class}, e.g. for {@code anyMatch()}</li>
+     *     <li>{@code Object[].class}, e.g. for {@code toArray()}</li>
+     *     <li>{@code Optional.class}, e.g. for {@code findAny()}</li>
      * </ul>
      *
      * @return the return type of the terminating operation
      */
-    Class<R> returnType();
+    Class<? super R> returnType();
 
     /**
      * Returns a function to be applied in order to
@@ -64,7 +62,7 @@ public interface TerminatingOperation<S extends BaseStream<?, S>, R>  {
      * @return the function to be applied in order to
      *         execute the TerminatingOperation
      *
-     * @throws IllegalStateException if the terminating operation
+     * @throws ClassCastException if the terminating operation
      *         does not return an object or array.
      */
     Function<S, R> function();
@@ -77,10 +75,10 @@ public interface TerminatingOperation<S extends BaseStream<?, S>, R>  {
      * @return the function to be applied in order to
      *         execute the TerminatingOperation
      *
-     * @throws IllegalStateException if the terminating operation
+     * @throws ClassCastException if the terminating operation
      *         does not return a long
      */
-    LongFunction<S> longFunction();
+    ToLongFunction<S> toLongFunction();
 
     /**
      * Returns a function to be applied in order to
@@ -90,10 +88,10 @@ public interface TerminatingOperation<S extends BaseStream<?, S>, R>  {
      * @return the function to be applied in order to
      *         execute the TerminatingOperation
      *
-     * @throws IllegalStateException if the terminating operation
+     * @throws ClassCastException if the terminating operation
      *         does not return an int
      */
-    IntFunction<S> intFunction();
+    ToIntFunction<S> toIntFunction();
 
     /**
      * Returns a function to be applied in order to
@@ -103,10 +101,10 @@ public interface TerminatingOperation<S extends BaseStream<?, S>, R>  {
      * @return the function to be applied in order to
      *         execute the TerminatingOperation
      *
-     * @throws IllegalStateException if the terminating operation
+     * @throws ClassCastException if the terminating operation
      *         does not return a double
      */
-    DoubleFunction<S> doubleFunction();
+    ToDoubleFunction<S> toDoubleFunction();
 
     /**
      * Returns a function to be applied in order to
@@ -116,10 +114,10 @@ public interface TerminatingOperation<S extends BaseStream<?, S>, R>  {
      * @return the function to be applied in order to
      *         execute the TerminatingOperation
      *
-     * @throws IllegalStateException if the terminating operation
+     * @throws ClassCastException if the terminating operation
      *         does not return a boolean
      */
-    Predicate<S> booleanFunction();
+    Predicate<S> predicate();
 
     /**
      * Returns a function to be applied in order to
@@ -129,9 +127,11 @@ public interface TerminatingOperation<S extends BaseStream<?, S>, R>  {
      * @return the function to be applied in order to
      *         execute the TerminatingOperation
      *
-     * @throws IllegalStateException if the terminating operation
+     * @throws ClassCastException if the terminating operation
      *         does not return void
      */
     Consumer<S> consumer();
+
+    //todo add others...
 
 }

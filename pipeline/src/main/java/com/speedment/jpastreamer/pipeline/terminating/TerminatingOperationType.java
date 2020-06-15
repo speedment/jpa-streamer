@@ -1,6 +1,10 @@
 package com.speedment.jpastreamer.pipeline.terminating;
 
 public enum TerminatingOperationType {
+    // BaseStream
+    ITERATOR(OrderPreservation.REQUIRED),
+    SPLITERATOR(OrderPreservation.REQUIRED),
+    // Stream
     FOR_EACH(OrderPreservation.NOT_REQUIRED),
     FOR_EACH_ORDERED(OrderPreservation.REQUIRED),
     TO_ARRAY(OrderPreservation.REQUIRED),

@@ -28,7 +28,6 @@
             <version>${jpa-streamer.version}</version>
         </dependency>
 
-
     </dependencies>
 
 </project>
