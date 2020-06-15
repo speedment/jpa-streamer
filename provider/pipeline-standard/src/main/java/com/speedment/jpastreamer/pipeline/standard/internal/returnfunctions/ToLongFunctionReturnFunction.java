@@ -1,23 +1,23 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.returnfunctions;
 
-import java.util.function.LongFunction;
+import java.util.function.ToLongFunction;
 import java.util.stream.BaseStream;
 
 import static java.util.Objects.requireNonNull;
 
-public final class LongFunctionReturnFunction<S extends BaseStream<?, S>> implements ReturnFunction<LongFunction<S>> {
+public final class ToLongFunctionReturnFunction<S extends BaseStream<?, S>> implements ReturnFunction<ToLongFunction<S>> {
 
-    private static final LongFunctionReturnFunction<?> SINGLETON = new LongFunctionReturnFunction<>();
+    private static final ToLongFunctionReturnFunction<?> SINGLETON = new ToLongFunctionReturnFunction<>();
 
     @Override
     @SuppressWarnings("unchecked")
-    public LongFunction<S> castToTyped(Object untypedFunction) {
-        return (LongFunction<S>) untypedFunction;
+    public ToLongFunction<S> castToTyped(Object untypedFunction) {
+        return (ToLongFunction<S>) untypedFunction;
     }
 
     @SuppressWarnings("unchecked")
-    public static <S extends BaseStream<?, S>> LongFunction<S> cast(final Object object) {
-        return ((LongFunctionReturnFunction<S>) SINGLETON).castToTyped(requireNonNull(object));
+    public static <S extends BaseStream<?, S>> ToLongFunction<S> cast(final Object object) {
+        return ((ToLongFunctionReturnFunction<S>) SINGLETON).castToTyped(requireNonNull(object));
     }
 
 }

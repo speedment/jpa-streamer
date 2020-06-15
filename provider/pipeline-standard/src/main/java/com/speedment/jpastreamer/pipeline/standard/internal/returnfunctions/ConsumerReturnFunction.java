@@ -1,21 +1,23 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.returnfunctions;
 
-import java.util.function.Predicate;
+import java.util.function.Consumer;
 import java.util.stream.BaseStream;
 
-public final class PredicateReturnFunction<S extends BaseStream<?, S>> implements ReturnFunction<Predicate<S>> {
+import static java.util.Objects.requireNonNull;
 
-    private static final PredicateReturnFunction<?> SINGLETON = new PredicateReturnFunction<>();
+public final class ConsumerReturnFunction<S extends BaseStream<?, S>> implements ReturnFunction<Consumer<S>> {
+
+    private static final ConsumerReturnFunction<?> SINGLETON = new ConsumerReturnFunction<>();
 
     @Override
     @SuppressWarnings("unchecked")
-    public Predicate<S> castToTyped(Object untypedFunction) {
-        return (Predicate<S>) untypedFunction;
+    public Consumer<S> castToTyped(Object untypedFunction) {
+        return (Consumer<S>) untypedFunction;
     }
 
     @SuppressWarnings("unchecked")
-    static <S extends BaseStream<?, S>> PredicateReturnFunction<S> of() {
-        return (PredicateReturnFunction<S>) SINGLETON;
+    public static <S extends BaseStream<?, S>> Consumer<S> cast(final Object function) {
+        return ((ConsumerReturnFunction<S>) SINGLETON).castToTyped(requireNonNull(function));
     }
 
 }

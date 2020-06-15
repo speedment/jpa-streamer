@@ -1,10 +1,7 @@
-package com.speedment.jpastreamer.pipeline.standard.internal;
+package com.speedment.jpastreamer.pipeline.standard.internal.returnfunctions;
 
-public final interface ReturnFunction {
+public interface ReturnFunction<R> {
 
-
-    FUNCTION, LONG_FUNCTION, INT_FUNCTION, DOUBLE_FUNCTION, PREDICATE, CONSUMER;
-
-    Object castToTyped(Object untypedFunction);
+    R castToTyped(Object untypedFunction);
 
 }

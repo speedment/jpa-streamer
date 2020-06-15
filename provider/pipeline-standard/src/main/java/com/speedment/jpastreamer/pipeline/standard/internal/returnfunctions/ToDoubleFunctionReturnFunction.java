@@ -1,24 +1,23 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.returnfunctions;
 
-import java.util.function.DoubleFunction;
-import java.util.function.LongFunction;
+import java.util.function.ToDoubleFunction;
 import java.util.stream.BaseStream;
 
 import static java.util.Objects.requireNonNull;
 
-public final class DoubleFunctionReturnFunction<S extends BaseStream<?, S>> implements ReturnFunction<DoubleFunction<S>> {
+public final class ToDoubleFunctionReturnFunction<S extends BaseStream<?, S>> implements ReturnFunction<ToDoubleFunction<S>> {
 
-    private static final DoubleFunctionReturnFunction<?> SINGLETON = new DoubleFunctionReturnFunction<>();
+    private static final ToDoubleFunctionReturnFunction<?> SINGLETON = new ToDoubleFunctionReturnFunction<>();
 
     @Override
     @SuppressWarnings("unchecked")
-    public DoubleFunction<S> castToTyped(Object untypedFunction) {
-        return (DoubleFunction<S>) untypedFunction;
+    public ToDoubleFunction<S> castToTyped(Object untypedFunction) {
+        return (ToDoubleFunction<S>) untypedFunction;
     }
 
     @SuppressWarnings("unchecked")
-    public static <S extends BaseStream<?, S>> DoubleFunction<S> cast(final Object object) {
-        return ((DoubleFunctionReturnFunction<S>) SINGLETON).castToTyped(requireNonNull(object));
+    public static <S extends BaseStream<?, S>> ToDoubleFunction<S> cast(final Object object) {
+        return ((ToDoubleFunctionReturnFunction<S>) SINGLETON).castToTyped(requireNonNull(object));
     }
 
 }
