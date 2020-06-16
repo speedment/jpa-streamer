@@ -8,6 +8,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 class StreamBuilderTest {
@@ -19,10 +20,19 @@ class StreamBuilderTest {
         final Renderer renderer = new MockRenderer();
         Stream<String> builder = new StreamBuilder<>(FACTORIES, String.class, renderer);
 
-        builder
+        final long count = builder
                 .skip(1)
                 .limit(1)
                 .count();
+
+        System.out.println("count = " + count);
+
+        final Optional<String> first = builder
+                .filter(s -> s.length() > 0)
+                .limit(1)
+                .findFirst();
+
+        System.out.println("`first` = " + first);
 
     }
 
@@ -33,21 +43,37 @@ class StreamBuilderTest {
 
             System.out.println(pipeline);
 
-            return new RenderResult<T>() {
-                @Override
-                public Stream<T> stream() {
-                    return (Stream<T>) Stream.of("A", "B", "C");
-                }
-
-                @Override
-                public TerminalOperation<?, ?> terminalOperation() {
-                    return FACTORIES.terminal().acquireCount();
-                }
-            };
+            return new MyRenderResult<>(
+                    (Stream<T>) Stream.of("A", "B", "C"),
+                    pipeline.terminatingOperation()
+            );
         }
 
         @Override
         public void close() {}
     }
+
+    private static final class MyRenderResult<T> implements RenderResult<T> {
+
+        private final Stream<T> stream;
+        private final TerminalOperation<?, ?> terminalOperation;
+
+        public MyRenderResult(Stream<T> stream, TerminalOperation<?, ?> terminalOperation) {
+            this.stream = stream;
+            this.terminalOperation = terminalOperation;
+        }
+
+
+        @Override
+        public Stream<T> stream() {
+            return stream;
+        }
+
+        @Override
+        public TerminalOperation<?, ?> terminalOperation() {
+            return terminalOperation;
+        }
+    }
+
 
 }
