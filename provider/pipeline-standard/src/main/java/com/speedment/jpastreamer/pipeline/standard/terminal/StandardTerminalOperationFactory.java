@@ -28,8 +28,8 @@ public class StandardTerminalOperationFactory implements TerminalOperationFactor
     }
 
     @Override
-    public <T> TerminalOperation<Stream<T>, Object[]> createToArray() {
-        return delegate.createToArray();
+    public <T> TerminalOperation<Stream<T>, Object[]> acquireToArray() {
+        return delegate.acquireToArray();
     }
 
     @Override
@@ -73,8 +73,8 @@ public class StandardTerminalOperationFactory implements TerminalOperationFactor
     }
 
     @Override
-    public <T> TerminalOperation<Stream<T>, Long> createCount() {
-        return delegate.createCount();
+    public <T> TerminalOperation<Stream<T>, Long> acquireCount() {
+        return delegate.acquireCount();
     }
 
     @Override
@@ -93,13 +93,13 @@ public class StandardTerminalOperationFactory implements TerminalOperationFactor
     }
 
     @Override
-    public <T> TerminalOperation<Stream<T>, Optional<T>> createFindFirst() {
-        return delegate.createFindFirst();
+    public <T> TerminalOperation<Stream<T>, Optional<T>> acquireFindFirst() {
+        return delegate.acquireFindFirst();
     }
 
     @Override
-    public <T> TerminalOperation<Stream<T>, Optional<T>> createFindAny() {
-        return delegate.createFindAny();
+    public <T> TerminalOperation<Stream<T>, Optional<T>> acquireFindAny() {
+        return delegate.acquireFindAny();
     }
 
     @Override

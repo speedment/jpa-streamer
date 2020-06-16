@@ -12,7 +12,7 @@ public interface TerminalOperationFactory extends BaseStreamTerminalOperationFac
 
     <T> TerminalOperation<Stream<T>, Void> createForEachOrdered(Consumer<? super T> action);
 
-    <T> TerminalOperation<Stream<T>, Object[]> createToArray();
+    <T> TerminalOperation<Stream<T>, Object[]> acquireToArray();
 
     <T, A> TerminalOperation<Stream<T>, A[]> createToArray(IntFunction<A[]> generator);
 
@@ -34,7 +34,7 @@ public interface TerminalOperationFactory extends BaseStreamTerminalOperationFac
 
     <T> TerminalOperation<Stream<T>, Optional<T>> createMax(Comparator<? super T> comparator);
 
-    <T> TerminalOperation<Stream<T>, Long> createCount();
+    <T> TerminalOperation<Stream<T>, Long> acquireCount();
 
     <T> TerminalOperation<Stream<T>, Boolean> createAnyMatch(Predicate<? super T> predicate);
 
@@ -42,8 +42,8 @@ public interface TerminalOperationFactory extends BaseStreamTerminalOperationFac
 
     <T> TerminalOperation<Stream<T>, Boolean> createNoneMatch(Predicate<? super T> predicate);
 
-    <T> TerminalOperation<Stream<T>, Optional<T>> createFindFirst();
+    <T> TerminalOperation<Stream<T>, Optional<T>> acquireFindFirst();
 
-    <T> TerminalOperation<Stream<T>, Optional<T>> createFindAny();
+    <T> TerminalOperation<Stream<T>, Optional<T>> acquireFindAny();
 
 }

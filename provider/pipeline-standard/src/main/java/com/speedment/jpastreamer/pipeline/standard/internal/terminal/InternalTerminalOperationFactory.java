@@ -1,10 +1,13 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Optional;
+import java.util.Spliterator;
 import java.util.function.*;
 import java.util.stream.BaseStream;
 import java.util.stream.Collector;
@@ -13,6 +16,34 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 
 public class InternalTerminalOperationFactory implements TerminalOperationFactory {
+
+    private static final Function<Stream<Object>, Object[]> TO_ARRAY_FUNCTION = Stream::toArray;
+    private static final TerminalOperation<Stream<Object>, Object[]> TO_ARRAY = new StandardTerminalOperation<>(
+            TerminalOperationType.TO_ARRAY,
+            Stream.class,
+            Object[].class,
+            TO_ARRAY_FUNCTION);
+
+    private static final Function<Stream<Object>, Object> FIND_FIRST_FUNCTION = Stream::findFirst;
+    private static final TerminalOperation<Stream<Object>, Optional<?>> FIND_FIRST = new StandardTerminalOperation<>(
+            TerminalOperationType.FIND_FIRST,
+            Stream.class,
+            Optional.class,
+            FIND_FIRST_FUNCTION);
+
+    private static final Function<Stream<Object>, Object> FIND_ANY_FUNCTION = Stream::findAny;
+    private static final TerminalOperation<Stream<Object>, Optional<?>> FIND_ANY = new StandardTerminalOperation<>(
+            TerminalOperationType.FIND_ANY,
+            Stream.class,
+            Optional.class,
+            FIND_ANY_FUNCTION);
+
+    private static final Function<Stream<Object>, Object> COUNT_FUNCTION = Stream::count;
+    private static final TerminalOperation<Stream<Object>, Long> COUNT = new StandardTerminalOperation<>(
+            TerminalOperationType.COUNT,
+            Stream.class,
+            long.class,
+            COUNT_FUNCTION);
 
     @Override
     public <T> TerminalOperation<Stream<T>, Void> createForEach(final Consumer<? super T> action) {
@@ -40,14 +71,8 @@ public class InternalTerminalOperationFactory implements TerminalOperationFactor
     }
 
     @Override
-    public <T> TerminalOperation<Stream<T>, Object[]> createToArray() {
-        final Function<Stream<T>, Object[]> function = Stream::toArray;
-        return new StandardTerminalOperation<>(
-                TerminalOperationType.TO_ARRAY,
-                Stream.class,
-                Object[].class,
-                function);
-
+    public <T> TerminalOperation<Stream<T>, Object[]> acquireToArray() {
+        return typed(TO_ARRAY);
     }
 
     @Override
@@ -156,13 +181,8 @@ public class InternalTerminalOperationFactory implements TerminalOperationFactor
     }
 
     @Override
-    public <T> TerminalOperation<Stream<T>, Long> createCount() {
-        final ToLongFunction<Stream<T>> function = Stream::count;
-        return new StandardTerminalOperation<>(
-                TerminalOperationType.COUNT,
-                Stream.class,
-                long.class,
-                function);
+    public <T> TerminalOperation<Stream<T>, Long> acquireCount() {
+        return typed(COUNT);
     }
 
     @Override
@@ -199,23 +219,13 @@ public class InternalTerminalOperationFactory implements TerminalOperationFactor
     }
 
     @Override
-    public <T> TerminalOperation<Stream<T>, Optional<T>> createFindFirst() {
-        final Function<Stream<T>, Optional<T>> function = Stream::findFirst;
-        return new StandardTerminalOperation<>(
-                TerminalOperationType.FIND_FIRST,
-                Stream.class,
-                Optional.class,
-                function);
+    public <T> TerminalOperation<Stream<T>, Optional<T>> acquireFindFirst() {
+        return typed(FIND_FIRST);
     }
 
     @Override
-    public <T> TerminalOperation<Stream<T>, Optional<T>> createFindAny() {
-        final Function<Stream<T>, Optional<T>> function = Stream::findAny;
-        return new StandardTerminalOperation<>(
-                TerminalOperationType.FIND_ANY,
-                Stream.class,
-                Optional.class,
-                function);
+    public <T> TerminalOperation<Stream<T>, Optional<T>> acquireFindAny() {
+        return typed(FIND_ANY);
     }
 
     @Override
@@ -237,4 +247,11 @@ public class InternalTerminalOperationFactory implements TerminalOperationFactor
                 Spliterator.class,
                 function);
     }
+
+
+    @SuppressWarnings("unchecked")
+    private <S extends BaseStream<?, S>, R> TerminalOperation<S, R> typed(final TerminalOperation<?, ?> terminalOperation) {
+        return (TerminalOperation<S, R>) (TerminalOperation<?, ?>) terminalOperation;
+    }
+
 }

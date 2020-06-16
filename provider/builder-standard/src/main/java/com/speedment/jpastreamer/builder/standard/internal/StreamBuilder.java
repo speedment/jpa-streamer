@@ -146,7 +146,7 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @Override
     public Object[] toArray() {
-        set(tof().createToArray());
+        set(tof().acquireToArray());
         return renderAndThenApply();
     }
 
@@ -200,7 +200,7 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @Override
     public long count() {
-        set(tof().createCount());
+        set(tof().acquireCount());
         return renderAndThenApplyAsLong();
     }
 
@@ -224,13 +224,13 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @Override
     public Optional<T> findFirst() {
-        set(tof().createFindFirst());
+        set(tof().acquireFindFirst());
         return renderAndThenApply();
     }
 
     @Override
     public Optional<T> findAny() {
-        set(tof().createFindAny());
+        set(tof().acquireFindAny());
         return renderAndThenApply();
     }
 
