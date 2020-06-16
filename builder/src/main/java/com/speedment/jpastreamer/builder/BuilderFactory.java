@@ -1,5 +1,7 @@
 package com.speedment.jpastreamer.builder;
 
+import com.speedment.jpastreamer.renderer.Renderer;
+
 import java.util.stream.Stream;
 
 public interface BuilderFactory {
@@ -11,8 +13,9 @@ public interface BuilderFactory {
       *
       * @param <T>  Stream type
       * @param root class to use as stream source
+      * @param renderer to use
       * @author     Per Minborg
       */
-     <T> Stream<T> createBuilder(Class<T> root);
+     <T> Stream<T> createBuilder(Class<T> root, Renderer renderer);
 
 }

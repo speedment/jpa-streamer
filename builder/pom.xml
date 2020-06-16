@@ -20,4 +20,12 @@
         Provides Stream Builders that are parsable
     </description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>renderer</artifactId>
+        </dependency>
+    </dependencies>
+
+
 </project>

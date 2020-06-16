@@ -58,6 +58,24 @@
             <version>${jpa-streamer.version}</version>
         </dependency>
 
+        <!--TEST-->
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>pipeline-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>autoclose-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+
     </dependencies>
 
 
