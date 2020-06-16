@@ -957,7 +957,11 @@
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>renderer-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>javax.persistence</groupId>
