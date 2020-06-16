@@ -30,10 +30,10 @@ public interface IntermediateOperationFactory {
     <T> IntermediateOperation<Stream<T>, DoubleStream> createFlatMapToDouble(Function<? super T, ? extends DoubleStream> mapper);
 
 
-    <T> IntermediateOperation<Stream<T>, Stream<T>> createDistinct();
+    <T> IntermediateOperation<Stream<T>, Stream<T>> acquireDistinct();
 
 
-    <T> IntermediateOperation<Stream<T>, Stream<T>> createSorted();
+    <T> IntermediateOperation<Stream<T>, Stream<T>> acquireSorted();
 
     <T> IntermediateOperation<Stream<T>, Stream<T>> createSorted(Comparator<? super T> comparator);
 
@@ -49,6 +49,5 @@ public interface IntermediateOperationFactory {
     <T> IntermediateOperation<Stream<T>, Stream<T>> createTakeWhile(Predicate<? super T> predicate);
 
     <T> IntermediateOperation<Stream<T>, Stream<T>> createDropWhile(Predicate<? super T> predicate);
-
 
 }

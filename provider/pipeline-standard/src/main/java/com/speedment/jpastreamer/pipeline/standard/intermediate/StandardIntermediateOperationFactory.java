@@ -61,13 +61,13 @@ public final class StandardIntermediateOperationFactory implements IntermediateO
     }
 
     @Override
-    public <T> IntermediateOperation<Stream<T>, Stream<T>> createDistinct() {
-        return delegate.createDistinct();
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> acquireDistinct() {
+        return delegate.acquireDistinct();
     }
 
     @Override
-    public <T> IntermediateOperation<Stream<T>, Stream<T>> createSorted() {
-        return delegate.createSorted();
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> acquireSorted() {
+        return delegate.acquireSorted();
     }
 
     @Override

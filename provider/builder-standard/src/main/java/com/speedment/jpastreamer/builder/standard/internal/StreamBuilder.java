@@ -98,13 +98,13 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @Override
     public Stream<T> distinct() {
-        add(iof().createDistinct());
+        add(iof().acquireDistinct());
         return this;
     }
 
     @Override
     public Stream<T> sorted() {
-        add(iof().createSorted());
+        add(iof().acquireSorted());
         return this;
     }
 

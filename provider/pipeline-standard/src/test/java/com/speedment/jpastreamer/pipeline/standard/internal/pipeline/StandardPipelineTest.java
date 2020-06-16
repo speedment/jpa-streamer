@@ -9,9 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StandardPipelineTest {
 
@@ -23,7 +20,7 @@ class StandardPipelineTest {
         final Pipeline<String> pipeline = new StandardPipeline<>(String.class);
 
         pipeline.intermediateOperations().add(iof.createFilter(new StringLengthGreaterThanThree()));
-        pipeline.intermediateOperations().add(iof.createDistinct());
+        pipeline.intermediateOperations().add(iof.acquireDistinct());
         pipeline.intermediateOperations().add(iof.createSkip(1));
         pipeline.intermediateOperations().add(iof.createLimit(10));
         pipeline.terminatingOperation(tof.createCollect(Collectors.joining()));

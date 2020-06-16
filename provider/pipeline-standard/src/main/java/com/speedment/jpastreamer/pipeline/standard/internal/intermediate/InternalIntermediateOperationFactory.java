@@ -1,20 +1,34 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.intermediate;
 
 import com.speedment.jpastreamer.javanine.Java9StreamUtil;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.standard.internal.terminal.StandardTerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.Comparator;
 import java.util.function.*;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 import static java.util.Objects.requireNonNull;
 
 public class InternalIntermediateOperationFactory implements IntermediateOperationFactory {
+
+    private static final Function<Stream<Object>, Stream<Object>> SORTED_FUNCTION = Stream::sorted;
+    private static final IntermediateOperation<Stream<Object>, Stream<Object>> SORTED = new StandardIntermediateOperation<>(
+            IntermediateOperationType.SORTED,
+            Stream.class,
+            Stream.class,
+            SORTED_FUNCTION);
+
+    private static final Function<Stream<Object>, Stream<Object>> DISTINCT_FUNCTION = Stream::distinct;
+    private static final IntermediateOperation<Stream<Object>, Stream<Object>> DISTINCT = new StandardIntermediateOperation<>(
+            IntermediateOperationType.DISTINCT,
+            Stream.class,
+            Stream.class,
+            DISTINCT_FUNCTION);
 
     @Override
     public <T> IntermediateOperation<Stream<T>, Stream<T>> createFilter(final Predicate<? super T> predicate) {
@@ -127,24 +141,14 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
     }
 
     @Override
-    public <T> IntermediateOperation<Stream<T>, Stream<T>> createDistinct() {
-        final UnaryOperator<Stream<T>> function = Stream::distinct;
-        return new StandardIntermediateOperation<>(
-                IntermediateOperationType.DISTINCT,
-                Stream.class,
-                Stream.class,
-                function);
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> acquireDistinct() {
+        return typed(DISTINCT);
 
     }
 
     @Override
-    public <T> IntermediateOperation<Stream<T>, Stream<T>> createSorted() {
-        final UnaryOperator<Stream<T>> function = Stream::sorted;
-        return new StandardIntermediateOperation<>(
-                IntermediateOperationType.SORTED,
-                Stream.class,
-                Stream.class,
-                function);
+    public <T> IntermediateOperation<Stream<T>, Stream<T>> acquireSorted() {
+        return typed(SORTED);
     }
 
     @Override
@@ -226,4 +230,10 @@ public class InternalIntermediateOperationFactory implements IntermediateOperati
                 function,
                 predicate);
     }
+
+    @SuppressWarnings("unchecked")
+    private <S extends BaseStream<?, S>, R extends BaseStream<?, R>> IntermediateOperation<S, R> typed(final IntermediateOperation<?, ?> terminalOperation) {
+        return (IntermediateOperation<S, R>) terminalOperation;
+    }
+
 }
