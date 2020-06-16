@@ -30,6 +30,16 @@
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>pipeline-standard</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>renderer-standard</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>field</artifactId>
         </dependency>
 
