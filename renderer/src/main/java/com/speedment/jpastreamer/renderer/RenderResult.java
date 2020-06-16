@@ -8,6 +8,6 @@ public interface RenderResult<T> {
 
     Stream<T> stream();
 
-    TerminalOperation<?, ?> terminatingOperation();
+    TerminalOperation<?, ?> terminalOperation();
 
 }

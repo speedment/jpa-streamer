@@ -327,7 +327,7 @@ final class StreamBuilder<T> implements Stream<T> {
     @SuppressWarnings("unchecked")
     private <R> R renderAndThenApply() {
         final RenderResult<T> renderResult = factories.renderer().render(pipeline);
-        return ((TerminalOperation<Stream<T>, R>) renderResult.terminatingOperation())
+        return ((TerminalOperation<Stream<T>, R>) renderResult.terminalOperation())
                 .function()
                 .apply(renderResult.stream());
     }
@@ -335,7 +335,7 @@ final class StreamBuilder<T> implements Stream<T> {
     @SuppressWarnings("unchecked")
     private long renderAndThenApplyAsLong() {
         final RenderResult<T> renderResult = factories.renderer().render(pipeline);
-        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminatingOperation())
+        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
                 .toLongFunction()
                 .applyAsLong(renderResult.stream());
     }
@@ -343,7 +343,7 @@ final class StreamBuilder<T> implements Stream<T> {
     @SuppressWarnings("unchecked")
     private boolean renderAndThenTest() {
         final RenderResult<T> renderResult = factories.renderer().render(pipeline);
-        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminatingOperation())
+        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
                 .predicate()
                 .test(renderResult.stream());
     }
@@ -351,7 +351,7 @@ final class StreamBuilder<T> implements Stream<T> {
     @SuppressWarnings("unchecked")
     private void renderAndThenAccept() {
         final RenderResult<T> renderResult = factories.renderer().render(pipeline);
-        ((TerminalOperation<Stream<T>, ?>) renderResult.terminatingOperation())
+        ((TerminalOperation<Stream<T>, ?>) renderResult.terminalOperation())
                 .consumer()
                 .accept(renderResult.stream());
     }

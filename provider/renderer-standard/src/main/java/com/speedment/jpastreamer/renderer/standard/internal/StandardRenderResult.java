@@ -21,7 +21,7 @@ public class StandardRenderResult<T> implements RenderResult<T> {
     }
 
     @Override
-    public TerminalOperation<?, ?> terminatingOperation() {
+    public TerminalOperation<?, ?> terminalOperation() {
         return terminalOperation;
     }
 }
