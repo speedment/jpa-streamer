@@ -4,9 +4,6 @@ import com.speedment.jpastreamer.javanine.Java9StreamUtil;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
-import com.speedment.jpastreamer.pipeline.standard.internal.terminal.StandardTerminalOperation;
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.Comparator;
 import java.util.function.*;
