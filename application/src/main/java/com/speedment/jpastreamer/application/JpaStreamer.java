@@ -9,7 +9,7 @@ public interface JpaStreamer {
 
     <T> Stream<T> stream(Class<T> entityClass);
 
-    void stop();
+    void close();
 
     static JpaStreamerBuilder createJpaStreamerBuilder(final String persistenceUnitName) {
         return RootFactory

@@ -20,7 +20,7 @@ public class Main {
                 .filter(_Film.length.between(100, 120))
                 .forEach(System.out::println);
 
-        jpaStreamer.stop();
+        jpaStreamer.close();
 
 
     }

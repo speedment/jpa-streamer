@@ -29,7 +29,7 @@ final class StandardJpaStreamer implements JpaStreamer {
     }
 
     @Override
-    public void stop() {
+    public void close() {
         streamerCache.values().forEach(Streamer::close);
     }
 }
