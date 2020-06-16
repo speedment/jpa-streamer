@@ -21,5 +21,5 @@ module jpastreamer.renderer.standard {
     requires transitive jpastreamer.renderer;
 
     // Todo: Enable this
-    // provides com.speedment.jpastreamer.renderer.Renderer with com.speedment.jpastreamer.renderer.standard.StandardRenderer;
+    // provides com.speedment.jpastreamer.renderer.RendererFactory with com.speedment.jpastreamer.renderer.standard.StandardRendererFactory;
 }
