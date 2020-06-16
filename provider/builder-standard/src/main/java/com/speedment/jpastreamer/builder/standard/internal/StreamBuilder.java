@@ -3,7 +3,7 @@ package com.speedment.jpastreamer.builder.standard.internal;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
-import com.speedment.jpastreamer.renderer.Renderer;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -19,105 +19,102 @@ final class StreamBuilder<T> implements Stream<T> {
     private final Factories factories;
     private final Pipeline<T> pipeline;
     private final BaseStreamSupport support;
-    private final Renderer renderer;
 
     StreamBuilder(final Factories factories,
-                  final Class<T> root,
-                  final Renderer renderer) {
+                  final Class<T> root) {
 
         this.factories = requireNonNull(factories);
         this.pipeline = factories.pipeline().createPipeline(root);
-        this.renderer = requireNonNull(renderer);
         support = new BaseStreamSupport(pipeline);
     }
 
     @Override
     public Stream<T> filter(Predicate<? super T> predicate) {
-        add(intermediate().createFilter(predicate));
+        add(i().createFilter(predicate));
         return this;
     }
 
     @Override
     public <R> Stream<R> map(Function<? super T, ? extends R> mapper) {
-        add(intermediate().createMap(mapper));
+        add(i().createMap(mapper));
         return (Stream<R>) this;
     }
 
     @Override
     public IntStream mapToInt(ToIntFunction<? super T> mapper) {
-        add(intermediate().createMapToInt(mapper));
+        add(i().createMapToInt(mapper));
         throw new UnsupportedOperationException();
     }
 
     @Override
     public LongStream mapToLong(ToLongFunction<? super T> mapper) {
-        add(intermediate().createMapToLong(mapper));
+        add(i().createMapToLong(mapper));
         throw new UnsupportedOperationException();
     }
 
     @Override
     public DoubleStream mapToDouble(ToDoubleFunction<? super T> mapper) {
-        add(intermediate().createMapToDouble(mapper));
+        add(i().createMapToDouble(mapper));
         throw new UnsupportedOperationException();
     }
 
     @Override
     public <R> Stream<R> flatMap(Function<? super T, ? extends Stream<? extends R>> mapper) {
-        add(intermediate().createFlatMap(mapper));
+        add(i().createFlatMap(mapper));
         return (Stream<R>) this;
     }
 
     @Override
     public IntStream flatMapToInt(Function<? super T, ? extends IntStream> mapper) {
-        add(intermediate().createFlatMapToInt(mapper));
+        add(i().createFlatMapToInt(mapper));
         throw new UnsupportedOperationException();
     }
 
     @Override
     public LongStream flatMapToLong(Function<? super T, ? extends LongStream> mapper) {
-        add(intermediate().createFlatMapToLong(mapper));
+        add(i().createFlatMapToLong(mapper));
         throw new UnsupportedOperationException();
     }
 
     @Override
     public DoubleStream flatMapToDouble(Function<? super T, ? extends DoubleStream> mapper) {
-        add(intermediate().createFlatMapToDouble(mapper));
+        add(i().createFlatMapToDouble(mapper));
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Stream<T> distinct() {
-        add(intermediate().createDistinct());
+        add(i().createDistinct());
         return this;
     }
 
     @Override
     public Stream<T> sorted() {
-        add(intermediate().createSorted());
+        add(i().createSorted());
         return this;
     }
 
     @Override
     public Stream<T> sorted(Comparator<? super T> comparator) {
-        add(intermediate().createSorted(comparator));
+        add(i().createSorted(comparator));
         return this;
     }
 
     @Override
     public Stream<T> peek(Consumer<? super T> action) {
-        add(intermediate().createPeek(action));
+        add(i().createPeek(action));
         return this;
     }
 
     @Override
     public Stream<T> limit(long maxSize) {
-        add(intermediate().createLimit(maxSize));
+        add(i().createLimit(maxSize));
         return this;
     }
 
     @Override
     public Stream<T> skip(long n) {
-        add(intermediate().createSkip(n));
+        add(i().createSkip(n));
         return this;
     }
 
@@ -218,37 +215,46 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @Override
     public boolean isParallel() {
-        return false;
+        return pipeline.isParallel();
     }
 
     @Override
     public Stream<T> sequential() {
-        return null;
+        pipeline.parallel();
+        return this;
     }
 
     @Override
     public Stream<T> parallel() {
-        return null;
+        pipeline.parallel();
+        return this;
     }
 
     @Override
     public Stream<T> unordered() {
-        return null;
+        pipeline.ordered(false);
+        return this;
     }
 
     @Override
     public Stream<T> onClose(Runnable closeHandler) {
-        return null;
+        pipeline.closeHandlers().add(closeHandler);
+        return this;
     }
 
     @Override
     public void close() {
-
+        // Todo: Make it Exception tolerant
+        pipeline.closeHandlers().forEach(Runnable::run);
     }
 
 
-    private IntermediateOperationFactory intermediate() {
+    private IntermediateOperationFactory i() {
         return factories.intermediate();
+    }
+
+    private TerminalOperationFactory t() {
+        return factories.terminal();
     }
 
     private void add(final IntermediateOperation<Stream<T>, ?> intermediateOperation) {

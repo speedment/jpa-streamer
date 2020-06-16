@@ -8,6 +8,7 @@ public final class InternalBuilderFactory implements BuilderFactory {
 
     @Override
     public <T> Stream<T> createBuilder(final Class<T> root) {
-        throw new UnsupportedOperationException("todo");
+        return new StreamBuilder<>(Factories.INSTANCE, root);
+
     }
 }
