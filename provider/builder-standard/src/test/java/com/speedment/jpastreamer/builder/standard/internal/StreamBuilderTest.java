@@ -15,7 +15,6 @@ class StreamBuilderTest {
     private static final Factories FACTORIES = InjectedFactories.INSTANCE;
 
     @Test
-    @Disabled
     void filter() {
         final Renderer renderer = new MockRenderer();
         Stream<String> builder = new StreamBuilder<>(FACTORIES, String.class, renderer);
