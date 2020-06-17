@@ -13,33 +13,18 @@ public class Main {
         olle.setLength(120);
         olle.setRating("G");
 
-        System.out.println(olle);
-
         final Film spindel = new Film();
-        olle.setFilmId(2);
-        olle.setTitle("Den Disorienterade Spindeln");
-        olle.setDescription("Spindeln klättrar upp för sin tråd men allt går åt helvete och spindeln faller ned. Han ger dock ej upp utan försöker ånyo ad infinitum!");
-        olle.setLength(110);
-        olle.setRating("G");
-
-        System.out.println(olle);
-
-        final Film f = new Film();
-        System.out.println(f);
-
-        System.out.println("**  Streaming **");
-
+        spindel.setFilmId(2);
+        spindel.setTitle("Den Disorienterade Spindeln");
+        spindel.setDescription("Spindeln klättrar upp för sin tråd men allt går åt helvete och spindeln faller ned. Han ger dock ej upp utan försöker ånyo ad infinitum!");
+        spindel.setLength(110);
+        spindel.setRating("G");
 
         Stream.of(olle, spindel)
-/*                .filter(Film$.length.between(100, 150))*/
-/*  .filter(Film$.rating.in("G", "PG")) */
-/*                .sorted(Film$.title)*/
+                .filter(Film$.length.between(100, 150))
+                .filter(Film$.rating.in("G", "PG"))
+                .sorted(Film$.title)
                 .forEachOrdered(System.out::println);
-
-
-        System.out.println("**  After Streaming **");
-        System.out.println(olle);
-        System.out.println(spindel);
 
     }
 
