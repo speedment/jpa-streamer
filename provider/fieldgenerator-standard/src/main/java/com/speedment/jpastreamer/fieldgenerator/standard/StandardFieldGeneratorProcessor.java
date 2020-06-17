@@ -15,6 +15,7 @@ import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
 import javax.lang.model.util.Elements;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
@@ -148,8 +149,8 @@ public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
         // Currently no type mapper is added
         fieldParams.add(Value.ofReference("null"));
 
-        // Add the 'unique' boolean to the end // TODO fetch correct value from annotation
-        fieldParams.add(Value.ofBoolean(false));
+        // Add the 'unique' boolean to the end
+        fieldParams.add(Value.ofBoolean(field.getAnnotation(Column.class).unique()));
 
         Value value = Value.ofInvocation(
                 referenceType,

@@ -9,7 +9,7 @@ public class Film {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
+    @Column(name = "film_id", nullable = false, unique = true, updatable = false, columnDefinition = "smallint(5)")
     private int filmId;
 
     @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
