@@ -11,12 +11,13 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class StreamBuilderTest {
 
     private static final Factories FACTORIES = InjectedFactories.INSTANCE;
 
     @Test
-    @Disabled
     void filter() {
         final Renderer renderer = new MockRenderer();
         Stream<String> builder = new StreamBuilder<>(FACTORIES, String.class, renderer);
@@ -28,6 +29,13 @@ class StreamBuilderTest {
 
         System.out.println("count = " + count);
 
+    }
+
+    @Test
+    void first() {
+        final Renderer renderer = new MockRenderer();
+        Stream<String> builder = new StreamBuilder<>(FACTORIES, String.class, renderer);
+
         final Optional<String> first = builder
                 .filter(s -> s.length() > 0)
                 .limit(1)
@@ -35,6 +43,24 @@ class StreamBuilderTest {
 
         System.out.println("`first` = " + first);
 
+    }
+
+    @Test
+    void consumed() {
+        assertThrows(IllegalStateException.class, () -> {
+            final Renderer renderer = new MockRenderer();
+            Stream<String> builder = new StreamBuilder<>(FACTORIES, String.class, renderer);
+
+            final Optional<String> first = builder
+                    .filter(s -> s.length() > 0)
+                    .limit(1)
+                    .findFirst();
+
+            // We have already consumed the Stream so
+            // this should not work.
+            final Stream<Integer> illegal = builder.map(String::length);
+
+        });
     }
 
     private static final class MockRenderer implements Renderer {
@@ -51,7 +77,8 @@ class StreamBuilderTest {
         }
 
         @Override
-        public void close() {}
+        public void close() {
+        }
     }
 
     private static final class MyRenderResult<T> implements RenderResult<T> {
