@@ -1,16 +1,16 @@
-package com.speedment.jpastreamer.fieldgenerator.standard;
+package com.speedment.jpastreamer.fieldgenerator.standard.test;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "film", schema = "sakila")
-public class Film2 {
+public class Film {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
-    private Integer filmId;
+    private int filmId;
 
     @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
     private String title;
@@ -55,9 +55,9 @@ public class Film2 {
 
     @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
     private String specialFeatures; // Should be Set<String>
-
+/*
     @Column(name = "last_update", nullable = false, columnDefinition = "timestamp")
-    private LocalDateTime lastUpdate;
+    private LocalDateTime lastUpdate; */
 
     public Integer getFilmId() {
         return filmId;
@@ -166,13 +166,14 @@ public class Film2 {
         this.specialFeatures = specialFeatures;
     }
 
+    /*
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
-    }
+    } */
 
     @Override
     public String toString() {
@@ -186,7 +187,7 @@ public class Film2 {
                 ", replacementCost=" + replacementCost +
                 ", rating=" + rating +
                 ", specialFeatures='" + specialFeatures + '\'' +
-                ", lastUpdate=" + lastUpdate +
+               // ", lastUpdate=" + lastUpdate +
                 '}';
     }
 

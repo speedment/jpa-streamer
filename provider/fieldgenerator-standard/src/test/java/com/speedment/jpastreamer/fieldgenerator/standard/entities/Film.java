@@ -56,8 +56,8 @@ public class Film {
     @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
     private String specialFeatures; // Should be Set<String>
 
-    @Column(name = "last_update", nullable = false, columnDefinition = "timestamp")
-    private LocalDateTime lastUpdate;
+   /* @Column(name = "last_update", nullable = false, columnDefinition = "timestamp")
+    private LocalDateTime lastUpdate;*/
 
     public Integer getFilmId() {
         return filmId;
@@ -166,13 +166,14 @@ public class Film {
         this.specialFeatures = specialFeatures;
     }
 
+    /*
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
-    }
+    } */
 
     @Override
     public String toString() {
@@ -186,7 +187,7 @@ public class Film {
                 ", replacementCost=" + replacementCost +
                 ", rating=" + rating +
                 ", specialFeatures='" + specialFeatures + '\'' +
-                ", lastUpdate=" + lastUpdate +
+                //", lastUpdate=" + lastUpdate +
                 '}';
     }
 

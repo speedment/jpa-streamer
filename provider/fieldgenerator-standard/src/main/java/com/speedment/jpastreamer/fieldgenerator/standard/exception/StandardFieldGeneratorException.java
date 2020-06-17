@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.fieldgenerator.standard;
+package com.speedment.jpastreamer.fieldgenerator.standard.exception;
 
 /**
  * {@code RuntimeException} used to signal errors during generation of JPAStreamer fields.
