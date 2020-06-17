@@ -90,32 +90,33 @@ public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
                         && !ee.getModifiers().contains(Modifier.FINAL)) // Ignore immutable fields
                 .collect(Collectors.toSet());
 
-        String annotatedClassName = shortName(annotatedElement.asType().toString());
-        String fieldClassName = annotatedClassName + "$";
+        String entityName = shortName(annotatedElement.asType().toString());
+        String genEntityName = entityName + "$";
+        String fullEntityName = annotatedElement.asType().toString() + "$";
 
         PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(annotatedElement);
         String packageName;
         if (packageElement.isUnnamed()) {
-            messager.printMessage(Diagnostic.Kind.WARNING, "Class " + annotatedClassName + "has an unnamed package.");
+            messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + "has an unnamed package.");
             packageName = "";
         } else {
             packageName = packageElement.getQualifiedName().toString();
         }
 
-        JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(fieldClassName);
+        JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(fullEntityName);
         Writer writer = builderFile.openWriter();
 
-        File file = getFileContent(enclosedFields, annotatedClassName, fieldClassName, packageName);
+        File file = getFileContent(enclosedFields, entityName, genEntityName, packageName);
         writer.write(new JavaGenerator().on(file).get());
         writer.close();
     }
 
-    private File getFileContent(Set<? extends Element> enclosedFields, String annotatedClassName, String genClassName, String packageName) {
+    private File getFileContent(Set<? extends Element> enclosedFields, String annotatedClassName, String genEntityName, String packageName) {
 
         File file = packageName.isEmpty() ?
-                File.of(genClassName + ".java") :
-                File.of(packageName + "/" + genClassName + ".java");
-        Class clazz = Class.of(genClassName).public_();
+                File.of(genEntityName + ".java") :
+                File.of(packageName + "/" + genEntityName + ".java");
+        Class clazz = Class.of(genEntityName).public_();
 
         enclosedFields
                 .forEach(field -> {
