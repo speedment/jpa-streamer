@@ -6,8 +6,8 @@ import java.util.stream.BaseStream;
 
 public interface BaseStreamTerminalOperationFactory {
 
-    <T, S extends BaseStream<T, S>> TerminalOperation<S, Iterator<T>> createIterator();
+    <T, S extends BaseStream<T, S>> TerminalOperation<S, Iterator<T>> acquireIterator();
 
-    <T, S extends BaseStream<T, S>> TerminalOperation<S, Spliterator<T>> createSpliterator();
+    <T, S extends BaseStream<T, S>> TerminalOperation<S, Spliterator<T>> acquireSpliterator();
 
 }
