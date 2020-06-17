@@ -1,6 +1,5 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
-import com.speedment.jpastreamer.pipeline.standard.internal.returnfunctions.*;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 

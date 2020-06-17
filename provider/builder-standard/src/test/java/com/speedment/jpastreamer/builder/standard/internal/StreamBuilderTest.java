@@ -1,6 +1,8 @@
 package com.speedment.jpastreamer.builder.standard.internal;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
@@ -9,6 +11,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -65,13 +69,15 @@ class StreamBuilderTest {
 
     private static final class MockRenderer implements Renderer {
 
+        private final Supplier<Stream<String>> source = () -> Stream.of("A", "B", "C");
+
         @Override
         public <T> RenderResult<T> render(Pipeline<T> pipeline) {
 
             System.out.println(pipeline);
 
             return new MyRenderResult<>(
-                    (Stream<T>) Stream.of("A", "B", "C"),
+                    (Stream<T>) replay(source.get(), (Pipeline<String>)pipeline),
                     pipeline.terminatingOperation()
             );
         }
@@ -79,6 +85,21 @@ class StreamBuilderTest {
         @Override
         public void close() {
         }
+
+        <T> BaseStream<?, ?> replay(Stream<T> initialStream, Pipeline<T> pipeLine) {
+            BaseStream<?, ?> result = initialStream;
+            for (IntermediateOperation<?, ?> intermediateOperation:pipeLine.intermediateOperations()) {
+                final IntermediateOperationType type = intermediateOperation.type();
+                switch (type) {
+                    case FILTER: {
+
+                    }
+                }
+
+                result = intermediateOperation.
+            }
+        }
+
     }
 
     private static final class MyRenderResult<T> implements RenderResult<T> {

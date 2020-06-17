@@ -1,6 +1,7 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFunctionalType;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.function.Predicate;
@@ -21,6 +22,7 @@ final class TestTerminalOperation<S extends BaseStream<?, S>, R, F extends Predi
                           final F predicate,
                           final Object... arguments) {
         super(type, streamType, returnType, arguments);
+        assert type.functionalType() == TerminalOperationFunctionalType.TEST;
         this.predicate = requireNonNull(predicate);
     }
 

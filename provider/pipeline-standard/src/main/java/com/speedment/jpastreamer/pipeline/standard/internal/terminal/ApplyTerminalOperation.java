@@ -1,6 +1,7 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFunctionalType;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.function.Function;
@@ -20,6 +21,7 @@ final class ApplyTerminalOperation<S extends BaseStream<?, S>, R, F extends Func
                            final F function,
                            final Object... arguments) {
         super(type, streamType, returnType, arguments);
+        assert type.functionalType() == TerminalOperationFunctionalType.APPLY;
         this.function = requireNonNull(function);
     }
 
