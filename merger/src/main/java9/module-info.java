@@ -17,4 +17,7 @@
 module jpastreamer.merger {
 
     exports com.speedment.jpastreamer.merger;
+
+    requires transitive java.persistence;
+    requires jpastreamer.pipeline;
 }
