@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InternalStandardIntermediateOperationFactoryTest {
+class InternalIntermediateOperationFactoryTest {
 
     private final IntermediateOperationFactory factory = new InternalIntermediateOperationFactory();
 

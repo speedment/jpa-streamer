@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InternalStandardTerminalOperationFactoryTest {
+class InternalTerminalOperationFactoryTest {
 
     private final TerminalOperationFactory factory = new InternalTerminalOperationFactory();
 

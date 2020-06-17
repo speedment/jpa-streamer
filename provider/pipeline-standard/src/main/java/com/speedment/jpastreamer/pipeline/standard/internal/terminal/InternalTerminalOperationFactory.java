@@ -42,13 +42,13 @@ public class InternalTerminalOperationFactory implements TerminalOperationFactor
             Stream::count);
 
     private static final TerminalOperation<Stream<Object>, Iterator<Object>> ITERATOR = new ApplyTerminalOperation<>(
-            TerminalOperationType.COUNT,
+            TerminalOperationType.ITERATOR,
             Stream.class,
             Iterator.class,
             Stream::iterator);
 
     private static final TerminalOperation<Stream<Object>, Spliterator<Object>> SPLITERATOR = new ApplyTerminalOperation<>(
-            TerminalOperationType.COUNT,
+            TerminalOperationType.SPLITERATOR,
             Stream.class,
             Spliterator.class,
             Stream::spliterator);
