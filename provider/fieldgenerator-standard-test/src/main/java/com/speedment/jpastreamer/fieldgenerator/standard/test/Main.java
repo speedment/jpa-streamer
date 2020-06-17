@@ -18,7 +18,7 @@ public class Main {
         final Film spindel = new Film();
         olle.setFilmId(2);
         olle.setTitle("Den Disorienterade Spindeln");
-        olle.setDescription("Spindeln klättrar upp för sin tråd men allt går ãt helvete och spindeln faller ned. Han ger dock ej upp utan försöker ånyo ad infinitum!");
+        olle.setDescription("Spindeln klättrar upp för sin tråd men allt går åt helvete och spindeln faller ned. Han ger dock ej upp utan försöker ånyo ad infinitum!");
         olle.setLength(110);
         olle.setRating("G");
 
