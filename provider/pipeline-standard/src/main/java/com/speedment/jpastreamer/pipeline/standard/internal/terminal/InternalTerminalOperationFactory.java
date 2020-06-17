@@ -234,7 +234,7 @@ public class InternalTerminalOperationFactory implements TerminalOperationFactor
 
     @Override
     public <T, S extends BaseStream<T, S>> TerminalOperation<S, Spliterator<T>> acquireSpliterator() {
-        return typed(ITERATOR);
+        return typed(SPLITERATOR);
     }
 
     @SuppressWarnings("unchecked")
