@@ -71,6 +71,8 @@ class StreamBuilderTest {
 
         private final Supplier<Stream<String>> source = () -> Stream.of("A", "B", "C");
 
+        // Only works for Stream and not IntStream, etc.
+
         @Override
         public <T> RenderResult<T> render(Pipeline<T> pipeline) {
 
@@ -88,16 +90,10 @@ class StreamBuilderTest {
 
         <T> BaseStream<?, ?> replay(Stream<T> initialStream, Pipeline<T> pipeLine) {
             BaseStream<?, ?> result = initialStream;
-            for (IntermediateOperation<?, ?> intermediateOperation:pipeLine.intermediateOperations()) {
-                final IntermediateOperationType type = intermediateOperation.type();
-                switch (type) {
-                    case FILTER: {
-
-                    }
-                }
-
-                result = intermediateOperation.
+            for (IntermediateOperation intermediateOperation:pipeLine.intermediateOperations()) {
+                result = (BaseStream<?,?>)intermediateOperation.function().apply(result);
             }
+            return result;
         }
 
     }
