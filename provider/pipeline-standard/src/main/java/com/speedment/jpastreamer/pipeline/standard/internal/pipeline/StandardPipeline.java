@@ -94,7 +94,7 @@ final class StandardPipeline<T> implements Pipeline<T> {
     }
 
     private String renderTerminal() {
-        return String.format("  .%s%n", terminalOperation.toString());
+        return String.format("  .%s%n", terminalOperation == null ? "" : terminalOperation.toString());
     }
 
 }
