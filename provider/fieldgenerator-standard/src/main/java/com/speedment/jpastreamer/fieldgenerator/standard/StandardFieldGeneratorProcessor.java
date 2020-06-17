@@ -10,6 +10,7 @@ import com.speedment.common.codegen.model.Field;
 import com.speedment.jpastreamer.fieldgenerator.standard.exception.StandardFieldGeneratorException;
 import com.speedment.jpastreamer.fieldgenerator.standard.util.GeneratorUtil;
 import com.speedment.runtime.field.*;
+import com.speedment.runtime.typemapper.TypeMapper;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -118,6 +119,7 @@ public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
                 File.of(genEntityName + ".java") :
                 File.of(packageName + "/" + genEntityName + ".java");
         Class clazz = Class.of(genEntityName).public_();
+        clazz.add(Import.of(TypeMapper.class));
 
         enclosedFields
                 .forEach(field -> {
@@ -147,7 +149,7 @@ public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
                 entityName + "::" + SETTER_METHOD_PREFIX + ucfirst(fieldName)));
 
         // Currently no type mapper is added
-        fieldParams.add(Value.ofReference("null"));
+        fieldParams.add(Value.ofReference("TypeMapper.identity()"));
 
         // Add the 'unique' boolean to the end
         fieldParams.add(Value.ofBoolean(field.getAnnotation(Column.class).unique()));
