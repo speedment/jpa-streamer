@@ -25,6 +25,7 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>merger</artifactId>
+            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
