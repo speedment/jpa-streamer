@@ -240,13 +240,13 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @Override
     public Iterator<T> iterator() {
-        set(tof().createIterator());
+        set(tof().acquireIterator());
         return renderAndThenApply();
     }
 
     @Override
     public Spliterator<T> spliterator() {
-        set(tof().createSpliterator());
+        set(tof().acquireSpliterator());
         return renderAndThenApply();
     }
 

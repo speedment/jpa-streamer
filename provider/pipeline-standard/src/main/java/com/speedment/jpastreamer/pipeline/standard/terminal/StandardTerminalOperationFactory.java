@@ -103,12 +103,12 @@ public class StandardTerminalOperationFactory implements TerminalOperationFactor
     }
 
     @Override
-    public <T, S extends BaseStream<T, S>> TerminalOperation<S, Iterator<T>> createIterator() {
-        return delegate.createIterator();
+    public <T, S extends BaseStream<T, S>> TerminalOperation<S, Iterator<T>> acquireIterator() {
+        return delegate.acquireIterator();
     }
 
     @Override
-    public <T, S extends BaseStream<T, S>> TerminalOperation<S, Spliterator<T>> createSpliterator() {
-        return delegate.createSpliterator();
+    public <T, S extends BaseStream<T, S>> TerminalOperation<S, Spliterator<T>> acquireSpliterator() {
+        return delegate.acquireSpliterator();
     }
 }

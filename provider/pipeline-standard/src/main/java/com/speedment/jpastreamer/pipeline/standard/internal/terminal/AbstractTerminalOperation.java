@@ -1,6 +1,5 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
-import com.speedment.jpastreamer.pipeline.standard.internal.returnfunctions.*;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
@@ -11,24 +10,21 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
-final class StandardTerminalOperation<S extends BaseStream<?, S>, R> implements TerminalOperation<S, R> {
+abstract class AbstractTerminalOperation<S extends BaseStream<?, S>, R> implements TerminalOperation<S, R> {
 
     private final TerminalOperationType type;
     private final Class<? super S> streamType;
     private final Class<? super R> returnType;
-    private final Object function;
     private final Object[] arguments;
 
-    StandardTerminalOperation(final TerminalOperationType type,
+    AbstractTerminalOperation(final TerminalOperationType type,
                               final Class<? super S> streamType,
                               final Class<? super R> returnType,
-                              final Object function,
                               final Object... arguments) {
         this.type = requireNonNull(type);
         this.streamType = requireNonNull(streamType);
         this.arguments = requireNonNull(arguments);
         this.returnType = requireNonNull(returnType);
-        this.function = requireNonNull(function);
     }
 
     @Override
@@ -53,36 +49,35 @@ final class StandardTerminalOperation<S extends BaseStream<?, S>, R> implements 
 
     @Override
     public Function<S, R> function() {
-        return FunctionReturnFunction.cast(function);
+        throw newClassCastException("function");
     }
 
     @Override
     public ToLongFunction<S> toLongFunction() {
-        return ToLongFunctionReturnFunction.cast(function);
+        throw newClassCastException("toLongFunction");
     }
 
     @Override
     public ToIntFunction<S> toIntFunction() {
-        return ToIntFunctionReturnFunction.cast(function);
+        throw newClassCastException("toIntFunction");
     }
 
     @Override
     public ToDoubleFunction<S> toDoubleFunction() {
-        return ToDoubleFunctionReturnFunction.cast(function);
+        throw newClassCastException("toDoubleFunction");
     }
 
     @Override
     public Predicate<S> predicate() {
-        return PredicateReturnFunction.cast(function);
+        throw newClassCastException("predicate");
     }
 
     @Override
     public Consumer<S> consumer() {
-        return ConsumerReturnFunction.cast(function);
+        throw newClassCastException("consumer");
     }
 
     @Override
-
     public String toString() {
         return String.format("%s(%s)",
                 type.toString(),
@@ -101,4 +96,9 @@ final class StandardTerminalOperation<S extends BaseStream<?, S>, R> implements 
         }
         return object.getClass().getSimpleName();
     }
+
+    private ClassCastException newClassCastException(final String methodName) {
+        throw new ClassCastException("Unable to apply " + methodName + "() because a terminal operation of type " + type + " does not have a " + methodName + "()");
+    }
+
 }

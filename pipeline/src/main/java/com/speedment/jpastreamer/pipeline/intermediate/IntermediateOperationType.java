@@ -29,7 +29,7 @@ public enum IntermediateOperationType {
 
     private final Set<Statement> orderPreservation;
 
-    IntermediateOperationType(Statement... statements) {
+    IntermediateOperationType(final Statement... statements) {
         if (statements.length == 0) {
             this.orderPreservation = emptySet();
         } else {
