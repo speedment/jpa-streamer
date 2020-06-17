@@ -55,6 +55,7 @@
         <module>builder</module>
         <module>renderer</module>
         <module>preoptimizer</module>
+        <module>merger</module>
 
         <module>provider</module>
 
