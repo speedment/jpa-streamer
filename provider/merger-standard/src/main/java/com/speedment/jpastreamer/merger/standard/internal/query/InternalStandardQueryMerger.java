@@ -14,18 +14,18 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.merger.standard.internal;
+package com.speedment.jpastreamer.merger.standard.internal.query;
 
-import com.speedment.jpastreamer.merger.MergeResult;
-import com.speedment.jpastreamer.merger.Merger;
+import com.speedment.jpastreamer.merger.QueryMerger;
+import com.speedment.jpastreamer.merger.result.QueryMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.Query;
 
-public final class InternalStandardMerger implements Merger {
+public final class InternalStandardQueryMerger implements QueryMerger {
 
     @Override
-    public <T> MergeResult<T> merge(Pipeline<T> pipeline, CriteriaQuery<T> query) {
+    public <T> QueryMergeResult<T> merge(Pipeline<T> pipeline, Query query) {
         throw new UnsupportedOperationException("todo");
     }
 }

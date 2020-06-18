@@ -13,32 +13,22 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.speedment.jpastreamer.merger;
 
+package com.speedment.jpastreamer.merger.standard;
+
+import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
+import com.speedment.jpastreamer.merger.CriteriaMerger;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.InternalStandardCriteriaMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
 import javax.persistence.criteria.CriteriaQuery;
 
-/**
- * A container object used to store the results of the merge operation
- * performed on a {@code Pipeline}.
- *
- * @param <T> root entity
- * @author Mislav Milicevic
- */
-public interface MergeResult<T> {
+public class StandardCriteriaMerger implements CriteriaMerger {
 
-    /**
-     * Returns the pipeline that was used during operation merging.
-     *
-     * @return the pipeline that was used during operation merging
-     */
-    Pipeline<T> getPipeline();
+    private final CriteriaMerger delegate = new InternalStandardCriteriaMerger();
 
-    /**
-     * Returns the query that the operations were merged into.
-     *
-     * @return the query that the operations were merged into
-     */
-    CriteriaQuery<T> getQuery();
+    @Override
+    public <T> CriteriaMergeResult<T> merge(Pipeline<T> pipeline, CriteriaQuery<T> query) {
+        return delegate.merge(pipeline, query);
+    }
 }
