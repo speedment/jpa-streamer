@@ -18,14 +18,29 @@ package com.speedment.jpastreamer.merger.standard.internal.criteria;
 
 import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.result.StandardCriteriaMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class InternalStandardCriteriaMerger implements CriteriaMerger {
 
+    private final List<CriteriaMerger> mergingStrategies = new ArrayList<>();
+
     @Override
     public <T> CriteriaMergeResult<T> merge(Pipeline<T> pipeline, CriteriaQuery<T> query) {
-        throw new UnsupportedOperationException("todo");
+        CriteriaMergeResult<T> result = new StandardCriteriaMergeResult<>(pipeline, query);
+
+        for (CriteriaMerger merger : mergingStrategies) {
+            result = merger.merge(result.getPipeline(), result.getCriteriaQuery());
+        }
+
+        return result;
+    }
+
+    private void registerMergingStrategy(CriteriaMerger criteriaMerger) {
+        mergingStrategies.add(criteriaMerger);
     }
 }

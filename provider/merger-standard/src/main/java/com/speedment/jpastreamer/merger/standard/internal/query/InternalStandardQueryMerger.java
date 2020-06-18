@@ -18,14 +18,34 @@ package com.speedment.jpastreamer.merger.standard.internal.query;
 
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.merger.result.QueryMergeResult;
+import com.speedment.jpastreamer.merger.standard.internal.query.result.StandardQueryMergeResult;
+import com.speedment.jpastreamer.merger.standard.internal.query.strategy.SkipLimitMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
 import javax.persistence.Query;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class InternalStandardQueryMerger implements QueryMerger {
 
+    private final List<QueryMerger> mergingStrategies = new ArrayList<>();
+
+    public InternalStandardQueryMerger() {
+        registerMergingStrategy(SkipLimitMerger.INSTANCE);
+    }
+
     @Override
     public <T> QueryMergeResult<T> merge(Pipeline<T> pipeline, Query query) {
-        throw new UnsupportedOperationException("todo");
+        QueryMergeResult<T> result = new StandardQueryMergeResult<>(pipeline, query);
+
+        for (QueryMerger merger : mergingStrategies) {
+            result = merger.merge(result.getPipeline(), result.getQuery());
+        }
+
+        return result;
+    }
+
+    private void registerMergingStrategy(QueryMerger queryMerger) {
+        mergingStrategies.add(queryMerger);
     }
 }
