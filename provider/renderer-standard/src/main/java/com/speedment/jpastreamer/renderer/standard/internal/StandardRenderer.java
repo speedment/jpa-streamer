@@ -15,16 +15,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.stream.Stream;
 
-public class StandardRenderer implements Renderer {
+public final class StandardRenderer implements Renderer {
 
     private final EntityManager entityManager;
 
-    StandardRenderer(EntityManagerFactory entityManagerFactory) {
+    StandardRenderer(final EntityManagerFactory entityManagerFactory) {
         this.entityManager = requireNonNull(entityManagerFactory).createEntityManager();
     }
 
     @Override
-    public <T> RenderResult<T> render(Pipeline<T> pipeline) {
+    public <T> RenderResult<T> render(final Pipeline<T> pipeline) {
         final Class<T> entityClass = pipeline.root();
 
         final Stream<T> baseStream = baseStream(entityManager, entityClass);
@@ -36,7 +36,7 @@ public class StandardRenderer implements Renderer {
         );
     }
 
-     private <T> Stream<T> baseStream(EntityManager entityManager, Class<T> entityClass) {
+     private <T> Stream<T> baseStream(final EntityManager entityManager, final Class<T> entityClass) {
          final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
          final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
 
@@ -49,7 +49,7 @@ public class StandardRenderer implements Renderer {
      }
 
      @SuppressWarnings({"rawtypes", "unchecked"})
-    private <T> Stream<T> replay(Stream<T> stream, Pipeline<T> pipeline) {
+    private <T> Stream<T> replay(final Stream<T> stream, final Pipeline<T> pipeline) {
         Stream<T> decorated = stream;
 
         for (IntermediateOperation intermediateOperation : pipeline.intermediateOperations()) {
