@@ -55,6 +55,7 @@
         <module>builder</module>
         <module>renderer</module>
         <module>preoptimizer</module>
+        <module>merger</module>
 
         <module>provider</module>
 
@@ -938,7 +939,6 @@
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>pipeline</artifactId>
@@ -951,7 +951,6 @@
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>renderer</artifactId>
@@ -961,6 +960,18 @@
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>renderer-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>merger</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>merger-standard</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 

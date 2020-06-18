@@ -9,22 +9,23 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>renderer-standard</artifactId>
+    <artifactId>merger-standard</artifactId>
 
     <properties>
-        <module-name>jpastreamer.renderer.standard</module-name>
+        <module-name>jpastreamer.merger.standard</module-name>
     </properties>
 
-    <name>Renderer - Standard</name>
+    <name>Merger - Standard</name>
     <description>
-        Standard Renderer
+        Standard Merger
     </description>
 
     <dependencies>
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>renderer</artifactId>
+            <artifactId>merger</artifactId>
+            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
@@ -36,7 +37,6 @@
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
         </dependency>
-
 
     </dependencies>
 
