@@ -7,7 +7,7 @@ import com.speedment.common.codegen.internal.java.JavaGenerator;
 import com.speedment.common.codegen.model.*;
 import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Field;
-import com.speedment.jpastreamer.fieldgenerator.standard.exception.StandardFieldGeneratorException;
+import com.speedment.jpastreamer.fieldgenerator.standard.exception.FieldGeneratorProcessorException;
 import com.speedment.jpastreamer.fieldgenerator.standard.util.GeneratorUtil;
 import com.speedment.runtime.field.*;
 
@@ -28,15 +28,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.speedment.common.codegen.util.Formatting.*;
 import static com.speedment.common.codegen.util.Formatting.shortName;
-import static java.lang.Class.*;
+import static com.speedment.common.codegen.util.Formatting.ucfirst;
 
 /**
  * JPAStreamer standard annotation processor that generates fields for classes annotated
  * with {@code Entity}.
  *
  * @author Julia Gustafsson
+ * @since 0.0.9
  */
 
 @SupportedAnnotationTypes("javax.persistence.Entity")
@@ -107,12 +107,12 @@ public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
         JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(fullEntityName);
         Writer writer = builderFile.openWriter();
 
-        File file = getFileContent(enclosedFields, entityName, genEntityName, packageName);
+        File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);
         writer.write(new JavaGenerator().on(file).get());
         writer.close();
     }
 
-    private File getFileContent(Set<? extends Element> enclosedFields, String annotatedClassName, String genEntityName, String packageName) {
+    private File generatedEntity(Set<? extends Element> enclosedFields, String annotatedClassName, String genEntityName, String packageName) {
 
         File file = packageName.isEmpty() ?
                 File.of(genEntityName + ".java") :
@@ -129,133 +129,145 @@ public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
     }
 
     private void addFieldToClass(Element field, Class clazz, String entityName) {
-        String generatedFieldTypeName;
         String fieldName = field.getSimpleName().toString();
+        Type referenceType = referenceType(field, entityName);
 
-        Type referenceType = getReferenceType(field, entityName);
-
-        // Begin building the field value parameters.
-        final List<Value<?>> fieldParams = new ArrayList<>();
-        fieldParams.add(Value.ofReference("DummyColumnIdentifier.INSTANCE"));
-
-        // Add getter method reference //TODO Should we really assume getters and setters are present?
-        fieldParams.add(Value.ofReference(
-                    entityName + "::" + GETTER_METHOD_PREFIX + ucfirst(fieldName)));
-
-        // Add setter method reference
-        fieldParams.add(Value.ofReference(
-                entityName + "::" + SETTER_METHOD_PREFIX + ucfirst(fieldName)));
-
-        // Currently no type mapper is added
-        fieldParams.add(Value.ofReference("null"));
-
-        // Add the 'unique' boolean to the end
-        fieldParams.add(Value.ofBoolean(field.getAnnotation(Column.class).unique()));
-
-        Value value = Value.ofInvocation(
-                referenceType,
-                "create",
-                fieldParams.toArray(new Value<?>[0])
-        );
+        // Begin building the field value parameters
+        final List<Value<?>> fieldParams = fieldParams(field, fieldName, entityName);
 
         clazz.add(Import.of(referenceType));
         clazz.add(Field.of(fieldName, referenceType)
                 .public_().static_().final_()
-                .set(value)
-        );
-
+                .set(Value.ofInvocation(
+                        referenceType,
+                        "create",
+                        fieldParams.toArray(new Value<?>[0])
+                ))
+                .set(Javadoc.of(
+                "This Field corresponds to the {@link " + entityName + "} field that can be obtained using the "
+                        + "{@link " + entityName + "#get" + ucfirst(fieldName) + "()} method."
+        )));
     }
 
-    private Type getReferenceType(Element field, String entityName) throws StandardFieldGeneratorException {
+    private List<Value<?>> fieldParams(Element field, String fieldName, String entityName) {
+        final List<Value<?>> list = new ArrayList<>();
 
-        String fieldName = field.getSimpleName().toString();
+        list.add(Value.ofReference("DummyColumnIdentifier.INSTANCE"));
+
+        // Add getter method reference //TODO Should we really assume getters and setters are present?
+        list.add(Value.ofReference(
+                entityName + "::" + GETTER_METHOD_PREFIX + ucfirst(fieldName)));
+
+        // Add setter method reference
+        list.add(Value.ofReference(
+                entityName + "::" + SETTER_METHOD_PREFIX + ucfirst(fieldName)));
+
+        // Currently no type mapper is added
+        list.add(Value.ofReference("null"));
+
+        // Add the 'unique' boolean to the end
+        list.add(Value.ofBoolean(field.getAnnotation(Column.class).unique()));
+
+        return list;
+    }
+
+    private Type referenceType(Element field, String entityName) throws FieldGeneratorProcessorException {
+
         Type fieldType = SimpleType.create(field.asType().toString());
         Type entityType = SimpleType.create(entityName);
         final Type type;
+
         try {
             java.lang.Class c = GeneratorUtil.parseType(field.asType().toString());
             if (c.isPrimitive()) {
-                switch (c.getSimpleName()) {
-                    case "int":
-                        type = SimpleParameterizedType.create(
-                                IntField.class,
-                                entityType,
-                                Integer.class
-                        );
-                        break;
-                    case "byte":
-                        type = SimpleParameterizedType.create(
-                                ByteField.class,
-                                entityType,
-                                Byte.class
-                        );
-                        break;
-                    case "short":
-                        type = SimpleParameterizedType.create(
-                                ShortField.class,
-                                entityType,
-                                fieldType,
-                                Short.class
-                        );
-                        break;
-                    case "long":
-                        type = SimpleParameterizedType.create(
-                                LongField.class,
-                                entityType,
-                                Long.class
-                        );
-                        break;
-                    case "float":
-                        type = SimpleParameterizedType.create(
-                                FloatField.class,
-                                entityType,
-                                Float.class
-                        );
-                        break;
-                    case "double":
-                        type = SimpleParameterizedType.create(
-                                DoubleField.class,
-                                entityType,
-                                Double.class
-                        );
-                        break;
-                    case "char":
-                        type = SimpleParameterizedType.create(
-                                CharField.class,
-                                entityType,
-                                Character.class
-                        );
-                        break;
-                    case "boolean":
-                        type = SimpleParameterizedType.create(
-                                BooleanField.class,
-                                entityType,
-                                Boolean.class
-                        );
-                        break;
-                    case "enum":
-                        type = SimpleParameterizedType.create(
-                                EnumField.class,
-                                entityType,
-                                Enum.class,
-                                Enum.class
-                        );
-                        break;
-                    default : throw new UnsupportedOperationException(
-                            "Unknown primitive type: '" + fieldType.getTypeName() + "'."
-                    );
-                }
+                type = primitiveType(fieldType, entityType, c);
             } else if (Comparable.class.isAssignableFrom(c)) {
-                if (String.class.equals(c)) {
-                    type = SimpleParameterizedType.create(StringField.class, entityType, String.class);
-                } else {
-                    type = SimpleParameterizedType.create(ComparableField.class, entityType, fieldType, fieldType);
-                }
+                type = String.class.equals(c) ?
+                        SimpleParameterizedType.create(StringField.class, entityType, String.class) :
+                        SimpleParameterizedType.create(ComparableField.class, entityType, fieldType, fieldType);
             } else {
                 type = SimpleParameterizedType.create(ReferenceField.class, entityType, fieldType, fieldType);
             }
         } catch (IllegalArgumentException e) {
-            throw new StandardFieldGeneratorException("Class " + field.asType().toString() + " was not found.");
+            throw new FieldGeneratorProcessorException("Type " + fieldType.getTypeName() + " was not found.");
+        } catch (UnsupportedOperationException e) {
+            throw new FieldGeneratorProcessorException("Primitive type " + fieldType.getTypeName() + " could not be parsed.");
+        }
+
+        return type;
+    }
+
+    private Type primitiveType(Type fieldType, Type entityType, java.lang.Class c) throws UnsupportedOperationException {
+        Type type;
+        switch (c.getSimpleName()) {
+            case "int":
+                type = SimpleParameterizedType.create(
+                        IntField.class,
+                        entityType,
+                        Integer.class
+                );
+                break;
+            case "byte":
+                type = SimpleParameterizedType.create(
+                        ByteField.class,
+                        entityType,
+                        Byte.class
+                );
+                break;
+            case "short":
+                type = SimpleParameterizedType.create(
+                        ShortField.class,
+                        entityType,
+                        fieldType,
+                        Short.class
+                );
+                break;
+            case "long":
+                type = SimpleParameterizedType.create(
+                        LongField.class,
+                        entityType,
+                        Long.class
+                );
+                break;
+            case "float":
+                type = SimpleParameterizedType.create(
+                        FloatField.class,
+                        entityType,
+                        Float.class
+                );
+                break;
+            case "double":
+                type = SimpleParameterizedType.create(
+                        DoubleField.class,
+                        entityType,
+                        Double.class
+                );
+                break;
+            case "char":
+                type = SimpleParameterizedType.create(
+                        CharField.class,
+                        entityType,
+                        Character.class
+                );
+                break;
+            case "boolean":
+                type = SimpleParameterizedType.create(
+                        BooleanField.class,
+                        entityType,
+                        Boolean.class
+                );
+                break;
+            case "enum":
+                type = SimpleParameterizedType.create(
+                        EnumField.class,
+                        entityType,
+                        Enum.class,
+                        Enum.class
+                );
+                break;
+            default : throw new UnsupportedOperationException(
+                    "Unknown primitive type: '" + fieldType.getTypeName() + "'."
+            );
         }
         return type;
     }
