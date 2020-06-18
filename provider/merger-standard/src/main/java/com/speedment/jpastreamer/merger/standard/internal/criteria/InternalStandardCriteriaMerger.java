@@ -16,6 +16,8 @@
 
 package com.speedment.jpastreamer.merger.standard.internal.criteria;
 
+import static java.util.Objects.requireNonNull;
+
 import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
 import com.speedment.jpastreamer.merger.standard.internal.criteria.result.StandardCriteriaMergeResult;
@@ -30,7 +32,10 @@ public final class InternalStandardCriteriaMerger implements CriteriaMerger {
     private final List<CriteriaMerger> mergingStrategies = new ArrayList<>();
 
     @Override
-    public <T> CriteriaMergeResult<T> merge(Pipeline<T> pipeline, CriteriaQuery<T> query) {
+    public <T> CriteriaMergeResult<T> merge(final Pipeline<T> pipeline, final CriteriaQuery<T> query) {
+        requireNonNull(pipeline);
+        requireNonNull(query);
+
         CriteriaMergeResult<T> result = new StandardCriteriaMergeResult<>(pipeline, query);
 
         for (CriteriaMerger merger : mergingStrategies) {

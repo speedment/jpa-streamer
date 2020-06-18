@@ -23,12 +23,12 @@ import com.speedment.jpastreamer.pipeline.Pipeline;
 
 import javax.persistence.Query;
 
-public class StandardQueryMerger implements QueryMerger {
+public final class StandardQueryMerger implements QueryMerger {
 
     private final QueryMerger delegate = new InternalStandardQueryMerger();
 
     @Override
-    public <T> QueryMergeResult<T> merge(Pipeline<T> pipeline, Query query) {
+    public <T> QueryMergeResult<T> merge(final Pipeline<T> pipeline, final Query query) {
         return delegate.merge(pipeline, query);
     }
 }

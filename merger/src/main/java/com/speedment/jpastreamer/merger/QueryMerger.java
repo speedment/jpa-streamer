@@ -34,13 +34,13 @@ public interface QueryMerger {
      * into the provided {@code query}. Operations are to be removed from the pipeline
      * if they are merged.
      *
-     * The modified pipeline and query are stored in a {@code MergeResult} and returned.
+     * The modified pipeline and query are stored in a {@code QueryMergeResult} and returned.
      *
      * @param pipeline to inspect and merge
      * @param query that accepts the merged operations
      * @param <T> root entity
-     * @return a new MergeResult containing the modified {@code Pipeline}
-     *         and {@code CriteriaQuery}
+     * @return a new QueryMergeResult containing the modified {@code Pipeline}
+     *         and {@code Query}
      */
-    <T> QueryMergeResult<T> merge(Pipeline<T> pipeline, Query query);
+    <T> QueryMergeResult<T> merge(final Pipeline<T> pipeline, final Query query);
 }

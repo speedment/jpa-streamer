@@ -16,6 +16,8 @@
 
 package com.speedment.jpastreamer.merger.standard.internal.query;
 
+import static java.util.Objects.requireNonNull;
+
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.merger.result.QueryMergeResult;
 import com.speedment.jpastreamer.merger.standard.internal.query.result.StandardQueryMergeResult;
@@ -35,7 +37,10 @@ public final class InternalStandardQueryMerger implements QueryMerger {
     }
 
     @Override
-    public <T> QueryMergeResult<T> merge(Pipeline<T> pipeline, Query query) {
+    public <T> QueryMergeResult<T> merge(final Pipeline<T> pipeline, final Query query) {
+        requireNonNull(pipeline);
+        requireNonNull(query);
+
         QueryMergeResult<T> result = new StandardQueryMergeResult<>(pipeline, query);
 
         for (QueryMerger merger : mergingStrategies) {
@@ -45,7 +50,7 @@ public final class InternalStandardQueryMerger implements QueryMerger {
         return result;
     }
 
-    private void registerMergingStrategy(QueryMerger queryMerger) {
+    private void registerMergingStrategy(final QueryMerger queryMerger) {
         mergingStrategies.add(queryMerger);
     }
 }

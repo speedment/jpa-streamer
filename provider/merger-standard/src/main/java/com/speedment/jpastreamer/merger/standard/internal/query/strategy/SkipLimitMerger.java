@@ -35,7 +35,7 @@ public enum SkipLimitMerger implements QueryMerger {
     INSTANCE;
 
     @Override
-    public <T> QueryMergeResult<T> merge(Pipeline<T> pipeline, Query query) {
+    public <T> QueryMergeResult<T> merge(final Pipeline<T> pipeline, final Query query) {
         requireNonNull(pipeline);
         requireNonNull(query);
 
@@ -84,7 +84,7 @@ public enum SkipLimitMerger implements QueryMerger {
         return new StandardQueryMergeResult<>(pipeline, query);
     }
 
-    private long getArgument(IntermediateOperation<?, ?> intermediateOperation) {
+    private long getArgument(final IntermediateOperation<?, ?> intermediateOperation) {
         final Object[] arguments = intermediateOperation.arguments();
 
         if (arguments.length != 1) {

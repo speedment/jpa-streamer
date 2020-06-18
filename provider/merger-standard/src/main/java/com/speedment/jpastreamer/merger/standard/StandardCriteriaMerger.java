@@ -23,12 +23,12 @@ import com.speedment.jpastreamer.pipeline.Pipeline;
 
 import javax.persistence.criteria.CriteriaQuery;
 
-public class StandardCriteriaMerger implements CriteriaMerger {
+public final class StandardCriteriaMerger implements CriteriaMerger {
 
     private final CriteriaMerger delegate = new InternalStandardCriteriaMerger();
 
     @Override
-    public <T> CriteriaMergeResult<T> merge(Pipeline<T> pipeline, CriteriaQuery<T> query) {
+    public <T> CriteriaMergeResult<T> merge(final Pipeline<T> pipeline, final CriteriaQuery<T> query) {
         return delegate.merge(pipeline, query);
     }
 }

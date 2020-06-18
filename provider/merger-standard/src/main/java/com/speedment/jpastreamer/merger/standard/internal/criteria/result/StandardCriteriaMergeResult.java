@@ -26,7 +26,10 @@ public final class StandardCriteriaMergeResult<T> implements CriteriaMergeResult
     private final Pipeline<T> pipeline;
     private final CriteriaQuery<T> criteriaQuery;
 
-    public StandardCriteriaMergeResult(Pipeline<T> pipeline, CriteriaQuery<T> criteriaQuery) {
+    public StandardCriteriaMergeResult(
+        final Pipeline<T> pipeline,
+        final CriteriaQuery<T> criteriaQuery
+    ) {
         this.pipeline = pipeline;
         this.criteriaQuery = criteriaQuery;
     }

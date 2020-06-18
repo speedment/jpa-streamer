@@ -32,13 +32,13 @@ public interface CriteriaMerger {
      * into the provided {@code query}. Operations are to be removed from the pipeline
      * if they are merged.
      *
-     * The modified pipeline and query are stored in a {@code MergeResult} and returned.
+     * The modified pipeline and query are stored in a {@code CriteriaMergeResult} and returned.
      *
      * @param pipeline to inspect and merge
      * @param query that accepts the merged operations
      * @param <T> root entity
-     * @return a new MergeResult containing the modified {@code Pipeline}
+     * @return a new CriteriaMergeResult containing the modified {@code Pipeline}
      *         and {@code CriteriaQuery}
      */
-    <T> CriteriaMergeResult<T> merge(Pipeline<T> pipeline, CriteriaQuery<T> query);
+    <T> CriteriaMergeResult<T> merge(final Pipeline<T> pipeline, final CriteriaQuery<T> query);
 }

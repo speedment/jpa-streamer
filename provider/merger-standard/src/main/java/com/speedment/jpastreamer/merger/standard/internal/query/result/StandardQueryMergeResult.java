@@ -26,7 +26,10 @@ public final class StandardQueryMergeResult<T> implements QueryMergeResult<T> {
     private final Pipeline<T> pipeline;
     private final Query query;
 
-    public StandardQueryMergeResult(Pipeline<T> pipeline, Query query) {
+    public StandardQueryMergeResult(
+        final Pipeline<T> pipeline,
+        final Query query
+    ) {
         this.pipeline = pipeline;
         this.query = query;
     }
