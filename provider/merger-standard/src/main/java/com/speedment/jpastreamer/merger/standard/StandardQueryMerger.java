@@ -18,14 +18,14 @@ package com.speedment.jpastreamer.merger.standard;
 
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.merger.result.QueryMergeResult;
-import com.speedment.jpastreamer.merger.standard.internal.query.InternalStandardQueryMerger;
+import com.speedment.jpastreamer.merger.standard.internal.query.InternalQueryMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
 import javax.persistence.Query;
 
 public final class StandardQueryMerger implements QueryMerger {
 
-    private final QueryMerger delegate = new InternalStandardQueryMerger();
+    private final QueryMerger delegate = new InternalQueryMerger();
 
     @Override
     public <T> QueryMergeResult<T> merge(final Pipeline<T> pipeline, final Query query) {

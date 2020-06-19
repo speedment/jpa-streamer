@@ -28,11 +28,11 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class InternalStandardQueryMerger implements QueryMerger {
+public final class InternalQueryMerger implements QueryMerger {
 
     private final List<QueryMerger> mergingStrategies = new ArrayList<>();
 
-    public InternalStandardQueryMerger() {
+    public InternalQueryMerger() {
         registerMergingStrategy(SkipLimitMerger.INSTANCE);
     }
 

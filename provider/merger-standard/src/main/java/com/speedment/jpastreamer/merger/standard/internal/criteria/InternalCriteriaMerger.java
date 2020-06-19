@@ -21,31 +21,42 @@ import static java.util.Objects.requireNonNull;
 import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
 import com.speedment.jpastreamer.merger.standard.internal.criteria.result.StandardCriteriaMergeResult;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.FilterCriteriaMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class InternalStandardCriteriaMerger implements CriteriaMerger {
+public final class InternalCriteriaMerger implements CriteriaMerger {
 
     private final List<CriteriaMerger> mergingStrategies = new ArrayList<>();
 
-    @Override
-    public <T> CriteriaMergeResult<T> merge(final Pipeline<T> pipeline, final CriteriaQuery<T> query) {
-        requireNonNull(pipeline);
-        requireNonNull(query);
+    public InternalCriteriaMerger() {
+        registerMergingStrategy(FilterCriteriaMerger.INSTANCE);
+    }
 
-        CriteriaMergeResult<T> result = new StandardCriteriaMergeResult<>(pipeline, query);
+    @Override
+    public <T> CriteriaMergeResult<T> merge(
+        final Pipeline<T> pipeline,
+        final CriteriaQuery<T> criteriaQuery,
+        final CriteriaBuilder criteriaBuilder
+    ) {
+        requireNonNull(pipeline);
+        requireNonNull(criteriaQuery);
+        requireNonNull(criteriaBuilder);
+
+        CriteriaMergeResult<T> result = new StandardCriteriaMergeResult<>(pipeline, criteriaQuery);
 
         for (CriteriaMerger merger : mergingStrategies) {
-            result = merger.merge(result.getPipeline(), result.getCriteriaQuery());
+            result = merger.merge(result.getPipeline(), result.getCriteriaQuery(), criteriaBuilder);
         }
 
         return result;
     }
 
-    private void registerMergingStrategy(CriteriaMerger criteriaMerger) {
+    private void registerMergingStrategy(final CriteriaMerger criteriaMerger) {
         mergingStrategies.add(criteriaMerger);
     }
 }

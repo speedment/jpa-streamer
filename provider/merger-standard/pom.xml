@@ -25,12 +25,26 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>merger</artifactId>
-            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>pipeline</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>criteria</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>rootfactory</artifactId>
         </dependency>
 
         <dependency>
