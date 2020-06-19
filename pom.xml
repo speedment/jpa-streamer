@@ -56,6 +56,7 @@
         <module>renderer</module>
         <module>preoptimizer</module>
         <module>merger</module>
+        <module>criteria</module>
 
         <module>provider</module>
 
@@ -972,6 +973,18 @@
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>merger-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>criteria</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>criteria-standard</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
