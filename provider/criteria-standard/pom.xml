@@ -25,6 +25,11 @@
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>criteria</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>exception</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

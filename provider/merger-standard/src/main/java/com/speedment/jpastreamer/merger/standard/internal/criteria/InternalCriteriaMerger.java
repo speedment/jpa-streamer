@@ -18,14 +18,13 @@ package com.speedment.jpastreamer.merger.standard.internal.criteria;
 
 import static java.util.Objects.requireNonNull;
 
+import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
-import com.speedment.jpastreamer.merger.standard.internal.criteria.result.StandardCriteriaMergeResult;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.result.InternalCriteriaMergeResult;
 import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.FilterCriteriaMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,17 +39,15 @@ public final class InternalCriteriaMerger implements CriteriaMerger {
     @Override
     public <T> CriteriaMergeResult<T> merge(
         final Pipeline<T> pipeline,
-        final CriteriaQuery<T> criteriaQuery,
-        final CriteriaBuilder criteriaBuilder
+        final Criteria<T> criteria
     ) {
         requireNonNull(pipeline);
-        requireNonNull(criteriaQuery);
-        requireNonNull(criteriaBuilder);
+        requireNonNull(criteria);
 
-        CriteriaMergeResult<T> result = new StandardCriteriaMergeResult<>(pipeline, criteriaQuery);
+        CriteriaMergeResult<T> result = new InternalCriteriaMergeResult<>(pipeline, criteria);
 
         for (CriteriaMerger merger : mergingStrategies) {
-            result = merger.merge(result.getPipeline(), result.getCriteriaQuery(), criteriaBuilder);
+            result = merger.merge(result.getPipeline(), result.getCriteria());
         }
 
         return result;

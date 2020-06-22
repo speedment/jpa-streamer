@@ -22,7 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.merger.result.QueryMergeResult;
-import com.speedment.jpastreamer.merger.standard.internal.query.result.StandardQueryMergeResult;
+import com.speedment.jpastreamer.merger.standard.internal.query.result.InternalQueryMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
@@ -81,7 +81,7 @@ public enum SkipLimitMerger implements QueryMerger {
             operations.remove((int) limitIndex);
         }
 
-        return new StandardQueryMergeResult<>(pipeline, query);
+        return new InternalQueryMergeResult<>(pipeline, query);
     }
 
     private long getArgument(final IntermediateOperation<?, ?> intermediateOperation) {

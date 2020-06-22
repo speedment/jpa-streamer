@@ -16,10 +16,12 @@
 
 package com.speedment.jpastreamer.criteria;
 
-import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
+import static java.util.Objects.requireNonNull;
 
+import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * @author Mislav Milicevic
@@ -28,16 +30,42 @@ import javax.persistence.criteria.Predicate;
 public interface CriteriaFactory {
 
     /**
-     * Creates and returns a JPA {@code Predicate} with the {@code SpeedmentPredicate} serving
-     * as the model. The JPA {@code Predicate} is created using the provided {@code criteriaBuilder}
+     * Creates and returns a {@code Criteria} containing the provided {@code builder},
+     * {@code query} and {@code root}.
      *
-     * @param criteriaBuilder used to create the JPA Predicate
-     * @param speedmentPredicate used as a model for the JPA Predicate that is being created
-     * @param <T> root entity used in the Speedment Predicate
-     * @return JPA Predicate
+     * @param builder to store in the {@code Criteria}
+     * @param query to store in the {@code Criteria}
+     * @param root to store in the {@code Criteria}
+     * @param <T> root entity
+     * @return a {@code Criteria} containing the provided {@code builder},
+     *         {@code query} and {@code root}
      */
-    <T> Predicate createPredicate(
-        final CriteriaBuilder criteriaBuilder,
-        final SpeedmentPredicate<T> speedmentPredicate
+    <T> Criteria<T> createCriteria(
+        final CriteriaBuilder builder,
+        final CriteriaQuery<T> query,
+        final Root<T> root
     );
+
+    /**
+     * Creates and returns a {@code Criteria} where the {@code CriteriaBuilder},
+     * {@code CriteriaQuery} and {@code Root} are created by the provided {@code entityManager}.
+     *
+     * @param entityManager used to create the necessary {@code Criteria} objects
+     * @param entityClass used to define the result model of the stored query and root
+     * @param <T> root entity
+     * @return a {@code Criteria}
+     */
+    default <T> Criteria<T> createCriteria(
+        final EntityManager entityManager,
+        final Class<T> entityClass
+    ) {
+        requireNonNull(entityManager);
+        requireNonNull(entityClass);
+
+        final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+        final Root<T> root = criteriaQuery.from(entityClass);
+
+        return createCriteria(criteriaBuilder, criteriaQuery, root);
+    }
 }

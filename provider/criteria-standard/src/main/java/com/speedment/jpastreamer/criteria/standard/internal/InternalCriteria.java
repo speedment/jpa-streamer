@@ -14,35 +14,42 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.criteria.standard;
+package com.speedment.jpastreamer.criteria.standard.internal;
 
 import com.speedment.jpastreamer.criteria.Criteria;
-import com.speedment.jpastreamer.criteria.CriteriaFactory;
-import com.speedment.jpastreamer.criteria.standard.internal.InternalCriteriaFactory;
 
-import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public final class StandardCriteriaFactory implements CriteriaFactory {
+public final class InternalCriteria<T> implements Criteria<T> {
 
-    private final CriteriaFactory delegate = new InternalCriteriaFactory();
+    private final CriteriaBuilder builder;
+    private final CriteriaQuery<T> query;
+    private final Root<T> root;
 
-    @Override
-    public <T> Criteria<T> createCriteria(
+    public InternalCriteria(
         final CriteriaBuilder builder,
         final CriteriaQuery<T> query,
         final Root<T> root
     ) {
-        return delegate.createCriteria(builder, query, root);
+        this.builder = builder;
+        this.query = query;
+        this.root = root;
     }
 
     @Override
-    public <T> Criteria<T> createCriteria(
-        final EntityManager entityManager,
-        final Class<T> entityClass
-    ) {
-        return delegate.createCriteria(entityManager, entityClass);
+    public CriteriaBuilder getBuilder() {
+        return builder;
+    }
+
+    @Override
+    public CriteriaQuery<T> getQuery() {
+        return query;
+    }
+
+    @Override
+    public Root<T> getRoot() {
+        return root;
     }
 }

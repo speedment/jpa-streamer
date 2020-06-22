@@ -14,24 +14,24 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.merger.standard.internal.criteria.result;
+package com.speedment.jpastreamer.merger.standard.internal.query.result;
 
-import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
+import com.speedment.jpastreamer.merger.result.QueryMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.Query;
 
-public final class StandardCriteriaMergeResult<T> implements CriteriaMergeResult<T> {
+public final class InternalQueryMergeResult<T> implements QueryMergeResult<T> {
 
     private final Pipeline<T> pipeline;
-    private final CriteriaQuery<T> criteriaQuery;
+    private final Query query;
 
-    public StandardCriteriaMergeResult(
+    public InternalQueryMergeResult(
         final Pipeline<T> pipeline,
-        final CriteriaQuery<T> criteriaQuery
+        final Query query
     ) {
         this.pipeline = pipeline;
-        this.criteriaQuery = criteriaQuery;
+        this.query = query;
     }
 
     @Override
@@ -40,7 +40,7 @@ public final class StandardCriteriaMergeResult<T> implements CriteriaMergeResult
     }
 
     @Override
-    public CriteriaQuery<T> getCriteriaQuery() {
-        return criteriaQuery;
+    public Query getQuery() {
+        return query;
     }
 }

@@ -15,11 +15,9 @@
  */
 package com.speedment.jpastreamer.merger;
 
+import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 
 /**
  * A stream operation merger used to apply conditions to provided queries.
@@ -36,15 +34,13 @@ public interface CriteriaMerger {
      * The modified pipeline and query are stored in a {@code CriteriaMergeResult} and returned.
      *
      * @param pipeline to inspect and merge
-     * @param criteriaQuery that accepts the merged operations
-     * @param criteriaBuilder used to create conditions
+     * @param criteria that provides access to the underlying builder and query
      * @param <T> root entity
      * @return a new CriteriaMergeResult containing the modified {@code Pipeline}
      *         and {@code CriteriaQuery}
      */
     <T> CriteriaMergeResult<T> merge(
         final Pipeline<T> pipeline,
-        final CriteriaQuery<T> criteriaQuery,
-        final CriteriaBuilder criteriaBuilder
+        final Criteria<T> criteria
     );
 }

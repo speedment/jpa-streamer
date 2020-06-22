@@ -18,18 +18,17 @@ package com.speedment.jpastreamer.merger.standard.internal.criteria.strategy;
 
 import static java.util.Objects.requireNonNull;
 
-import com.speedment.jpastreamer.criteria.CriteriaFactory;
+import com.speedment.jpastreamer.criteria.Criteria;
+import com.speedment.jpastreamer.criteria.PredicateFactory;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
 import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
-import com.speedment.jpastreamer.merger.standard.internal.criteria.result.StandardCriteriaMergeResult;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.result.InternalCriteriaMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
 import java.util.Optional;
@@ -38,21 +37,19 @@ public enum FilterCriteriaMerger implements CriteriaMerger {
 
     INSTANCE;
 
-    private final CriteriaFactory criteriaFactory;
+    private final PredicateFactory predicateFactory;
 
     FilterCriteriaMerger() {
-        this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class);
+        this.predicateFactory = RootFactory.getOrThrow(PredicateFactory.class);
     }
 
     @Override
     public <T> CriteriaMergeResult<T> merge(
         final Pipeline<T> pipeline,
-        final CriteriaQuery<T> criteriaQuery,
-        final CriteriaBuilder criteriaBuilder
+        final Criteria<T> criteria
     ) {
         requireNonNull(pipeline);
-        requireNonNull(criteriaQuery);
-        requireNonNull(criteriaBuilder);
+        requireNonNull(criteria);
 
         final List<IntermediateOperation<?, ?>> operations = pipeline.intermediateOperations();
 
@@ -68,8 +65,8 @@ public enum FilterCriteriaMerger implements CriteriaMerger {
             final Optional<SpeedmentPredicate<T>> optionalPredicate = getPredicate(operation);
 
             if (optionalPredicate.isPresent()) {
-                final Predicate predicate = criteriaFactory.createPredicate(criteriaBuilder, optionalPredicate.get());
-                criteriaQuery.where(predicate);
+                final Predicate predicate = predicateFactory.createPredicate(criteria, optionalPredicate.get());
+                criteria.getQuery().where(predicate);
 
                 filterIndex = i;
             }
@@ -81,7 +78,7 @@ public enum FilterCriteriaMerger implements CriteriaMerger {
             operations.remove((int) filterIndex);
         }
 
-        return new StandardCriteriaMergeResult<>(pipeline, criteriaQuery);
+        return new InternalCriteriaMergeResult<>(pipeline, criteria);
     }
 
     @SuppressWarnings("unchecked")

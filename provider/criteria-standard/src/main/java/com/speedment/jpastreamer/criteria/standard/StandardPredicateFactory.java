@@ -14,29 +14,24 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.criteria.standard.internal;
-
-import static java.util.Objects.requireNonNull;
+package com.speedment.jpastreamer.criteria.standard;
 
 import com.speedment.jpastreamer.criteria.Criteria;
-import com.speedment.jpastreamer.criteria.CriteriaFactory;
+import com.speedment.jpastreamer.criteria.PredicateFactory;
+import com.speedment.jpastreamer.criteria.standard.internal.InternalPredicateFactory;
+import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Predicate;
 
-public final class InternalCriteriaFactory implements CriteriaFactory {
+public final class StandardPredicateFactory implements PredicateFactory {
+
+    private final PredicateFactory delegate = new InternalPredicateFactory();
 
     @Override
-    public <T> Criteria<T> createCriteria(
-        final CriteriaBuilder builder,
-        final CriteriaQuery<T> query,
-        final Root<T> root
+    public <T> Predicate createPredicate(
+        final Criteria<T> criteria,
+        final SpeedmentPredicate<T> speedmentPredicate
     ) {
-        requireNonNull(builder);
-        requireNonNull(query);
-        requireNonNull(root);
-
-        return new InternalCriteria<>(builder, query, root);
+        return delegate.createPredicate(criteria, speedmentPredicate);
     }
 }

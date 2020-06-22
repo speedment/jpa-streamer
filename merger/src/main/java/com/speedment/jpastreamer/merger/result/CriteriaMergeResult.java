@@ -15,6 +15,7 @@
  */
 package com.speedment.jpastreamer.merger.result;
 
+import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
 import javax.persistence.criteria.CriteriaQuery;
@@ -36,9 +37,9 @@ public interface CriteriaMergeResult<T> {
     Pipeline<T> getPipeline();
 
     /**
-     * Returns the query that the operations were merged into.
+     * Returns the criteria containing the query that the operations were merged into.
      *
-     * @return the query that the operations were merged into
+     * @return the criteria containing the query that the operations were merged into
      */
-    CriteriaQuery<T> getCriteriaQuery();
+    Criteria<T> getCriteria();
 }
