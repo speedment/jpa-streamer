@@ -14,9 +14,7 @@ import javax.annotation.processing.*;
 import javax.lang.model.element.*;
 import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.util.Elements;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
@@ -131,13 +129,18 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     private void addFieldToClass(Element field, Class clazz, String entityName) {
         String fieldName = field.getSimpleName().toString();
+        Column col = field.getAnnotation(Column.class);
 
         Type referenceType = referenceType(field, entityName);
 
         // Begin building the field value parameters
         final List<Value<?>> fieldParams = new ArrayList<>();
 
+        // Add table entity
         fieldParams.add(Value.ofReference(entityName + ".class"));
+
+        // Add db column name if stated, else fall back on entity field name
+        fieldParams.add(Value.ofText(col.name().isEmpty() ? fieldName : col.name()));
 
         // Add getter method reference
         fieldParams.add(Value.ofReference(
@@ -162,7 +165,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         }
 
         // Add the 'unique' boolean to the end
-        Column col = field.getAnnotation(Column.class);
         fieldParams.add(Value.ofBoolean(col != null && col.unique()));
 
         // Add imports
@@ -194,6 +196,20 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             java.lang.Class c = GeneratorUtil.parseType(fieldType.getTypeName());
             if (c.isPrimitive()) {
                 type = primitiveType(fieldType, entityType, c);
+            } else if (Enum.class.isAssignableFrom(c)) {
+                Enumerated enumerated = field.getAnnotation(Enumerated.class);
+                type = (enumerated.value() == EnumType.STRING) ?
+                SimpleParameterizedType.create(
+                            EnumField.class,
+                            entityType,
+                            String.class,
+                            Enum.class
+                ) : SimpleParameterizedType.create(
+                        EnumField.class,
+                        entityType,
+                        Integer.class, // Default is EnumType.ORDINAL
+                        Enum.class
+                );
             } else if (Comparable.class.isAssignableFrom(c)) {
                 type = String.class.equals(c) ?
                         SimpleParameterizedType.create(StringField.class, entityType, String.class) :
@@ -294,14 +310,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         BooleanField.class,
                         entityType,
                         Boolean.class
-                );
-                break;
-            case "enum":
-                type = SimpleParameterizedType.create(
-                        EnumField.class,
-                        entityType,
-                        Enum.class,
-                        Enum.class
                 );
                 break;
             default : throw new UnsupportedOperationException(

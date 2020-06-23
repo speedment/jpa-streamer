@@ -50,16 +50,19 @@ import static java.util.Objects.requireNonNull;
 public final class CharFieldImpl<ENTITY, D> implements CharField<ENTITY, D> {
     
     private final Class<ENTITY> table;
+    private final String columnName;
     private final GetChar<ENTITY, D> getter;
     private final Class<? extends AttributeConverter<Character, ? super D>>attributeConverterClass;
     private final boolean unique;
 
     public CharFieldImpl(
             Class<ENTITY> table,
+            String columnName,
             CharGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Character, ? super D>> attributeConverterClass,
             boolean unique) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = new GetCharImpl<>(this, getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -164,5 +167,10 @@ public final class CharFieldImpl<ENTITY, D> implements CharField<ENTITY, D> {
     @Override
     public SpeedmentPredicate<ENTITY> notIn(Collection<Character> values) {
         return new CharNotInPredicate<>(this, CollectionUtil.collectionToSet(values));
+    }
+
+    @Override
+    public String columnName() {
+        return columnName;
     }
 }

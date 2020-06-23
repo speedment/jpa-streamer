@@ -48,16 +48,18 @@ import static java.util.Objects.requireNonNull;
 public final class BooleanFieldImpl<ENTITY, D> implements BooleanField<ENTITY, D> {
     
     private final Class<ENTITY> table;
+    private final String columnName;
     private final GetBoolean<ENTITY, D> getter;
     private final Class<? extends AttributeConverter<Boolean, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public BooleanFieldImpl(
             Class<ENTITY> table,
-            BooleanGetter<ENTITY> getter,
+            String columnName, BooleanGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Boolean, ? super D>> attributeConverterClass,
             boolean unique) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = new GetBooleanImpl<>(this, getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -106,5 +108,10 @@ public final class BooleanFieldImpl<ENTITY, D> implements BooleanField<ENTITY, D
     @Override
     public SpeedmentPredicate<ENTITY> notEqual(boolean value) {
         return new BooleanNotEqualPredicate<>(this, value);
+    }
+
+    @Override
+    public String columnName() {
+        return columnName;
     }
 }

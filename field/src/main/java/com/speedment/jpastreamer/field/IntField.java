@@ -54,6 +54,7 @@ public interface IntField<ENTITY, D> extends
      * @param <ENTITY>   entity type
      * @param <D>        database type
      * @param table      the table that this field belongs to
+     * @param columnName the name of the database column the field represents
      * @param getter     method reference to getter in entity
      * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
@@ -61,11 +62,12 @@ public interface IntField<ENTITY, D> extends
      */
     static <ENTITY, D> IntField<ENTITY, D> create(
             Class<ENTITY> table,
+            String columnName,
             IntGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Integer, ? super D>> attributeConverterClass,
             boolean unique) {
         return new IntFieldImpl<>(
-                table, getter, attributeConverterClass, unique
+                table, columnName, getter, attributeConverterClass, unique
         );
     }
 

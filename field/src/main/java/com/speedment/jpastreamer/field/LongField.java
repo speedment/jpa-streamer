@@ -54,6 +54,7 @@ public interface LongField<ENTITY, D> extends
      * @param <ENTITY>   entity type
      * @param <D>        database type
      * @param table      the table that this field belongs to
+     * @param columnName the name of the database column the field represents
      * @param getter     method reference to getter in entity
      * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
@@ -61,11 +62,12 @@ public interface LongField<ENTITY, D> extends
      */
     static <ENTITY, D> LongField<ENTITY, D> create(
             Class<ENTITY> table,
+            String columnName,
             LongGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Long, ? super D>> attributeConverterClass,
             boolean unique) {
         return new LongFieldImpl<>(
-                table, getter, attributeConverterClass, unique
+                table, columnName, getter, attributeConverterClass, unique
         );
     }
 

@@ -53,6 +53,7 @@ public interface CharField<ENTITY, D> extends
      * @param <ENTITY>   entity type
      * @param <D>        database type
      * @param table      the table that the field belongs to
+     * @param columnName the name of the database column the field represents
      * @param getter     method reference to getter in entity
      * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
@@ -60,11 +61,12 @@ public interface CharField<ENTITY, D> extends
      */
     static <ENTITY, D> CharField<ENTITY, D> create(
             Class<ENTITY> table,
+            String columnName,
             CharGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Character, ? super D>> attributeConverterClass,
             boolean unique) {
         return new CharFieldImpl<>(
-                table, getter, attributeConverterClass, unique
+                table, columnName, getter, attributeConverterClass, unique
         );
     }
 

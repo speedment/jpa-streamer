@@ -50,16 +50,19 @@ import static java.util.Objects.requireNonNull;
 public final class ShortFieldImpl<ENTITY, D> implements ShortField<ENTITY, D> {
     
     private final Class<ENTITY> table;
+    private final String columnName;
     private final GetShort<ENTITY, D> getter;
     private final Class<? extends AttributeConverter<Short, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public ShortFieldImpl(
             Class<ENTITY> table,
+            String columnName,
             ShortGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Short, ? super D>>attributeConverterClass,
             boolean unique) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = new GetShortImpl<>(this, getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -164,5 +167,10 @@ public final class ShortFieldImpl<ENTITY, D> implements ShortField<ENTITY, D> {
     @Override
     public SpeedmentPredicate<ENTITY> notIn(Collection<Short> values) {
         return new ShortNotInPredicate<>(this, CollectionUtil.collectionToSet(values));
+    }
+
+    @Override
+    public String columnName() {
+        return columnName;
     }
 }

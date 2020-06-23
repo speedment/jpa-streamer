@@ -38,17 +38,20 @@ public final class ReferenceFieldImpl<ENTITY, D, V>
 implements ReferenceField<ENTITY, D, V> {
 
     private final Class<ENTITY> table;
+    private final String columnName;
     private final ReferenceGetter<ENTITY, V> getter;
     private final Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public ReferenceFieldImpl(
         final Class<ENTITY> table,
+        final String columnName,
         final ReferenceGetter<ENTITY, V> getter,
         final Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
         final boolean unique
     ) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = requireNonNull(getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -88,4 +91,8 @@ implements ReferenceField<ENTITY, D, V> {
         return new ReferenceIsNullPredicate<>(this);
     }
 
+    @Override
+    public String columnName() {
+        return columnName;
+    }
 }

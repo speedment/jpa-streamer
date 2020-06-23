@@ -47,17 +47,20 @@ implements StringField<ENTITY, D>,
         FieldComparator<ENTITY> {
 
     private final Class<ENTITY> table;
+    private final String columnName;
     private final ReferenceGetter<ENTITY, String> getter;
     private final Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public StringFieldImpl(
         final Class<ENTITY> table,
+        final String columnName,
         final ReferenceGetter<ENTITY, String> getter,
         final Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass,
         final boolean unique
     ) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = requireNonNull(getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -266,4 +269,8 @@ implements StringField<ENTITY, D>,
         return StringFieldImpl.class.getSimpleName() + "{" + table.getSimpleName() + "}";
     }
 
+    @Override
+    public String columnName() {
+        return columnName;
+    }
 }

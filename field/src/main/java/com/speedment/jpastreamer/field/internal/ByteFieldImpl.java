@@ -50,16 +50,19 @@ import static java.util.Objects.requireNonNull;
 public final class ByteFieldImpl<ENTITY, D> implements ByteField<ENTITY, D> {
     
     private final Class<ENTITY> table;
+    private final String columnName;
     private final GetByte<ENTITY, D> getter;
     Class<? extends AttributeConverter<Byte, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public ByteFieldImpl(
             Class<ENTITY> table,
+            String columnName,
             ByteGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Byte, ? super D>> attributeConverterClass,
             boolean unique) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = new GetByteImpl<>(this, getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -164,5 +167,10 @@ public final class ByteFieldImpl<ENTITY, D> implements ByteField<ENTITY, D> {
     @Override
     public SpeedmentPredicate<ENTITY> notIn(Collection<Byte> values) {
         return new ByteNotInPredicate<>(this, collectionToSet(values));
+    }
+
+    @Override
+    public String columnName() {
+        return columnName;
     }
 }

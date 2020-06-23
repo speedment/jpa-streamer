@@ -65,7 +65,8 @@ extends Field<ENTITY>,
      * @param <ENTITY>    the entity type
      * @param <D>         the database type
      * @param <V>         the field value type
-     * @param root  the column that this field represents
+     * @param table  the column that this field represents
+     * @param columnName the name of the database column the field represents
      * @param getter      method reference to the getter in the entity
      * @param attributeConverterClass  the type mapper that is applied
      * @param unique      represented column only contains unique values
@@ -73,13 +74,14 @@ extends Field<ENTITY>,
      * @return the created field
      */
     static <ENTITY, D, V> ReferenceField<ENTITY, D, V> create(
-            Class<ENTITY> root,
+            Class<ENTITY> table,
+            String columnName,
             ReferenceGetter<ENTITY, V> getter,
             Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
             boolean unique) {
         
         return new ReferenceFieldImpl<>(
-                root, getter, attributeConverterClass, unique
+                table, columnName, getter, attributeConverterClass, unique
         );
     }
 

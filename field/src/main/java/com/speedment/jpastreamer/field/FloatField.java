@@ -54,6 +54,7 @@ public interface FloatField<ENTITY, D> extends
      * @param <ENTITY>   entity type
      * @param <D>        database type
      * @param table      the field that this field belongs to
+     * @param columnName the name of the database column the field represents
      * @param getter     method reference to getter in entity
      * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
@@ -61,11 +62,12 @@ public interface FloatField<ENTITY, D> extends
      */
     static <ENTITY, D> FloatField<ENTITY, D> create(
             Class<ENTITY> table,
+            String columnName,
             FloatGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Float, ? super D>> attributeConverterClass,
             boolean unique) {
         return new FloatFieldImpl<>(
-                table, getter, attributeConverterClass, unique
+                table, columnName, getter, attributeConverterClass, unique
         );
     }
     

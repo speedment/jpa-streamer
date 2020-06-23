@@ -50,16 +50,19 @@ import static java.util.Objects.requireNonNull;
 public final class FloatFieldImpl<ENTITY, D> implements FloatField<ENTITY, D> {
     
     private final Class<ENTITY> table;
+    private final String columnName;
     private final GetFloat<ENTITY, D> getter;
     private final Class<? extends AttributeConverter<Float, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public FloatFieldImpl(
             Class<ENTITY> table,
+            String columnName,
             FloatGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Float, ? super D>> attributeConverterClass,
             boolean unique) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = new GetFloatImpl<>(this, getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -164,5 +167,10 @@ public final class FloatFieldImpl<ENTITY, D> implements FloatField<ENTITY, D> {
     @Override
     public SpeedmentPredicate<ENTITY> notIn(Collection<Float> values) {
         return new FloatNotInPredicate<>(this, CollectionUtil.collectionToSet(values));
+    }
+
+    @Override
+    public String columnName() {
+        return columnName;
     }
 }

@@ -45,4 +45,5 @@ public interface HasDoubleValue<ENTITY, D> extends Field<ENTITY> {
         return getter().applyAsDouble(entity);
     }
 
+
 }

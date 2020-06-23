@@ -50,6 +50,7 @@ public interface StringField<ENTITY, D> extends
      * @param <ENTITY>    the entity type
      * @param <D>         the database type
      * @param table       the table that the field belongs to
+     * @param columnName the name of the database column the field represents
      * @param getter      method reference to the getter in the entity
      * @param attributeConverterClass  the attribute converter class
      * @param unique      represented column only contains unique values
@@ -58,12 +59,13 @@ public interface StringField<ENTITY, D> extends
      */
     static <ENTITY, D> StringField<ENTITY, D> create(
             Class<ENTITY> table,
+            String columnName,
             ReferenceGetter<ENTITY, String> getter,
             Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass,
             boolean unique) {
         
         return new StringFieldImpl<>(
-                table, getter, attributeConverterClass, unique
+                table, columnName, getter, attributeConverterClass, unique
         );
     }
 

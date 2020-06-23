@@ -228,6 +228,7 @@ extends ComparableField<ENTITY, D, E>,
      * @param <D>           the database type
      * @param <E>           the java enum type
      * @param table         the table that this field belongs to
+     * @param columnName the name of the database column the field represents
      * @param getter        method reference to the getter in the entity
      * @param attributeConverterClass    the attribute converter class
      * @param enumToString  method to convert enum to a string
@@ -238,6 +239,7 @@ extends ComparableField<ENTITY, D, E>,
      */
     static <ENTITY, D, E extends Enum<E>> EnumField<ENTITY, D, E> create(
             Class<ENTITY> table,
+            String columnName,
             ReferenceGetter<ENTITY, E> getter,
             Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass,
             Function<E, String> enumToString,
@@ -245,7 +247,7 @@ extends ComparableField<ENTITY, D, E>,
             Class<E> enumClass) {
 
         return new EnumFieldImpl<>(
-                table, getter, attributeConverterClass,
+                table, columnName, getter, attributeConverterClass,
             enumToString, stringToEnum, enumClass
         );
     }

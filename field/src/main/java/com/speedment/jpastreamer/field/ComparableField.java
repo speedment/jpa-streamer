@@ -48,6 +48,7 @@ extends ReferenceField<ENTITY, D, V>,
      * @param <D>         the database type
      * @param <V>         the field value type
      * @param table       the table the field belongs to
+     * @param columnName the name of the database column the field represents
      * @param getter      method reference to the getter in the entity
      * @param attributeConverterClass  the attribute converter class
      * @param unique      represented column only contains unique values
@@ -57,12 +58,13 @@ extends ReferenceField<ENTITY, D, V>,
     static <ENTITY, D, V extends Comparable<? super V>>
     ComparableField<ENTITY, D, V> create(
             Class<ENTITY> table,
+            String columnName,
             ReferenceGetter<ENTITY, V> getter,
             Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
             boolean unique) {
         
         return new ComparableFieldImpl<>(
-                table, getter, attributeConverterClass, unique
+                table, columnName, getter, attributeConverterClass, unique
         );
     }
 

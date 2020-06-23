@@ -50,16 +50,19 @@ import static java.util.Objects.requireNonNull;
 public final class DoubleFieldImpl<ENTITY, D> implements DoubleField<ENTITY, D> {
     
     private final Class<ENTITY> table;
+    private final String columnName;
     private final GetDouble<ENTITY, D> getter;
     private final Class<? extends AttributeConverter<Double, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public DoubleFieldImpl(
             Class<ENTITY> table,
+            String columnName,
             DoubleGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Double, ? super D>> attributeConverterClass,
             boolean unique) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = new GetDoubleImpl<>(this, getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -164,5 +167,10 @@ public final class DoubleFieldImpl<ENTITY, D> implements DoubleField<ENTITY, D> 
     @Override
     public SpeedmentPredicate<ENTITY> notIn(Collection<Double> values) {
         return new DoubleNotInPredicate<>(this, CollectionUtil.collectionToSet(values));
+    }
+
+    @Override
+    public String columnName() {
+        return columnName;
     }
 }

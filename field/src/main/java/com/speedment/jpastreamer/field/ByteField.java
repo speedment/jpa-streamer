@@ -52,6 +52,7 @@ public interface ByteField<ENTITY, D> extends Field<ENTITY>,
      * @param <ENTITY>   entity type
      * @param <D>        database type
      * @param table      the table that the field belongs to
+     * @param columnName the name of the database column the field represents
      * @param getter     method reference to getter in entity
      * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
@@ -59,11 +60,12 @@ public interface ByteField<ENTITY, D> extends Field<ENTITY>,
      */
     static <ENTITY, D> ByteField<ENTITY, D> create(
             Class<ENTITY> table,
+            String columnName,
             ByteGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Byte, ? super D>> attributeConverterClass,
             boolean unique) {
         return new ByteFieldImpl<>(
-                table, getter, attributeConverterClass, unique
+                table, columnName, getter, attributeConverterClass, unique
         );
     }
     

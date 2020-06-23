@@ -50,6 +50,7 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
         FieldComparator<ENTITY> {
 
     private final Class<ENTITY> table;
+    private final String columnName;
     private final ReferenceGetter<ENTITY, E> getter;
     Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass;
     private final Function<E, String> enumToString;
@@ -59,6 +60,7 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
 
     public EnumFieldImpl(
             final Class<ENTITY> table,
+            final String columnName,
             final ReferenceGetter<ENTITY, E> getter,
             final Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass,
             final Function<E, String> enumToString,
@@ -66,6 +68,7 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
             final Class<E> enumClass
     ) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter       = requireNonNull(getter);
         this.attributeConverterClass = attributeConverterClass;
         this.enumToString = requireNonNull(enumToString);
@@ -484,4 +487,8 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
         return result;
     }
 
+    @Override
+    public String columnName() {
+        return columnName;
+    }
 }

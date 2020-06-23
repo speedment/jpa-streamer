@@ -50,16 +50,19 @@ import static java.util.Objects.requireNonNull;
 public final class IntFieldImpl<ENTITY, D> implements IntField<ENTITY, D> {
     
     private final Class<ENTITY> table;
+    private final String columnName;
     private final GetInt<ENTITY, D> getter;
     Class<? extends AttributeConverter<Integer, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public IntFieldImpl(
             Class<ENTITY> table,
+            String columnName,
             IntGetter<ENTITY> getter,
             Class<? extends AttributeConverter<Integer, ? super D>> attributeConverterClass,
             boolean unique) {
         this.table = requireNonNull(table);
+        this.columnName = requireNonNull(columnName);
         this.getter     = new GetIntImpl<>(this, getter);
         this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
@@ -164,5 +167,10 @@ public final class IntFieldImpl<ENTITY, D> implements IntField<ENTITY, D> {
     @Override
     public SpeedmentPredicate<ENTITY> notIn(Collection<Integer> values) {
         return new IntNotInPredicate<>(this, collectionToSet(values));
+    }
+
+    @Override
+    public String columnName() {
+        return columnName;
     }
 }
