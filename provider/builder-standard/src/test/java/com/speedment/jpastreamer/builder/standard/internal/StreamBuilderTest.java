@@ -2,12 +2,9 @@ package com.speedment.jpastreamer.builder.standard.internal;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

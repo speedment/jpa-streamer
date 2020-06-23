@@ -2,32 +2,41 @@ package com.speedment.jpastreamer.renderer.standard.internal;
 
 import static java.util.Objects.requireNonNull;
 
+import com.speedment.jpastreamer.criteria.Criteria;
+import com.speedment.jpastreamer.criteria.CriteriaFactory;
+import com.speedment.jpastreamer.merger.CriteriaMerger;
+import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
+import com.speedment.jpastreamer.rootfactory.RootFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.stream.Stream;
 
 public final class StandardRenderer implements Renderer {
 
     private final EntityManager entityManager;
+    private final CriteriaFactory criteriaFactory;
+
+    private final CriteriaMerger criteriaMerger;
+    private final QueryMerger queryMerger;
 
     StandardRenderer(final EntityManagerFactory entityManagerFactory) {
         this.entityManager = requireNonNull(entityManagerFactory).createEntityManager();
+        this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class);
+        this.criteriaMerger = RootFactory.getOrThrow(CriteriaMerger.class);
+        this.queryMerger = RootFactory.getOrThrow(QueryMerger.class);
     }
 
     @Override
     public <T> RenderResult<T> render(final Pipeline<T> pipeline) {
         final Class<T> entityClass = pipeline.root();
 
-        final Stream<T> baseStream = baseStream(entityManager, entityClass);
+        final Stream<T> baseStream = baseStream(pipeline, entityManager, entityClass);
         final Stream<T> replayed = replay(baseStream, pipeline);
 
         return new StandardRenderResult<>(
@@ -36,14 +45,19 @@ public final class StandardRenderer implements Renderer {
         );
     }
 
-     private <T> Stream<T> baseStream(final EntityManager entityManager, final Class<T> entityClass) {
-         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+     private <T> Stream<T> baseStream(
+         final Pipeline<T> pipeline,
+         final EntityManager entityManager,
+         final Class<T> entityClass
+     ) {
+         final Criteria<T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
+         criteria.getQuery().select(criteria.getRoot());
 
-         final Root<T> root = criteriaQuery.from(entityClass);
-         criteriaQuery.select(root);
+         criteriaMerger.merge(pipeline, criteria);
 
-         final TypedQuery<T> typedQuery = entityManager.createQuery(criteriaQuery);
+         final TypedQuery<T> typedQuery = entityManager.createQuery(criteria.getQuery());
+
+         queryMerger.merge(pipeline, typedQuery);
 
          return typedQuery.getResultStream();
      }
