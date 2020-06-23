@@ -53,8 +53,8 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
     private final String columnName;
     private final ReferenceGetter<ENTITY, E> getter;
     Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass;
-    private final Function<E, String> enumToString;
-    private final Function<String, E> stringToEnum;
+    private final Function<E, D> enumToDbType;
+    private final Function<D, E> dbTypeToEnum;
     private final Class<E> enumClass;
     private final EnumSet<E> constants;
 
@@ -63,16 +63,16 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
             final String columnName,
             final ReferenceGetter<ENTITY, E> getter,
             final Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass,
-            final Function<E, String> enumToString,
-            final Function<String, E> stringToEnum,
+            final Function<E, D> enumToDbType,
+            final Function<D, E> dbTypeToEnum,
             final Class<E> enumClass
     ) {
         this.table = requireNonNull(table);
         this.columnName = requireNonNull(columnName);
         this.getter       = requireNonNull(getter);
         this.attributeConverterClass = attributeConverterClass;
-        this.enumToString = requireNonNull(enumToString);
-        this.stringToEnum = requireNonNull(stringToEnum);
+        this.enumToDbType = requireNonNull(enumToDbType);
+        this.dbTypeToEnum = requireNonNull(dbTypeToEnum);
         this.enumClass    = requireNonNull(enumClass);
         this.constants    = EnumSet.allOf(enumClass);
     }
@@ -107,13 +107,13 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
     }
 
     @Override
-    public Function<String, E> stringToEnum() {
-        return stringToEnum;
+    public Function<D, E> dbTypeToEnum() {
+        return dbTypeToEnum;
     }
 
     @Override
-    public Function<E, String> enumToString() {
-        return enumToString;
+    public Function<E, D> enumToDbType() {
+        return enumToDbType;
     }
 
     @Override
@@ -258,214 +258,6 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
     @Override
     public SpeedmentPredicate<ENTITY> notIn(Collection<E> values) {
         return toEntityPredicate(e -> !values.contains(e));
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    //                           String Predicates                            //
-    ////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public SpeedmentPredicate<ENTITY> equal(String value) {
-        return toEntityPredicate(e -> value.equals(enumToString.apply(e)));
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notEqual(String value) {
-        return toEntityPredicate(e -> !value.equals(enumToString.apply(e)));
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> lessThan(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.compareTo(value) < 0;
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> lessOrEqual(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.compareTo(value) <= 0;
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> greaterThan(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.compareTo(value) > 0;
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> greaterOrEqual(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.compareTo(value) >= 0;
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> between(String start, String end, Inclusion inclusion) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            if (str == null) return false;
-
-            switch (inclusion) {
-                case START_EXCLUSIVE_END_EXCLUSIVE:
-                    return str.compareTo(start) >  0 && str.compareTo(end) <  0;
-                case START_EXCLUSIVE_END_INCLUSIVE:
-                    return str.compareTo(start) >  0 && str.compareTo(end) <= 0;
-                case START_INCLUSIVE_END_EXCLUSIVE:
-                    return str.compareTo(start) >= 0 && str.compareTo(end) <  0;
-                case START_INCLUSIVE_END_INCLUSIVE:
-                    return str.compareTo(start) >= 0 && str.compareTo(end) <= 0;
-                default : throw newUnsupportedOperationException(inclusion);
-            }
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notBetween(String start, String end, Inclusion inclusion) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            if (str == null) return false;
-
-            switch (inclusion) {
-                case START_EXCLUSIVE_END_EXCLUSIVE:
-                    return str.compareTo(start) <= 0 || str.compareTo(end) >= 0;
-                case START_EXCLUSIVE_END_INCLUSIVE:
-                    return str.compareTo(start) <= 0 || str.compareTo(end) >  0;
-                case START_INCLUSIVE_END_EXCLUSIVE:
-                    return str.compareTo(start) <  0 || str.compareTo(end) >= 0;
-                case START_INCLUSIVE_END_INCLUSIVE:
-                    return str.compareTo(start) <  0 || str.compareTo(end) >  0;
-                default : throw newUnsupportedOperationException(inclusion);
-            }
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> isEmpty() {
-        return toEntityPredicate(e -> "".equals(enumToString.apply(e)));
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> equalIgnoreCase(String value) {
-        return toEntityPredicate(e -> value.equalsIgnoreCase(enumToString.apply(e)));
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> startsWith(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.startsWith(value);
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> startsWithIgnoreCase(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.toLowerCase()
-                .startsWith(value.toLowerCase());
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> endsWith(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.endsWith(value);
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> endsWithIgnoreCase(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.toLowerCase()
-                .endsWith(value.toLowerCase());
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> contains(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.contains(value);
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> containsIgnoreCase(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && str.toLowerCase()
-                .contains(value.toLowerCase());
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> isNotEmpty() {
-        return toEntityPredicate(e -> !"".equals(enumToString.apply(e)));
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notEqualIgnoreCase(String value) {
-        return toEntityPredicate(e -> !value.equalsIgnoreCase(enumToString.apply(e)));
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notStartsWith(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && !str.startsWith(value);
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notEndsWith(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && !str.endsWith(value);
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notContains(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && !str.contains(value);
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notStartsWithIgnoreCase(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && !str.toLowerCase()
-                .startsWith(value.toLowerCase());
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notEndsWithIgnoreCase(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && !str.toLowerCase()
-                .endsWith(value.toLowerCase());
-        });
-    }
-
-    @Override
-    public SpeedmentPredicate<ENTITY> notContainsIgnoreCase(String value) {
-        return toEntityPredicate(e -> {
-            final String str = enumToString.apply(e);
-            return str != null && !str.toLowerCase()
-                .contains(value.toLowerCase());
-        });
     }
 
     ////////////////////////////////////////////////////////////////////////////

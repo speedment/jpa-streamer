@@ -41,7 +41,6 @@ import java.util.function.ToDoubleFunction;
  */
 public interface EnumField<ENTITY, D, E extends Enum<E>>
 extends ComparableField<ENTITY, D, E>,
-        HasStringOperators<ENTITY>,
         ToEnumNullable<ENTITY, E> {
 
     /**
@@ -64,144 +63,25 @@ extends ComparableField<ENTITY, D, E>,
     EnumSet<E> constants();
 
     /**
-     * A method that takes a {@code String} and converts it into an enum for
+     * A method that takes a value of type {@code D} and converts it into an enum for
      * this field.
      * <p>
      * The function should return {@code null} if a {@code null} value is
      * specified as input and throw an exception if the value is invalid.
      *
-     * @return  the string-to-enum mapper
+     * @return  the db-type-to-enum mapper
      */
-    Function<String, E> stringToEnum();
+    Function<D, E> dbTypeToEnum();
 
     /**
-     * A method that takes an enum and converts it into a {@code String}.
+     * A method that takes an enum and converts it into the corresponding database type {@code D}
      * <p>
      * The function should return {@code null} if a {@code null} value is
      * specified as input and throw an exception if the value is invalid.
      *
-     * @return  the enum-to-string mapper
+     * @return  the enum-to-db-type mapper
      */
-    Function<E, String> enumToString();
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is equal to the specified value. The string
-     * of the enum is determined using the {@link #enumToString()}-method.
-     *
-     * @param value  the argument
-     * @return       the predicate
-     */
-    Predicate<ENTITY> equal(String value);
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is not equal to the specified value. The
-     * string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param value  the argument
-     * @return       the predicate
-     */
-    Predicate<ENTITY> notEqual(String value);
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is less than the specified value. The
-     * string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param value  the argument
-     * @return       the predicate
-     */
-    Predicate<ENTITY> lessThan(String value);
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is less or equal to the specified value. The
-     * string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param value  the argument
-     * @return       the predicate
-     */
-    Predicate<ENTITY> lessOrEqual(String value);
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is greater than the specified value. The
-     * string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param value  the argument
-     * @return       the predicate
-     */
-    Predicate<ENTITY> greaterThan(String value);
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is greater or equal to the specified value.
-     * The string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param value  the argument
-     * @return       the predicate
-     */
-    Predicate<ENTITY> greaterOrEqual(String value);
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is between the two specified values.
-     * The string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param start  the start (inclusive)
-     * @param end    the end (exclusive)
-     * @return       the predicate
-     */
-    default Predicate<ENTITY> between(String start, String end) {
-        return between(start, end, Inclusion.START_INCLUSIVE_END_EXCLUSIVE);
-    }
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is between the two specified values.
-     * The string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param start      the start
-     * @param end        the end
-     * @param inclusion  if start and end are inclusive or exclusive
-     * @return           the predicate
-     */
-    Predicate<ENTITY> between(String start, String end, Inclusion inclusion);
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is not between the two specified values.
-     * The string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param start  the start (inclusive)
-     * @param end    the end (exclusive)
-     * @return       the predicate
-     */
-    default Predicate<ENTITY> notBetween(String start, String end) {
-        return notBetween(start, end, Inclusion.START_INCLUSIVE_END_EXCLUSIVE);
-    }
-
-    /**
-     * Returns a new predicate that evaluates if entities has a enum value for
-     * this field with a value that is not between the two specified values.
-     * The string of the enum is determined using the
-     * {@link #enumToString()}-method.
-     *
-     * @param start      the start
-     * @param end        the end
-     * @param inclusion  if start and end are inclusive or exclusive
-     * @return           the predicate
-     */
-    Predicate<ENTITY> notBetween(String start, String end, Inclusion inclusion);
+    Function<E, D> enumToDbType();
 
     @Override
     FieldIsNullPredicate<ENTITY, E> isNull();
@@ -231,8 +111,8 @@ extends ComparableField<ENTITY, D, E>,
      * @param columnName the name of the database column the field represents
      * @param getter        method reference to the getter in the entity
      * @param attributeConverterClass    the attribute converter class
-     * @param enumToString  method to convert enum to a string
-     * @param stringToEnum  method to convert a string to enum
+     * @param enumToDbType  method to convert enum to the database type
+     * @param dbTypeToEnum  method to convert the database type to enum
      * @param enumClass     the enum class
      *
      * @return            the created field
@@ -242,13 +122,13 @@ extends ComparableField<ENTITY, D, E>,
             String columnName,
             ReferenceGetter<ENTITY, E> getter,
             Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass,
-            Function<E, String> enumToString,
-            Function<String, E> stringToEnum,
+            Function<E, D> enumToDbType,
+            Function<D, E> dbTypeToEnum,
             Class<E> enumClass) {
 
         return new EnumFieldImpl<>(
                 table, columnName, getter, attributeConverterClass,
-            enumToString, stringToEnum, enumClass
+                enumToDbType, dbTypeToEnum, enumClass
         );
     }
 }

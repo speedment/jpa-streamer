@@ -58,7 +58,7 @@ public class Film {
     @Column(name = "replacement_cost", columnDefinition = "decimal(5,2)")
     private Float replacementCost;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
     private FilmRating rating;
 
