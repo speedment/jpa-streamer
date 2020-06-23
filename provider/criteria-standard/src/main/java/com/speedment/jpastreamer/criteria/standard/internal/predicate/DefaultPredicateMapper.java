@@ -19,11 +19,17 @@ package com.speedment.jpastreamer.criteria.standard.internal.predicate;
 import static java.util.Objects.requireNonNull;
 
 import com.speedment.common.tuple.Tuple;
+import com.speedment.common.tuple.Tuple3;
+import com.speedment.common.tuple.Tuples;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.standard.internal.util.Cast;
 import com.speedment.jpastreamer.exception.JpaStreamerException;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
+import com.speedment.jpastreamer.field.predicate.Inclusion;
+import com.speedment.jpastreamer.field.predicate.trait.HasInclusion;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -127,18 +133,124 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate between(
+    private <T, S extends Comparable<? super S>> Predicate between(
         final Criteria<T> criteria,
         final FieldPredicate<T> fieldPredicate
     ) {
-        throw new UnsupportedOperationException("todo");
+        return doubleBoundRangeComparisonMapping(
+            fieldPredicate,
+            (column, value) -> {
+                final CriteriaBuilder builder = criteria.getBuilder();
+                final Path<S> columnPath = criteria.getRoot().get(column);
+
+                switch (value.get2()) {
+                    case START_INCLUSIVE_END_INCLUSIVE:
+                        return builder.between(
+                            columnPath,
+                            value.get0(),
+                            value.get1()
+                        );
+                    case START_INCLUSIVE_END_EXCLUSIVE:
+                        return builder.and(
+                            builder.greaterThanOrEqualTo(
+                                columnPath,
+                                value.get0()
+                            ),
+                            builder.lessThan(
+                                columnPath,
+                                value.get1()
+                            )
+                        );
+                    case START_EXCLUSIVE_END_INCLUSIVE:
+                        return builder.and(
+                            builder.greaterThan(
+                                columnPath,
+                                value.get0()
+                            ),
+                            builder.lessThanOrEqualTo(
+                                columnPath,
+                                value.get1())
+                        );
+                    case START_EXCLUSIVE_END_EXCLUSIVE:
+                        return builder.and(
+                            builder.greaterThan(
+                                columnPath,
+                                value.get0()
+                            ),
+                            builder.lessThan(
+                                columnPath,
+                                value.get1()
+                            )
+                        );
+                    default:
+                        throw new JpaStreamerException();
+                }
+            }
+        );
     }
 
-    private <T> Predicate notBetween(
-            final Criteria<T> criteria,
-            final FieldPredicate<T> fieldPredicate
+    private <T, S extends Comparable<? super S>> Predicate notBetween(
+        final Criteria<T> criteria,
+        final FieldPredicate<T> fieldPredicate
     ) {
-        throw new UnsupportedOperationException("todo");
+        return doubleBoundRangeComparisonMapping(
+            fieldPredicate,
+            (column, value) -> {
+                final CriteriaBuilder builder = criteria.getBuilder();
+                final Path<S> columnPath = criteria.getRoot().get(column);
+
+                final Inclusion inclusion = value.get2();
+
+                switch (inclusion) {
+                    case START_INCLUSIVE_END_INCLUSIVE:
+                        return builder.or(
+                            builder.lessThan(
+                                columnPath,
+                                value.get0()
+                            ),
+                            builder.greaterThan(
+                                columnPath,
+                                value.get1()
+                            )
+                        );
+                    case START_INCLUSIVE_END_EXCLUSIVE:
+                        return builder.or(
+                            builder.lessThan(
+                                columnPath,
+                                value.get0()
+                            ),
+                            builder.greaterThanOrEqualTo(
+                                columnPath,
+                                value.get1()
+                            )
+                        );
+                    case START_EXCLUSIVE_END_INCLUSIVE:
+                        return builder.or(
+                            builder.lessThanOrEqualTo(
+                                columnPath,
+                                value.get0()
+                            ),
+                            builder.greaterThan(
+                                columnPath,
+                                value.get1()
+                            )
+                        );
+                    case START_EXCLUSIVE_END_EXCLUSIVE:
+                        return builder.or(
+                            builder.lessThanOrEqualTo(
+                                columnPath,
+                                value.get0()
+                            ),
+                            builder.greaterThanOrEqualTo(
+                                columnPath,
+                                value.get1()
+                            )
+                        );
+                    default:
+                        throw new JpaStreamerException("Inclusion type [" + inclusion + "] is not supported");
+                    }
+                }
+        );
     }
 
     private <T> Predicate in(
@@ -369,7 +481,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         final FieldPredicate<T> fieldPredicate,
         final Function<String, Predicate> callback
     ) {
-        final String column = fieldPredicate.getField().identifier().getColumnId();
+        final String column = fieldPredicate.getField().columnName();
 
         return callback.apply(column);
     }
@@ -380,7 +492,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         final BiFunction<String, S, Predicate> callback,
         final Class<S> clazz
     ) {
-        final String column = fieldPredicate.getField().identifier().getColumnId();
+        final String column = fieldPredicate.getField().columnName();
         final Object value = Cast.castOrFail(fieldPredicate, Tuple.class).get(0);
 
         if (clazz.isInstance(value)) {
@@ -396,8 +508,14 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         final BiFunction<String, Number, Predicate> callback,
         final BiFunction<String, Comparable, Predicate> comparableCallback
     ) {
-        final String column = fieldPredicate.getField().identifier().getColumnId();
-        final Object value = Cast.castOrFail(fieldPredicate, Tuple.class).get(0);
+        final String column = fieldPredicate.getField().columnName();
+        final Tuple tuple = Cast.castOrFail(fieldPredicate, Tuple.class);
+
+        if (tuple.degree() != 1) {
+            throw new JpaStreamerException("Invalid number of arguments - expected 1, found " + tuple.degree());
+        }
+
+        final Object value = tuple.get(0);
 
         if (value instanceof Number) {
             return callback.apply(column, (Number) value);
@@ -409,6 +527,35 @@ public final class DefaultPredicateMapper implements PredicateMapper {
 
         if (value instanceof Comparable) {
             return comparableCallback.apply(column, (Comparable) value);
+        }
+
+        throw new JpaStreamerException("Illegal comparison value [" + value + "]");
+    }
+
+    @SuppressWarnings({"rawtypes"})
+    private <T> Predicate doubleBoundRangeComparisonMapping(
+            final FieldPredicate<T> fieldPredicate,
+            final BiFunction<String, Tuple3<Comparable, Comparable, Inclusion>, Predicate> callback
+    ) {
+        final String column = fieldPredicate.getField().columnName();
+        final Tuple value = Cast.castOrFail(fieldPredicate, Tuple.class);
+
+        if (value.degree() != 2) {
+            throw new JpaStreamerException("Invalid number of arguments - expected 2, found " + value.degree());
+        }
+
+        final Inclusion inclusion = Cast.cast(fieldPredicate, HasInclusion.class)
+            .map(HasInclusion::getInclusion)
+            .orElse(Inclusion.START_INCLUSIVE_END_INCLUSIVE);
+
+        if (value.get(0) instanceof Comparable && value.get(1) instanceof Comparable) {
+            final Tuple3<Comparable, Comparable, Inclusion> tuple3 = Tuples.of(
+                (Comparable) value.get(0),
+                (Comparable) value.get(1),
+                inclusion
+            );
+
+            return callback.apply(column, tuple3);
         }
 
         throw new JpaStreamerException("Illegal comparison value [" + value + "]");
