@@ -8,7 +8,6 @@ import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Field;
 import com.speedment.jpastreamer.field.*;
 import com.speedment.jpastreamer.fieldgenerator.standard.exception.FieldGeneratorProcessorException;
-import com.speedment.jpastreamer.fieldgenerator.standard.util.GeneratorUtil;
 
 import javax.annotation.processing.*;
 import javax.lang.model.element.*;
@@ -25,11 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.speedment.common.codegen.util.Formatting.*;
+import static com.speedment.jpastreamer.fieldgenerator.standard.util.GeneratorUtil.*;
 
 /**
  * JPAStreamer standard annotation processor that generates fields for classes annotated
@@ -132,7 +131,12 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         String fieldName = field.getSimpleName().toString();
         Column col = field.getAnnotation(Column.class);
 
-        java.lang.Class fieldClass = GeneratorUtil.parseType(fieldType(field).getTypeName());
+        java.lang.Class fieldClass;
+        try {
+            fieldClass = parseType(fieldType(field).getTypeName());
+        } catch (IllegalArgumentException e) {
+            throw new FieldGeneratorProcessorException("Type with name " + fieldType(field).getTypeName() + " was not found.");
+        }
 
         Type referenceType = referenceType(field, fieldClass, entityName);
 
@@ -212,7 +216,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     }
 
     private Type referenceType(Element field, java.lang.Class fieldClass, String entityName) throws FieldGeneratorProcessorException {
-        SimpleType fieldType = fieldType(field);
+        Type fieldType = fieldType(field);
         Type dbType = dbType(field);
         Type entityType = SimpleType.create(entityName);
         final Type type;
@@ -228,9 +232,9 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         SimpleParameterizedType.create(ComparableField.class, entityType, dbType, fieldType);
             } else {
                 type = SimpleParameterizedType.create(ReferenceField.class, entityType, dbType, fieldType);
+                messager.printMessage(Diagnostic.Kind.NOTE, "Parsing field type: " + fieldType + " for field " + field.getSimpleName());
+
             }
-        } catch (IllegalArgumentException e) {
-            throw new FieldGeneratorProcessorException("Type with name " + fieldType.getTypeName() + " was not found.");
         } catch (UnsupportedOperationException e) {
             throw new FieldGeneratorProcessorException("Primitive type " + fieldType.getTypeName() + " could not be parsed.");
         }
@@ -238,7 +242,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return type;
     }
 
-    private Type enumFieldType(Element field, SimpleType fieldType, Type entityType) {
+    private Type enumFieldType(Element field, Type fieldType, Type entityType) {
         Type type;
         Enumerated enumerated = field.getAnnotation(Enumerated.class);
         if (enumerated != null && enumerated.value() == EnumType.STRING) {
@@ -257,28 +261,44 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return type;
     }
 
-    private SimpleType fieldType(Element field) {
-        return SimpleType.create(field.asType().toString());
+    private Type fieldType(Element field) {
+        String fieldTypeName = field.asType().toString();
+        if (fieldTypeName.contains("<")) {
+            String typeName = fieldTypeName.substring(0, fieldTypeName.indexOf("<"));
+            String paramTypeName = fieldTypeName.substring(fieldTypeName.indexOf("<") + 1, fieldTypeName.indexOf(">"));
+            messager.printMessage(Diagnostic.Kind.NOTE, "Hello the typeName is " + typeName + " and the paramName is " + paramTypeName);
+            return SimpleParameterizedType.create(parseType(typeName), SimpleType.create(paramTypeName));
+        } else {
+            return SimpleType.create(field.asType().toString());
+        }
     }
 
     /* Returns the field database type. If no converter is used, the database type is assumed to be the same as the field type. */
-    private SimpleType dbType(Element field) {
-        Optional<SimpleType> databaseType = Optional.empty();
-        // Derive database field type from converter
-        try {
-            final Convert annotation = field.getAnnotation(Convert.class);
-            if (annotation != null) {
-                annotation.converter();
+    private Type dbType(Element field) {
+        Optional<Type> databaseType = Optional.empty();
+
+        if (fieldType(field) instanceof  SimpleParameterizedType) {
+            Type[] actualTypeArguments = ((SimpleParameterizedType) fieldType(field)).getActualTypeArguments();
+            if (actualTypeArguments.length == 1) {
+                databaseType = Optional.of(actualTypeArguments[0]);
             }
-        } catch(MirroredTypeException e) {
-            Optional<SimpleType> converterType = Optional.of(SimpleType.create(e.getTypeMirror().toString()));
-            java.lang.Class<?> c = GeneratorUtil.parseType(converterType.get().getTypeName());
-            // Stream converter methods to retrieve database type
-            databaseType = Stream.of(c.getDeclaredMethods())
-                    .filter(m -> m.getName().equals("convertToDatabaseColumn")
-                            && !m.getReturnType().getSimpleName().equals("Object"))
-                    .map(m -> SimpleType.create(m.getReturnType().getTypeName()))
-                    .findFirst();
+        } else {
+            // Derive database field type from converter
+            try {
+                final Convert annotation = field.getAnnotation(Convert.class);
+                if (annotation != null) {
+                    annotation.converter();
+                }
+            } catch (MirroredTypeException e) {
+                Optional<SimpleType> converterType = Optional.of(SimpleType.create(e.getTypeMirror().toString()));
+                java.lang.Class<?> c = parseType(converterType.get().getTypeName());
+                // Stream converter methods to retrieve database type
+                databaseType = Stream.of(c.getDeclaredMethods())
+                        .filter(m -> m.getName().equals("convertToDatabaseColumn")
+                                && !m.getReturnType().getSimpleName().equals("Object"))
+                        .map(m -> (Type) SimpleType.create(m.getReturnType().getTypeName()))
+                        .findFirst();
+            }
         }
         return databaseType.orElse(fieldType(field));
     }

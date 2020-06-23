@@ -29,7 +29,16 @@ public class GeneratorUtil {
             case "void":
                 return void.class;
             default:
-                String fullName = className.contains(".") ? className : "java.lang.".concat(className);
+                String fullName;
+                if (!className.contains(".")) {
+                    fullName = "java.lang.".concat(className);
+                } else if (className.contains("<")) {
+                    fullName = className.substring(0, className.indexOf("<"));
+                } else if (className.contains("[]")) {
+                    fullName = ""; // TODO SUPPORT ARRAY
+                } else {
+                    fullName = className;
+                }
                 try {
                     return Class.forName(fullName);
                 } catch (ClassNotFoundException ex) {

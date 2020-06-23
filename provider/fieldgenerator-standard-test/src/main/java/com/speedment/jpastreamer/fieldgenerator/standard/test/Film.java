@@ -62,8 +62,8 @@ public class Film {
     @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
     private FilmRating rating;
 
-  /*  @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
-    private Set<String> specialFeatures; // Should be Set<String>*/
+    @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
+    private Set<String> specialFeatures; // Should be Set<String>
 
     @Column(name = "last_update", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime lastUpdate;
@@ -161,13 +161,13 @@ public class Film {
         this.rating = rating;
     }
 
-    /*public Set<String> getSpecialFeatures() {
+    public Set<String> getSpecialFeatures() {
         return specialFeatures;
     }
 
     public void setSpecialFeatures(Set<String> specialFeatures) {
         this.specialFeatures = specialFeatures;
-    }*/
+    }
 
 
     public LocalDateTime getLastUpdate() {
@@ -197,7 +197,7 @@ public class Film {
                 ", length=" + length +
                 ", replacementCost=" + replacementCost +
                 ", rating=" + rating +
-               // ", specialFeatures='" + specialFeatures + '\'' +
+                ", specialFeatures='" + specialFeatures + '\'' +
                // ", lastUpdate=" + lastUpdate +
                 '}';
     }
