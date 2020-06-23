@@ -133,6 +133,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
+    @SuppressWarnings("unchecked")
     private <T, S extends Comparable<? super S>> Predicate between(
         final Criteria<T> criteria,
         final FieldPredicate<T> fieldPredicate
@@ -143,52 +144,61 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                 final CriteriaBuilder builder = criteria.getBuilder();
                 final Path<S> columnPath = criteria.getRoot().get(column);
 
-                switch (value.get2()) {
+                final S first = (S) value.get0();
+                final S second = (S) value.get1();
+
+                final Inclusion inclusion = value.get2();
+
+                switch (inclusion) {
                     case START_INCLUSIVE_END_INCLUSIVE:
                         return builder.between(
                             columnPath,
-                            value.get0(),
-                            value.get1()
+                            first,
+                            second
                         );
                     case START_INCLUSIVE_END_EXCLUSIVE:
                         return builder.and(
                             builder.greaterThanOrEqualTo(
                                 columnPath,
-                                value.get0()
+                                first
                             ),
                             builder.lessThan(
                                 columnPath,
-                                value.get1()
+                                second
                             )
                         );
                     case START_EXCLUSIVE_END_INCLUSIVE:
                         return builder.and(
                             builder.greaterThan(
                                 columnPath,
-                                value.get0()
+                                first
                             ),
                             builder.lessThanOrEqualTo(
                                 columnPath,
-                                value.get1())
+                                second
+                            )
                         );
                     case START_EXCLUSIVE_END_EXCLUSIVE:
                         return builder.and(
                             builder.greaterThan(
                                 columnPath,
-                                value.get0()
+                                first
                             ),
                             builder.lessThan(
                                 columnPath,
-                                value.get1()
+                                second
                             )
                         );
                     default:
-                        throw new JpaStreamerException();
+                        throw new JpaStreamerException(
+                            "Inclusion type [" + inclusion + "] is not supported"
+                        );
                 }
             }
         );
     }
 
+    @SuppressWarnings("unchecked")
     private <T, S extends Comparable<? super S>> Predicate notBetween(
         final Criteria<T> criteria,
         final FieldPredicate<T> fieldPredicate
@@ -199,6 +209,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                 final CriteriaBuilder builder = criteria.getBuilder();
                 final Path<S> columnPath = criteria.getRoot().get(column);
 
+                final S first = (S) value.get0();
+                final S second = (S) value.get1();
+
                 final Inclusion inclusion = value.get2();
 
                 switch (inclusion) {
@@ -206,48 +219,50 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                         return builder.or(
                             builder.lessThan(
                                 columnPath,
-                                value.get0()
+                                first
                             ),
                             builder.greaterThan(
                                 columnPath,
-                                value.get1()
+                                second
                             )
                         );
                     case START_INCLUSIVE_END_EXCLUSIVE:
                         return builder.or(
                             builder.lessThan(
                                 columnPath,
-                                value.get0()
+                                first
                             ),
                             builder.greaterThanOrEqualTo(
                                 columnPath,
-                                value.get1()
+                                second
                             )
                         );
                     case START_EXCLUSIVE_END_INCLUSIVE:
                         return builder.or(
                             builder.lessThanOrEqualTo(
                                 columnPath,
-                                value.get0()
+                                first
                             ),
                             builder.greaterThan(
                                 columnPath,
-                                value.get1()
+                                second
                             )
                         );
                     case START_EXCLUSIVE_END_EXCLUSIVE:
                         return builder.or(
                             builder.lessThanOrEqualTo(
                                 columnPath,
-                                value.get0()
+                                first
                             ),
                             builder.greaterThanOrEqualTo(
                                 columnPath,
-                                value.get1()
+                                second
                             )
                         );
                     default:
-                        throw new JpaStreamerException("Inclusion type [" + inclusion + "] is not supported");
+                        throw new JpaStreamerException(
+                            "Inclusion type [" + inclusion + "] is not supported"
+                        );
                     }
                 }
         );
@@ -532,10 +547,10 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         throw new JpaStreamerException("Illegal comparison value [" + value + "]");
     }
 
-    @SuppressWarnings({"rawtypes"})
-    private <T> Predicate doubleBoundRangeComparisonMapping(
+    @SuppressWarnings("unchecked")
+    private <T, S extends Comparable<? super S>> Predicate doubleBoundRangeComparisonMapping(
             final FieldPredicate<T> fieldPredicate,
-            final BiFunction<String, Tuple3<Comparable, Comparable, Inclusion>, Predicate> callback
+            final BiFunction<String, Tuple3<S, S, Inclusion>, Predicate> callback
     ) {
         final String column = fieldPredicate.getField().columnName();
         final Tuple value = Cast.castOrFail(fieldPredicate, Tuple.class);
@@ -549,9 +564,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             .orElse(Inclusion.START_INCLUSIVE_END_INCLUSIVE);
 
         if (value.get(0) instanceof Comparable && value.get(1) instanceof Comparable) {
-            final Tuple3<Comparable, Comparable, Inclusion> tuple3 = Tuples.of(
-                (Comparable) value.get(0),
-                (Comparable) value.get(1),
+            final Tuple3<S, S, Inclusion> tuple3 = Tuples.of(
+                (S) value.get(0),
+                (S) value.get(1),
                 inclusion
             );
 
