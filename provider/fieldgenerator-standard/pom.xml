@@ -47,10 +47,6 @@
             <artifactId>auto-service-annotations</artifactId>
             <version>${auto-service.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>field</artifactId>
-        </dependency>
 
     </dependencies>
 
