@@ -150,7 +150,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                 final Inclusion inclusion = value.get2();
 
                 switch (inclusion) {
-                    case START_INCLUSIVE_END_INCLUSIVE:
+                    case START_EXCLUSIVE_END_EXCLUSIVE:
                         return builder.between(
                             columnPath,
                             first,
@@ -178,13 +178,13 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                                 second
                             )
                         );
-                    case START_EXCLUSIVE_END_EXCLUSIVE:
+                    case START_INCLUSIVE_END_INCLUSIVE:
                         return builder.and(
-                            builder.greaterThan(
+                            builder.greaterThanOrEqualTo(
                                 columnPath,
                                 first
                             ),
-                            builder.lessThan(
+                            builder.lessThanOrEqualTo(
                                 columnPath,
                                 second
                             )
@@ -215,20 +215,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                 final Inclusion inclusion = value.get2();
 
                 switch (inclusion) {
-                    case START_INCLUSIVE_END_INCLUSIVE:
+                    case START_EXCLUSIVE_END_EXCLUSIVE:
                         return builder.or(
-                            builder.lessThan(
-                                columnPath,
-                                first
-                            ),
-                            builder.greaterThan(
-                                columnPath,
-                                second
-                            )
-                        );
-                    case START_INCLUSIVE_END_EXCLUSIVE:
-                        return builder.or(
-                            builder.lessThan(
+                            builder.lessThanOrEqualTo(
                                 columnPath,
                                 first
                             ),
@@ -248,9 +237,20 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                                 second
                             )
                         );
-                    case START_EXCLUSIVE_END_EXCLUSIVE:
+                    case START_INCLUSIVE_END_INCLUSIVE:
                         return builder.or(
-                            builder.lessThanOrEqualTo(
+                            builder.lessThan(
+                                columnPath,
+                                first
+                            ),
+                            builder.greaterThan(
+                                columnPath,
+                                second
+                            )
+                        );
+                    case START_INCLUSIVE_END_EXCLUSIVE:
+                        return builder.or(
+                            builder.lessThan(
                                 columnPath,
                                 first
                             ),
