@@ -77,16 +77,13 @@ implements FieldPredicate<ENTITY> {
 
     @Override
     public String toString() {
-        final ColumnIdentifier<ENTITY> cId = field.identifier();
+        final Class<ENTITY> table = field.table();
         final StringBuilder sb = new StringBuilder();
 
         sb.append(getClass().getSimpleName())
             .append(" {")
-            .append("field: ")
-            .append(cId.getDbmsId()).append('.')
-            .append(cId.getSchemaId()).append('.')
-            .append(cId.getTableId()).append('.')
-            .append(cId.getColumnId())
+            .append("table: ")
+            .append(table.getName()).append('.')
             .append(", type: '").append(predicateType).append("'");
 
         Cast.cast(this, Tuple.class).ifPresent(tuple -> {

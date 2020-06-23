@@ -17,12 +17,8 @@
 package com.speedment.jpastreamer.field.trait;
 
 import com.speedment.common.annotation.GeneratedCode;
-import com.speedment.jpastreamer.field.internal.method.SetToCharImpl;
-import com.speedment.jpastreamer.field.method.CharSetter;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.method.GetChar;
-import com.speedment.jpastreamer.field.method.SetToChar;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 /**
  * A representation of an Entity field that is a primitive {@code char} type.
@@ -37,13 +33,7 @@ import com.speedment.runtime.typemapper.TypeMapper;
 public interface HasCharValue<ENTITY, D> extends Field<ENTITY> {
     
     @Override
-    CharSetter<ENTITY> setter();
-    
-    @Override
     GetChar<ENTITY, D> getter();
-    
-    @Override
-    TypeMapper<D, Character> typeMapper();
     
     /**
      * Gets the value from the Entity field.
@@ -54,26 +44,5 @@ public interface HasCharValue<ENTITY, D> extends Field<ENTITY> {
     default char getAsChar(ENTITY entity) {
         return getter().applyAsChar(entity);
     }
-    
-    /**
-     * Sets the value in the given Entity.
-     * 
-     * @param entity the entity
-     * @param value  to set
-     * @return       the entity itself
-     */
-    default ENTITY set(ENTITY entity, char value) {
-        setter().setAsChar(entity, value);
-        return entity;
-    }
-    
-    /**
-     * Creates and returns a setter handler with a given value.
-     * 
-     * @param value to set
-     * @return      a set-operation with a given value
-     */
-    default SetToChar<ENTITY, D> setTo(char value) {
-        return new SetToCharImpl<>(this, value);
-    }
+
 }

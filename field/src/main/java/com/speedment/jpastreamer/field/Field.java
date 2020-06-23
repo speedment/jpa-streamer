@@ -17,10 +17,9 @@
 package com.speedment.jpastreamer.field;
 
 
-import com.speedment.jpastreamer.field.trait.HasSetter;
-import com.speedment.jpastreamer.field.trait.HasTypeMapper;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasGetter;
-import com.speedment.jpastreamer.field.trait.HasIdentifier;
+import com.speedment.jpastreamer.field.trait.HasTable;
 
 /**
  * The base interface for all fields.
@@ -31,11 +30,9 @@ import com.speedment.jpastreamer.field.trait.HasIdentifier;
  * @author  Emil Forslund
  * @since   2.2.0
  */
-public interface Field<ENTITY> extends 
-        HasIdentifier<ENTITY>, 
-        HasGetter<ENTITY>,
-        HasSetter<ENTITY>,
-        HasTypeMapper {
+public interface Field<ENTITY> extends
+        HasTable<ENTITY>,
+        HasGetter<ENTITY> {
   
     /**
      * Returns {@code true} if the column that this field represents is UNIQUE.
@@ -43,26 +40,5 @@ public interface Field<ENTITY> extends
      * @return  {@code true} if unique
      */
     boolean isUnique();
-
-    /**
-     * Returns the table alias for this field. The default table alias is the table name
-     * for the field. A custom value can be set using the {@link #tableAlias(String)} method.
-     *
-     * @return the table alias for this field
-     * @since  3.1.3
-     */
-    String tableAlias();
-
-    /**
-     * Creates and returns a new Field with the provided {@code tableAlias}. The new Field
-     * will retain all other properties from this field except the tableAlias.
-     *
-     * @param tableAlias  the table alias to use in the new field
-     * @return a new Field with the provided {@code tableAlias}
-     *
-     * @throws NullPointerException if the provided {@code tableAlias} is {@code null}
-     * @since  3.1.3
-     */
-    Field<ENTITY> tableAlias(String tableAlias);
 
 }

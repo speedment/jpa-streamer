@@ -21,16 +21,15 @@ import com.speedment.jpastreamer.field.BooleanField;
 import com.speedment.jpastreamer.field.internal.comparator.BooleanFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.method.GetBooleanImpl;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.BooleanFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.internal.predicate.booleans.BooleanEqualPredicate;
 import com.speedment.jpastreamer.field.internal.predicate.booleans.BooleanNotEqualPredicate;
 import com.speedment.jpastreamer.field.method.BooleanGetter;
-import com.speedment.jpastreamer.field.method.BooleanSetter;
 import com.speedment.jpastreamer.field.method.GetBoolean;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 import static java.util.Objects.requireNonNull;
 
@@ -48,70 +47,40 @@ import static java.util.Objects.requireNonNull;
 @GeneratedCode(value = "Speedment")
 public final class BooleanFieldImpl<ENTITY, D> implements BooleanField<ENTITY, D> {
     
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final GetBoolean<ENTITY, D> getter;
-    private final BooleanSetter<ENTITY> setter;
-    private final TypeMapper<D, Boolean> typeMapper;
+    private final Class<? extends AttributeConverter<Boolean, ? super D>> attributeConverterClass;
     private final boolean unique;
-    private final String tableAlias;
-    
+
     public BooleanFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             BooleanGetter<ENTITY> getter,
-            BooleanSetter<ENTITY> setter,
-            TypeMapper<D, Boolean> typeMapper,
+            Class<? extends AttributeConverter<Boolean, ? super D>> attributeConverterClass,
             boolean unique) {
-        this.identifier = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter     = new GetBooleanImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
-        this.tableAlias = identifier.getTableId();
     }
-    
-    private BooleanFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
-            BooleanGetter<ENTITY> getter,
-            BooleanSetter<ENTITY> setter,
-            TypeMapper<D, Boolean> typeMapper,
-            boolean unique,
-            String tableAlias) {
-        this.identifier = requireNonNull(identifier);
-        this.getter     = new GetBooleanImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
-        this.unique     = unique;
-        this.tableAlias = requireNonNull(tableAlias);
-    }
-    
+
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
+    public Class<ENTITY> table() {
+        return table;
     }
-    
-    @Override
-    public BooleanSetter<ENTITY> setter() {
-        return setter;
-    }
-    
+
     @Override
     public GetBoolean<ENTITY, D> getter() {
         return getter;
     }
     
     @Override
-    public TypeMapper<D, Boolean> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<Boolean, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
     
     @Override
     public boolean isUnique() {
         return unique;
-    }
-    
-    @Override
-    public String tableAlias() {
-        return tableAlias;
     }
     
     @Override
@@ -127,12 +96,6 @@ public final class BooleanFieldImpl<ENTITY, D> implements BooleanField<ENTITY, D
     @Override
     public boolean isReversed() {
         return false;
-    }
-    
-    @Override
-    public BooleanField<ENTITY, D> tableAlias(String tableAlias) {
-        requireNonNull(tableAlias);
-        return new BooleanFieldImpl<>(identifier, getter, setter, typeMapper, unique, tableAlias);
     }
     
     @Override

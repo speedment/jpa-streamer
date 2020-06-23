@@ -81,7 +81,7 @@ implements IntFieldComparator<ENTITY, D> {
     
     @Override
     public int hashCode() {
-        return (4049 + Objects.hashCode(this.field.identifier())) * 3109
+        return (4049 + Objects.hashCode(this.field.table())) * 3109
             + Boolean.hashCode(reversed);
     }
     
@@ -96,14 +96,14 @@ implements IntFieldComparator<ENTITY, D> {
         
         return reversed == casted.isReversed()
             && Objects.equals(
-                field.identifier(),
-                casted.getField().identifier()
+                field.table(),
+                casted.getField().table()
             );
     }
     
     @Override
     public String toString() {
-        return "(order by " + field.identifier() + " " +
+        return "(order by " + field.table() + " " +
             (reversed ? "descending" : "ascending") + ")";
     }
     

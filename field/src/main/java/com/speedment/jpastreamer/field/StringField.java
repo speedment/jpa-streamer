@@ -18,14 +18,13 @@ package com.speedment.jpastreamer.field;
 
 
 import com.speedment.runtime.compute.ToStringNullable;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.internal.StringFieldImpl;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
 import com.speedment.jpastreamer.field.predicate.FieldIsNotNullPredicate;
 import com.speedment.jpastreamer.field.predicate.FieldIsNullPredicate;
 import com.speedment.jpastreamer.field.trait.HasStringOperators;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents a string column.
@@ -50,28 +49,23 @@ public interface StringField<ENTITY, D> extends
      * 
      * @param <ENTITY>    the entity type
      * @param <D>         the database type
-     * @param identifier  the column that this field represents
+     * @param table       the table that the field belongs to
      * @param getter      method reference to the getter in the entity
-     * @param setter      method reference to the setter in the entity
-     * @param typeMapper  the type mapper that is applied
+     * @param attributeConverterClass  the attribute converter class
      * @param unique      represented column only contains unique values
-     * 
+     *
      * @return            the created field
      */
     static <ENTITY, D> StringField<ENTITY, D> create(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             ReferenceGetter<ENTITY, String> getter,
-            ReferenceSetter<ENTITY, String> setter,
-            TypeMapper<D, String> typeMapper,
+            Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass,
             boolean unique) {
         
         return new StringFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                table, getter, attributeConverterClass, unique
         );
     }
-
-    @Override
-    StringField<ENTITY, D> tableAlias(String tableAlias);
 
     @Override
     FieldIsNullPredicate<ENTITY, String> isNull();

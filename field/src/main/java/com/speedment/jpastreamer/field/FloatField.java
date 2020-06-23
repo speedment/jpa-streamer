@@ -17,15 +17,15 @@
 package com.speedment.jpastreamer.field;
 
 import com.speedment.common.annotation.GeneratedCode;
-import com.speedment.jpastreamer.field.method.FloatSetter;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
 import com.speedment.jpastreamer.field.trait.HasFloatValue;
 import com.speedment.runtime.compute.ToFloat;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.FloatFieldComparator;
 import com.speedment.jpastreamer.field.internal.FloatFieldImpl;
 import com.speedment.jpastreamer.field.method.FloatGetter;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents a primitive {@code float} value.
@@ -39,33 +39,35 @@ import com.speedment.runtime.typemapper.TypeMapper;
  * @since  3.0.0
  */
 @GeneratedCode(value = "Speedment")
-public interface FloatField<ENTITY, D> extends Field<ENTITY>, HasFloatValue<ENTITY, D>, HasComparableOperators<ENTITY, Float>, ToFloat<ENTITY>, FloatFieldComparator<ENTITY, D> {
+public interface FloatField<ENTITY, D> extends
+        Field<ENTITY>,
+        HasFloatValue<ENTITY, D>,
+        HasComparableOperators<ENTITY, Float>,
+        ToFloat<ENTITY>,
+        FloatFieldComparator<ENTITY, D>,
+        HasAttributeConverterClass<Float, D>
+{
     
     /**
      * Creates a new {@link FloatField} using the default implementation.
      * 
      * @param <ENTITY>   entity type
      * @param <D>        database type
-     * @param identifier column that this field represents
+     * @param table      the field that this field belongs to
      * @param getter     method reference to getter in entity
-     * @param setter     method reference to setter in entity
-     * @param typeMapper type mapper that is applied
+     * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
      * @return           the created field
      */
     static <ENTITY, D> FloatField<ENTITY, D> create(
-    ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             FloatGetter<ENTITY> getter,
-            FloatSetter<ENTITY> setter,
-            TypeMapper<D, Float> typeMapper,
+            Class<? extends AttributeConverter<Float, ? super D>> attributeConverterClass,
             boolean unique) {
         return new FloatFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                table, getter, attributeConverterClass, unique
         );
     }
-    
-    @Override
-    FloatField<ENTITY, D> tableAlias(String tableAlias);
     
     @Override
     default float applyAsFloat(ENTITY entity) {

@@ -19,13 +19,13 @@ package com.speedment.jpastreamer.field;
 import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.internal.IntFieldImpl;
 import com.speedment.jpastreamer.field.method.IntGetter;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
 import com.speedment.runtime.compute.ToInt;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.IntFieldComparator;
-import com.speedment.jpastreamer.field.method.IntSetter;
 import com.speedment.jpastreamer.field.trait.HasIntValue;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents a primitive {@code int} value.
@@ -39,34 +39,36 @@ import com.speedment.runtime.typemapper.TypeMapper;
  * @since  3.0.0
  */
 @GeneratedCode(value = "Speedment")
-public interface IntField<ENTITY, D> extends Field<ENTITY>, HasIntValue<ENTITY, D>, HasComparableOperators<ENTITY, Integer>, ToInt<ENTITY>, IntFieldComparator<ENTITY, D> {
+public interface IntField<ENTITY, D> extends
+        Field<ENTITY>,
+        HasIntValue<ENTITY, D>,
+        HasComparableOperators<ENTITY, Integer>,
+        ToInt<ENTITY>,
+        IntFieldComparator<ENTITY, D>,
+        HasAttributeConverterClass<Integer, D>
+{
     
     /**
      * Creates a new {@link IntField} using the default implementation.
      * 
      * @param <ENTITY>   entity type
      * @param <D>        database type
-     * @param identifier column that this field represents
+     * @param table      the table that this field belongs to
      * @param getter     method reference to getter in entity
-     * @param setter     method reference to setter in entity
-     * @param typeMapper type mapper that is applied
+     * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
      * @return           the created field
      */
     static <ENTITY, D> IntField<ENTITY, D> create(
-    ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             IntGetter<ENTITY> getter,
-            IntSetter<ENTITY> setter,
-            TypeMapper<D, Integer> typeMapper,
+            Class<? extends AttributeConverter<Integer, ? super D>> attributeConverterClass,
             boolean unique) {
         return new IntFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                table, getter, attributeConverterClass, unique
         );
     }
-    
-    @Override
-    IntField<ENTITY, D> tableAlias(String tableAlias);
-    
+
     @Override
     default int applyAsInt(ENTITY entity) {
         return getAsInt(entity);

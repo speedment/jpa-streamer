@@ -17,15 +17,15 @@
 package com.speedment.jpastreamer.field;
 
 import com.speedment.common.annotation.GeneratedCode;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.runtime.compute.ToBoolean;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.BooleanFieldComparator;
 import com.speedment.jpastreamer.field.internal.BooleanFieldImpl;
 import com.speedment.jpastreamer.field.method.BooleanGetter;
-import com.speedment.jpastreamer.field.method.BooleanSetter;
 import com.speedment.jpastreamer.field.trait.HasBooleanOperators;
 import com.speedment.jpastreamer.field.trait.HasBooleanValue;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents a primitive {@code boolean} value.
@@ -39,33 +39,33 @@ import com.speedment.runtime.typemapper.TypeMapper;
  * @since  3.0.0
  */
 @GeneratedCode(value = "Speedment")
-public interface BooleanField<ENTITY, D> extends Field<ENTITY>, HasBooleanValue<ENTITY, D>, ToBoolean<ENTITY>, BooleanFieldComparator<ENTITY, D>, HasBooleanOperators<ENTITY> {
+public interface BooleanField<ENTITY, D> extends Field<ENTITY>,
+        HasBooleanValue<ENTITY, D>,
+        ToBoolean<ENTITY>,
+        BooleanFieldComparator<ENTITY, D>,
+        HasBooleanOperators<ENTITY>,
+        HasAttributeConverterClass<Boolean, D> {
     
     /**
      * Creates a new {@link BooleanField} using the default implementation.
      * 
      * @param <ENTITY>   entity type
      * @param <D>        database type
-     * @param identifier column that this field represents
+     * @param table      the table that the field belongs to
      * @param getter     method reference to getter in entity
-     * @param setter     method reference to setter in entity
-     * @param typeMapper type mapper that is applied
+     * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
      * @return           the created field
      */
     static <ENTITY, D> BooleanField<ENTITY, D> create(
-    ColumnIdentifier<ENTITY> identifier,
+    Class<ENTITY> table,
             BooleanGetter<ENTITY> getter,
-            BooleanSetter<ENTITY> setter,
-            TypeMapper<D, Boolean> typeMapper,
+            Class<? extends AttributeConverter<Boolean, ? super D>> attributeConverterClass,
             boolean unique) {
         return new BooleanFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+            table, getter, attributeConverterClass, unique
         );
     }
-    
-    @Override
-    BooleanField<ENTITY, D> tableAlias(String tableAlias);
     
     @Override
     default boolean applyAsBoolean(ENTITY entity) {

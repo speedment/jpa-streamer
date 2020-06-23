@@ -1,7 +1,12 @@
 package com.speedment.jpastreamer.fieldgenerator.standard.test;
 
+import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmRating;
+import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmTitle;
+import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmTitleConverter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "film", schema = "sakila")
@@ -13,10 +18,19 @@ public class Film {
     private int filmId;
 
     @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
-    private String title;
+    @Convert(converter = FilmTitleConverter.class)
+    private FilmTitle title;
 
     @Column(name = "description", nullable = false, columnDefinition = "text")
     private String description;
+
+    @Column(name = "audienceScore", nullable = true, columnDefinition = "decimal(4,2)")
+    private Double audienceScore;
+
+   /* @Lob
+    @Column(name = "cover", nullable = true, columnDefinition = "byte")
+    private byte[] cover;*/
+
 /*
     @Column(name = "release_year", nullable = false, columnDefinition = "year")
     private Year releaseYear;
@@ -44,20 +58,15 @@ public class Film {
     @Column(name = "replacement_cost", columnDefinition = "decimal(5,2)")
     private Float replacementCost;
 
-/*
     @Enumerated(EnumType.STRING)
     @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
-    @Convert(converter = FilmRatingConverter.class)
-    private FilmRating rating;*/
+    private FilmRating rating;
 
-    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
-    private String rating;
+  /*  @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
+    private Set<String> specialFeatures; // Should be Set<String>*/
 
-    @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
-    private String specialFeatures; // Should be Set<String>
-/*
     @Column(name = "last_update", nullable = false, columnDefinition = "timestamp")
-    private LocalDateTime lastUpdate; */
+    private LocalDateTime lastUpdate;
 
     public Integer getFilmId() {
         return filmId;
@@ -67,11 +76,11 @@ public class Film {
         this.filmId = filmId;
     }
 
-    public String getTitle() {
+    public FilmTitle getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(FilmTitle title) {
         this.title = title;
     }
 
@@ -111,7 +120,9 @@ public class Film {
 
 
     public Integer getRentalDuration() {
+        Class<FilmTitleConverter> filmTitleConverterClass = FilmTitleConverter.class;
         return rentalDuration;
+
     }
 
     public void setRentalDuration(Integer rentalDuration) {
@@ -141,39 +152,39 @@ public class Film {
     public void setReplacementCost(Float replacementCost) {
         this.replacementCost = replacementCost;
     }
-/*
+
     public FilmRating getRating() {
         return rating;
     }
 
     public void setRating(FilmRating rating) {
         this.rating = rating;
-    }*/
-
-    public String getRating() {
-        return rating;
     }
 
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public String getSpecialFeatures() {
+    /*public Set<String> getSpecialFeatures() {
         return specialFeatures;
     }
 
-    public void setSpecialFeatures(String specialFeatures) {
+    public void setSpecialFeatures(Set<String> specialFeatures) {
         this.specialFeatures = specialFeatures;
-    }
+    }*/
 
-    /*
+
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
-    } */
+    }
+
+    public Double getAudienceScore() {
+        return audienceScore;
+    }
+
+    public void setAudienceScore(Double audienceScore) {
+        this.audienceScore = audienceScore;
+    }
 
     @Override
     public String toString() {
@@ -186,7 +197,7 @@ public class Film {
                 ", length=" + length +
                 ", replacementCost=" + replacementCost +
                 ", rating=" + rating +
-                ", specialFeatures='" + specialFeatures + '\'' +
+               // ", specialFeatures='" + specialFeatures + '\'' +
                // ", lastUpdate=" + lastUpdate +
                 '}';
     }

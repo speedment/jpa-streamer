@@ -19,19 +19,17 @@ package com.speedment.jpastreamer.field.internal;
 import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.internal.predicate.longs.*;
 import com.speedment.jpastreamer.field.method.LongGetter;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.LongField;
 import com.speedment.jpastreamer.field.comparator.LongFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.internal.comparator.LongFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.method.GetLongImpl;
 import com.speedment.jpastreamer.field.method.GetLong;
-import com.speedment.jpastreamer.field.method.LongSetter;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static com.speedment.jpastreamer.field.internal.util.CollectionUtil.collectionToSet;
@@ -51,76 +49,40 @@ import static java.util.Objects.requireNonNull;
 @GeneratedCode(value = "Speedment")
 public final class LongFieldImpl<ENTITY, D> implements LongField<ENTITY, D> {
     
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final GetLong<ENTITY, D> getter;
-    private final LongSetter<ENTITY> setter;
-    private final TypeMapper<D, Long> typeMapper;
+    private final Class<? extends AttributeConverter<Long, ? super D>> attributeConverterClass;
     private final boolean unique;
-    private final String tableAlias;
-    
+
     public LongFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             LongGetter<ENTITY> getter,
-            LongSetter<ENTITY> setter,
-            TypeMapper<D, Long> typeMapper,
+            Class<? extends AttributeConverter<Long, ? super D>> attributeConverterClass,
             boolean unique) {
-        this.identifier = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter     = new GetLongImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
-        this.tableAlias = identifier.getTableId();
     }
-    
-    private LongFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
-            LongGetter<ENTITY> getter,
-            LongSetter<ENTITY> setter,
-            TypeMapper<D, Long> typeMapper,
-            boolean unique,
-            String tableAlias) {
-        this.identifier = requireNonNull(identifier);
-        this.getter     = new GetLongImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
-        this.unique     = unique;
-        this.tableAlias = requireNonNull(tableAlias);
-    }
-    
+
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
+    public Class<ENTITY> table() {
+        return table;
     }
-    
-    @Override
-    public LongSetter<ENTITY> setter() {
-        return setter;
-    }
-    
+
     @Override
     public GetLong<ENTITY, D> getter() {
         return getter;
     }
     
     @Override
-    public TypeMapper<D, Long> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<Long, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
     
     @Override
     public boolean isUnique() {
         return unique;
-    }
-    
-    @Override
-    public String tableAlias() {
-        return tableAlias;
-    }
-    
-    @Override
-    public LongField<ENTITY, D> tableAlias(String tableAlias) {
-        requireNonNull(tableAlias);
-        return new LongFieldImpl<>(identifier, getter, setter, typeMapper, unique, tableAlias);
     }
     
     @Override

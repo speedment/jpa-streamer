@@ -20,18 +20,16 @@ import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.ByteField;
 import com.speedment.jpastreamer.field.internal.comparator.ByteFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.predicate.bytes.*;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.ByteFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.internal.method.GetByteImpl;
 import com.speedment.jpastreamer.field.method.ByteGetter;
-import com.speedment.jpastreamer.field.method.ByteSetter;
 import com.speedment.jpastreamer.field.method.GetByte;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static com.speedment.jpastreamer.field.internal.util.CollectionUtil.collectionToSet;
@@ -51,76 +49,40 @@ import static java.util.Objects.requireNonNull;
 @GeneratedCode(value = "Speedment")
 public final class ByteFieldImpl<ENTITY, D> implements ByteField<ENTITY, D> {
     
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final GetByte<ENTITY, D> getter;
-    private final ByteSetter<ENTITY> setter;
-    private final TypeMapper<D, Byte> typeMapper;
+    Class<? extends AttributeConverter<Byte, ? super D>> attributeConverterClass;
     private final boolean unique;
-    private final String tableAlias;
-    
+
     public ByteFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             ByteGetter<ENTITY> getter,
-            ByteSetter<ENTITY> setter,
-            TypeMapper<D, Byte> typeMapper,
+            Class<? extends AttributeConverter<Byte, ? super D>> attributeConverterClass,
             boolean unique) {
-        this.identifier = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter     = new GetByteImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
-        this.tableAlias = identifier.getTableId();
-    }
-    
-    private ByteFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
-            ByteGetter<ENTITY> getter,
-            ByteSetter<ENTITY> setter,
-            TypeMapper<D, Byte> typeMapper,
-            boolean unique,
-            String tableAlias) {
-        this.identifier = requireNonNull(identifier);
-        this.getter     = new GetByteImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
-        this.unique     = unique;
-        this.tableAlias = requireNonNull(tableAlias);
     }
     
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
+    public Class<ENTITY> table() {
+        return table;
     }
-    
-    @Override
-    public ByteSetter<ENTITY> setter() {
-        return setter;
-    }
-    
+
     @Override
     public GetByte<ENTITY, D> getter() {
         return getter;
     }
     
     @Override
-    public TypeMapper<D, Byte> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<Byte, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
     
     @Override
     public boolean isUnique() {
         return unique;
-    }
-    
-    @Override
-    public String tableAlias() {
-        return tableAlias;
-    }
-    
-    @Override
-    public ByteField<ENTITY, D> tableAlias(String tableAlias) {
-        requireNonNull(tableAlias);
-        return new ByteFieldImpl<>(identifier, getter, setter, typeMapper, unique, tableAlias);
     }
     
     @Override

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
-        <artifactId>jpastreamer-parent</artifactId>
+        <artifactId>provider</artifactId>
         <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -32,27 +32,24 @@
         </dependency>
 
         <dependency>
-            <groupId>com.speedment.runtime</groupId>
-            <artifactId>runtime-config</artifactId>
-            <version>${speedment.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.speedment.common</groupId>
             <artifactId>codegen</artifactId>
             <version>${speedment.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.speedment.generator</groupId>
-            <artifactId>generator-standard</artifactId>
-            <version>${speedment.version}</version>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service-annotations</artifactId>
             <version>${auto-service.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
         </dependency>
 
     </dependencies>

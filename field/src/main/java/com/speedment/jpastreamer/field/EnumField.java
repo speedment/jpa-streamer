@@ -18,16 +18,14 @@ package com.speedment.jpastreamer.field;
 
 import com.speedment.runtime.compute.ToDoubleNullable;
 import com.speedment.runtime.compute.ToEnumNullable;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.internal.EnumFieldImpl;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
 import com.speedment.jpastreamer.field.predicate.FieldIsNotNullPredicate;
 import com.speedment.jpastreamer.field.predicate.FieldIsNullPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.trait.HasStringOperators;
-import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.EnumSet;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -45,10 +43,6 @@ public interface EnumField<ENTITY, D, E extends Enum<E>>
 extends ComparableField<ENTITY, D, E>,
         HasStringOperators<ENTITY>,
         ToEnumNullable<ENTITY, E> {
-
-
-    @Override
-    EnumField<ENTITY, D, E> tableAlias(String tableAlias);
 
     /**
      * Returns the enum class of this field.
@@ -233,10 +227,9 @@ extends ComparableField<ENTITY, D, E>,
      * @param <ENTITY>      the entity type
      * @param <D>           the database type
      * @param <E>           the java enum type
-     * @param identifier    the column that this field represents
+     * @param table         the table that this field belongs to
      * @param getter        method reference to the getter in the entity
-     * @param setter        method reference to the setter in the entity
-     * @param typeMapper    the type mapper that is applied
+     * @param attributeConverterClass    the attribute converter class
      * @param enumToString  method to convert enum to a string
      * @param stringToEnum  method to convert a string to enum
      * @param enumClass     the enum class
@@ -244,16 +237,15 @@ extends ComparableField<ENTITY, D, E>,
      * @return            the created field
      */
     static <ENTITY, D, E extends Enum<E>> EnumField<ENTITY, D, E> create(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             ReferenceGetter<ENTITY, E> getter,
-            ReferenceSetter<ENTITY, E> setter,
-            TypeMapper<D, E> typeMapper,
+            Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass,
             Function<E, String> enumToString,
             Function<String, E> stringToEnum,
             Class<E> enumClass) {
 
         return new EnumFieldImpl<>(
-            identifier, getter, setter, typeMapper,
+                table, getter, attributeConverterClass,
             enumToString, stringToEnum, enumClass
         );
     }

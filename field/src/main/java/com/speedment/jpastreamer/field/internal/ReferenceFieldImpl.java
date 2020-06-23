@@ -16,13 +16,12 @@
  */
 package com.speedment.jpastreamer.field.internal;
 
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.ReferenceField;
 import com.speedment.jpastreamer.field.internal.predicate.reference.ReferenceIsNullPredicate;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 import static java.util.Objects.requireNonNull;
 
@@ -38,57 +37,30 @@ import static java.util.Objects.requireNonNull;
 public final class ReferenceFieldImpl<ENTITY, D, V> 
 implements ReferenceField<ENTITY, D, V> {
 
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final ReferenceGetter<ENTITY, V> getter;
-    private final ReferenceSetter<ENTITY, V> setter;
-    private final TypeMapper<D, V> typeMapper;
+    private final Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass;
     private final boolean unique;
-    private final String tableAlias;
 
     public ReferenceFieldImpl(
-        final ColumnIdentifier<ENTITY> identifier,
+        final Class<ENTITY> table,
         final ReferenceGetter<ENTITY, V> getter,
-        final ReferenceSetter<ENTITY, V> setter,
-        final TypeMapper<D, V> typeMapper,
+        final Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
         final boolean unique
     ) {
-        this.identifier = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter     = requireNonNull(getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
-        this.tableAlias = identifier.getTableId();
     }
-
-    public ReferenceFieldImpl(
-        final ColumnIdentifier<ENTITY> identifier,
-        final ReferenceGetter<ENTITY, V> getter,
-        final ReferenceSetter<ENTITY, V> setter,
-        final TypeMapper<D, V> typeMapper,
-        final boolean unique,
-        final String tableAlias
-    ) {
-        this.identifier = requireNonNull(identifier);
-        this.getter     = requireNonNull(getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
-        this.unique     = unique;
-        this.tableAlias = requireNonNull(tableAlias);
-    }
-
 
     ////////////////////////////////////////////////////////////////////////////
     //                                Getters                                 //
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
-    }
-
-    @Override
-    public ReferenceSetter<ENTITY, V> setter() {
-        return setter;
+    public Class<ENTITY> table() {
+        return table;
     }
 
     @Override
@@ -97,8 +69,8 @@ implements ReferenceField<ENTITY, D, V> {
     }
 
     @Override
-    public TypeMapper<D, V> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
     
     @Override
@@ -107,16 +79,6 @@ implements ReferenceField<ENTITY, D, V> {
     }
 
 
-    @Override
-    public String tableAlias() {
-        return tableAlias;
-    }
-
-    @Override
-    public ReferenceField<ENTITY, D, V> tableAlias(String tableAlias) {
-        return new ReferenceFieldImpl<>(identifier, getter, setter, typeMapper, unique, tableAlias);
-    }
-
     ////////////////////////////////////////////////////////////////////////////
     //                               Operators                                //
     ////////////////////////////////////////////////////////////////////////////
@@ -124,16 +86,6 @@ implements ReferenceField<ENTITY, D, V> {
     @Override
     public FieldPredicate<ENTITY> isNull() {
         return new ReferenceIsNullPredicate<>(this);
-    }
-
-    @Override
-    public D convertToDatabaseColumn(V attribute) {
-        return typeMapper().toDatabaseType(attribute);
-    }
-
-    @Override
-    public V convertToEntityAttribute(D dbData) {
-        return typeMapper().toJavaType(null, null, dbData);
     }
 
 }

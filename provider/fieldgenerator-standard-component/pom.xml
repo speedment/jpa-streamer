@@ -3,42 +3,42 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>provider</artifactId>
+        <groupId>com.speedment.jpastreamer</groupId>
         <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>renderer-standard</artifactId>
+    <artifactId>fieldgenerator-standard-component</artifactId>
 
     <properties>
-        <module-name>jpastreamer.renderer.standard</module-name>
+        <module-name>jpastreamer.fieldgenerator.standard.component</module-name>
     </properties>
 
-    <name>Renderer - Standard</name>
+    <name>FieldGenerator - Standard - Component</name>
     <description>
-        Standard Renderer
+        Standard field generator components
     </description>
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>renderer</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>pipeline</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>fieldgenerator-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
+        </dependency>
 
     </dependencies>
+
 
 
 </project>

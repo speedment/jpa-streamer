@@ -18,11 +18,7 @@ package com.speedment.jpastreamer.field.trait;
 
 import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.Field;
-import com.speedment.jpastreamer.field.internal.method.SetToByteImpl;
-import com.speedment.jpastreamer.field.method.ByteSetter;
-import com.speedment.jpastreamer.field.method.SetToByte;
 import com.speedment.jpastreamer.field.method.GetByte;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 /**
  * A representation of an Entity field that is a primitive {@code byte} type.
@@ -35,16 +31,10 @@ import com.speedment.runtime.typemapper.TypeMapper;
  */
 @GeneratedCode(value = "Speedment")
 public interface HasByteValue<ENTITY, D> extends Field<ENTITY> {
-    
-    @Override
-    ByteSetter<ENTITY> setter();
-    
+
     @Override
     GetByte<ENTITY, D> getter();
-    
-    @Override
-    TypeMapper<D, Byte> typeMapper();
-    
+
     /**
      * Gets the value from the Entity field.
      * 
@@ -54,26 +44,5 @@ public interface HasByteValue<ENTITY, D> extends Field<ENTITY> {
     default byte getAsByte(ENTITY entity) {
         return getter().applyAsByte(entity);
     }
-    
-    /**
-     * Sets the value in the given Entity.
-     * 
-     * @param entity the entity
-     * @param value  to set
-     * @return       the entity itself
-     */
-    default ENTITY set(ENTITY entity, byte value) {
-        setter().setAsByte(entity, value);
-        return entity;
-    }
-    
-    /**
-     * Creates and returns a setter handler with a given value.
-     * 
-     * @param value to set
-     * @return      a set-operation with a given value
-     */
-    default SetToByte<ENTITY, D> setTo(byte value) {
-        return new SetToByteImpl<>(this, value);
-    }
+
 }

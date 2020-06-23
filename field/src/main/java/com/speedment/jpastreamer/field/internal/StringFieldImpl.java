@@ -23,15 +23,13 @@ import com.speedment.jpastreamer.field.internal.comparator.ReferenceFieldCompara
 import com.speedment.jpastreamer.field.internal.predicate.reference.*;
 import com.speedment.jpastreamer.field.internal.predicate.string.*;
 import com.speedment.jpastreamer.field.internal.util.CollectionUtil;
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static java.util.Objects.requireNonNull;
@@ -48,42 +46,21 @@ public final class StringFieldImpl<ENTITY, D>
 implements StringField<ENTITY, D>,
         FieldComparator<ENTITY> {
 
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final ReferenceGetter<ENTITY, String> getter;
-    private final ReferenceSetter<ENTITY, String> setter;
-    private final TypeMapper<D, String> typeMapper;
+    private final Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass;
     private final boolean unique;
-    private final String tableAlias;
 
     public StringFieldImpl(
-        final ColumnIdentifier<ENTITY> identifier,
+        final Class<ENTITY> table,
         final ReferenceGetter<ENTITY, String> getter,
-        final ReferenceSetter<ENTITY, String> setter,
-        final TypeMapper<D, String> typeMapper,
+        final Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass,
         final boolean unique
     ) {
-        this.identifier = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter     = requireNonNull(getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
-        this.tableAlias = identifier.getTableId();
-    }
-
-    public StringFieldImpl(
-        final ColumnIdentifier<ENTITY> identifier,
-        final ReferenceGetter<ENTITY, String> getter,
-        final ReferenceSetter<ENTITY, String> setter,
-        final TypeMapper<D, String> typeMapper,
-        final boolean unique,
-        final String tableAlias
-    ) {
-        this.identifier = requireNonNull(identifier);
-        this.getter     = requireNonNull(getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
-        this.unique     = unique;
-        this.tableAlias = requireNonNull(tableAlias);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -91,13 +68,8 @@ implements StringField<ENTITY, D>,
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
-    }
-
-    @Override
-    public ReferenceSetter<ENTITY, String> setter() {
-        return setter;
+    public Class<ENTITY> table() {
+        return table;
     }
 
     @Override
@@ -106,24 +78,13 @@ implements StringField<ENTITY, D>,
     }
 
     @Override
-    public TypeMapper<D, String> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
     
     @Override
     public boolean isUnique() {
         return unique;
-    }
-
-
-    @Override
-    public String tableAlias() {
-        return tableAlias;
-    }
-
-    @Override
-    public StringField<ENTITY, D> tableAlias(String tableAlias) {
-        return new StringFieldImpl<>(identifier, getter, setter, typeMapper, unique, tableAlias);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -302,18 +263,7 @@ implements StringField<ENTITY, D>,
 
     @Override
     public String toString() {
-        return StringFieldImpl.class.getSimpleName() + "{" + identifier.getColumnId() + "}";
-    }
-
-
-    @Override
-    public D convertToDatabaseColumn(String attribute) {
-        return typeMapper().toDatabaseType(attribute);
-    }
-
-    @Override
-    public String convertToEntityAttribute(D dbData) {
-        return typeMapper().toJavaType(null, null, dbData);
+        return StringFieldImpl.class.getSimpleName() + "{" + table.getSimpleName() + "}";
     }
 
 }

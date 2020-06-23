@@ -16,20 +16,20 @@
  */
 package com.speedment.jpastreamer.field.trait;
 
-import com.speedment.runtime.typemapper.TypeMapper;
+import javax.persistence.AttributeConverter;
 
 /**
  *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasTypeMapper {
+public interface HasAttributeConverterClass<V, D> {
     
     /**
-     * Returns the type mapper used by this field.
+     * Returns the attribute converter class used by this field.
      * 
-     * @return  the type mapper
+     * @return  the attribute converter class
      */
-    TypeMapper<?, ?> typeMapper();
+    Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass();
     
 }

@@ -18,11 +18,7 @@ package com.speedment.jpastreamer.field.trait;
 
 import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.Field;
-import com.speedment.jpastreamer.field.internal.method.SetToBooleanImpl;
 import com.speedment.jpastreamer.field.method.GetBoolean;
-import com.speedment.jpastreamer.field.method.SetToBoolean;
-import com.speedment.jpastreamer.field.method.BooleanSetter;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 /**
  * A representation of an Entity field that is a primitive {@code boolean} type.
@@ -37,13 +33,7 @@ import com.speedment.runtime.typemapper.TypeMapper;
 public interface HasBooleanValue<ENTITY, D> extends Field<ENTITY> {
     
     @Override
-    BooleanSetter<ENTITY> setter();
-    
-    @Override
     GetBoolean<ENTITY, D> getter();
-    
-    @Override
-    TypeMapper<D, Boolean> typeMapper();
     
     /**
      * Gets the value from the Entity field.
@@ -54,26 +44,5 @@ public interface HasBooleanValue<ENTITY, D> extends Field<ENTITY> {
     default boolean getAsBoolean(ENTITY entity) {
         return getter().applyAsBoolean(entity);
     }
-    
-    /**
-     * Sets the value in the given Entity.
-     * 
-     * @param entity the entity
-     * @param value  to set
-     * @return       the entity itself
-     */
-    default ENTITY set(ENTITY entity, boolean value) {
-        setter().setAsBoolean(entity, value);
-        return entity;
-    }
-    
-    /**
-     * Creates and returns a setter handler with a given value.
-     * 
-     * @param value to set
-     * @return      a set-operation with a given value
-     */
-    default SetToBoolean<ENTITY, D> setTo(boolean value) {
-        return new SetToBooleanImpl<>(this, value);
-    }
+
 }

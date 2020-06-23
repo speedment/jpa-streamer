@@ -21,14 +21,13 @@ import com.speedment.jpastreamer.field.exception.SpeedmentFieldException;
 import com.speedment.jpastreamer.field.internal.ReferenceFieldImpl;
 import com.speedment.jpastreamer.field.internal.expression.*;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasReferenceOperators;
 import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 import com.speedment.runtime.compute.*;
 import com.speedment.runtime.compute.trait.HasMapToDoubleIfPresent;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
-import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.math.BigDecimal;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
@@ -56,7 +55,9 @@ public interface ReferenceField<ENTITY, D, V>
 extends Field<ENTITY>, 
         HasReferenceOperators<ENTITY>,
         HasReferenceValue<ENTITY, D, V>,
-        HasMapToDoubleIfPresent<ENTITY, ToDoubleFunction<V>> {
+        HasMapToDoubleIfPresent<ENTITY, ToDoubleFunction<V>>,
+        HasAttributeConverterClass<V, D>
+{
     
     /**
      * Creates a new {@link ReferenceField} using the default implementation. 
@@ -64,28 +65,23 @@ extends Field<ENTITY>,
      * @param <ENTITY>    the entity type
      * @param <D>         the database type
      * @param <V>         the field value type
-     * @param identifier  the column that this field represents
+     * @param root  the column that this field represents
      * @param getter      method reference to the getter in the entity
-     * @param setter      method reference to the setter in the entity
-     * @param typeMapper  the type mapper that is applied
+     * @param attributeConverterClass  the type mapper that is applied
      * @param unique      represented column only contains unique values
-     * 
+     *
      * @return the created field
      */
     static <ENTITY, D, V> ReferenceField<ENTITY, D, V> create(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> root,
             ReferenceGetter<ENTITY, V> getter,
-            ReferenceSetter<ENTITY, V> setter,
-            TypeMapper<D, V> typeMapper,
+            Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
             boolean unique) {
         
         return new ReferenceFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                root, getter, attributeConverterClass, unique
         );
     }
-
-    @Override
-    ReferenceField<ENTITY, D, V> tableAlias(String tableAlias);
 
     /**
      * Returns an {@link ToByteNullable} expression that has the value returned
@@ -118,7 +114,7 @@ extends Field<ENTITY>,
                 return number.byteValue();
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type byte, but it was not.",
-                identifier()
+                table()
             ));
         });
     }
@@ -154,7 +150,7 @@ extends Field<ENTITY>,
                 return number.shortValue();
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type short, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -190,7 +186,7 @@ extends Field<ENTITY>,
                 return number.intValue();
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type int, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -226,7 +222,7 @@ extends Field<ENTITY>,
                 return number.longValue();
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type long, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -262,7 +258,7 @@ extends Field<ENTITY>,
                 return number.floatValue();
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type float, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -299,7 +295,7 @@ extends Field<ENTITY>,
                 return number.doubleValue();
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type double, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -335,7 +331,7 @@ extends Field<ENTITY>,
                 return (char) number.intValue();
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type char, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -370,7 +366,7 @@ extends Field<ENTITY>,
                 return (Boolean) val;
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type boolean, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -405,7 +401,7 @@ extends Field<ENTITY>,
                 return (String) val;
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type String, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -439,7 +435,7 @@ extends Field<ENTITY>,
                 return (BigDecimal) val;
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type BigDecimal, but it was not.",
-                identifier()
+                    table()
             ));
         });
     }
@@ -479,7 +475,7 @@ extends Field<ENTITY>,
                 return enumClass.cast(val);
             } else throw new SpeedmentFieldException(format(
                 "Expected field %s to be of type %s, but it was not.",
-                enumClass.getName(), identifier()
+                enumClass.getName(), table()
             ));
         }, enumClass);
     }

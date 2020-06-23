@@ -18,14 +18,14 @@ package com.speedment.jpastreamer.field;
 
 import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.method.CharGetter;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.runtime.compute.ToChar;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.CharFieldComparator;
 import com.speedment.jpastreamer.field.internal.CharFieldImpl;
-import com.speedment.jpastreamer.field.method.CharSetter;
 import com.speedment.jpastreamer.field.trait.HasCharValue;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents a primitive {@code char} value.
@@ -39,34 +39,35 @@ import com.speedment.runtime.typemapper.TypeMapper;
  * @since  3.0.0
  */
 @GeneratedCode(value = "Speedment")
-public interface CharField<ENTITY, D> extends Field<ENTITY>, HasCharValue<ENTITY, D>, HasComparableOperators<ENTITY, Character>, ToChar<ENTITY>, CharFieldComparator<ENTITY, D> {
+public interface CharField<ENTITY, D> extends
+        Field<ENTITY>,
+        HasCharValue<ENTITY, D>,
+        HasComparableOperators<ENTITY, Character>,
+        ToChar<ENTITY>,
+        CharFieldComparator<ENTITY, D>,
+        HasAttributeConverterClass<Character, D> {
     
     /**
      * Creates a new {@link CharField} using the default implementation.
      * 
      * @param <ENTITY>   entity type
      * @param <D>        database type
-     * @param identifier column that this field represents
+     * @param table      the table that the field belongs to
      * @param getter     method reference to getter in entity
-     * @param setter     method reference to setter in entity
-     * @param typeMapper type mapper that is applied
+     * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
      * @return           the created field
      */
     static <ENTITY, D> CharField<ENTITY, D> create(
-    ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             CharGetter<ENTITY> getter,
-            CharSetter<ENTITY> setter,
-            TypeMapper<D, Character> typeMapper,
+            Class<? extends AttributeConverter<Character, ? super D>> attributeConverterClass,
             boolean unique) {
         return new CharFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                table, getter, attributeConverterClass, unique
         );
     }
-    
-    @Override
-    CharField<ENTITY, D> tableAlias(String tableAlias);
-    
+
     @Override
     default char applyAsChar(ENTITY entity) {
         return getAsChar(entity);

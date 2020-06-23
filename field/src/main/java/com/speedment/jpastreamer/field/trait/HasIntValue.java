@@ -17,12 +17,8 @@
 package com.speedment.jpastreamer.field.trait;
 
 import com.speedment.common.annotation.GeneratedCode;
-import com.speedment.jpastreamer.field.method.IntSetter;
 import com.speedment.jpastreamer.field.Field;
-import com.speedment.jpastreamer.field.internal.method.SetToIntImpl;
 import com.speedment.jpastreamer.field.method.GetInt;
-import com.speedment.jpastreamer.field.method.SetToInt;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 /**
  * A representation of an Entity field that is a primitive {@code int} type.
@@ -37,14 +33,8 @@ import com.speedment.runtime.typemapper.TypeMapper;
 public interface HasIntValue<ENTITY, D> extends Field<ENTITY> {
     
     @Override
-    IntSetter<ENTITY> setter();
-    
-    @Override
     GetInt<ENTITY, D> getter();
-    
-    @Override
-    TypeMapper<D, Integer> typeMapper();
-    
+
     /**
      * Gets the value from the Entity field.
      * 
@@ -54,26 +44,5 @@ public interface HasIntValue<ENTITY, D> extends Field<ENTITY> {
     default int getAsInt(ENTITY entity) {
         return getter().applyAsInt(entity);
     }
-    
-    /**
-     * Sets the value in the given Entity.
-     * 
-     * @param entity the entity
-     * @param value  to set
-     * @return       the entity itself
-     */
-    default ENTITY set(ENTITY entity, int value) {
-        setter().setAsInt(entity, value);
-        return entity;
-    }
-    
-    /**
-     * Creates and returns a setter handler with a given value.
-     * 
-     * @param value to set
-     * @return      a set-operation with a given value
-     */
-    default SetToInt<ENTITY, D> setTo(int value) {
-        return new SetToIntImpl<>(this, value);
-    }
+
 }

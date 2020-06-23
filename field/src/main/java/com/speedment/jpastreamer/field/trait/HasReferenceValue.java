@@ -16,14 +16,8 @@
  */
 package com.speedment.jpastreamer.field.trait;
 
-import com.speedment.jpastreamer.field.internal.method.SetToReferenceImpl;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
-import com.speedment.jpastreamer.field.method.SetToReference;
-import com.speedment.runtime.typemapper.TypeMapper;
-
-import javax.persistence.AttributeConverter;
 
 /**
  * A representation of an Entity field that is a reference type (eg 
@@ -37,16 +31,10 @@ import javax.persistence.AttributeConverter;
  * @author  Emil Forslund
  * @since   2.2.0
  */
-public interface HasReferenceValue<ENTITY, D, V> extends Field<ENTITY>, AttributeConverter<V, D> {
-
-    @Override
-    ReferenceSetter<ENTITY, V> setter();
+public interface HasReferenceValue<ENTITY, D, V> extends Field<ENTITY> {
 
     @Override
     ReferenceGetter<ENTITY, V> getter();
-
-    @Override
-    TypeMapper<D, V> typeMapper();
 
     /**
      * Gets the value form the Entity field.
@@ -58,25 +46,4 @@ public interface HasReferenceValue<ENTITY, D, V> extends Field<ENTITY>, Attribut
         return getter().apply(e);
     }
 
-    /**
-     * Sets the value in the given Entity
-     *
-     * @param e entity
-     * @param value to set
-     * @return the entity itself
-     */
-    default ENTITY set(ENTITY e, V value) {
-        setter().accept(e, value);
-        return e;
-    }
-
-    /**
-     * Creates and returns a SetToReference with a given value.
-     *
-     * @param value  to set
-     * @return       a SetToReference with a given value
-     */
-    default SetToReference<ENTITY, D, V> setTo(V value) {
-        return new SetToReferenceImpl<>(this, value);
-    }
 }

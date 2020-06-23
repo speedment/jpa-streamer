@@ -14,26 +14,31 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.speedment.jpastreamer.field.method;
+package com.speedment.jpastreamer.field.trait;
+
+
+import com.speedment.runtime.config.Column;
+import com.speedment.runtime.config.Project;
+import com.speedment.runtime.config.identifier.ColumnIdentifier;
+import com.speedment.runtime.config.util.DocumentDbUtil;
+
+import java.util.Optional;
 
 /**
  *
- * @param  <ENTITY>  the entity type
+ * @param <ENTITY>  the entity type
  * 
  * @author  Emil Forslund
  * @since   3.0.0
  */
-public interface Setter<ENTITY> {
+
+public interface HasTable<ENTITY> {
     
     /**
-     * A generic (untyped) set-method. Will throw a {@code ClassCastException}
-     * if the wrong type is given.
+     * Returns the unique identifier of this field.
      * 
-     * @param entity  the entity to set in
-     * @param value   the value to set to
-     * 
-     * @throws ClassCastException  if the specified value is of the wrong type
+     * @return  the identifier
      */
-    void set(ENTITY entity, Object value);
-    
+    Class<ENTITY> table();
+
 }

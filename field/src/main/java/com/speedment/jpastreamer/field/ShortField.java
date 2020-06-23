@@ -17,15 +17,15 @@
 package com.speedment.jpastreamer.field;
 
 import com.speedment.common.annotation.GeneratedCode;
-import com.speedment.jpastreamer.field.method.ShortSetter;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
 import com.speedment.runtime.compute.ToShort;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.ShortFieldComparator;
 import com.speedment.jpastreamer.field.internal.ShortFieldImpl;
 import com.speedment.jpastreamer.field.method.ShortGetter;
 import com.speedment.jpastreamer.field.trait.HasShortValue;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents a primitive {@code short} value.
@@ -39,33 +39,35 @@ import com.speedment.runtime.typemapper.TypeMapper;
  * @since  3.0.0
  */
 @GeneratedCode(value = "Speedment")
-public interface ShortField<ENTITY, D> extends Field<ENTITY>, HasShortValue<ENTITY, D>, HasComparableOperators<ENTITY, Short>, ToShort<ENTITY>, ShortFieldComparator<ENTITY, D> {
+public interface ShortField<ENTITY, D> extends
+        Field<ENTITY>,
+        HasShortValue<ENTITY, D>,
+        HasComparableOperators<ENTITY, Short>,
+        ToShort<ENTITY>,
+        ShortFieldComparator<ENTITY, D>,
+        HasAttributeConverterClass<Short, D>
+{
     
     /**
      * Creates a new {@link ShortField} using the default implementation.
      * 
      * @param <ENTITY>   entity type
      * @param <D>        database type
-     * @param identifier column that this field represents
+     * @param table      the table that this field belongs to
      * @param getter     method reference to getter in entity
-     * @param setter     method reference to setter in entity
-     * @param typeMapper type mapper that is applied
+     * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
      * @return           the created field
      */
     static <ENTITY, D> ShortField<ENTITY, D> create(
-    ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             ShortGetter<ENTITY> getter,
-            ShortSetter<ENTITY> setter,
-            TypeMapper<D, Short> typeMapper,
+            Class<? extends AttributeConverter<Short, ? super D>> attributeConverterClass,
             boolean unique) {
         return new ShortFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                table, getter, attributeConverterClass, unique
         );
     }
-    
-    @Override
-    ShortField<ENTITY, D> tableAlias(String tableAlias);
     
     @Override
     default short applyAsShort(ENTITY entity) {

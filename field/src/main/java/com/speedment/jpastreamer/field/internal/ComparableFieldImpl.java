@@ -19,7 +19,6 @@ package com.speedment.jpastreamer.field.internal;
 import com.speedment.jpastreamer.field.internal.comparator.ReferenceFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.predicate.reference.*;
 import com.speedment.jpastreamer.field.internal.util.CollectionUtil;
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.ComparableField;
@@ -31,6 +30,7 @@ import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static java.util.Objects.requireNonNull;
@@ -48,58 +48,30 @@ import static java.util.Objects.requireNonNull;
 public final class ComparableFieldImpl<ENTITY, D, V extends Comparable<? super V>>
 implements ComparableField<ENTITY, D, V>, FieldComparator<ENTITY> {
 
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final ReferenceGetter<ENTITY, V> getter;
-    private final ReferenceSetter<ENTITY, V> setter;
-    private final TypeMapper<D, V> typeMapper;
+    private final Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass;
     private final boolean unique;
-    private final String tableAlias;
 
     public ComparableFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             ReferenceGetter<ENTITY, V> getter,
-            ReferenceSetter<ENTITY, V> setter,
-            TypeMapper<D, V> typeMapper,
+            Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
             boolean unique) {
         
-        this.identifier = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter     = requireNonNull(getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
-        this.tableAlias      = identifier.getTableId();
     }
-
-    private ComparableFieldImpl(
-        final ColumnIdentifier<ENTITY> identifier,
-        final ReferenceGetter<ENTITY, V> getter,
-        final ReferenceSetter<ENTITY, V> setter,
-        final TypeMapper<D, V> typeMapper,
-        final boolean unique,
-        final String tableAlias
-    ) {
-
-        this.identifier = requireNonNull(identifier);
-        this.getter     = requireNonNull(getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
-        this.unique     = unique;
-        this.tableAlias = requireNonNull(tableAlias);
-    }
-
 
     ////////////////////////////////////////////////////////////////////////////
     //                                Getters                                 //
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
-    }
-
-    @Override
-    public ReferenceSetter<ENTITY, V> setter() {
-        return setter;
+    public Class<ENTITY> table() {
+        return table;
     }
 
     @Override
@@ -108,23 +80,13 @@ implements ComparableField<ENTITY, D, V>, FieldComparator<ENTITY> {
     }
 
     @Override
-    public TypeMapper<D, V> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
     
     @Override
     public boolean isUnique() {
         return unique;
-    }
-
-    @Override
-    public String tableAlias() {
-        return tableAlias;
-    }
-
-    @Override
-    public ComparableField<ENTITY, D, V> tableAlias(String tableAlias) {
-        return new ComparableFieldImpl<>(identifier, getter, setter, typeMapper, unique, tableAlias);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -230,13 +192,4 @@ implements ComparableField<ENTITY, D, V>, FieldComparator<ENTITY> {
         return new ReferenceNotInPredicate<>(this, CollectionUtil.collectionToSet(values));
     }
 
-    @Override
-    public D convertToDatabaseColumn(V attribute) {
-        return typeMapper().toDatabaseType(attribute);
-    }
-
-    @Override
-    public V convertToEntityAttribute(D dbData) {
-        return typeMapper().toJavaType(null, null, dbData);
-    }
 }

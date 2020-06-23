@@ -25,14 +25,12 @@ import com.speedment.jpastreamer.field.internal.method.GetFloatImpl;
 import com.speedment.jpastreamer.field.internal.predicate.floats.*;
 import com.speedment.jpastreamer.field.internal.util.CollectionUtil;
 import com.speedment.jpastreamer.field.method.FloatGetter;
-import com.speedment.jpastreamer.field.method.FloatSetter;
 import com.speedment.jpastreamer.field.method.GetFloat;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static java.util.Objects.requireNonNull;
@@ -51,78 +49,42 @@ import static java.util.Objects.requireNonNull;
 @GeneratedCode(value = "Speedment")
 public final class FloatFieldImpl<ENTITY, D> implements FloatField<ENTITY, D> {
     
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final GetFloat<ENTITY, D> getter;
-    private final FloatSetter<ENTITY> setter;
-    private final TypeMapper<D, Float> typeMapper;
+    private final Class<? extends AttributeConverter<Float, ? super D>> attributeConverterClass;
     private final boolean unique;
-    private final String tableAlias;
-    
+
     public FloatFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             FloatGetter<ENTITY> getter,
-            FloatSetter<ENTITY> setter,
-            TypeMapper<D, Float> typeMapper,
+            Class<? extends AttributeConverter<Float, ? super D>> attributeConverterClass,
             boolean unique) {
-        this.identifier = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter     = new GetFloatImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
-        this.tableAlias = identifier.getTableId();
-    }
-    
-    private FloatFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
-            FloatGetter<ENTITY> getter,
-            FloatSetter<ENTITY> setter,
-            TypeMapper<D, Float> typeMapper,
-            boolean unique,
-            String tableAlias) {
-        this.identifier = requireNonNull(identifier);
-        this.getter     = new GetFloatImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
-        this.unique     = unique;
-        this.tableAlias = requireNonNull(tableAlias);
     }
     
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
+    public Class<ENTITY> table() {
+        return table;
     }
-    
-    @Override
-    public FloatSetter<ENTITY> setter() {
-        return setter;
-    }
-    
+
     @Override
     public GetFloat<ENTITY, D> getter() {
         return getter;
     }
     
     @Override
-    public TypeMapper<D, Float> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<Float, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
     
     @Override
     public boolean isUnique() {
         return unique;
     }
-    
-    @Override
-    public String tableAlias() {
-        return tableAlias;
-    }
-    
-    @Override
-    public FloatField<ENTITY, D> tableAlias(String tableAlias) {
-        requireNonNull(tableAlias);
-        return new FloatFieldImpl<>(identifier, getter, setter, typeMapper, unique, tableAlias);
-    }
-    
+
     @Override
     public FloatFieldComparator<ENTITY, D> comparator() {
         return new FloatFieldComparatorImpl<>(this);

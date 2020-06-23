@@ -18,10 +18,10 @@ package com.speedment.jpastreamer.field;
 
 import com.speedment.jpastreamer.field.internal.ComparableFieldImpl;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents an object value that implements {@code Comparable}.
@@ -38,7 +38,8 @@ import com.speedment.runtime.typemapper.TypeMapper;
  */
 public interface ComparableField<ENTITY, D, V extends Comparable<? super V>>
 extends ReferenceField<ENTITY, D, V>,
-        HasComparableOperators<ENTITY, V> {
+        HasComparableOperators<ENTITY, V>,
+        HasAttributeConverterClass<V, D> {
 
     /**
      * Creates a new {@link ComparableField} using the default implementation. 
@@ -46,28 +47,23 @@ extends ReferenceField<ENTITY, D, V>,
      * @param <ENTITY>    the entity type
      * @param <D>         the database type
      * @param <V>         the field value type
-     * @param identifier  the column that this field represents
+     * @param table       the table the field belongs to
      * @param getter      method reference to the getter in the entity
-     * @param setter      method reference to the setter in the entity
-     * @param typeMapper  the type mapper that is applied
+     * @param attributeConverterClass  the attribute converter class
      * @param unique      represented column only contains unique values
-     * 
+     *
      * @return            the created field
      */
     static <ENTITY, D, V extends Comparable<? super V>>
     ComparableField<ENTITY, D, V> create(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             ReferenceGetter<ENTITY, V> getter,
-            ReferenceSetter<ENTITY, V> setter,
-            TypeMapper<D, V> typeMapper,
+            Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
             boolean unique) {
         
         return new ComparableFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                table, getter, attributeConverterClass, unique
         );
     }
-
-    @Override
-    ComparableField<ENTITY, D, V>  tableAlias(String tableAlias);
 
 }

@@ -18,11 +18,7 @@ package com.speedment.jpastreamer.field.trait;
 
 import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.method.GetLong;
-import com.speedment.jpastreamer.field.method.LongSetter;
 import com.speedment.jpastreamer.field.Field;
-import com.speedment.jpastreamer.field.internal.method.SetToLongImpl;
-import com.speedment.jpastreamer.field.method.SetToLong;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 /**
  * A representation of an Entity field that is a primitive {@code long} type.
@@ -37,14 +33,8 @@ import com.speedment.runtime.typemapper.TypeMapper;
 public interface HasLongValue<ENTITY, D> extends Field<ENTITY> {
     
     @Override
-    LongSetter<ENTITY> setter();
-    
-    @Override
     GetLong<ENTITY, D> getter();
-    
-    @Override
-    TypeMapper<D, Long> typeMapper();
-    
+
     /**
      * Gets the value from the Entity field.
      * 
@@ -54,26 +44,5 @@ public interface HasLongValue<ENTITY, D> extends Field<ENTITY> {
     default long getAsLong(ENTITY entity) {
         return getter().applyAsLong(entity);
     }
-    
-    /**
-     * Sets the value in the given Entity.
-     * 
-     * @param entity the entity
-     * @param value  to set
-     * @return       the entity itself
-     */
-    default ENTITY set(ENTITY entity, long value) {
-        setter().setAsLong(entity, value);
-        return entity;
-    }
-    
-    /**
-     * Creates and returns a setter handler with a given value.
-     * 
-     * @param value to set
-     * @return      a set-operation with a given value
-     */
-    default SetToLong<ENTITY, D> setTo(long value) {
-        return new SetToLongImpl<>(this, value);
-    }
+
 }

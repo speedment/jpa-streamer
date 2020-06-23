@@ -17,12 +17,8 @@
 package com.speedment.jpastreamer.field.trait;
 
 import com.speedment.common.annotation.GeneratedCode;
-import com.speedment.jpastreamer.field.internal.method.SetToFloatImpl;
-import com.speedment.jpastreamer.field.method.SetToFloat;
 import com.speedment.jpastreamer.field.Field;
-import com.speedment.jpastreamer.field.method.FloatSetter;
 import com.speedment.jpastreamer.field.method.GetFloat;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 /**
  * A representation of an Entity field that is a primitive {@code float} type.
@@ -37,14 +33,8 @@ import com.speedment.runtime.typemapper.TypeMapper;
 public interface HasFloatValue<ENTITY, D> extends Field<ENTITY> {
     
     @Override
-    FloatSetter<ENTITY> setter();
-    
-    @Override
     GetFloat<ENTITY, D> getter();
-    
-    @Override
-    TypeMapper<D, Float> typeMapper();
-    
+
     /**
      * Gets the value from the Entity field.
      * 
@@ -54,26 +44,5 @@ public interface HasFloatValue<ENTITY, D> extends Field<ENTITY> {
     default float getAsFloat(ENTITY entity) {
         return getter().applyAsFloat(entity);
     }
-    
-    /**
-     * Sets the value in the given Entity.
-     * 
-     * @param entity the entity
-     * @param value  to set
-     * @return       the entity itself
-     */
-    default ENTITY set(ENTITY entity, float value) {
-        setter().setAsFloat(entity, value);
-        return entity;
-    }
-    
-    /**
-     * Creates and returns a setter handler with a given value.
-     * 
-     * @param value to set
-     * @return      a set-operation with a given value
-     */
-    default SetToFloat<ENTITY, D> setTo(float value) {
-        return new SetToFloatImpl<>(this, value);
-    }
+
 }

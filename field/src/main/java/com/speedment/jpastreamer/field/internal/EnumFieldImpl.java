@@ -27,12 +27,10 @@ import com.speedment.jpastreamer.field.internal.predicate.enums.EnumIsNullPredic
 import com.speedment.jpastreamer.field.internal.predicate.reference.ReferenceEqualPredicate;
 import com.speedment.jpastreamer.field.internal.predicate.reference.ReferenceInPredicate;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
-import com.speedment.jpastreamer.field.method.ReferenceSetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
-import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.function.Function;
@@ -51,57 +49,30 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
     EnumField<ENTITY, D, E>,
         FieldComparator<ENTITY> {
 
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final ReferenceGetter<ENTITY, E> getter;
-    private final ReferenceSetter<ENTITY, E> setter;
-    private final TypeMapper<D, E> typeMapper;
+    Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass;
     private final Function<E, String> enumToString;
     private final Function<String, E> stringToEnum;
     private final Class<E> enumClass;
     private final EnumSet<E> constants;
-    private final String tableAlias;
 
     public EnumFieldImpl(
-        final ColumnIdentifier<ENTITY> identifier,
-        final ReferenceGetter<ENTITY, E> getter,
-        final ReferenceSetter<ENTITY, E> setter,
-        final TypeMapper<D, E> typeMapper,
-        final Function<E, String> enumToString,
-        final Function<String, E> stringToEnum,
-        final Class<E> enumClass
+            final Class<ENTITY> table,
+            final ReferenceGetter<ENTITY, E> getter,
+            final Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass,
+            final Function<E, String> enumToString,
+            final Function<String, E> stringToEnum,
+            final Class<E> enumClass
     ) {
-        this.identifier   = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter       = requireNonNull(getter);
-        this.setter       = requireNonNull(setter);
-        this.typeMapper   = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.enumToString = requireNonNull(enumToString);
         this.stringToEnum = requireNonNull(stringToEnum);
         this.enumClass    = requireNonNull(enumClass);
         this.constants    = EnumSet.allOf(enumClass);
-        this.tableAlias   = identifier.getTableId();
     }
-
-    private EnumFieldImpl(
-        final ColumnIdentifier<ENTITY> identifier,
-        final ReferenceGetter<ENTITY, E> getter,
-        final ReferenceSetter<ENTITY, E> setter,
-        final TypeMapper<D, E> typeMapper,
-        final Function<E, String> enumToString,
-        final Function<String, E> stringToEnum,
-        final Class<E> enumClass,
-        final String tableAlias
-    ) {
-        this.identifier   = requireNonNull(identifier);
-        this.getter       = requireNonNull(getter);
-        this.setter       = requireNonNull(setter);
-        this.typeMapper   = requireNonNull(typeMapper);
-        this.enumToString = requireNonNull(enumToString);
-        this.stringToEnum = requireNonNull(stringToEnum);
-        this.enumClass    = requireNonNull(enumClass);
-        this.constants    = EnumSet.allOf(enumClass);
-        this.tableAlias   = requireNonNull(tableAlias);
-    }
-
 
     ////////////////////////////////////////////////////////////////////////////
     //                                Getters                                 //
@@ -118,13 +89,8 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
     }
 
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
-    }
-
-    @Override
-    public ReferenceSetter<ENTITY, E> setter() {
-        return setter;
+    public Class<ENTITY> table() {
+        return table;
     }
 
     @Override
@@ -133,8 +99,8 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
     }
 
     @Override
-    public TypeMapper<D, E> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
 
     @Override
@@ -152,15 +118,6 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
         return false;
     }
 
-    @Override
-    public String tableAlias() {
-        return tableAlias;
-    }
-
-    @Override
-    public EnumField<ENTITY, D, E> tableAlias(String tableAlias) {
-        return new EnumFieldImpl<>(identifier, getter, setter, typeMapper, enumToString, stringToEnum, enumClass, tableAlias);
-    }
 
     ////////////////////////////////////////////////////////////////////////////
     //                              Comparators                               //
@@ -525,18 +482,6 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
         final EnumSet<E> result = EnumSet.noneOf(enumClass);
         constants.stream().filter(predicate).forEach(result::add);
         return result;
-    }
-
-    @Override
-    public D convertToDatabaseColumn(E attribute) {
-        return typeMapper.toDatabaseType(attribute);
-        // return (D)enumToString.apply(attribute);
-    }
-
-    @Override
-    public E convertToEntityAttribute(D dbData) {
-        return typeMapper().toJavaType(null, null, dbData);
-        //return stringToEnum.apply((String)dbData);
     }
 
 }

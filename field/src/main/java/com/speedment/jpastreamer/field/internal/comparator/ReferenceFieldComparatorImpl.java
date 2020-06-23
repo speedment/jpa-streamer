@@ -105,7 +105,7 @@ implements ReferenceFieldComparator<ENTITY, D, V> {
     
     @Override
     public int hashCode() {
-        return ((4049 + Objects.hashCode(field.identifier())) * 3109
+        return ((4049 + Objects.hashCode(field.table())) * 3109
             + nullOrder.hashCode()) * 1039
             + Boolean.hashCode(reversed);
     }
@@ -122,14 +122,14 @@ implements ReferenceFieldComparator<ENTITY, D, V> {
         return reversed  == casted.isReversed()
             && nullOrder == casted.getNullOrder()
             && Objects.equals(
-                field.identifier(),
-                casted.getField().identifier()
+                field.table(),
+                casted.getField().table()
             );
     }
     
     @Override
     public String toString() {
-        return "(order by " + field.identifier() + " " +
+        return "(order by " + field.table() + " " +
             (reversed ? "descending" : "ascending") + ")";
     }
 

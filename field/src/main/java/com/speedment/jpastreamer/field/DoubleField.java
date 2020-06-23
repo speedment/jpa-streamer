@@ -20,12 +20,12 @@ import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.comparator.DoubleFieldComparator;
 import com.speedment.jpastreamer.field.internal.DoubleFieldImpl;
 import com.speedment.jpastreamer.field.method.DoubleGetter;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
 import com.speedment.jpastreamer.field.trait.HasDoubleValue;
 import com.speedment.runtime.compute.ToDouble;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
-import com.speedment.jpastreamer.field.method.DoubleSetter;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents a primitive {@code double} value.
@@ -39,33 +39,34 @@ import com.speedment.runtime.typemapper.TypeMapper;
  * @since  3.0.0
  */
 @GeneratedCode(value = "Speedment")
-public interface DoubleField<ENTITY, D> extends Field<ENTITY>, HasDoubleValue<ENTITY, D>, HasComparableOperators<ENTITY, Double>, ToDouble<ENTITY>, DoubleFieldComparator<ENTITY, D> {
-    
+public interface DoubleField<ENTITY, D> extends Field<ENTITY>,
+        HasDoubleValue<ENTITY, D>,
+        HasComparableOperators<ENTITY, Double>,
+        ToDouble<ENTITY>,
+        DoubleFieldComparator<ENTITY, D>,
+        HasAttributeConverterClass<Double, D>
+{
+
     /**
      * Creates a new {@link DoubleField} using the default implementation.
      * 
      * @param <ENTITY>   entity type
      * @param <D>        database type
-     * @param identifier column that this field represents
+     * @param table      the table that the field belongs to
      * @param getter     method reference to getter in entity
-     * @param setter     method reference to setter in entity
-     * @param typeMapper type mapper that is applied
+     * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
      * @return           the created field
      */
     static <ENTITY, D> DoubleField<ENTITY, D> create(
-    ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             DoubleGetter<ENTITY> getter,
-            DoubleSetter<ENTITY> setter,
-            TypeMapper<D, Double> typeMapper,
+            Class<? extends AttributeConverter<Double, ? super D>> attributeConverterClass,
             boolean unique) {
         return new DoubleFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                table, getter, attributeConverterClass, unique
         );
     }
-    
-    @Override
-    DoubleField<ENTITY, D> tableAlias(String tableAlias);
     
     @Override
     default double applyAsDouble(ENTITY entity) {

@@ -17,15 +17,15 @@
 package com.speedment.jpastreamer.field;
 
 import com.speedment.common.annotation.GeneratedCode;
+import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.runtime.compute.ToByte;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.comparator.ByteFieldComparator;
 import com.speedment.jpastreamer.field.internal.ByteFieldImpl;
 import com.speedment.jpastreamer.field.method.ByteGetter;
-import com.speedment.jpastreamer.field.method.ByteSetter;
 import com.speedment.jpastreamer.field.trait.HasByteValue;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
-import com.speedment.runtime.typemapper.TypeMapper;
+
+import javax.persistence.AttributeConverter;
 
 /**
  * A field that represents a primitive {@code byte} value.
@@ -39,33 +39,33 @@ import com.speedment.runtime.typemapper.TypeMapper;
  * @since  3.0.0
  */
 @GeneratedCode(value = "Speedment")
-public interface ByteField<ENTITY, D> extends Field<ENTITY>, HasByteValue<ENTITY, D>, HasComparableOperators<ENTITY, Byte>, ToByte<ENTITY>, ByteFieldComparator<ENTITY, D> {
+public interface ByteField<ENTITY, D> extends Field<ENTITY>,
+        HasByteValue<ENTITY, D>,
+        HasComparableOperators<ENTITY, Byte>,
+        ToByte<ENTITY>,
+        ByteFieldComparator<ENTITY, D>,
+        HasAttributeConverterClass<Byte, D> {
     
     /**
      * Creates a new {@link ByteField} using the default implementation.
      * 
      * @param <ENTITY>   entity type
      * @param <D>        database type
-     * @param identifier column that this field represents
+     * @param table      the table that the field belongs to
      * @param getter     method reference to getter in entity
-     * @param setter     method reference to setter in entity
-     * @param typeMapper type mapper that is applied
+     * @param attributeConverterClass the attribute converter class
      * @param unique     if column only contains unique values
      * @return           the created field
      */
     static <ENTITY, D> ByteField<ENTITY, D> create(
-    ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             ByteGetter<ENTITY> getter,
-            ByteSetter<ENTITY> setter,
-            TypeMapper<D, Byte> typeMapper,
+            Class<? extends AttributeConverter<Byte, ? super D>> attributeConverterClass,
             boolean unique) {
         return new ByteFieldImpl<>(
-            identifier, getter, setter, typeMapper, unique
+                table, getter, attributeConverterClass, unique
         );
     }
-    
-    @Override
-    ByteField<ENTITY, D> tableAlias(String tableAlias);
     
     @Override
     default byte applyAsByte(ENTITY entity) {

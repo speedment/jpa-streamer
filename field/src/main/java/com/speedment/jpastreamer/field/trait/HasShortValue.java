@@ -17,12 +17,8 @@
 package com.speedment.jpastreamer.field.trait;
 
 import com.speedment.common.annotation.GeneratedCode;
-import com.speedment.jpastreamer.field.internal.method.SetToShortImpl;
-import com.speedment.jpastreamer.field.method.SetToShort;
-import com.speedment.jpastreamer.field.method.ShortSetter;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.method.GetShort;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 /**
  * A representation of an Entity field that is a primitive {@code short} type.
@@ -37,14 +33,8 @@ import com.speedment.runtime.typemapper.TypeMapper;
 public interface HasShortValue<ENTITY, D> extends Field<ENTITY> {
     
     @Override
-    ShortSetter<ENTITY> setter();
-    
-    @Override
     GetShort<ENTITY, D> getter();
-    
-    @Override
-    TypeMapper<D, Short> typeMapper();
-    
+
     /**
      * Gets the value from the Entity field.
      * 
@@ -54,26 +44,5 @@ public interface HasShortValue<ENTITY, D> extends Field<ENTITY> {
     default short getAsShort(ENTITY entity) {
         return getter().applyAsShort(entity);
     }
-    
-    /**
-     * Sets the value in the given Entity.
-     * 
-     * @param entity the entity
-     * @param value  to set
-     * @return       the entity itself
-     */
-    default ENTITY set(ENTITY entity, short value) {
-        setter().setAsShort(entity, value);
-        return entity;
-    }
-    
-    /**
-     * Creates and returns a setter handler with a given value.
-     * 
-     * @param value to set
-     * @return      a set-operation with a given value
-     */
-    default SetToShort<ENTITY, D> setTo(short value) {
-        return new SetToShortImpl<>(this, value);
-    }
+
 }

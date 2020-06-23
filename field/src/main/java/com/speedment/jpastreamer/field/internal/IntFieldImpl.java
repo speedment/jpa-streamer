@@ -18,7 +18,6 @@ package com.speedment.jpastreamer.field.internal;
 
 import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.internal.predicate.ints.*;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.IntField;
 import com.speedment.jpastreamer.field.comparator.IntFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
@@ -26,12 +25,11 @@ import com.speedment.jpastreamer.field.internal.comparator.IntFieldComparatorImp
 import com.speedment.jpastreamer.field.internal.method.GetIntImpl;
 import com.speedment.jpastreamer.field.method.GetInt;
 import com.speedment.jpastreamer.field.method.IntGetter;
-import com.speedment.jpastreamer.field.method.IntSetter;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.runtime.typemapper.TypeMapper;
 
+import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static com.speedment.jpastreamer.field.internal.util.CollectionUtil.collectionToSet;
@@ -51,76 +49,40 @@ import static java.util.Objects.requireNonNull;
 @GeneratedCode(value = "Speedment")
 public final class IntFieldImpl<ENTITY, D> implements IntField<ENTITY, D> {
     
-    private final ColumnIdentifier<ENTITY> identifier;
+    private final Class<ENTITY> table;
     private final GetInt<ENTITY, D> getter;
-    private final IntSetter<ENTITY> setter;
-    private final TypeMapper<D, Integer> typeMapper;
+    Class<? extends AttributeConverter<Integer, ? super D>> attributeConverterClass;
     private final boolean unique;
-    private final String tableAlias;
-    
+
     public IntFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
+            Class<ENTITY> table,
             IntGetter<ENTITY> getter,
-            IntSetter<ENTITY> setter,
-            TypeMapper<D, Integer> typeMapper,
+            Class<? extends AttributeConverter<Integer, ? super D>> attributeConverterClass,
             boolean unique) {
-        this.identifier = requireNonNull(identifier);
+        this.table = requireNonNull(table);
         this.getter     = new GetIntImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
+        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
-        this.tableAlias = identifier.getTableId();
     }
-    
-    private IntFieldImpl(
-            ColumnIdentifier<ENTITY> identifier,
-            IntGetter<ENTITY> getter,
-            IntSetter<ENTITY> setter,
-            TypeMapper<D, Integer> typeMapper,
-            boolean unique,
-            String tableAlias) {
-        this.identifier = requireNonNull(identifier);
-        this.getter     = new GetIntImpl<>(this, getter);
-        this.setter     = requireNonNull(setter);
-        this.typeMapper = requireNonNull(typeMapper);
-        this.unique     = unique;
-        this.tableAlias = requireNonNull(tableAlias);
-    }
-    
+
     @Override
-    public ColumnIdentifier<ENTITY> identifier() {
-        return identifier;
+    public Class<ENTITY> table() {
+        return table;
     }
-    
-    @Override
-    public IntSetter<ENTITY> setter() {
-        return setter;
-    }
-    
+
     @Override
     public GetInt<ENTITY, D> getter() {
         return getter;
     }
     
     @Override
-    public TypeMapper<D, Integer> typeMapper() {
-        return typeMapper;
+    public Class<? extends AttributeConverter<Integer, ? super D>> attributeConverterClass() {
+        return attributeConverterClass;
     }
     
     @Override
     public boolean isUnique() {
         return unique;
-    }
-    
-    @Override
-    public String tableAlias() {
-        return tableAlias;
-    }
-    
-    @Override
-    public IntField<ENTITY, D> tableAlias(String tableAlias) {
-        requireNonNull(tableAlias);
-        return new IntFieldImpl<>(identifier, getter, setter, typeMapper, unique, tableAlias);
     }
     
     @Override

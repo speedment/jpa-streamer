@@ -17,12 +17,8 @@
 package com.speedment.jpastreamer.field.trait;
 
 import com.speedment.common.annotation.GeneratedCode;
-import com.speedment.jpastreamer.field.method.SetToDouble;
 import com.speedment.jpastreamer.field.Field;
-import com.speedment.jpastreamer.field.internal.method.SetToDoubleImpl;
-import com.speedment.jpastreamer.field.method.DoubleSetter;
 import com.speedment.jpastreamer.field.method.GetDouble;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 /**
  * A representation of an Entity field that is a primitive {@code double} type.
@@ -37,14 +33,8 @@ import com.speedment.runtime.typemapper.TypeMapper;
 public interface HasDoubleValue<ENTITY, D> extends Field<ENTITY> {
     
     @Override
-    DoubleSetter<ENTITY> setter();
-    
-    @Override
     GetDouble<ENTITY, D> getter();
-    
-    @Override
-    TypeMapper<D, Double> typeMapper();
-    
+
     /**
      * Gets the value from the Entity field.
      * 
@@ -54,26 +44,5 @@ public interface HasDoubleValue<ENTITY, D> extends Field<ENTITY> {
     default double getAsDouble(ENTITY entity) {
         return getter().applyAsDouble(entity);
     }
-    
-    /**
-     * Sets the value in the given Entity.
-     * 
-     * @param entity the entity
-     * @param value  to set
-     * @return       the entity itself
-     */
-    default ENTITY set(ENTITY entity, double value) {
-        setter().setAsDouble(entity, value);
-        return entity;
-    }
-    
-    /**
-     * Creates and returns a setter handler with a given value.
-     * 
-     * @param value to set
-     * @return      a set-operation with a given value
-     */
-    default SetToDouble<ENTITY, D> setTo(double value) {
-        return new SetToDoubleImpl<>(this, value);
-    }
+
 }
