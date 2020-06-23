@@ -12,5 +12,5 @@ public interface RendererFactory {
      * @return a new {@code Renderer} where the provided {@code entityManagerFactory}
      *         is used for creating streams
      */
-    Renderer createRenderer(EntityManagerFactory entityManagerFactory);
+    Renderer createRenderer(final EntityManagerFactory entityManagerFactory);
 }

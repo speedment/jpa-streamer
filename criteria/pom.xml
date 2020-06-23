@@ -9,26 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>merger</artifactId>
+    <artifactId>criteria</artifactId>
 
     <properties>
-        <module-name>jpastreamer.merger</module-name>
+        <module-name>jpastreamer.criteria</module-name>
     </properties>
 
-    <name>Merger</name>
+    <name>Criteria</name>
     <description>
-        Merges intermediate Stream operations into JPA queries
+        Creates JPA Criteria from Speedment-specific objects
     </description>
 
     <dependencies>
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>pipeline</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>criteria</artifactId>
+            <artifactId>field</artifactId>
         </dependency>
 
         <dependency>
@@ -36,4 +31,5 @@
             <artifactId>javax.persistence-api</artifactId>
         </dependency>
     </dependencies>
+
 </project>

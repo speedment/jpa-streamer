@@ -10,7 +10,10 @@ public class StandardRenderResult<T> implements RenderResult<T> {
     private final Stream<T> stream;
     private final TerminalOperation<?, ?> terminalOperation;
 
-    public StandardRenderResult(Stream<T> stream, TerminalOperation<?, ?> terminalOperation) {
+    public StandardRenderResult(
+        final Stream<T> stream,
+        final TerminalOperation<?, ?> terminalOperation
+    ) {
         this.stream = stream;
         this.terminalOperation = terminalOperation;
     }

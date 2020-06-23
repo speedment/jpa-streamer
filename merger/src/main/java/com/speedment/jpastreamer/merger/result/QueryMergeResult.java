@@ -13,29 +13,33 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.speedment.jpastreamer.merger;
+
+package com.speedment.jpastreamer.merger.result;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.Query;
 
 /**
+ * A container object used to store the results of the merge operation
+ * performed on a {@code Pipeline}.
+ *
+ * @param <T> root entity
  * @author Mislav Milicevic
  */
-public interface Merger {
+public interface QueryMergeResult<T> {
 
     /**
-     * Inspects the provided {@code pipeline} and merges all available operations
-     * into the provided {@code query}. Operations are to be removed from the pipeline
-     * if they are merged.
+     * Returns the pipeline that was used during operation merging.
      *
-     * The modified pipeline and query are stored in a {@code MergeResult} and returned.
-     *
-     * @param pipeline to inspect and merge
-     * @param query that accepts the merged operations
-     * @param <T> root entity
-     * @return a new MergeResult containing the modified {@code Pipeline}
-     *         and {@code CriteriaQuery}
+     * @return the pipeline that was used during operation merging
      */
-    <T> MergeResult<T> merge(Pipeline<T> pipeline, CriteriaQuery<T> query);
+    Pipeline<T> getPipeline();
+
+    /**
+     * Returns the query that the operations were merged into.
+     *
+     * @return the query that the operations were merged into
+     */
+    Query getQuery();
 }

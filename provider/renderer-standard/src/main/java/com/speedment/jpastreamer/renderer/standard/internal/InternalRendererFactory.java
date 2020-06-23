@@ -8,7 +8,7 @@ import javax.persistence.EntityManagerFactory;
 public final class InternalRendererFactory implements RendererFactory {
 
     @Override
-    public Renderer createRenderer(EntityManagerFactory entityManagerFactory) {
+    public Renderer createRenderer(final EntityManagerFactory entityManagerFactory) {
         return new StandardRenderer(entityManagerFactory);
     }
 }

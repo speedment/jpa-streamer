@@ -1,4 +1,5 @@
 /*
+ *
  * Copyright (c) 2006-2020, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
@@ -13,22 +14,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+module jpastreamer.criteria {
 
-package com.speedment.jpastreamer.merger.standard;
+    exports com.speedment.jpastreamer.criteria;
 
-import com.speedment.jpastreamer.merger.MergeResult;
-import com.speedment.jpastreamer.merger.Merger;
-import com.speedment.jpastreamer.merger.standard.internal.InternalStandardMerger;
-import com.speedment.jpastreamer.pipeline.Pipeline;
-
-import javax.persistence.criteria.CriteriaQuery;
-
-public class StandardMerger implements Merger {
-
-    private final Merger delegate = new InternalStandardMerger();
-
-    @Override
-    public <T> MergeResult<T> merge(Pipeline<T> pipeline, CriteriaQuery<T> query) {
-        return delegate.merge(pipeline, query);
-    }
 }

@@ -23,6 +23,7 @@
         <module>preoptimizer-standard</module>
         <module>fieldgenerator-standard</module>
         <module>merger-standard</module>
+        <module>criteria-standard</module>
         <module>fieldgenerator-standard-test</module>
         <module>fieldgenerator-standard-component</module>
     </modules>
