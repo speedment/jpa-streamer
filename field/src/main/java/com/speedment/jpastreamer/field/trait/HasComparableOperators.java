@@ -143,7 +143,7 @@ extends Field<ENTITY>, HasCompare<ENTITY> {
     /**
      * Returns a {@link java.util.function.Predicate} that will evaluate to
      * {@code true}, if and only if this Field is <em>between</em>
-     * the given values (inclusive the start value but exclusive the end value).
+     * the given values (inclusive the start value and the end value).
      * <p>
      * N.B. if the start value is greater or equal to the end value, then the
      * returned Predicate will always evaluate to {@code false}.
@@ -152,10 +152,10 @@ extends Field<ENTITY>, HasCompare<ENTITY> {
      * @param end to compare as an end value
      * @return a Predicate that will evaluate to {@code true}, if and only if
      * this Field is <em>between</em> the given values (inclusive the start
-     * value but exclusive the end value)
+     * value and the end value)
      */
     default SpeedmentPredicate<ENTITY> between(V start, V end) {
-        return between(start, end, Inclusion.START_INCLUSIVE_END_EXCLUSIVE);
+        return between(start, end, Inclusion.START_INCLUSIVE_END_INCLUSIVE);
     }
 
     /**
@@ -182,7 +182,7 @@ extends Field<ENTITY>, HasCompare<ENTITY> {
     /**
      * Returns a {@link java.util.function.Predicate} that will evaluate to
      * {@code true}, if and only if this Field is <em>not between</em>
-     * the given values (inclusive the start value but exclusive the end value).
+     * the given values (inclusive the start value and the end value).
      * <p>
      * N.B. if the start value is greater than the end value, then the returned
      * Predicate will always evaluate to {@code true}
@@ -191,10 +191,10 @@ extends Field<ENTITY>, HasCompare<ENTITY> {
      * @param end to compare as an end value
      * @return a Predicate that will evaluate to {@code true}, if and only if
      * this Field is <em>not between</em> the given values (inclusive the start
-     * value but exclusive the end value)
+     * value and the end value)
      */
     default SpeedmentPredicate<ENTITY> notBetween(V start, V end) {
-        return notBetween(start, end, Inclusion.START_INCLUSIVE_END_EXCLUSIVE);
+        return notBetween(start, end, Inclusion.START_INCLUSIVE_END_INCLUSIVE);
     }
 
     /**
