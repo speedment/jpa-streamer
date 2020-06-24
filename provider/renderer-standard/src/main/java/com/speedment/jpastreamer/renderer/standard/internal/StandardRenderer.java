@@ -8,6 +8,7 @@ import com.speedment.jpastreamer.merger.CriteriaMerger;
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.preoptimizer.PreOptimizerFactory;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
@@ -22,6 +23,8 @@ public final class StandardRenderer implements Renderer {
     private final EntityManager entityManager;
     private final CriteriaFactory criteriaFactory;
 
+    private final PreOptimizerFactory preOptimizerFactory;
+
     private final CriteriaMerger criteriaMerger;
     private final QueryMerger queryMerger;
 
@@ -30,10 +33,13 @@ public final class StandardRenderer implements Renderer {
         this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class);
         this.criteriaMerger = RootFactory.getOrThrow(CriteriaMerger.class);
         this.queryMerger = RootFactory.getOrThrow(QueryMerger.class);
+        this.preOptimizerFactory = RootFactory.getOrThrow(PreOptimizerFactory.class);
     }
 
     @Override
     public <T> RenderResult<T> render(final Pipeline<T> pipeline) {
+        optimizePipeline(pipeline);
+
         final Class<T> entityClass = pipeline.root();
 
         final Stream<T> baseStream = baseStream(pipeline, entityManager, entityClass);
@@ -71,6 +77,10 @@ public final class StandardRenderer implements Renderer {
         }
 
         return decorated;
+    }
+
+    private <T> void optimizePipeline(final Pipeline<T> pipeline) {
+        preOptimizerFactory.stream().forEach(preOptimizer -> preOptimizer.optimize(pipeline));
     }
 
     @Override

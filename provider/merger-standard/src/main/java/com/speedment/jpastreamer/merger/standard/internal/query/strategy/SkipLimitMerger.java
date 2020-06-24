@@ -73,12 +73,12 @@ public enum SkipLimitMerger implements QueryMerger {
             break;
         }
 
-        if (skipIndex != null) {
-            operations.remove((int) skipIndex);
-        }
-
         if (limitIndex != null) {
             operations.remove((int) limitIndex);
+        }
+
+        if (skipIndex != null) {
+            operations.remove((int) skipIndex);
         }
 
         return new InternalQueryMergeResult<>(pipeline, query);
