@@ -54,7 +54,7 @@ public abstract class AbstractSquash<S> implements PreOptimizer {
             if (intermediateOperation.type() == operationType()) {
                 if (valueClass().isAssignableFrom(intermediateOperation.arguments()[0].getClass())) {
                     S value = (S) intermediateOperation.arguments()[0];
-                    result = squash().apply(result, value);
+                    result = squash().apply(value, result);
 
                     intermediateOperations.remove(i);
                 }
