@@ -2,7 +2,6 @@ package com.speedment.jpastreamer.type.parser.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class TypeParserUtil {
 
@@ -32,26 +31,6 @@ public class TypeParserUtil {
         return hasBalancedBrackets(s.substring(0,pos));
     }
 
-    public static boolean isSingleChild(String s) {
-        if (!s.contains(",")) {
-            return true;
-        } {
-
-            return false;
-        }
-    }
-
-    public static void splitString(String s){
-        String[] split = s.split("[\\<||\\>]");
-        Stream.of(split)
-                .forEach(System.out::println);
-    }
-
-    /**
-     *
-     * @param s     The input string to be parsed
-     * @return      A list of
-     */
     public static List<String> parameters(String s) {
         List<String> children = new ArrayList<>();
         if (!s.contains(",")) {
@@ -72,10 +51,6 @@ public class TypeParserUtil {
         }
         children.add(str.trim());
         return children;
-    }
-
-    public static boolean isParameterizedType(String s) {
-        return s.contains("<");
     }
 
 }

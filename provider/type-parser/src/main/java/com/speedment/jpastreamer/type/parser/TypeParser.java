@@ -6,14 +6,9 @@ import com.speedment.jpastreamer.type.parser.exception.TypeParserException;
 import com.speedment.jpastreamer.type.parser.util.TypeParserUtil;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TypeParser {
-
-    public static void main(String [] args) {
-        TypeParserUtil.splitString("java.util.List<java.util.Map<java.util.List<java.util.Set<java.lang.Double>>, java.lang.Integer>>");
-    }
 
     public static Type render(String s) throws TypeParserException {
         if (!TypeParserUtil.hasBalancedBrackets(s)) {
@@ -33,10 +28,6 @@ public class TypeParser {
 
             return SimpleParameterizedType.create(node.type(), childTypes);
         }
-    }
-
-    public static Node publicTypeNode(String s) {
-        return parseNode(s);
     }
 
     private static Node parseNode(String s) {

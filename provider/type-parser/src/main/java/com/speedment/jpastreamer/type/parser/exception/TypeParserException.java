@@ -9,22 +9,8 @@ package com.speedment.jpastreamer.type.parser.exception;
 
 public class TypeParserException extends RuntimeException {
 
-    public TypeParserException() {}
-
     public TypeParserException(String message) {
         super(message);
-    }
-
-    public TypeParserException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public TypeParserException(Throwable cause) {
-        super(cause);
-    }
-
-    public TypeParserException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 
 }
