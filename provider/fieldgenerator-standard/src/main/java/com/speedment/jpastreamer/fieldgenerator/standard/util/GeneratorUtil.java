@@ -1,5 +1,10 @@
 package com.speedment.jpastreamer.fieldgenerator.standard.util;
 
+import com.speedment.common.codegen.constant.SimpleParameterizedType;
+
+import java.lang.reflect.Type;
+import java.util.*;
+
 public class GeneratorUtil {
 
     /**
@@ -46,5 +51,4 @@ public class GeneratorUtil {
                 }
         }
     }
-
 }
