@@ -60,6 +60,11 @@
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>preoptimizer-standard</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>field</artifactId>
         </dependency>
 

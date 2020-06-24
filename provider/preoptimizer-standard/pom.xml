@@ -34,6 +34,11 @@
             <version>${jpa-streamer.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>rootfactory</artifactId>
+        </dependency>
+
     </dependencies>
 
 
