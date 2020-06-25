@@ -32,27 +32,43 @@ public class Film
 
     @Column(name = "mappling_Col", nullable = false)
     private Map<FilmTitle, Integer> randomMap;
-   /* @Lob
-    @Column(name = "cover", nullable = true, columnDefinition = "byte")
-    private byte[] cover;*/
+
+    @Lob
+    @Column(name = "cover", nullable = true)
+    private byte[] cover;
+
+    @Lob
+    @Column(name = "long_description", nullable = true)
+    private String long_description;
+
+    /*
+    @Lob
+    @Convert(converter = FilmTitleConverter.class)
+    @Column(name = "long_description", nullable = true)
+    private String long_description;*/
 
 /*
     @Column(name = "release_year", nullable = false, columnDefinition = "year")
     private Year releaseYear;
     */
 
-    /*
-        @ManyToOne
+        /*@ManyToOne
         @JoinColumn(name = "language_id")
-        private Language language;
-
+        private Language language;*/
+/*
         @ManyToOne
         @JoinColumn(name = "original_language_id")
         private Language originalLanguage;
-    */
+*/
 
-    @Column(name = "complicated_column")
-    private Map<Map<List<Set<Double>>,Integer>,Long> complicatedColumn;
+    @Column(name = "complex_column")
+    private Map<Map<List<Set<Double>>,Integer>,Long> complexColumn;
+
+    @Column(name = "complex_film_rating")
+    private FilmRating[][][][][][][][] complexFilmRating;
+
+    @Column(name = "film_ratings")
+    private Set<FilmRating[]> filmRatings;
 
     @Column(name = "rental_duration", columnDefinition = "smallint(5)")
     private Integer rentalDuration;
@@ -194,6 +210,38 @@ public class Film
         this.audienceScore = audienceScore;
     }
 
+    public Map<Map<List<Set<Double>>, Integer>, Long> getComplexColumn() {
+        return complexColumn;
+    }
+
+    public void setComplexColumn(Map<Map<List<Set<Double>>, Integer>, Long> complexColumn) {
+        this.complexColumn = complexColumn;
+    }
+
+    public Map<FilmTitle, Integer> getRandomMap() {
+        return randomMap;
+    }
+
+    public void setRandomMap(Map<FilmTitle, Integer> randomMap) {
+        this.randomMap = randomMap;
+    }
+
+    public byte[] getCover() {
+        return cover;
+    }
+
+    public void setCover(byte[] cover) {
+        this.cover = cover;
+    }
+
+    public String getLong_description() {
+        return long_description;
+    }
+
+    public void setLong_description(String long_description) {
+        this.long_description = long_description;
+    }
+
     @Override
     public String toString() {
         return "Film{" +
@@ -210,19 +258,19 @@ public class Film
                 '}';
     }
 
-    public Map<Map<List<Set<Double>>, Integer>, Long> getComplicatedColumn() {
-        return complicatedColumn;
+    public FilmRating[][][][][][][][] getComplexFilmRating() {
+        return complexFilmRating;
     }
 
-    public void setComplicatedColumn(Map<Map<List<Set<Double>>, Integer>, Long> complicatedColumn) {
-        this.complicatedColumn = complicatedColumn;
+    public void setComplexFilmRating(FilmRating[][][][][][][][] complexFilmRating) {
+        this.complexFilmRating = complexFilmRating;
     }
 
-    public Map<FilmTitle, Integer> getRandomMap() {
-        return randomMap;
+    public Set<FilmRating[]> getFilmRatings() {
+        return filmRatings;
     }
 
-    public void setRandomMap(Map<FilmTitle, Integer> randomMap) {
-        this.randomMap = randomMap;
+    public void setFilmRatings(Set<FilmRating[]> filmRatings) {
+        this.filmRatings = filmRatings;
     }
 }

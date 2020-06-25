@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.Enum;
 import java.lang.reflect.Type;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -134,6 +136,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         java.lang.Class fieldClass;
         try {
+            messager.printMessage(Diagnostic.Kind.NOTE, "parsing type: " + fieldType(field).getTypeName());
             fieldClass = parseType(fieldType(field).getTypeName());
         } catch (IllegalArgumentException e) {
             throw new FieldGeneratorProcessorException("Type with name " + fieldType(field).getTypeName() + " was not found.");
@@ -227,7 +230,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 type = primitiveFieldType(fieldType, entityType, fieldClass);
             } else if (Enum.class.isAssignableFrom(fieldClass)) {
                 type = enumFieldType(field, fieldType, entityType);
-            } else if (Comparable.class.isAssignableFrom(fieldClass)) {
+            } else if (Comparable.class.isAssignableFrom(fieldClass) && field.getAnnotation(Lob.class) == null) {
                 type = String.class.equals(fieldClass) ?
                         SimpleParameterizedType.create(StringField.class, entityType, String.class) :
                         SimpleParameterizedType.create(ComparableField.class, entityType, dbType, fieldType);
@@ -270,17 +273,17 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     private Type dbType(Element field) {
         Optional<Type> databaseType = Optional.empty();
 
-        if (fieldType(field) instanceof  SimpleParameterizedType) {
-            Type[] actualTypeArguments = ((SimpleParameterizedType) fieldType(field)).getActualTypeArguments();
-            if (actualTypeArguments.length == 1) {
-                databaseType = Optional.of(actualTypeArguments[0]);
-            }
+        Lob lob = field.getAnnotation(Lob.class);
+        if (lob != null) {
+            // byte[] correspond to Blob and String correspond to Clob
+            java.lang.Class<?> c = parseType(field.asType().toString());
+            databaseType = (c.isArray() || c.isAssignableFrom(Blob.class)) ? Optional.of(Blob.class) : Optional.of(Clob.class);
         } else {
             // Derive database field type from converter
             try {
-                final Convert annotation = field.getAnnotation(Convert.class);
-                if (annotation != null) {
-                    annotation.converter();
+                final Convert convert = field.getAnnotation(Convert.class);
+                if (convert != null) {
+                    convert.converter();
                 }
             } catch (MirroredTypeException e) {
                 Optional<SimpleType> converterType = Optional.of(SimpleType.create(e.getTypeMirror().toString()));
