@@ -24,6 +24,7 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>criteria</artifactId>
+            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>

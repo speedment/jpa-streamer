@@ -26,7 +26,7 @@
         <module>criteria-standard</module>
         <module>fieldgenerator-standard-test</module>
         <module>fieldgenerator-standard-component</module>
-        <module>type-parser</module>
+        <module>typeparser-standard</module>
     </modules>
 
 </project>
