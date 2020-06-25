@@ -15,10 +15,8 @@
  * the License.
  */
 module jpastreamer.fieldgenerator.standard {
-    exports com.speedment.jpastreamer.fieldgenerator.standard;
-
     requires java.persistence;
+    requires jpastreamer.field;
 
-    // Todo: Enable this
-    // provides com.speedment.jpastreamer.application.JpaStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJpaStreamBuilderFactory;
+    exports com.speedment.jpastreamer.fieldgenerator.standard;
 }
