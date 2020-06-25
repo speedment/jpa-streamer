@@ -48,66 +48,6 @@
             <artifactId>javax.persistence-api</artifactId>
         </dependency>
 
-
-        <!--
-
-                <dependency>
-                    <groupId>javax.persistence</groupId>
-                    <artifactId>javax.persistence-api</artifactId>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.speedment.common</groupId>
-                    <artifactId>annotation</artifactId>
-                    <version>${speedment-version}</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.speedment.common</groupId>
-                    <artifactId>invariant</artifactId>
-                    <version>${speedment-version}</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.speedment.common</groupId>
-                    <artifactId>function</artifactId>
-                    <version>${speedment-version}</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.speedment.runtime</groupId>
-                    <artifactId>runtime-compute</artifactId>
-                    <version>${speedment-version}</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>org.mockito</groupId>
-                    <artifactId>mockito-core</artifactId>
-                </dependency>
-
-
-                <dependency>
-                    <groupId>com.speedment.common</groupId>
-                    <artifactId>tuple</artifactId>
-                    <version>${speedment-version}</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.speedment.runtime</groupId>
-                    <artifactId>runtime-config</artifactId>
-                    <version>${speedment-version}</version>
-                </dependency>
-
-                <dependency>
-                    <groupId>com.speedment.runtime</groupId>
-                    <artifactId>runtime-typemapper</artifactId>
-                    <version>${speedment-version}</version>
-                </dependency>
-
-
-        -->
-
-
     </dependencies>
 
 
