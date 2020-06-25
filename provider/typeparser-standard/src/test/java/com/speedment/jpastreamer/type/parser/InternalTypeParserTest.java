@@ -2,19 +2,20 @@ package com.speedment.jpastreamer.type.parser;
 
 import com.speedment.common.codegen.constant.SimpleParameterizedType;
 import com.speedment.common.codegen.constant.SimpleType;
+import com.speedment.jpastreamer.type.parser.internal.InternalTypeParser;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TypeParserTest {
+class InternalTypeParserTest {
 
     @Test
     void renderString() {
         String type = "java.lang.String";
         SimpleType expected = SimpleType.create(type);
-        Type actual = TypeParser.render(type);
+        Type actual = InternalTypeParser.render(type);
         assertEquals(expected, actual);
     }
 
@@ -23,7 +24,7 @@ class TypeParserTest {
         String type = "java.util.Map<java.lang.String>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.Map"), SimpleType.create("java.lang.String"));
-        Type actual = TypeParser.render(type);
+        Type actual = InternalTypeParser.render(type);
         assertEquals(expected, actual);
     }
 
@@ -32,7 +33,7 @@ class TypeParserTest {
         String type = "java.util.List<java.lang.Integer>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.List"), SimpleType.create("java.lang.Integer"));
-        Type actual = TypeParser.render(type);
+        Type actual = InternalTypeParser.render(type);
         assertEquals(expected, actual);
     }
 
@@ -42,7 +43,7 @@ class TypeParserTest {
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.List"), SimpleParameterizedType.create(
                         SimpleType.create("java.util.List"), SimpleType.create("java.lang.Number")));
-        Type actual = (SimpleParameterizedType) TypeParser.render(type);
+        Type actual = InternalTypeParser.render(type);
         assertEquals(expected, actual);
     }
 
@@ -58,7 +59,7 @@ class TypeParserTest {
                         ), SimpleType.create("java.lang.Integer")
                 )
         );
-        Type actual = (SimpleParameterizedType) TypeParser.render(type);
+        Type actual = InternalTypeParser.render(type);
         assertEquals(expected, actual);
     }
 
@@ -72,7 +73,7 @@ class TypeParserTest {
                                 SimpleType.create("java.lang.Integer"))
                         , SimpleType.create("java.lang.Integer")
         );
-        Type actual = (SimpleParameterizedType) TypeParser.render(type);
+        Type actual = InternalTypeParser.render(type);
         assertEquals(expected, actual);
     }
 }

@@ -9,17 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>type-parser</artifactId>
+    <artifactId>typeparser-standard</artifactId>
 
     <properties>
-        <module-name>jpastreamer.type.parser</module-name>
+        <module-name>jpastreamer.typeparser.standard</module-name>
         <speedment.version>3.2.9</speedment.version>
         <java.version>8</java.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <auto-service.version>1.0-rc7</auto-service.version>
     </properties>
 
-    <name>Type Parser </name>
+    <name>Type Parser</name>
     <description>
         Type parser for Strings
     </description>

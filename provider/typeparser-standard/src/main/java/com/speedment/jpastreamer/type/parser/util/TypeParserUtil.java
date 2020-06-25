@@ -3,7 +3,7 @@ package com.speedment.jpastreamer.type.parser.util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeParserUtil {
+public final class TypeParserUtil {
 
     public static long charCount(String s, char c) {
         return s.chars().filter(ch -> ch == c).count();
