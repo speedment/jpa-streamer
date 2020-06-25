@@ -8,6 +8,7 @@ import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Field;
 import com.speedment.jpastreamer.field.*;
 import com.speedment.jpastreamer.fieldgenerator.standard.exception.FieldGeneratorProcessorException;
+import com.speedment.jpastreamer.type.parser.StandardTypeParser;
 
 import javax.annotation.processing.*;
 import javax.lang.model.element.*;
@@ -199,7 +200,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         // Add imports
         clazz.add(Import.of(referenceType));
-        clazz.add(Import.of(fieldType(field)));
+        importType(field.asType().toString(), clazz);
         clazz.add(Import.of(dbType(field)));
 
         clazz.add(Field.of(fieldName, referenceType)
@@ -232,8 +233,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         SimpleParameterizedType.create(ComparableField.class, entityType, dbType, fieldType);
             } else {
                 type = SimpleParameterizedType.create(ReferenceField.class, entityType, dbType, fieldType);
-                messager.printMessage(Diagnostic.Kind.NOTE, "Parsing field type: " + fieldType + " for field " + field.getSimpleName());
-
+                messager.printMessage(Diagnostic.Kind.NOTE, "Parsing field type: " + fieldType.getTypeName() + " for field " + field.getSimpleName());
             }
         } catch (UnsupportedOperationException e) {
             throw new FieldGeneratorProcessorException("Primitive type " + fieldType.getTypeName() + " could not be parsed.");
@@ -262,15 +262,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     }
 
     private Type fieldType(Element field) {
-        String fieldTypeName = field.asType().toString();
-        if (fieldTypeName.contains("<")) {
-            String typeName = fieldTypeName.substring(0, fieldTypeName.indexOf("<"));
-            String paramTypeName = fieldTypeName.substring(fieldTypeName.indexOf("<") + 1, fieldTypeName.indexOf(">"));
-            messager.printMessage(Diagnostic.Kind.NOTE, "Hello the typeName is " + typeName + " and the paramName is " + paramTypeName);
-            return SimpleParameterizedType.create(parseType(typeName), SimpleType.create(paramTypeName));
-        } else {
-            return SimpleType.create(field.asType().toString());
-        }
+        messager.printMessage(Diagnostic.Kind.NOTE, "Using type parser to parse: " + field.asType().toString());
+        return StandardTypeParser.render(field.asType().toString());
     }
 
     /* Returns the field database type. If no converter is used, the database type is assumed to be the same as the field type. */
@@ -368,4 +361,5 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         }
         return type;
     }
+
 }

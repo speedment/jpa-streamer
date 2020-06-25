@@ -70,10 +70,26 @@ class InternalTypeParserTest {
                 SimpleType.create("java.util.Map"), SimpleParameterizedType.create(
                         SimpleType.create("java.util.Map"), SimpleParameterizedType.create(
                                 SimpleType.create("Quartet"), SimpleType.create("java.lang.String"), SimpleType.create("java.lang.String"), SimpleType.create("java.lang.String"), SimpleType.create("java.lang.String")),
-                                SimpleType.create("java.lang.Integer"))
-                        , SimpleType.create("java.lang.Integer")
+                        SimpleType.create("java.lang.Integer"))
+                , SimpleType.create("java.lang.Integer")
         );
         Type actual = InternalTypeParser.render(type);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void renderMapOfMapOfListOfSetOfDoubleAndIntegerAndLong() {
+        String type = "java.util.Map<java.util.Map<java.util.List<java.util.Set<java.lang.Double>>,java.lang.Integer>,java.lang.Long>";
+        SimpleParameterizedType expected = SimpleParameterizedType.create(
+                SimpleType.create("java.util.Map"), SimpleParameterizedType.create(
+                        SimpleType.create("java.util.Map"), SimpleParameterizedType.create(
+                                SimpleType.create("java.util.List"), SimpleParameterizedType.create(
+                                        SimpleType.create("java.util.Set"), SimpleType.create("java.lang.Double"))),
+                        SimpleType.create("java.lang.Integer"))
+                , SimpleType.create("java.lang.Long")
+        );
+        Type actual = InternalTypeParser.render(type);
+        assertEquals(expected, actual);
+    }
+
 }

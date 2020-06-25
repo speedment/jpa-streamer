@@ -43,6 +43,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>typeparser-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service-annotations</artifactId>
             <version>${auto-service.version}</version>

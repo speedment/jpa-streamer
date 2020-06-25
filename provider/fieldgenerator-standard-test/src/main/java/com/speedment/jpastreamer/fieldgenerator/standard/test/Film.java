@@ -6,11 +6,14 @@ import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmTitleConv
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
 @Table(name = "film", schema = "sakila")
-public class Film {
+public class Film
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +30,8 @@ public class Film {
     @Column(name = "audienceScore", nullable = true, columnDefinition = "decimal(4,2)")
     private Double audienceScore;
 
+    @Column(name = "mappling_Col", nullable = false)
+    private Map<FilmTitle, Integer> randomMap;
    /* @Lob
     @Column(name = "cover", nullable = true, columnDefinition = "byte")
     private byte[] cover;*/
@@ -45,6 +50,9 @@ public class Film {
         @JoinColumn(name = "original_language_id")
         private Language originalLanguage;
     */
+
+    @Column(name = "complicated_column")
+    private Map<Map<List<Set<Double>>,Integer>,Long> complicatedColumn;
 
     @Column(name = "rental_duration", columnDefinition = "smallint(5)")
     private Integer rentalDuration;
@@ -202,4 +210,19 @@ public class Film {
                 '}';
     }
 
+    public Map<Map<List<Set<Double>>, Integer>, Long> getComplicatedColumn() {
+        return complicatedColumn;
+    }
+
+    public void setComplicatedColumn(Map<Map<List<Set<Double>>, Integer>, Long> complicatedColumn) {
+        this.complicatedColumn = complicatedColumn;
+    }
+
+    public Map<FilmTitle, Integer> getRandomMap() {
+        return randomMap;
+    }
+
+    public void setRandomMap(Map<FilmTitle, Integer> randomMap) {
+        this.randomMap = randomMap;
+    }
 }

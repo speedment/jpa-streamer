@@ -106,4 +106,10 @@ class TypeParserUtilTest {
         expected.add("java.lang.Integer");
         assertEquals(expected, TypeParserUtil.parameters(s));
     }
+
+    @Test
+    void importTypes() {
+        TypeParserUtil.importType("java.util.List<java.util.Map<java.util.List<java.util.Set<java.lang.Double>>, java.lang.Integer>>");
+        assertTrue(true);
+    }
 }

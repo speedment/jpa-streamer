@@ -1,9 +1,10 @@
 package com.speedment.jpastreamer.fieldgenerator.standard.util;
 
-import com.speedment.common.codegen.constant.SimpleParameterizedType;
+import com.speedment.common.codegen.constant.SimpleType;
+import com.speedment.common.codegen.model.Class;
+import com.speedment.common.codegen.model.Import;
 
-import java.lang.reflect.Type;
-import java.util.*;
+import java.util.stream.Stream;
 
 public class GeneratorUtil {
 
@@ -13,7 +14,7 @@ public class GeneratorUtil {
      * @param className The class name
      * @throws IllegalArgumentException if no class is found with the given name
      */
-    public static Class<?> parseType(final String className) {
+    public static java.lang.Class<?> parseType(final String className) {
         switch (className) {
             case "boolean":
                 return boolean.class;
@@ -45,10 +46,21 @@ public class GeneratorUtil {
                     fullName = className;
                 }
                 try {
-                    return Class.forName(fullName);
+                    return java.lang.Class.forName(fullName);
                 } catch (ClassNotFoundException ex) {
                     throw new IllegalArgumentException("Class not found: " + fullName);
                 }
         }
     }
+
+    public static void importType(String qualifiedTypeName, Class clazz) {
+        Stream.of(qualifiedTypeName.split("[<|>|,]"))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .distinct()
+                .map(SimpleType::create)
+                .forEach(st -> clazz.add(Import.of(st)));
+    }
+
+
 }
