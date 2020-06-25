@@ -32,6 +32,7 @@ import com.speedment.jpastreamer.rootfactory.RootFactory;
 import javax.persistence.criteria.Predicate;
 import java.util.List;
 import java.util.Optional;
+import java.util.ServiceLoader;
 
 public enum FilterCriteriaMerger implements CriteriaMerger {
 
@@ -40,7 +41,7 @@ public enum FilterCriteriaMerger implements CriteriaMerger {
     private final PredicateFactory predicateFactory;
 
     FilterCriteriaMerger() {
-        this.predicateFactory = RootFactory.getOrThrow(PredicateFactory.class);
+        this.predicateFactory = RootFactory.getOrThrow(PredicateFactory.class, ServiceLoader::load);
     }
 
     @Override

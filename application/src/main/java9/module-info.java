@@ -20,5 +20,6 @@ module jpastreamer.application {
 
     requires transitive java.persistence;
     requires jpastreamer.rootfactory;
+    uses com.speedment.jpastreamer.application.JpaStreamerBuilderFactory;
 
 }

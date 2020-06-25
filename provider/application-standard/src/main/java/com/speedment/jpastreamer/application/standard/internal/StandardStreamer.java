@@ -1,6 +1,7 @@
 package com.speedment.jpastreamer.application.standard.internal;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
@@ -19,8 +20,8 @@ final class StandardStreamer<E> implements Streamer<E> {
 
     StandardStreamer(final Class<E> entityClass, final EntityManagerFactory entityManagerFactory) {
         this.entityClass = requireNonNull(entityClass);
-        this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class);
-        this.renderer = RootFactory.getOrThrow(RendererFactory.class)
+        this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class, ServiceLoader::load);
+        this.renderer = RootFactory.getOrThrow(RendererFactory.class, ServiceLoader::load)
             .createRenderer(entityManagerFactory);
     }
 
