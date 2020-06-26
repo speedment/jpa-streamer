@@ -1,20 +1,27 @@
 package com.speedment.jpastreamer.rootfactory.internal;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import static java.util.Objects.requireNonNull;
 
 public final class InternalRootFactory {
 
     private InternalRootFactory() {
     }
 
-    public static <S> Optional<S> get(final Class<S> service) {
-        return Optional.ofNullable(getHelper(service));
+    public static <S> Optional<S> get(final Class<S> service, final Function<Class<S>, ServiceLoader<S>> loader) {
+        requireNonNull(service);
+        requireNonNull(loader);
+        return Optional.ofNullable(getHelper(service, loader));
     }
 
-    public static <S> S getOrThrow(final Class<S> service) {
-        final S selectedService = getHelper(service);
+    public static <S> S getOrThrow(final Class<S> service, Function<Class<S>, ServiceLoader<S>> loader) {
+        requireNonNull(service);
+        requireNonNull(loader);
+        final S selectedService = getHelper(service, loader);
         if (selectedService == null) {
             throw new NoSuchElementException("Unable to get the service " + service.getName());
         } else {
@@ -22,8 +29,10 @@ public final class InternalRootFactory {
         }
     }
 
-    public static <S> Stream<S> stream(final Class<S> service) {
-        final Iterator<S> iterator = ServiceLoader.load(service).iterator();
+    public static <S> Stream<S> stream(final Class<S> service, final Function<Class<S>, ServiceLoader<S>> loader ) {
+        requireNonNull(service);
+        requireNonNull(loader);
+        final Iterator<S> iterator = loader.apply(service).iterator();
         if (iterator.hasNext()) {
             return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.NONNULL), false);
         } else {
@@ -38,8 +47,8 @@ public final class InternalRootFactory {
 
     }
 
-    private static <S> S getHelper(final Class<S> service) {
-        final Iterator<S> iterator = ServiceLoader.load(service).iterator();
+    private static <S> S getHelper(final Class<S> service,  Function<Class<S>, ServiceLoader<S>> loader) {
+        final Iterator<S> iterator = loader.apply(service).iterator();
         if (iterator.hasNext()) {
             return iterator.next();
         } else {

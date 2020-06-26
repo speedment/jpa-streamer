@@ -16,6 +16,7 @@ import com.speedment.jpastreamer.rootfactory.RootFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 public final class StandardRenderer implements Renderer {
@@ -30,10 +31,10 @@ public final class StandardRenderer implements Renderer {
 
     StandardRenderer(final EntityManagerFactory entityManagerFactory) {
         this.entityManager = requireNonNull(entityManagerFactory).createEntityManager();
-        this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class);
-        this.criteriaMerger = RootFactory.getOrThrow(CriteriaMerger.class);
-        this.queryMerger = RootFactory.getOrThrow(QueryMerger.class);
-        this.preOptimizerFactory = RootFactory.getOrThrow(PreOptimizerFactory.class);
+        this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class, ServiceLoader::load);
+        this.criteriaMerger = RootFactory.getOrThrow(CriteriaMerger.class, ServiceLoader::load);
+        this.queryMerger = RootFactory.getOrThrow(QueryMerger.class, ServiceLoader::load);
+        this.preOptimizerFactory = RootFactory.getOrThrow(PreOptimizerFactory.class, ServiceLoader::load);
     }
 
     @Override

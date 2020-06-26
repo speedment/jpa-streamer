@@ -11,6 +11,7 @@ import com.speedment.jpastreamer.rootfactory.RootFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 public final class InternalPreOptimizerFactory implements PreOptimizerFactory {
@@ -19,7 +20,7 @@ public final class InternalPreOptimizerFactory implements PreOptimizerFactory {
 
     public InternalPreOptimizerFactory() {
         final IntermediateOperationFactory intermediateOperationFactory = RootFactory
-            .getOrThrow(IntermediateOperationFactory.class);
+            .getOrThrow(IntermediateOperationFactory.class, ServiceLoader::load);
 
         preOptimizers.add(new SquashSkip(intermediateOperationFactory));
         preOptimizers.add(new SquashLimit(intermediateOperationFactory));
