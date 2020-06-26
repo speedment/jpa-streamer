@@ -47,7 +47,7 @@ public class GeneratorUtil {
                     }
                     String typeName = className.substring(0, className.indexOf("["));
                     Character encoding = encodingOfType(typeName);
-                    // E.g. [[Ljava.lang.String; is the qualified name of String[][]
+                    // E.g. [[Ljava.lang.String; is the qualified name of String[][] and [[[[B is the qualified name of byte[][][][]
                     qualifiedName = qualifiedName.concat(encoding.toString() + (encoding == 'L' ? typeName + ";" : ""));
                 } else if (className.contains("<")) {
                     qualifiedName = className.substring(0, className.indexOf("<"));
@@ -61,15 +61,6 @@ public class GeneratorUtil {
                     throw new IllegalArgumentException("Class not found: " + qualifiedName);
                 }
         }
-    }
-
-    public static void importType(String qualifiedTypeName, Class clazz) {
-        Stream.of(qualifiedTypeName.split("[<|>|,]"))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .distinct()
-                .map(SimpleType::create)
-                .forEach(st -> clazz.add(Import.of(st)));
     }
 
     private static Character encodingOfType(String typeName) {

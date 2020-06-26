@@ -5,7 +5,11 @@ import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmTitle;
 import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmTitleConverter;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,7 +34,7 @@ public class Film
     @Column(name = "audienceScore", nullable = true, columnDefinition = "decimal(4,2)")
     private Double audienceScore;
 
-    @Column(name = "mappling_Col", nullable = false)
+    @Column(name = "random_map", nullable = false)
     private Map<FilmTitle, Integer> randomMap;
 
     @Lob
@@ -41,24 +45,27 @@ public class Film
     @Column(name = "long_description", nullable = true)
     private String long_description;
 
-    /*
-    @Lob
-    @Convert(converter = FilmTitleConverter.class)
-    @Column(name = "long_description", nullable = true)
-    private String long_description;*/
-
+    /** DATE AND TIME */
 /*
-    @Column(name = "release_year", nullable = false, columnDefinition = "year")
-    private Year releaseYear;
-    */
+    @Column(name = "release_date", nullable = false, columnDefinition = "DATE")
+    @Temporal(TemporalType.DATE)
+    private java.util.Date releaseDate;*/
 
-        /*@ManyToOne
-        @JoinColumn(name = "language_id")
-        private Language language;*/
+    @Column(name = "release_timestamp", nullable = false, columnDefinition = "TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar releaseTimestamp;
+
+    @Column(name = "release_time", nullable = false, columnDefinition = "TIME")
+    private java.sql.Time releaseTime;
+
+
+    /*@ManyToOne
+     @JoinColumn(name = "language_id")
+     private Language language;*/
 /*
-        @ManyToOne
-        @JoinColumn(name = "original_language_id")
-        private Language originalLanguage;
+     @ManyToOne
+     @JoinColumn(name = "original_language_id")
+     private Language originalLanguage;
 */
 
     @Column(name = "complex_column")
@@ -82,7 +89,7 @@ public class Film
     @Column(name = "replacement_cost", columnDefinition = "decimal(5,2)")
     private Float replacementCost;
 
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
     private FilmRating rating;
 
@@ -272,5 +279,29 @@ public class Film
 
     public void setFilmRatings(Set<FilmRating[]> filmRatings) {
         this.filmRatings = filmRatings;
+    }
+/*
+    public java.util.Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(java.util.Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }*/
+
+    public Calendar getReleaseTimestamp() {
+        return releaseTimestamp;
+    }
+
+    public void setReleaseTimestamp(Calendar releaseTimestamp) {
+        this.releaseTimestamp = releaseTimestamp;
+    }
+
+    public Time getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(Time releaseTime) {
+        this.releaseTime = releaseTime;
     }
 }

@@ -1,7 +1,10 @@
 package com.speedment.jpastreamer.fieldgenerator.standard.internal;
 
+import com.speedment.common.codegen.Generator;
 import com.speedment.common.codegen.constant.SimpleParameterizedType;
 import com.speedment.common.codegen.constant.SimpleType;
+import com.speedment.common.codegen.controller.AlignTabs;
+import com.speedment.common.codegen.controller.AutoImports;
 import com.speedment.common.codegen.internal.java.JavaGenerator;
 import com.speedment.common.codegen.model.*;
 import com.speedment.common.codegen.model.Class;
@@ -23,10 +26,7 @@ import java.lang.Enum;
 import java.lang.reflect.Type;
 import java.sql.Blob;
 import java.sql.Clob;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,6 +44,8 @@ import static com.speedment.jpastreamer.fieldgenerator.standard.util.GeneratorUt
 public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     protected static final String GETTER_METHOD_PREFIX = "get";
+
+    private static final Generator generator = Generator.forJava();
 
     private ProcessingEnvironment processingEnvironment;
     private Elements elementUtils;
@@ -127,6 +129,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 });
 
         file.add(clazz);
+        file.call(new AutoImports(generator.getDependencyMgr())).call(new AlignTabs<>());
         return file;
     }
 
@@ -201,11 +204,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             fieldParams.add(Value.ofBoolean(col != null && col.unique()));
         }
 
-        // Add imports
-        clazz.add(Import.of(referenceType));
-        importType(field.asType().toString(), clazz);
-        clazz.add(Import.of(dbType(field)));
-
         clazz.add(Field.of(fieldName, referenceType)
                 .public_().static_().final_()
                 .set(Value.ofInvocation(
@@ -273,15 +271,26 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     private Type dbType(Element field) {
         Optional<Type> databaseType = Optional.empty();
 
-        Lob lob = field.getAnnotation(Lob.class);
+        final Lob lob = field.getAnnotation(Lob.class);
+        final Temporal temporal = field.getAnnotation(Temporal.class);
+        final Convert convert = field.getAnnotation(Convert.class);
+        final Column column = field.getAnnotation(Column.class);
+
         if (lob != null) {
             // byte[] correspond to Blob and String correspond to Clob
             java.lang.Class<?> c = parseType(field.asType().toString());
             databaseType = (c.isArray() || c.isAssignableFrom(Blob.class)) ? Optional.of(Blob.class) : Optional.of(Clob.class);
+        } else if (temporal != null) {
+            databaseType = timeType(temporal.value());
+        } else if (column != null
+                && (column.columnDefinition().equals("TIME")
+                || column.columnDefinition().equals("DATE")
+                || column.columnDefinition().equals("TIMESTAMP"))) {
+            databaseType = timeType(column.columnDefinition());
+
         } else {
             // Derive database field type from converter
             try {
-                final Convert convert = field.getAnnotation(Convert.class);
                 if (convert != null) {
                     convert.converter();
                 }
@@ -297,6 +306,34 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             }
         }
         return databaseType.orElse(fieldType(field));
+    }
+
+    private Optional<Type> timeType(TemporalType temporalType) {
+        Objects.requireNonNull(temporalType, "Temporal type cannot be null");
+        switch (temporalType) {
+            case DATE:
+                return Optional.of(java.sql.Date.class);
+            case TIME:
+                return Optional.of(java.sql.Time.class);
+            case TIMESTAMP:
+                return Optional.of(java.sql.Timestamp.class);
+            default:
+                throw new FieldGeneratorProcessorException("Unknown temporal type " + temporalType);
+        }
+    }
+
+    private Optional<Type> timeType(String columnDefinition) {
+        Objects.requireNonNull(columnDefinition, "Column definition type cannot be null");
+        switch (columnDefinition) {
+            case "DATE":
+                return Optional.of(java.sql.Date.class);
+            case "TIME":
+                return Optional.of(java.sql.Time.class);
+            case "TIMESTAMP":
+                return Optional.of(java.sql.Timestamp.class);
+            default:
+                throw new FieldGeneratorProcessorException("Cannot process information about database time type from columnDefinition: " +  columnDefinition);
+        }
     }
 
     private Type primitiveFieldType(Type fieldType, Type entityType, java.lang.Class c) throws UnsupportedOperationException {
