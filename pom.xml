@@ -59,8 +59,6 @@
         <module>criteria</module>
 
         <module>provider</module>
-
-        <module>demo</module>
     </modules>
     
     <!-- Properties -->
