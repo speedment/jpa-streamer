@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.CriteriaFactory;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
+import com.speedment.jpastreamer.merger.MergerFactory;
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
@@ -26,15 +27,13 @@ public final class StandardRenderer implements Renderer {
 
     private final PreOptimizerFactory preOptimizerFactory;
 
-    private final CriteriaMerger criteriaMerger;
-    private final QueryMerger queryMerger;
+    private final MergerFactory mergerFactory;
 
     StandardRenderer(final EntityManagerFactory entityManagerFactory) {
         this.entityManager = requireNonNull(entityManagerFactory).createEntityManager();
         this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class, ServiceLoader::load);
-        this.criteriaMerger = RootFactory.getOrThrow(CriteriaMerger.class, ServiceLoader::load);
-        this.queryMerger = RootFactory.getOrThrow(QueryMerger.class, ServiceLoader::load);
         this.preOptimizerFactory = RootFactory.getOrThrow(PreOptimizerFactory.class, ServiceLoader::load);
+        this.mergerFactory = RootFactory.getOrThrow(MergerFactory.class, ServiceLoader::load);
     }
 
     @Override
@@ -43,7 +42,10 @@ public final class StandardRenderer implements Renderer {
 
         final Class<T> entityClass = pipeline.root();
 
-        final Stream<T> baseStream = baseStream(pipeline, entityManager, entityClass);
+        final CriteriaMerger criteriaMerger = mergerFactory.createCriteriaMerger();
+        final QueryMerger queryMerger = mergerFactory.createQueryMerger();
+
+        final Stream<T> baseStream = baseStream(pipeline, entityManager, entityClass, criteriaMerger, queryMerger);
         final Stream<T> replayed = replay(baseStream, pipeline);
 
         return new StandardRenderResult<>(
@@ -55,7 +57,9 @@ public final class StandardRenderer implements Renderer {
      private <T> Stream<T> baseStream(
          final Pipeline<T> pipeline,
          final EntityManager entityManager,
-         final Class<T> entityClass
+         final Class<T> entityClass,
+         final CriteriaMerger criteriaMerger,
+         final QueryMerger queryMerger
      ) {
          final Criteria<T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
          criteria.getQuery().select(criteria.getRoot());

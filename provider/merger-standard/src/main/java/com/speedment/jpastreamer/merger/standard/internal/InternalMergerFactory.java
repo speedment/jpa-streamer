@@ -14,21 +14,23 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.merger.standard;
+package com.speedment.jpastreamer.merger.standard.internal;
 
+import com.speedment.jpastreamer.merger.CriteriaMerger;
+import com.speedment.jpastreamer.merger.MergerFactory;
 import com.speedment.jpastreamer.merger.QueryMerger;
-import com.speedment.jpastreamer.merger.result.QueryMergeResult;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.InternalCriteriaMerger;
 import com.speedment.jpastreamer.merger.standard.internal.query.InternalQueryMerger;
-import com.speedment.jpastreamer.pipeline.Pipeline;
 
-import javax.persistence.Query;
-
-public final class StandardQueryMerger implements QueryMerger {
-
-    private final QueryMerger delegate = new InternalQueryMerger();
+public final class InternalMergerFactory implements MergerFactory {
 
     @Override
-    public <T> QueryMergeResult<T> merge(final Pipeline<T> pipeline, final Query query) {
-        return delegate.merge(pipeline, query);
+    public CriteriaMerger createCriteriaMerger() {
+        return new InternalCriteriaMerger();
+    }
+
+    @Override
+    public QueryMerger createQueryMerger() {
+        return new InternalQueryMerger();
     }
 }
