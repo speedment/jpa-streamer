@@ -19,7 +19,6 @@ module jpastreamer.field {
     requires transitive java.persistence; // We expose this in fields via AttributeConverter
 
     requires transitive com.speedment.common.function;
-    requires transitive com.speedment.runtime.config;
     requires transitive com.speedment.runtime.compute;
 
     exports com.speedment.jpastreamer.field;

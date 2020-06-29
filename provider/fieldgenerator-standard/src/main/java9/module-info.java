@@ -21,7 +21,6 @@ module jpastreamer.fieldgenerator.standard {
         requires com.speedment.common.codegen;
 
         requires transitive com.speedment.common.function;
-        requires transitive com.speedment.runtime.config;
         requires transitive com.speedment.runtime.compute;
 
         exports com.speedment.jpastreamer.fieldgenerator.standard;
