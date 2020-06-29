@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.comparator.DoubleFieldComparator;
 import com.speedment.jpastreamer.field.internal.DoubleFieldImpl;
 import com.speedment.jpastreamer.field.method.DoubleGetter;
@@ -38,7 +37,6 @@ import javax.persistence.AttributeConverter;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface DoubleField<ENTITY, D> extends Field<ENTITY>,
         HasDoubleValue<ENTITY, D>,
         HasComparableOperators<ENTITY, Double>,

@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.comparator;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.FloatField;
 import com.speedment.jpastreamer.field.trait.HasFloatValue;
 
@@ -29,7 +28,6 @@ import com.speedment.jpastreamer.field.trait.HasFloatValue;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface FloatFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
     
     /**

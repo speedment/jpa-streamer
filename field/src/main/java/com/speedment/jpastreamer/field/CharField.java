@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.method.CharGetter;
 import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.runtime.compute.ToChar;
@@ -38,7 +37,6 @@ import javax.persistence.AttributeConverter;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface CharField<ENTITY, D> extends
         Field<ENTITY>,
         HasCharValue<ENTITY, D>,

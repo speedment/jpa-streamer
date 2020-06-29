@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.CharField;
 import com.speedment.jpastreamer.field.comparator.CharFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
@@ -46,7 +45,6 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public final class CharFieldImpl<ENTITY, D> implements CharField<ENTITY, D> {
     
     private final Class<ENTITY> table;

@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.floats;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
@@ -35,8 +34,7 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
-public final class FloatInPredicate<ENTITY, D> 
+public final class FloatInPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY, D>>
 implements Tuple1<Set<Float>> {
     

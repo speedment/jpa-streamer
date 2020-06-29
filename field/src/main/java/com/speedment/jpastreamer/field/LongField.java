@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.internal.LongFieldImpl;
 import com.speedment.jpastreamer.field.method.LongGetter;
 import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
@@ -38,7 +37,6 @@ import javax.persistence.AttributeConverter;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface LongField<ENTITY, D> extends
         Field<ENTITY>,
         HasLongValue<ENTITY, D>,

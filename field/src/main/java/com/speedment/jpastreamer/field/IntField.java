@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.internal.IntFieldImpl;
 import com.speedment.jpastreamer.field.method.IntGetter;
 import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
@@ -38,7 +37,6 @@ import javax.persistence.AttributeConverter;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface IntField<ENTITY, D> extends
         Field<ENTITY>,
         HasIntValue<ENTITY, D>,

@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.internal.predicate.doubles.*;
 import com.speedment.jpastreamer.field.internal.util.CollectionUtil;
 import com.speedment.jpastreamer.field.method.GetDouble;
@@ -46,7 +45,6 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public final class DoubleFieldImpl<ENTITY, D> implements DoubleField<ENTITY, D> {
     
     private final Class<ENTITY> table;

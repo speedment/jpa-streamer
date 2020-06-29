@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.internal.predicate.ints.*;
 import com.speedment.jpastreamer.field.IntField;
 import com.speedment.jpastreamer.field.comparator.IntFieldComparator;
@@ -46,7 +45,6 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public final class IntFieldImpl<ENTITY, D> implements IntField<ENTITY, D> {
     
     private final Class<ENTITY> table;

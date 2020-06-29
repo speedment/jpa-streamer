@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal.comparator;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.comparator.ByteFieldComparator;
 import com.speedment.jpastreamer.field.comparator.FieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
@@ -34,8 +33,7 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
-public final class ByteFieldComparatorImpl<ENTITY, D> 
+public final class ByteFieldComparatorImpl<ENTITY, D>
 extends AbstractFieldComparator<ENTITY> 
 implements ByteFieldComparator<ENTITY, D> {
     

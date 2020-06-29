@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.comparator;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.trait.HasDoubleValue;
 import com.speedment.jpastreamer.field.DoubleField;
 
@@ -29,7 +28,6 @@ import com.speedment.jpastreamer.field.DoubleField;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface DoubleFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
     
     /**

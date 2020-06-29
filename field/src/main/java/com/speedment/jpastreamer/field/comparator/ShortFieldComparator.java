@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.comparator;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.ShortField;
 import com.speedment.jpastreamer.field.trait.HasShortValue;
 
@@ -29,7 +28,6 @@ import com.speedment.jpastreamer.field.trait.HasShortValue;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface ShortFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
     
     /**

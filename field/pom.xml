@@ -31,12 +31,6 @@
 
         <dependency>
             <groupId>com.speedment.common</groupId>
-            <artifactId>annotation</artifactId>
-            <version>${speedment-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.common</groupId>
             <artifactId>invariant</artifactId>
             <version>${speedment-version}</version>
         </dependency>
@@ -71,13 +65,6 @@
             <artifactId>runtime-config</artifactId>
             <version>${speedment-version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.speedment.runtime</groupId>
-            <artifactId>runtime-typemapper</artifactId>
-            <version>${speedment-version}</version>
-        </dependency>
-
 
         <!--END: To be removed-->
 

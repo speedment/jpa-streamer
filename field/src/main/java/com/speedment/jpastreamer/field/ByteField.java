@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.runtime.compute.ToByte;
 import com.speedment.jpastreamer.field.comparator.ByteFieldComparator;
@@ -38,7 +37,6 @@ import javax.persistence.AttributeConverter;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface ByteField<ENTITY, D> extends Field<ENTITY>,
         HasByteValue<ENTITY, D>,
         HasComparableOperators<ENTITY, Byte>,

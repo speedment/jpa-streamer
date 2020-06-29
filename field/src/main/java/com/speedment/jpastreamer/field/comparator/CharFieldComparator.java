@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.comparator;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.CharField;
 import com.speedment.jpastreamer.field.trait.HasCharValue;
 
@@ -29,7 +28,6 @@ import com.speedment.jpastreamer.field.trait.HasCharValue;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface CharFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
     
     /**

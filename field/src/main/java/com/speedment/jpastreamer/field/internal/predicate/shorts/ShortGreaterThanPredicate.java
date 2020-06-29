@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.shorts;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
@@ -31,8 +30,7 @@ import com.speedment.jpastreamer.field.trait.HasShortValue;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
-public final class ShortGreaterThanPredicate<ENTITY, D> 
+public final class ShortGreaterThanPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY, D>>
 implements Tuple1<Short> {
     

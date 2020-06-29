@@ -20,7 +20,6 @@ import com.speedment.jpastreamer.field.internal.comparator.ReferenceFieldCompara
 import com.speedment.jpastreamer.field.internal.predicate.reference.*;
 import com.speedment.jpastreamer.field.internal.util.CollectionUtil;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.ComparableField;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.comparator.FieldComparator;
@@ -28,7 +27,6 @@ import com.speedment.jpastreamer.field.comparator.NullOrder;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.runtime.typemapper.TypeMapper;
 
 import javax.persistence.AttributeConverter;
 import java.util.Collection;

@@ -16,8 +16,6 @@
  */
 package com.speedment.jpastreamer.field;
 
-
-import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasColumnName;
 import com.speedment.jpastreamer.field.trait.HasGetter;
 import com.speedment.jpastreamer.field.trait.HasTable;

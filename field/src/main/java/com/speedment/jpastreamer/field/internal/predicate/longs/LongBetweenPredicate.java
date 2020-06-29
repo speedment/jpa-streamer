@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.longs;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.common.tuple.Tuple2;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
@@ -35,8 +34,7 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
-public final class LongBetweenPredicate<ENTITY, D> 
+public final class LongBetweenPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY, D>>
 implements HasInclusion,
           Tuple2<Long, Long> {

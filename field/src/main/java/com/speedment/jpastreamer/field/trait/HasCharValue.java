@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.trait;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.method.GetChar;
 
@@ -29,7 +28,6 @@ import com.speedment.jpastreamer.field.method.GetChar;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface HasCharValue<ENTITY, D> extends Field<ENTITY> {
     
     @Override

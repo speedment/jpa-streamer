@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.comparator;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.LongField;
 import com.speedment.jpastreamer.field.trait.HasLongValue;
 
@@ -29,7 +28,6 @@ import com.speedment.jpastreamer.field.trait.HasLongValue;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface LongFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
     
     /**

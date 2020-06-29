@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.comparator;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.IntField;
 import com.speedment.jpastreamer.field.trait.HasIntValue;
 
@@ -29,7 +28,6 @@ import com.speedment.jpastreamer.field.trait.HasIntValue;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface IntFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
     
     /**

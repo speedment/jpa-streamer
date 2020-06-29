@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.doubles;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.common.tuple.Tuple2;
 import com.speedment.jpastreamer.field.trait.HasDoubleValue;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
@@ -35,8 +34,7 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
-public final class DoubleBetweenPredicate<ENTITY, D> 
+public final class DoubleBetweenPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
 implements HasInclusion,
           Tuple2<Double, Double> {

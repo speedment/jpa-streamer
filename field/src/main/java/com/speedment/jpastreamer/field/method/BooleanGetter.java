@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.method;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.common.function.ToBooleanFunction;
 
 import java.util.function.Function;
@@ -37,7 +36,6 @@ import java.util.function.Function;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 @FunctionalInterface
 public interface BooleanGetter<ENTITY> extends Getter<ENTITY>, ToBooleanFunction<ENTITY> {
     

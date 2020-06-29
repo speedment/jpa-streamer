@@ -16,8 +16,6 @@
  */
 package com.speedment.jpastreamer.field.method;
 
-import com.speedment.common.annotation.GeneratedCode;
-
 import java.util.function.Function;
 import java.util.function.ToLongFunction;
 
@@ -37,7 +35,6 @@ import java.util.function.ToLongFunction;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 @FunctionalInterface
 public interface LongGetter<ENTITY> extends Getter<ENTITY>, ToLongFunction<ENTITY> {
     

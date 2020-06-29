@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.bytes;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
@@ -35,8 +34,7 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
-public final class ByteInPredicate<ENTITY, D> 
+public final class ByteInPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY, D>>
 implements Tuple1<Set<Byte>> {
     

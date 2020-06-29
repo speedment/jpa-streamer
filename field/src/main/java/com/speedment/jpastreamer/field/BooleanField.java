@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.runtime.compute.ToBoolean;
 import com.speedment.jpastreamer.field.comparator.BooleanFieldComparator;
@@ -38,7 +37,6 @@ import javax.persistence.AttributeConverter;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public interface BooleanField<ENTITY, D> extends Field<ENTITY>,
         HasBooleanValue<ENTITY, D>,
         ToBoolean<ENTITY>,

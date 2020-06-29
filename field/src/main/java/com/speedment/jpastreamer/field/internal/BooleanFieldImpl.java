@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field.internal;
 
-import com.speedment.common.annotation.GeneratedCode;
 import com.speedment.jpastreamer.field.BooleanField;
 import com.speedment.jpastreamer.field.internal.comparator.BooleanFieldComparatorImpl;
 import com.speedment.jpastreamer.field.internal.method.GetBooleanImpl;
@@ -44,7 +43,6 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.0
  */
-@GeneratedCode(value = "Speedment")
 public final class BooleanFieldImpl<ENTITY, D> implements BooleanField<ENTITY, D> {
     
     private final Class<ENTITY> table;

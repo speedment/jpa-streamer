@@ -16,7 +16,6 @@
  */
 package com.speedment.jpastreamer.field;
 
-
 import com.speedment.runtime.compute.ToStringNullable;
 import com.speedment.jpastreamer.field.internal.StringFieldImpl;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
