@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.reference;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 
 import static com.speedment.jpastreamer.field.predicate.PredicateType.LESS_OR_EQUAL;
@@ -32,8 +32,9 @@ import static com.speedment.jpastreamer.field.predicate.PredicateType.LESS_OR_EQ
  * @since   2.2.0
  */
 public final class ReferenceLessOrEqualPredicate<ENTITY, D, V extends Comparable<? super V>>
-extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
-implements Tuple1<V> {
+extends AbstractFieldPredicate<ENTITY,
+        HasReferenceValue<ENTITY, D, V>>
+implements HasArg0<V> {
 
     private final V value;
 

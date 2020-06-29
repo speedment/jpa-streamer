@@ -16,9 +16,10 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.reference;
 
-import com.speedment.common.tuple.Tuple2;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.trait.HasInclusion;
+import com.speedment.jpastreamer.field.trait.HasArg0;
+import com.speedment.jpastreamer.field.trait.HasArg1;
 import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 
@@ -38,7 +39,9 @@ import static java.util.Objects.requireNonNull;
  */
 public final class ReferenceBetweenPredicate<ENTITY, D, V extends Comparable<? super V>>
     extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
-    implements HasInclusion, Tuple2<V, V> {
+    implements HasInclusion,
+        HasArg0<V>,
+        HasArg1<V> {
 
     private final V start;
     private final V end;

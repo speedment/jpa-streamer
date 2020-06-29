@@ -18,7 +18,6 @@ module jpastreamer.field {
     requires com.speedment.common.invariant;
     requires transitive java.persistence; // We expose this in fields via AttributeConverter
 
-    requires transitive com.speedment.common.tuple;
     requires transitive com.speedment.common.function;
 
     requires transitive com.speedment.runtime.config;
@@ -33,5 +32,4 @@ module jpastreamer.field {
     exports com.speedment.jpastreamer.field.predicate;
     exports com.speedment.jpastreamer.field.predicate.trait;
     exports com.speedment.jpastreamer.field.trait;
-    exports com.speedment.jpastreamer.field.util;
 }

@@ -55,12 +55,6 @@
         <!--BEGIN: To be removed-->
 
         <dependency>
-            <groupId>com.speedment.common</groupId>
-            <artifactId>tuple</artifactId>
-            <version>${speedment-version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.speedment.runtime</groupId>
             <artifactId>runtime-config</artifactId>
             <version>${speedment-version}</version>

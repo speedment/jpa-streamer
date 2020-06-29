@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.ints;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasIntValue;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
 
@@ -32,7 +32,7 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  */
 public final class IntEqualPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY, D>>
-implements Tuple1<Integer> {
+implements HasArg0<Integer> {
     
     private final int value;
     

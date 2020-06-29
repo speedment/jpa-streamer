@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.reference;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 
 import java.util.Objects;
@@ -35,7 +35,7 @@ import static com.speedment.jpastreamer.field.predicate.PredicateType.EQUAL;
  */
 public final class ReferenceEqualPredicate<ENTITY, D, V extends Comparable<? super V>>
 extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
-implements Tuple1<V> {
+implements HasArg0<V> {
 
     private final V value;
 

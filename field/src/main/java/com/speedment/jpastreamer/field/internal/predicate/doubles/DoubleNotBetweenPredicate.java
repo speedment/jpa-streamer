@@ -16,11 +16,12 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.doubles;
 
-import com.speedment.common.tuple.Tuple2;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
 import com.speedment.jpastreamer.field.predicate.trait.HasInclusion;
+import com.speedment.jpastreamer.field.trait.HasArg0;
+import com.speedment.jpastreamer.field.trait.HasArg1;
 import com.speedment.jpastreamer.field.trait.HasDoubleValue;
 
 import static java.util.Objects.requireNonNull;
@@ -37,7 +38,8 @@ import static java.util.Objects.requireNonNull;
 public final class DoubleNotBetweenPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
 implements HasInclusion,
-          Tuple2<Double, Double> {
+        HasArg0<Double>,
+        HasArg1<Double> {
     
     private final double start;
     private final double end;

@@ -31,7 +31,8 @@ import static com.speedment.jpastreamer.field.predicate.PredicateType.IS_NULL;
  * @since   2.2.0
  */
 public final class ReferenceIsNullPredicate<ENTITY, D, V>
-extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>> {
+extends AbstractFieldPredicate<ENTITY,
+        HasReferenceValue<ENTITY, D, V>> {
 
     public ReferenceIsNullPredicate(HasReferenceValue<ENTITY, D, V> field) {
         super(IS_NULL, field, entity -> entity == null || field.get(entity) == null);

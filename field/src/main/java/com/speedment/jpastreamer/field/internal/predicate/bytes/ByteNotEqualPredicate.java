@@ -16,9 +16,9 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.bytes;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasByteValue;
 
 /**
@@ -32,7 +32,7 @@ import com.speedment.jpastreamer.field.trait.HasByteValue;
  */
 public final class ByteNotEqualPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY, D>>
-implements Tuple1<Byte> {
+implements HasArg0<Byte> {
     
     private final byte value;
     

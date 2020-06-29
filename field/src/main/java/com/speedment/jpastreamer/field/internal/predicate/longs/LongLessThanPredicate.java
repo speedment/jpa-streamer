@@ -16,9 +16,9 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.longs;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasLongValue;
 
 /**
@@ -32,7 +32,7 @@ import com.speedment.jpastreamer.field.trait.HasLongValue;
  */
 public final class LongLessThanPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY, D>> 
-implements Tuple1<Long> {
+implements HasArg0<Long> {
     
     private final long value;
     

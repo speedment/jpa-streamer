@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.reference;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 
 import java.util.Set;
@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class ReferenceInPredicate<ENTITY, D, V extends Comparable<? super V>>
 extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
-implements Tuple1<Set<V>> {
+implements HasArg0<Set<V>> {
 
     private final Set<V> set;
 

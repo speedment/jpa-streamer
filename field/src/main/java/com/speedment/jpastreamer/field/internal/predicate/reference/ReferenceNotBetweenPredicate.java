@@ -16,7 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.reference;
 
-import com.speedment.common.tuple.Tuple2;
+import com.speedment.jpastreamer.field.trait.HasArg0;
+import com.speedment.jpastreamer.field.trait.HasArg1;
 import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
@@ -32,23 +33,26 @@ import static java.util.Objects.requireNonNull;
  * @param <ENTITY>  the entity type
  * @param <D>       the database type
  * @param <V>       the value type
- * 
+ *
  * @author  Per Minborg
  * @since   2.2.0
  */
 public final class ReferenceNotBetweenPredicate<ENTITY, D, V extends Comparable<? super V>>
-    extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
-    implements HasInclusion, Tuple2<V, V> {
+        extends AbstractFieldPredicate<ENTITY,
+        HasReferenceValue<ENTITY, D, V>>
+        implements HasInclusion,
+        HasArg0<V>,
+        HasArg1<V> {
 
     private final V start;
     private final V end;
     private final Inclusion inclusion;
 
     public ReferenceNotBetweenPredicate(
-        final HasReferenceValue<ENTITY, D, V> referenceField,
-        final V start,
-        final V end,
-        final Inclusion inclusion
+            final HasReferenceValue<ENTITY, D, V> referenceField,
+            final V start,
+            final V end,
+            final Inclusion inclusion
     ) {
         super(NOT_BETWEEN, referenceField, entityPredicate(referenceField, start, end, inclusion));
         this.start     = start;
@@ -131,6 +135,6 @@ public final class ReferenceNotBetweenPredicate<ENTITY, D, V extends Comparable<
     public ReferenceBetweenPredicate<ENTITY, D, V> negate() {
         return new ReferenceBetweenPredicate<>(getField(), start, end, inclusion);
     }
-    
-    
+
+
 }

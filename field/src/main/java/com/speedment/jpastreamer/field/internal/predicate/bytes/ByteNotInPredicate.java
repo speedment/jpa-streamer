@@ -16,9 +16,9 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.bytes;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasByteValue;
 
 import java.util.Set;
@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class ByteNotInPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY, D>> 
-implements Tuple1<Set<Byte>> {
+implements HasArg0<Set<Byte>> {
     
     private final Set<Byte> set;
     

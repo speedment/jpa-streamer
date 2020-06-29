@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.doubles;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasDoubleValue;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
 
@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class DoubleNotInPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
-implements Tuple1<Set<Double>> {
+implements HasArg0<Set<Double>> {
     
     private final Set<Double> set;
     

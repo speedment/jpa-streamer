@@ -16,9 +16,10 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.ints;
 
-import com.speedment.common.tuple.Tuple2;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.trait.HasInclusion;
+import com.speedment.jpastreamer.field.trait.HasArg0;
+import com.speedment.jpastreamer.field.trait.HasArg1;
 import com.speedment.jpastreamer.field.trait.HasIntValue;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
@@ -37,7 +38,8 @@ import static java.util.Objects.requireNonNull;
 public final class IntNotBetweenPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY, D>>
 implements HasInclusion,
-          Tuple2<Integer, Integer> {
+        HasArg0<Integer>,
+        HasArg1<Integer> {
     
     private final int start;
     private final int end;

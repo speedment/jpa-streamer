@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.string;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
@@ -34,7 +34,7 @@ import java.util.function.Predicate;
  */
 abstract class AbstractStringPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, String>>
-implements Tuple1<String> {
+implements HasArg0<String> {
 
     private final String operand;
 

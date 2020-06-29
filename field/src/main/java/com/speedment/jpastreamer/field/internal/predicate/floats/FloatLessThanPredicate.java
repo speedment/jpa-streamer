@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.floats;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasFloatValue;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
 
@@ -32,7 +32,7 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  */
 public final class FloatLessThanPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY, D>>
-implements Tuple1<Float> {
+implements HasArg0<Float> {
     
     private final float value;
     

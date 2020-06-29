@@ -16,9 +16,9 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.shorts;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasShortValue;
 
 import java.util.Set;
@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class ShortInPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY, D>>
-implements Tuple1<Set<Short>> {
+implements HasArg0<Set<Short>> {
     
     private final Set<Short> set;
     

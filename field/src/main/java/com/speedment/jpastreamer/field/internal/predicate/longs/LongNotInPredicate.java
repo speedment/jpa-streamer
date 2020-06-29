@@ -16,9 +16,9 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.longs;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasLongValue;
 
 import java.util.Set;
@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class LongNotInPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY, D>> 
-implements Tuple1<Set<Long>> {
+implements HasArg0<Set<Long>> {
     
     private final Set<Long> set;
     

@@ -16,9 +16,9 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.chars;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasCharValue;
 
 /**
@@ -32,7 +32,7 @@ import com.speedment.jpastreamer.field.trait.HasCharValue;
  */
 public final class CharNotEqualPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY, D>> 
-implements Tuple1<Character> {
+implements HasArg0<Character> {
     
     private final char value;
     

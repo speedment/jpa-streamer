@@ -16,7 +16,7 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.floats;
 
-import com.speedment.common.tuple.Tuple1;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasFloatValue;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class FloatNotInPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY, D>>
-implements Tuple1<Set<Float>> {
+implements HasArg0<Set<Float>> {
     
     private final Set<Float> set;
     

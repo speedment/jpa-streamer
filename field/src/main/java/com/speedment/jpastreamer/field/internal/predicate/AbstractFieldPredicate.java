@@ -16,10 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate;
 
-import com.speedment.common.tuple.Tuple;
 import com.speedment.jpastreamer.field.internal.util.Cast;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
-import com.speedment.runtime.config.identifier.ColumnIdentifier;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
 
@@ -85,13 +83,6 @@ implements FieldPredicate<ENTITY> {
             .append("table: ")
             .append(table.getName()).append('.')
             .append(", type: '").append(predicateType).append("'");
-
-        Cast.cast(this, Tuple.class).ifPresent(tuple -> {
-            for (int i = 0; i < tuple.degree(); i++) {
-                sb.append(", operand ").append(i)
-                    .append(": ").append(tuple.get(i));
-            }
-        });
 
         return sb.append("}").toString();
     }

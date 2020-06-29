@@ -16,11 +16,12 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.chars;
 
-import com.speedment.common.tuple.Tuple2;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
 import com.speedment.jpastreamer.field.predicate.trait.HasInclusion;
+import com.speedment.jpastreamer.field.trait.HasArg0;
+import com.speedment.jpastreamer.field.trait.HasArg1;
 import com.speedment.jpastreamer.field.trait.HasCharValue;
 
 import static java.util.Objects.requireNonNull;
@@ -37,7 +38,8 @@ import static java.util.Objects.requireNonNull;
 public final class CharNotBetweenPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY, D>> 
 implements HasInclusion,
-          Tuple2<Character, Character> {
+        HasArg0<Character>,
+        HasArg1<Character> {
     
     private final char start;
     private final char end;

@@ -16,9 +16,9 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.chars;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasCharValue;
 
 import java.util.Set;
@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class CharNotInPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY, D>>
-implements Tuple1<Set<Character>> {
+implements HasArg0<Set<Character>> {
     
     private final Set<Character> set;
     

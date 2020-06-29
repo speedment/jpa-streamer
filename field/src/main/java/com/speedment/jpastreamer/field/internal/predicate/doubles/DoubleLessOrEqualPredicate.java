@@ -16,8 +16,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.doubles;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasDoubleValue;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
 
@@ -33,7 +33,7 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  */
 public final class DoubleLessOrEqualPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
-implements Tuple1<Double> {
+implements HasArg0<Double> {
     
     private final double value;
     

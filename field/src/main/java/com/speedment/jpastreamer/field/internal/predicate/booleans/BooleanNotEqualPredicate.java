@@ -16,9 +16,9 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate.booleans;
 
-import com.speedment.common.tuple.Tuple1;
 import com.speedment.jpastreamer.field.internal.predicate.AbstractFieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
+import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasBooleanValue;
 
 /**
@@ -33,7 +33,7 @@ import com.speedment.jpastreamer.field.trait.HasBooleanValue;
  */
 public final class BooleanNotEqualPredicate<ENTITY, D>
 extends AbstractFieldPredicate<ENTITY, HasBooleanValue<ENTITY, D>> 
-implements Tuple1<Boolean> {
+implements HasArg0<Boolean> {
     
     private final boolean value;
     
