@@ -58,11 +58,11 @@ final class SquashLimitTest extends AbstractSquashTest<String, SquashLimit> {
     }
 
     private PipelineTestCase<String> limitN(int n) {
-        IntermediateOperation<?, ?>[] operations = IntStream.range(0, n).mapToObj(i -> operationFactory.createLimit(1)).toArray(IntermediateOperation[]::new);
+        IntermediateOperation<?, ?>[] operations = IntStream.rangeClosed(1, n).mapToObj(operationFactory::createLimit).toArray(IntermediateOperation[]::new);
 
         final Pipeline<String> limit = createPipeline(operations);
 
-        final Pipeline<String> limitExpected = createPipeline(operationFactory.createLimit(n));
+        final Pipeline<String> limitExpected = createPipeline(operationFactory.createLimit(1));
 
         return new PipelineTestCase<>("Limit " + n, limit, limitExpected);
     }
@@ -83,12 +83,12 @@ final class SquashLimitTest extends AbstractSquashTest<String, SquashLimit> {
 
     private PipelineTestCase<String> limit2Other2() {
         final Pipeline<String> limit2Other2 = createPipeline(
-            operationFactory.createLimit(1), operationFactory.createLimit(1),
+            operationFactory.createLimit(1), operationFactory.createLimit(2),
             operationFactory.createSkip(1), operationFactory.createSkip(1)
         );
 
         final Pipeline<String> limit2Other2Expected = createPipeline(
-            operationFactory.createLimit(2),
+            operationFactory.createLimit(1),
             operationFactory.createSkip(1), operationFactory.createSkip(1)
         );
 
@@ -97,15 +97,15 @@ final class SquashLimitTest extends AbstractSquashTest<String, SquashLimit> {
 
     private PipelineTestCase<String> limit2OtherLimit2() {
         final Pipeline<String> limit2OtherLimit2 = createPipeline(
-            operationFactory.createLimit(1), operationFactory.createLimit(1),
+            operationFactory.createLimit(1), operationFactory.createLimit(2),
             operationFactory.createSkip(1),
-            operationFactory.createLimit(1), operationFactory.createLimit(1)
+            operationFactory.createLimit(3), operationFactory.createLimit(4)
         );
 
         final Pipeline<String> limit2OtherLimit2Expected = createPipeline(
-            operationFactory.createLimit(2),
+            operationFactory.createLimit(1),
             operationFactory.createSkip(1),
-            operationFactory.createLimit(2)
+            operationFactory.createLimit(3)
         );
 
         return new PipelineTestCase<>("Limit 2, Other, Limit 2", limit2OtherLimit2, limit2OtherLimit2Expected);
