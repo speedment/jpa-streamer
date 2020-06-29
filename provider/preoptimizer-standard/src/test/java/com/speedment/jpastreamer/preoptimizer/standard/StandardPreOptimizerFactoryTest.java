@@ -14,21 +14,19 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.merger.standard;
+package com.speedment.jpastreamer.preoptimizer.standard;
 
-import com.speedment.jpastreamer.merger.QueryMerger;
-import com.speedment.jpastreamer.merger.result.QueryMergeResult;
-import com.speedment.jpastreamer.merger.standard.internal.query.InternalQueryMerger;
-import com.speedment.jpastreamer.pipeline.Pipeline;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import javax.persistence.Query;
+import com.speedment.jpastreamer.preoptimizer.PreOptimizerFactory;
+import org.junit.jupiter.api.Test;
 
-public final class StandardQueryMerger implements QueryMerger {
+final class StandardPreOptimizerFactoryTest {
 
-    private final QueryMerger delegate = new InternalQueryMerger();
+    @Test
+    void stream() {
+        final PreOptimizerFactory preOptimizerFactory = new StandardPreOptimizerFactory();
 
-    @Override
-    public <T> QueryMergeResult<T> merge(final Pipeline<T> pipeline, final Query query) {
-        return delegate.merge(pipeline, query);
+        assertNotNull(preOptimizerFactory.stream());
     }
 }

@@ -16,24 +16,22 @@
 
 package com.speedment.jpastreamer.merger.standard;
 
-import com.speedment.jpastreamer.criteria.Criteria;
-import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
-import com.speedment.jpastreamer.merger.standard.internal.criteria.InternalCriteriaMerger;
-import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.merger.MergerFactory;
+import com.speedment.jpastreamer.merger.QueryMerger;
+import com.speedment.jpastreamer.merger.standard.internal.InternalMergerFactory;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+public final class StandardMergerFactory implements MergerFactory {
 
-public final class StandardCriteriaMerger implements CriteriaMerger {
-
-    private final CriteriaMerger delegate = new InternalCriteriaMerger();
+    private final MergerFactory mergerFactory = new InternalMergerFactory();
 
     @Override
-    public <T> CriteriaMergeResult<T> merge(
-        final Pipeline<T> pipeline,
-        final Criteria<T> criteria
-    ) {
-        return delegate.merge(pipeline, criteria);
+    public CriteriaMerger createCriteriaMerger() {
+        return mergerFactory.createCriteriaMerger();
+    }
+
+    @Override
+    public QueryMerger createQueryMerger() {
+        return mergerFactory.createQueryMerger();
     }
 }

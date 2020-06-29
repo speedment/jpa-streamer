@@ -24,9 +24,13 @@ import com.speedment.jpastreamer.merger.CriteriaMerger;
 import com.speedment.jpastreamer.merger.standard.internal.criteria.result.InternalCriteriaMergeResult;
 import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.FilterCriteriaMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class InternalCriteriaMerger implements CriteriaMerger {
 
