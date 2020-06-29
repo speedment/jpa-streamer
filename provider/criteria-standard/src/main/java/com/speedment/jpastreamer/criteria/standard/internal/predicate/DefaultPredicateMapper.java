@@ -27,6 +27,8 @@ import com.speedment.jpastreamer.exception.JpaStreamerException;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.trait.HasInclusion;
+import com.speedment.jpastreamer.field.trait.HasArg0;
+import com.speedment.jpastreamer.field.trait.HasArg1;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
@@ -508,7 +510,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         final Class<S> clazz
     ) {
         final String column = fieldPredicate.getField().columnName();
-        final Object value = Cast.castOrFail(fieldPredicate, Tuple.class).get(0);
+        final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
 
         if (clazz.isInstance(value)) {
             return callback.apply(column, (S) value);
@@ -524,13 +526,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         final BiFunction<String, Comparable, Predicate> comparableCallback
     ) {
         final String column = fieldPredicate.getField().columnName();
-        final Tuple tuple = Cast.castOrFail(fieldPredicate, Tuple.class);
-
-        if (tuple.degree() != 1) {
-            throw new JpaStreamerException("Invalid number of arguments - expected 1, found " + tuple.degree());
-        }
-
-        final Object value = tuple.get(0);
+        final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
 
         if (value instanceof Number) {
             return callback.apply(column, (Number) value);
@@ -553,27 +549,24 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             final BiFunction<String, Tuple3<S, S, Inclusion>, Predicate> callback
     ) {
         final String column = fieldPredicate.getField().columnName();
-        final Tuple value = Cast.castOrFail(fieldPredicate, Tuple.class);
-
-        if (value.degree() != 2) {
-            throw new JpaStreamerException("Invalid number of arguments - expected 2, found " + value.degree());
-        }
+        final Object arg0 = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
+        final Object arg1 = Cast.castOrFail(fieldPredicate, HasArg1.class).get1();
 
         final Inclusion inclusion = Cast.cast(fieldPredicate, HasInclusion.class)
             .map(HasInclusion::getInclusion)
             .orElse(Inclusion.START_INCLUSIVE_END_INCLUSIVE);
 
-        if (value.get(0) instanceof Comparable && value.get(1) instanceof Comparable) {
+        if (arg0 instanceof Comparable && arg1 instanceof Comparable) {
             final Tuple3<S, S, Inclusion> tuple3 = Tuples.of(
-                (S) value.get(0),
-                (S) value.get(1),
+                (S) arg0,
+                (S) arg1,
                 inclusion
             );
 
             return callback.apply(column, tuple3);
         }
 
-        throw new JpaStreamerException("Illegal comparison value [" + value + "]");
+        throw new JpaStreamerException("Illegal comparison values [" + arg0 + "," + arg1 + "]");
     }
 
     /*
