@@ -15,10 +15,8 @@
  * the License.
  */
 module jpastreamer.renderer {
-
-    exports com.speedment.jpastreamer.renderer;
-
     requires transitive java.persistence;
     requires jpastreamer.pipeline;
 
+    exports com.speedment.jpastreamer.renderer;
 }

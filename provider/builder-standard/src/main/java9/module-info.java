@@ -15,9 +15,9 @@
  * the License.
  */
 module jpastreamer.builder.standard {
-    exports com.speedment.jpastreamer.builder.standard;
-
     requires transitive jpastreamer.builder;
+
+    exports com.speedment.jpastreamer.builder.standard;
 
     // Todo: enable this
     // provides com.speedment.jpastreamer.builder.BuilderFactory with com.speedment.jpastreamer.builder.stadard.BuilderFactory;

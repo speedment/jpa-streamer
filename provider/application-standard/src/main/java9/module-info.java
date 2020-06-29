@@ -15,9 +15,9 @@
  * the License.
  */
 module jpastreamer.application.standard {
-    exports com.speedment.jpastreamer.application.standard;
-
     requires transitive jpastreamer.application;
+
+    exports com.speedment.jpastreamer.application.standard;
 
     // Todo: Enable this
     // provides com.speedment.jpastreamer.application.JpaStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJpaStreamBuilderFactory;

@@ -15,9 +15,9 @@
  * the License.
  */
 module jpastreamer.preoptimizer.standard {
-    exports com.speedment.jpastreamer.preoptimizer.standard;
-
     requires transitive jpastreamer.preoptimizer;
+
+    exports com.speedment.jpastreamer.preoptimizer.standard;
 
     // Todo: Enable this
     // provides com.speedment.jpastreamer.application.JpaStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJpaStreamBuilderFactory;

@@ -1,12 +1,7 @@
-package com.speedment.jpastreamer.type.parser.util;
-
-import com.speedment.common.codegen.constant.SimpleType;
-import com.speedment.common.codegen.model.Class;
-import com.speedment.common.codegen.model.Import;
+package com.speedment.jpastreamer.typeparser.standard.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public final class TypeParserUtil {
 
@@ -58,14 +53,4 @@ public final class TypeParserUtil {
         return children;
     }
 
-    public static void importType(String qualifiedTypeName) {
-        String[] typeNames = qualifiedTypeName.split("[<|>]");
-
-        Stream.of(typeNames)
-                .map(s -> s.replace(',', ' '))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .distinct()
-                .forEach(System.out::println);
-    }
 }

@@ -15,10 +15,9 @@
  * the License.
  */
 module jpastreamer.autoclose.standard {
-    exports com.speedment.jpastreamer.autoclose.standard;
-
     requires transitive jpastreamer.autoclose;
 
+    exports com.speedment.jpastreamer.autoclose.standard;
     // Todo: enable this
     // provides com.speedment.jpastreamer.autoclose.AutoCloseFactory with com.speedment.jpastreamer.autoclose.stadard.StandardAutoCloseFactory;
 }

@@ -40,6 +40,7 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>field</artifactId>
+            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
@@ -78,12 +79,6 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>com.google.auto.service</groupId>

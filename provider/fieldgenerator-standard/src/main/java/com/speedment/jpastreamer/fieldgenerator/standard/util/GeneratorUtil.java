@@ -1,13 +1,6 @@
 package com.speedment.jpastreamer.fieldgenerator.standard.util;
 
-import com.speedment.common.codegen.constant.SimpleType;
-import com.speedment.common.codegen.model.Class;
-import com.speedment.common.codegen.model.Import;
-import com.speedment.jpastreamer.type.parser.util.TypeParserUtil;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Stream;
+import com.speedment.jpastreamer.typeparser.standard.util.TypeParserUtil;
 
 public class GeneratorUtil {
 

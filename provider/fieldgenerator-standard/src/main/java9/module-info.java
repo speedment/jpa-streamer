@@ -15,8 +15,10 @@
  * the License.
  */
 module jpastreamer.fieldgenerator.standard {
-    requires java.persistence;
-    requires jpastreamer.field;
+        requires java.persistence;
+        requires jpastreamer.field;
+        requires jpastreamer.typeparser.standard;
+        requires com.speedment.common.codegen;
 
-    exports com.speedment.jpastreamer.fieldgenerator.standard;
+        exports com.speedment.jpastreamer.fieldgenerator.standard;
 }

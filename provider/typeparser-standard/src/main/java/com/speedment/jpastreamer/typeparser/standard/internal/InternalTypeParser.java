@@ -1,9 +1,9 @@
-package com.speedment.jpastreamer.type.parser.internal;
+package com.speedment.jpastreamer.typeparser.standard.internal;
 
 import com.speedment.common.codegen.constant.SimpleParameterizedType;
 import com.speedment.common.codegen.constant.SimpleType;
-import com.speedment.jpastreamer.type.parser.exception.TypeParserException;
-import com.speedment.jpastreamer.type.parser.util.TypeParserUtil;
+import com.speedment.jpastreamer.typeparser.standard.exception.TypeParserException;
+import com.speedment.jpastreamer.typeparser.standard.util.TypeParserUtil;
 
 import java.lang.reflect.Type;
 import java.util.List;

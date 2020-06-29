@@ -14,10 +14,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-module jpastreamer.pipeline.standard {
-    requires transitive jpastreamer.pipeline;
+module jpastreamer.typeparser.standard {
+    requires com.speedment.common.codegen;
 
-    exports com.speedment.jpastreamer.pipeline.standard;
-    // Todo: enable this
-    // provides com.speedment.jpastreamer.pipeline.PipelineFactory with com.speedment.jpastreamer.pipeline.stadard.PipelineFactory;
+    exports com.speedment.jpastreamer.typeparser.standard;
 }

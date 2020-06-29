@@ -15,11 +15,10 @@
  * the License.
  */
 module jpastreamer.renderer.standard {
-    exports com.speedment.jpastreamer.renderer.standard;
-
     requires transitive jpastreamer.pipeline;
     requires transitive jpastreamer.renderer;
 
+    exports com.speedment.jpastreamer.renderer.standard;
     // Todo: Enable this
     // provides com.speedment.jpastreamer.renderer.RendererFactory with com.speedment.jpastreamer.renderer.standard.StandardRendererFactory;
 }

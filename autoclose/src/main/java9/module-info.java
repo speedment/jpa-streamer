@@ -15,6 +15,6 @@
  * the License.
  */
 module jpastreamer.autoclose {
-
     exports com.speedment.jpastreamer.autoclose;
+
 }

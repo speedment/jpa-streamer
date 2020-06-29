@@ -1,6 +1,6 @@
-package com.speedment.jpastreamer.type.parser;
+package com.speedment.jpastreamer.typeparser.standard;
 
-import com.speedment.jpastreamer.type.parser.util.TypeParserUtil;
+import com.speedment.jpastreamer.typeparser.standard.util.TypeParserUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -105,11 +105,5 @@ class TypeParserUtilTest {
         List<String> expected = new ArrayList<>();
         expected.add("java.lang.Integer");
         assertEquals(expected, TypeParserUtil.parameters(s));
-    }
-
-    @Test
-    void importTypes() {
-        TypeParserUtil.importType("java.util.List<java.util.Map<java.util.List<java.util.Set<java.lang.Double>>, java.lang.Integer>>");
-        assertTrue(true);
     }
 }

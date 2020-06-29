@@ -15,9 +15,9 @@
  * the License.
  */
 module jpastreamer.merger {
+    requires transitive java.persistence;
+    requires jpastreamer.pipeline;
 
     exports com.speedment.jpastreamer.merger;
 
-    requires transitive java.persistence;
-    requires jpastreamer.pipeline;
 }

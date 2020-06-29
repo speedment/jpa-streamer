@@ -11,7 +11,7 @@ import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Field;
 import com.speedment.jpastreamer.field.*;
 import com.speedment.jpastreamer.fieldgenerator.standard.exception.FieldGeneratorProcessorException;
-import com.speedment.jpastreamer.type.parser.StandardTypeParser;
+import com.speedment.jpastreamer.typeparser.standard.StandardTypeParser;
 
 import javax.annotation.processing.*;
 import javax.lang.model.element.*;

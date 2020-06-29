@@ -15,9 +15,7 @@
  * the License.
  */
 module jpastreamer.preoptimizer {
-
-    exports com.speedment.jpastreamer.preoptimizer;
-
     requires transitive jpastreamer.pipeline;
 
+    exports com.speedment.jpastreamer.preoptimizer;
 }

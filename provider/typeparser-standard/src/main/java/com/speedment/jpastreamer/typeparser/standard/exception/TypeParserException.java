@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.type.parser.exception;
+package com.speedment.jpastreamer.typeparser.standard.exception;
 
 /**
  * A specialized {@code RuntimeException} used to signal errors during the type parsing process.

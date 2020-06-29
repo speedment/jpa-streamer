@@ -15,8 +15,8 @@
  * the License.
  */
 module jpastreamer.merger.standard {
-    exports com.speedment.jpastreamer.merger.standard;
-
     requires transitive jpastreamer.pipeline;
     requires transitive jpastreamer.merger;
+
+    exports com.speedment.jpastreamer.merger.standard;
 }

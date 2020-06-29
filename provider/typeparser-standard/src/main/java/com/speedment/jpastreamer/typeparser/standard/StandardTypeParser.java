@@ -1,7 +1,7 @@
-package com.speedment.jpastreamer.type.parser;
+package com.speedment.jpastreamer.typeparser.standard;
 
-import com.speedment.jpastreamer.type.parser.exception.TypeParserException;
-import com.speedment.jpastreamer.type.parser.internal.InternalTypeParser;
+import com.speedment.jpastreamer.typeparser.standard.exception.TypeParserException;
+import com.speedment.jpastreamer.typeparser.standard.internal.InternalTypeParser;
 import java.lang.reflect.Type;
 
 /**

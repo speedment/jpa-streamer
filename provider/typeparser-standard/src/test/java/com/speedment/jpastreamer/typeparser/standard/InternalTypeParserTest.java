@@ -1,8 +1,8 @@
-package com.speedment.jpastreamer.type.parser;
+package com.speedment.jpastreamer.typeparser.standard;
 
 import com.speedment.common.codegen.constant.SimpleParameterizedType;
 import com.speedment.common.codegen.constant.SimpleType;
-import com.speedment.jpastreamer.type.parser.internal.InternalTypeParser;
+import com.speedment.jpastreamer.typeparser.standard.internal.InternalTypeParser;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Type;

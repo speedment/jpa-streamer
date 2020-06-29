@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.type.parser.internal;
+package com.speedment.jpastreamer.typeparser.standard.internal;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

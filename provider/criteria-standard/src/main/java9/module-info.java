@@ -15,7 +15,7 @@
  * the License.
  */
 module jpastreamer.criteria.standard {
-    exports com.speedment.jpastreamer.criteria.standard;
-
     requires transitive jpastreamer.criteria;
+
+    exports com.speedment.jpastreamer.criteria.standard;
 }
