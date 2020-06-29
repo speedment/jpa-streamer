@@ -21,6 +21,7 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFact
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.preoptimizer.standard.internal.strategy.abstracts.AbstractLongSquash;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public final class SquashLimit extends AbstractLongSquash {
@@ -39,5 +40,21 @@ public final class SquashLimit extends AbstractLongSquash {
     @Override
     protected Function<Long, IntermediateOperation<?, ?>> operationProvider() {
         return intermediateOperationFactory::createLimit;
+    }
+
+    @Override
+    protected Long initialValue() {
+        return null;
+    }
+
+    @Override
+    protected BiFunction<Long, Long, Long> squash() {
+        return (value, result) -> {
+            if (result == null) {
+                return value;
+            }
+
+            return Long.min(value, result);
+        };
     }
 }

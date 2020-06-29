@@ -13,8 +13,8 @@ public enum TerminalOperationType {
     FOR_EACH(ACCEPT, OrderPreservation.NOT_REQUIRED),
     FOR_EACH_ORDERED(ACCEPT, OrderPreservation.REQUIRED),
     TO_ARRAY(APPLY, OrderPreservation.REQUIRED),
-    REDUCE(APPLY, OrderPreservation.NOT_REQUIRED),
-    COLLECT(APPLY, OrderPreservation.NOT_REQUIRED),
+    REDUCE(APPLY, OrderPreservation.NOT_REQUIRED_IF_PARALLEL),
+    COLLECT(APPLY, OrderPreservation.NOT_REQUIRED_IF_PARALLEL),
     MIN(APPLY, OrderPreservation.NOT_REQUIRED),
     MAX(APPLY, OrderPreservation.NOT_REQUIRED),
     COUNT(APPLY_AS_LONG, OrderPreservation.NOT_REQUIRED), // TypePreservation.NOT_REQUIRED
