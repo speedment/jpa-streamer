@@ -30,13 +30,12 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is not between two doubles.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.11
  */
-public final class DoubleNotBetweenPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
+public final class DoubleNotBetweenPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY>>
 implements HasInclusion,
         HasArg0<Double>,
         HasArg1<Double> {
@@ -46,7 +45,7 @@ implements HasInclusion,
     private final Inclusion inclusion;
     
     public DoubleNotBetweenPredicate(
-            HasDoubleValue<ENTITY, D> field,
+            HasDoubleValue<ENTITY> field,
             double start,
             double end,
             Inclusion inclusion) {
@@ -91,7 +90,7 @@ implements HasInclusion,
     }
     
     @Override
-    public DoubleBetweenPredicate<ENTITY, D> negate() {
+    public DoubleBetweenPredicate<ENTITY> negate() {
         return new DoubleBetweenPredicate<>(getField(), start, end, inclusion);
     }
 }

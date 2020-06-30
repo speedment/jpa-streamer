@@ -31,7 +31,7 @@ public final class FieldToFloatImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, Float, ToFloat<ENTITY>, ToFloatFunction<V>>
 implements FieldToFloat<ENTITY, V> {
 
-    public FieldToFloatImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToFloatImpl(ReferenceField<ENTITY, V> field,
                             ToFloatFunction<V> mapper) {
         super(field, mapper);
     }

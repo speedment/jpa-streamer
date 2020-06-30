@@ -22,16 +22,15 @@ import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 /**
  *
  * @param <ENTITY> the entity type
- * @param <D> the database type
  *
  * @author Per Minborg
  * @since 2.2.0
  */
-public final class StringStartsWithPredicate<ENTITY, D>
-extends AbstractStringPredicate<ENTITY, D> {
+public final class StringStartsWithPredicate<ENTITY>
+extends AbstractStringPredicate<ENTITY> {
 
     public StringStartsWithPredicate(
-            final HasReferenceValue<ENTITY, D, String> field,
+            final HasReferenceValue<ENTITY, String> field,
             final String str) {
 
         super(PredicateType.STARTS_WITH, field, str, entity -> {
@@ -42,7 +41,7 @@ extends AbstractStringPredicate<ENTITY, D> {
     }
 
     @Override
-    public StringNotStartsWithPredicate<ENTITY, D> negate() {
+    public StringNotStartsWithPredicate<ENTITY> negate() {
         return new StringNotStartsWithPredicate<>(getField(), get0());
     }
 }

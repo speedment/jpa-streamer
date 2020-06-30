@@ -26,23 +26,22 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetLong}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetLongImpl<ENTITY, D> implements GetLong<ENTITY, D> {
+public final class GetLongImpl<ENTITY> implements GetLong<ENTITY> {
     
-    private final HasLongValue<ENTITY, D> field;
+    private final HasLongValue<ENTITY> field;
     private final LongGetter<ENTITY> getter;
     
-    public GetLongImpl(HasLongValue<ENTITY, D> field, LongGetter<ENTITY> getter) {
+    public GetLongImpl(HasLongValue<ENTITY> field, LongGetter<ENTITY> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
     
     @Override
-    public HasLongValue<ENTITY, D> getField() {
+    public HasLongValue<ENTITY> getField() {
         return field;
     }
     

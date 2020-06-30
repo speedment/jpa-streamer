@@ -31,7 +31,7 @@ public final class FieldToShortImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, Short, ToShort<ENTITY>, ToShortFunction<V>>
 implements FieldToShort<ENTITY, V> {
 
-    public FieldToShortImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToShortImpl(ReferenceField<ENTITY, V> field,
                             ToShortFunction<V> mapper) {
         super(field, mapper);
     }

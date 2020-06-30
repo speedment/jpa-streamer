@@ -26,23 +26,22 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetBoolean}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetBooleanImpl<ENTITY, D> implements GetBoolean<ENTITY, D> {
+public final class GetBooleanImpl<ENTITY> implements GetBoolean<ENTITY> {
     
-    private final HasBooleanValue<ENTITY, D> field;
+    private final HasBooleanValue<ENTITY> field;
     private final BooleanGetter<ENTITY> getter;
     
-    public GetBooleanImpl(HasBooleanValue<ENTITY, D> field, BooleanGetter<ENTITY> getter) {
+    public GetBooleanImpl(HasBooleanValue<ENTITY> field, BooleanGetter<ENTITY> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
     
     @Override
-    public HasBooleanValue<ENTITY, D> getField() {
+    public HasBooleanValue<ENTITY> getField() {
         return field;
     }
     

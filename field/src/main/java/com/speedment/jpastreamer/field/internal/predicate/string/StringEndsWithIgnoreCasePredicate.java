@@ -28,10 +28,10 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  * @since 2.2.0
  */
 public final class StringEndsWithIgnoreCasePredicate<ENTITY, D>
-extends AbstractStringPredicate<ENTITY, D> {
+extends AbstractStringPredicate<ENTITY> {
 
     public StringEndsWithIgnoreCasePredicate(
-            final HasReferenceValue<ENTITY, D, String> field,
+            final HasReferenceValue<ENTITY, String> field,
             final String lowerCase) {
 
         super(PredicateType.ENDS_WITH_IGNORE_CASE, field, lowerCase, entity -> {

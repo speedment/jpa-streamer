@@ -23,15 +23,14 @@ import com.speedment.jpastreamer.field.method.GetChar;
  * A representation of an Entity field that is a primitive {@code char} type.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasCharValue<ENTITY, D> extends Field<ENTITY> {
+public interface HasCharValue<ENTITY> extends Field<ENTITY> {
     
     @Override
-    GetChar<ENTITY, D> getter();
+    GetChar<ENTITY> getter();
     
     /**
      * Gets the value from the Entity field.

@@ -28,29 +28,28 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class FloatFieldComparatorImpl<ENTITY, D>
+public final class FloatFieldComparatorImpl<ENTITY>
 extends AbstractFieldComparator<ENTITY> 
-implements FloatFieldComparator<ENTITY, D> {
+implements FloatFieldComparator<ENTITY> {
     
-    private final HasFloatValue<ENTITY, D> field;
+    private final HasFloatValue<ENTITY> field;
     private final boolean reversed;
     
-    public FloatFieldComparatorImpl(HasFloatValue<ENTITY, D> field) {
+    public FloatFieldComparatorImpl(HasFloatValue<ENTITY> field) {
         this(field, false);
     }
     
-    FloatFieldComparatorImpl(HasFloatValue<ENTITY, D> field, boolean reversed) {
+    FloatFieldComparatorImpl(HasFloatValue<ENTITY> field, boolean reversed) {
         this.field    = requireNonNull(field);
         this.reversed = reversed;
     }
     
     @Override
-    public HasFloatValue<ENTITY, D> getField() {
+    public HasFloatValue<ENTITY> getField() {
         return field;
     }
     
@@ -65,7 +64,7 @@ implements FloatFieldComparator<ENTITY, D> {
     }
     
     @Override
-    public FloatFieldComparatorImpl<ENTITY, D> reversed() {
+    public FloatFieldComparatorImpl<ENTITY> reversed() {
         return new FloatFieldComparatorImpl<>(field, !reversed);
     }
     

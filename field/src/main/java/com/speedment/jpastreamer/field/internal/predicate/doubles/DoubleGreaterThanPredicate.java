@@ -26,18 +26,17 @@ import com.speedment.jpastreamer.field.trait.HasDoubleValue;
  * double}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class DoubleGreaterThanPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
+public final class DoubleGreaterThanPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY>>
 implements HasArg0<Double> {
     
     private final double value;
     
-    public DoubleGreaterThanPredicate(HasDoubleValue<ENTITY, D> field, double value) {
+    public DoubleGreaterThanPredicate(HasDoubleValue<ENTITY> field, double value) {
         super(PredicateType.GREATER_THAN, field, entity -> field.getAsDouble(entity) > value);
         this.value = value;
     }
@@ -48,7 +47,7 @@ implements HasArg0<Double> {
     }
     
     @Override
-    public DoubleLessOrEqualPredicate<ENTITY, D> negate() {
+    public DoubleLessOrEqualPredicate<ENTITY> negate() {
         return new DoubleLessOrEqualPredicate<>(getField(), value);
     }
 }

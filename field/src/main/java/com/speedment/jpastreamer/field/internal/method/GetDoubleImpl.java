@@ -26,23 +26,22 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetDouble}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetDoubleImpl<ENTITY, D> implements GetDouble<ENTITY, D> {
+public final class GetDoubleImpl<ENTITY> implements GetDouble<ENTITY> {
     
-    private final HasDoubleValue<ENTITY, D> field;
+    private final HasDoubleValue<ENTITY> field;
     private final DoubleGetter<ENTITY> getter;
     
-    public GetDoubleImpl(HasDoubleValue<ENTITY, D> field, DoubleGetter<ENTITY> getter) {
+    public GetDoubleImpl(HasDoubleValue<ENTITY> field, DoubleGetter<ENTITY> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
     
     @Override
-    public HasDoubleValue<ENTITY, D> getField() {
+    public HasDoubleValue<ENTITY> getField() {
         return field;
     }
     

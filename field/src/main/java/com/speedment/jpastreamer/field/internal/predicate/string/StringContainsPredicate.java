@@ -22,16 +22,15 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
 /**
  *
  * @param <ENTITY> the entity type
- * @param <D> the database type
  *
  * @author Per Minborg
  * @since 2.2.0
  */
-public final class StringContainsPredicate<ENTITY, D>
-extends AbstractStringPredicate<ENTITY, D> {
+public final class StringContainsPredicate<ENTITY>
+extends AbstractStringPredicate<ENTITY> {
     
     public StringContainsPredicate(
-            final HasReferenceValue<ENTITY, D, String> field,
+            final HasReferenceValue<ENTITY, String> field,
             final String str) {
 
         super(PredicateType.CONTAINS, field, str, entity -> {
@@ -43,7 +42,7 @@ extends AbstractStringPredicate<ENTITY, D> {
     }
 
     @Override
-    public StringNotContainsPredicate<ENTITY, D> negate() {
+    public StringNotContainsPredicate<ENTITY> negate() {
         return new StringNotContainsPredicate<>(getField(), get0());
     }
 }

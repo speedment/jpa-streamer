@@ -30,13 +30,12 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is between two chars.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class CharBetweenPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY, D>>
+public final class CharBetweenPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY>>
 implements HasInclusion,
         HasArg0<Character>,
         HasArg1<Character> {
@@ -46,7 +45,7 @@ implements HasInclusion,
     private final Inclusion inclusion;
     
     public CharBetweenPredicate(
-            HasCharValue<ENTITY, D> field,
+            HasCharValue<ENTITY> field,
             char start,
             char end,
             Inclusion inclusion) {
@@ -91,7 +90,7 @@ implements HasInclusion,
     }
     
     @Override
-    public CharNotBetweenPredicate<ENTITY, D> negate() {
+    public CharNotBetweenPredicate<ENTITY> negate() {
         return new CharNotBetweenPredicate<>(getField(), start, end, inclusion);
     }
 }

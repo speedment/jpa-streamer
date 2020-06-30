@@ -26,23 +26,22 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetShort}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetShortImpl<ENTITY, D> implements GetShort<ENTITY, D> {
+public final class GetShortImpl<ENTITY> implements GetShort<ENTITY> {
     
-    private final HasShortValue<ENTITY, D> field;
+    private final HasShortValue<ENTITY> field;
     private final ShortGetter<ENTITY> getter;
     
-    public GetShortImpl(HasShortValue<ENTITY, D> field, ShortGetter<ENTITY> getter) {
+    public GetShortImpl(HasShortValue<ENTITY> field, ShortGetter<ENTITY> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
     
     @Override
-    public HasShortValue<ENTITY, D> getField() {
+    public HasShortValue<ENTITY> getField() {
         return field;
     }
     

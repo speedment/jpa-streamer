@@ -33,7 +33,7 @@ public final class FieldToBigDecimalImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, BigDecimal, ToBigDecimal<ENTITY>, Function<V, BigDecimal>>
 implements FieldToBigDecimal<ENTITY, V> {
 
-    public FieldToBigDecimalImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToBigDecimalImpl(ReferenceField<ENTITY, V> field,
                                  Function<V, BigDecimal> mapper) {
         super(field, mapper);
     }

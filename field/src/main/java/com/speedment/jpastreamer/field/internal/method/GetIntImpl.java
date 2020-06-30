@@ -26,23 +26,22 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetInt}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetIntImpl<ENTITY, D> implements GetInt<ENTITY, D> {
+public final class GetIntImpl<ENTITY, D> implements GetInt<ENTITY> {
     
-    private final HasIntValue<ENTITY, D> field;
+    private final HasIntValue<ENTITY> field;
     private final IntGetter<ENTITY> getter;
     
-    public GetIntImpl(HasIntValue<ENTITY, D> field, IntGetter<ENTITY> getter) {
+    public GetIntImpl(HasIntValue<ENTITY> field, IntGetter<ENTITY> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
     
     @Override
-    public HasIntValue<ENTITY, D> getField() {
+    public HasIntValue<ENTITY> getField() {
         return field;
     }
     

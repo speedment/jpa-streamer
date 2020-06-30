@@ -29,18 +29,17 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is not included in a set of longs.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.11
  */
-public final class LongNotInPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY, D>> 
+public final class LongNotInPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY>>
 implements HasArg0<Set<Long>> {
     
     private final Set<Long> set;
     
-    public LongNotInPredicate(HasLongValue<ENTITY, D> field, Set<Long> set) {
+    public LongNotInPredicate(HasLongValue<ENTITY> field, Set<Long> set) {
         super(PredicateType.NOT_IN, field, entity -> !set.contains(field.getAsLong(entity)));
         this.set = requireNonNull(set);
     }
@@ -51,7 +50,7 @@ implements HasArg0<Set<Long>> {
     }
     
     @Override
-    public LongInPredicate<ENTITY, D> negate() {
+    public LongInPredicate<ENTITY> negate() {
         return new LongInPredicate<>(getField(), set);
     }
 }

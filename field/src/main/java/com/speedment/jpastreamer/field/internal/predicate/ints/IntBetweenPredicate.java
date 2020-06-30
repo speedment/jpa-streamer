@@ -30,13 +30,12 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is between two ints.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class IntBetweenPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY, D>>
+public final class IntBetweenPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY>>
 implements HasInclusion,
         HasArg0<Integer>,
         HasArg1<Integer> {
@@ -46,7 +45,7 @@ implements HasInclusion,
     private final Inclusion inclusion;
     
     public IntBetweenPredicate(
-            HasIntValue<ENTITY, D> field,
+            HasIntValue<ENTITY> field,
             int start,
             int end,
             Inclusion inclusion) {
@@ -91,7 +90,7 @@ implements HasInclusion,
     }
     
     @Override
-    public IntNotBetweenPredicate<ENTITY, D> negate() {
+    public IntNotBetweenPredicate<ENTITY> negate() {
         return new IntNotBetweenPredicate<>(getField(), start, end, inclusion);
     }
 }

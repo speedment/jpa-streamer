@@ -28,29 +28,28 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
 public final class CharFieldComparatorImpl<ENTITY, D>
 extends AbstractFieldComparator<ENTITY> 
-implements CharFieldComparator<ENTITY, D> {
+implements CharFieldComparator<ENTITY> {
     
-    private final HasCharValue<ENTITY, D> field;
+    private final HasCharValue<ENTITY> field;
     private final boolean reversed;
     
-    public CharFieldComparatorImpl(HasCharValue<ENTITY, D> field) {
+    public CharFieldComparatorImpl(HasCharValue<ENTITY> field) {
         this(field, false);
     }
     
-    CharFieldComparatorImpl(HasCharValue<ENTITY, D> field, boolean reversed) {
+    CharFieldComparatorImpl(HasCharValue<ENTITY> field, boolean reversed) {
         this.field    = requireNonNull(field);
         this.reversed = reversed;
     }
     
     @Override
-    public HasCharValue<ENTITY, D> getField() {
+    public HasCharValue<ENTITY> getField() {
         return field;
     }
     

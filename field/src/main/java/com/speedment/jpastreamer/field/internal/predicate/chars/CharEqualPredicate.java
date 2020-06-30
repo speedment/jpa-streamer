@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.trait.HasCharValue;
  * A predicate that evaluates if a value is {@code ==} a specified {@code char}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class CharEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY, D>>
+public final class CharEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY>>
 implements HasArg0<Character> {
     
     private final char value;
     
-    public CharEqualPredicate(HasCharValue<ENTITY, D> field, char value) {
+    public CharEqualPredicate(HasCharValue<ENTITY> field, char value) {
         super(PredicateType.EQUAL, field, entity -> field.getAsChar(entity) == value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Character> {
     }
     
     @Override
-    public CharNotEqualPredicate<ENTITY, D> negate() {
+    public CharNotEqualPredicate<ENTITY> negate() {
         return new CharNotEqualPredicate<>(getField(), value);
     }
 }

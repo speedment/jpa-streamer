@@ -23,17 +23,16 @@ import com.speedment.jpastreamer.field.trait.HasDoubleValue;
  * field that created it.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public interface GetDouble<ENTITY, D> extends DoubleGetter<ENTITY> {
+public interface GetDouble<ENTITY> extends DoubleGetter<ENTITY> {
     
     /**
      * Returns the field that created the {@code get()}-operation.
      * 
      * @return the field
      */
-    HasDoubleValue<ENTITY, D> getField();
+    HasDoubleValue<ENTITY> getField();
 }

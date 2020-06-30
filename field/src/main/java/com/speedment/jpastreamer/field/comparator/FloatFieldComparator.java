@@ -23,12 +23,11 @@ import com.speedment.jpastreamer.field.trait.HasFloatValue;
  * A {@link FieldComparator} that compares values of a {@link FloatField}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface FloatFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
+public interface FloatFieldComparator<ENTITY> extends FieldComparator<ENTITY> {
     
     /**
      * Gets the field that is being compared.
@@ -36,8 +35,8 @@ public interface FloatFieldComparator<ENTITY, D> extends FieldComparator<ENTITY>
      * @return the compared field
      */
     @Override
-    HasFloatValue<ENTITY, D> getField();
+    HasFloatValue<ENTITY> getField();
     
     @Override
-    FloatFieldComparator<ENTITY, D> reversed();
+    FloatFieldComparator<ENTITY> reversed();
 }

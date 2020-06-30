@@ -32,14 +32,14 @@ import java.util.Objects;
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class ReferenceNotEqualPredicate<ENTITY, D, V extends Comparable<? super V>>
+public final class ReferenceNotEqualPredicate<ENTITY, V extends Comparable<? super V>>
 extends AbstractFieldPredicate<ENTITY,
-        HasReferenceValue<ENTITY, D, V>>
+        HasReferenceValue<ENTITY, V>>
 implements HasArg0<V> {
 
     private final V value;
 
-    public ReferenceNotEqualPredicate(HasReferenceValue<ENTITY, D, V> field, V value) {
+    public ReferenceNotEqualPredicate(HasReferenceValue<ENTITY, V> field, V value) {
         super(PredicateType.NOT_EQUAL, field, entity -> {
             final V v = field.get(entity);
             return v != null && !Objects.equals(v, value);
@@ -53,7 +53,7 @@ implements HasArg0<V> {
     }
 
     @Override
-    public ReferenceEqualPredicate<ENTITY, D, V> negate() {
+    public ReferenceEqualPredicate<ENTITY, V> negate() {
         return new ReferenceEqualPredicate<>(getField(), value);
     }
 }

@@ -30,13 +30,12 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is between two longs.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class LongBetweenPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY, D>>
+public final class LongBetweenPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY>>
 implements HasInclusion,
         HasArg0<Long>,
         HasArg1<Long> {
@@ -46,7 +45,7 @@ implements HasInclusion,
     private final Inclusion inclusion;
     
     public LongBetweenPredicate(
-            HasLongValue<ENTITY, D> field,
+            HasLongValue<ENTITY> field,
             long start,
             long end,
             Inclusion inclusion) {
@@ -91,7 +90,7 @@ implements HasInclusion,
     }
     
     @Override
-    public LongNotBetweenPredicate<ENTITY, D> negate() {
+    public LongNotBetweenPredicate<ENTITY> negate() {
         return new LongNotBetweenPredicate<>(getField(), start, end, inclusion);
     }
 }

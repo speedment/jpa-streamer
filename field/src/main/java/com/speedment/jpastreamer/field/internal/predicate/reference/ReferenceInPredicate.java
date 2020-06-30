@@ -28,19 +28,18 @@ import static java.util.Objects.requireNonNull;
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class ReferenceInPredicate<ENTITY, D, V extends Comparable<? super V>>
-extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
+public final class ReferenceInPredicate<ENTITY, V extends Comparable<? super V>>
+extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, V>>
 implements HasArg0<Set<V>> {
 
     private final Set<V> set;
 
-    public ReferenceInPredicate(HasReferenceValue<ENTITY, D, V> field, Set<V> values) {
+    public ReferenceInPredicate(HasReferenceValue<ENTITY, V> field, Set<V> values) {
         super(IN, field, entity -> values.contains(field.get(entity)));
         this.set = requireNonNull(values);
     }
@@ -51,7 +50,7 @@ implements HasArg0<Set<V>> {
     }
 
     @Override
-    public ReferenceNotInPredicate<ENTITY, D, V> negate() {
+    public ReferenceNotInPredicate<ENTITY, V> negate() {
         return new ReferenceNotInPredicate<>(getField(), set);
     }
 }

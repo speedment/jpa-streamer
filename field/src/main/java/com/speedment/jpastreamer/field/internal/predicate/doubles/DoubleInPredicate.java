@@ -29,18 +29,17 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is included in a set of doubles.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class DoubleInPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
+public final class DoubleInPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY>>
 implements HasArg0<Set<Double>> {
     
     private final Set<Double> set;
     
-    public DoubleInPredicate(HasDoubleValue<ENTITY, D> field, Set<Double> set) {
+    public DoubleInPredicate(HasDoubleValue<ENTITY> field, Set<Double> set) {
         super(PredicateType.IN, field, entity -> set.contains(field.getAsDouble(entity)));
         this.set = requireNonNull(set);
     }
@@ -51,7 +50,7 @@ implements HasArg0<Set<Double>> {
     }
     
     @Override
-    public DoubleNotInPredicate<ENTITY, D> negate() {
+    public DoubleNotInPredicate<ENTITY> negate() {
         return new DoubleNotInPredicate<>(getField(), set);
     }
 }

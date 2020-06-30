@@ -29,18 +29,17 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is not included in a set of ints.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.11
  */
-public final class IntNotInPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY, D>>
+public final class IntNotInPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY>>
 implements HasArg0<Set<Integer>> {
     
     private final Set<Integer> set;
     
-    public IntNotInPredicate(HasIntValue<ENTITY, D> field, Set<Integer> set) {
+    public IntNotInPredicate(HasIntValue<ENTITY> field, Set<Integer> set) {
         super(PredicateType.NOT_IN, field, entity -> !set.contains(field.getAsInt(entity)));
         this.set = requireNonNull(set);
     }
@@ -51,7 +50,7 @@ implements HasArg0<Set<Integer>> {
     }
     
     @Override
-    public IntInPredicate<ENTITY, D> negate() {
+    public IntInPredicate<ENTITY> negate() {
         return new IntInPredicate<>(getField(), set);
     }
 }

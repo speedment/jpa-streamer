@@ -264,53 +264,53 @@ implements CombinedComparator<ENTITY> {
 
         if (getter instanceof GetByte) {
             @SuppressWarnings("unchecked")
-            final GetByte<ENTITY, D> casted = (GetByte<ENTITY, D>) getter;
+            final GetByte<ENTITY> casted = (GetByte<ENTITY>) getter;
             return Optional.of(then(new ByteFieldComparatorImpl<>(
                 casted.getField())
             ));
         } else if (getter instanceof GetShort) {
             @SuppressWarnings("unchecked")
-            final GetShort<ENTITY, D> casted = (GetShort<ENTITY, D>) getter;
+            final GetShort<ENTITY> casted = (GetShort<ENTITY>) getter;
             return Optional.of(then(new ShortFieldComparatorImpl<>(
                 casted.getField())
             ));
         } else if (getter instanceof GetInt) {
             @SuppressWarnings("unchecked")
-            final GetInt<ENTITY, D> casted = (GetInt<ENTITY, D>) getter;
+            final GetInt<ENTITY> casted = (GetInt<ENTITY>) getter;
             return Optional.of(then(new IntFieldComparatorImpl<>(
                 casted.getField())
             ));
         } else if (getter instanceof GetLong) {
             @SuppressWarnings("unchecked")
-            final GetLong<ENTITY, D> casted = (GetLong<ENTITY, D>) getter;
+            final GetLong<ENTITY> casted = (GetLong<ENTITY>) getter;
             return Optional.of(then(new LongFieldComparatorImpl<>(
                 casted.getField())
             ));
         } else if (getter instanceof GetFloat) {
             @SuppressWarnings("unchecked")
-            final GetFloat<ENTITY, D> casted = (GetFloat<ENTITY, D>) getter;
+            final GetFloat<ENTITY> casted = (GetFloat<ENTITY>) getter;
             return Optional.of(then(new FloatFieldComparatorImpl<>(
                 casted.getField())
             ));
         } else if (getter instanceof GetDouble) {
             @SuppressWarnings("unchecked")
-            final GetDouble<ENTITY, D> casted = (GetDouble<ENTITY, D>) getter;
+            final GetDouble<ENTITY> casted = (GetDouble<ENTITY>) getter;
             return Optional.of(then(new DoubleFieldComparatorImpl<>(
                 casted.getField())
             ));
         } else if (getter instanceof GetChar) {
             @SuppressWarnings("unchecked")
-            final GetChar<ENTITY, D> casted = (GetChar<ENTITY, D>) getter;
+            final GetChar<ENTITY> casted = (GetChar<ENTITY>) getter;
             return Optional.of(then(new CharFieldComparatorImpl<>(
                 casted.getField())
             ));
         } else if (getter instanceof GetReference) {
             @SuppressWarnings("unchecked")
-            final GetReference<ENTITY, D, V> casted = (GetReference<ENTITY, D, V>) getter;
+            final GetReference<ENTITY, V> casted = (GetReference<ENTITY, V>) getter;
             final Field<ENTITY> field = casted.getField();
             if (field instanceof ComparableField) {
                 return Optional.of(then(new ReferenceFieldComparatorImpl<>(
-                    (ComparableField<ENTITY, D, V>) casted.getField(),
+                    (ComparableField<ENTITY, V>) casted.getField(),
                     NullOrder.LAST
                 )));
             }

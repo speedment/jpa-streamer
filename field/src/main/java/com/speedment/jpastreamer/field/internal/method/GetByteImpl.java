@@ -26,23 +26,22 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetByte}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetByteImpl<ENTITY, D> implements GetByte<ENTITY, D> {
+public final class GetByteImpl<ENTITY, D> implements GetByte<ENTITY> {
     
-    private final HasByteValue<ENTITY, D> field;
+    private final HasByteValue<ENTITY> field;
     private final ByteGetter<ENTITY> getter;
     
-    public GetByteImpl(HasByteValue<ENTITY, D> field, ByteGetter<ENTITY> getter) {
+    public GetByteImpl(HasByteValue<ENTITY> field, ByteGetter<ENTITY> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
     
     @Override
-    public HasByteValue<ENTITY, D> getField() {
+    public HasByteValue<ENTITY> getField() {
         return field;
     }
     

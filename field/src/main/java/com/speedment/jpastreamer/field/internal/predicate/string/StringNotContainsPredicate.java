@@ -22,16 +22,15 @@ import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 /**
  *
  * @param <ENTITY> the entity type
- * @param <D> the database type
  *
  * @author Emil Forslund
  * @since  3.0.11
  */
-public final class StringNotContainsPredicate<ENTITY, D>
-extends AbstractStringPredicate<ENTITY, D> {
+public final class StringNotContainsPredicate<ENTITY>
+extends AbstractStringPredicate<ENTITY> {
 
     public StringNotContainsPredicate(
-            final HasReferenceValue<ENTITY, D, String> field,
+            final HasReferenceValue<ENTITY, String> field,
             final String str) {
 
         super(PredicateType.NOT_CONTAINS, field, str, entity -> {
@@ -42,7 +41,7 @@ extends AbstractStringPredicate<ENTITY, D> {
     }
 
     @Override
-    public StringContainsPredicate<ENTITY, D> negate() {
+    public StringContainsPredicate<ENTITY> negate() {
         return new StringContainsPredicate<>(getField(), get0());
     }
 }

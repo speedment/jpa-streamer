@@ -32,7 +32,7 @@ public final class FieldToIntImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, Integer, ToInt<ENTITY>, ToIntFunction<V>>
 implements FieldToInt<ENTITY, V> {
 
-    public FieldToIntImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToIntImpl(ReferenceField<ENTITY, V> field,
                           ToIntFunction<V> mapper) {
         super(field, mapper);
     }

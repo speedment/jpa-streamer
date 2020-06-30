@@ -23,12 +23,11 @@ import com.speedment.jpastreamer.field.trait.HasLongValue;
  * A {@link FieldComparator} that compares values of a {@link LongField}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface LongFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
+public interface LongFieldComparator<ENTITY> extends FieldComparator<ENTITY> {
     
     /**
      * Gets the field that is being compared.
@@ -36,8 +35,8 @@ public interface LongFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> 
      * @return the compared field
      */
     @Override
-    HasLongValue<ENTITY, D> getField();
+    HasLongValue<ENTITY> getField();
     
     @Override
-    LongFieldComparator<ENTITY, D> reversed();
+    LongFieldComparator<ENTITY> reversed();
 }

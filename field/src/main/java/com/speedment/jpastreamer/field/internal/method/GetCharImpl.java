@@ -26,23 +26,22 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetChar}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetCharImpl<ENTITY, D> implements GetChar<ENTITY, D> {
+public final class GetCharImpl<ENTITY> implements GetChar<ENTITY> {
     
-    private final HasCharValue<ENTITY, D> field;
+    private final HasCharValue<ENTITY> field;
     private final CharGetter<ENTITY> getter;
     
-    public GetCharImpl(HasCharValue<ENTITY, D> field, CharGetter<ENTITY> getter) {
+    public GetCharImpl(HasCharValue<ENTITY> field, CharGetter<ENTITY> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
     
     @Override
-    public HasCharValue<ENTITY, D> getField() {
+    public HasCharValue<ENTITY> getField() {
         return field;
     }
     

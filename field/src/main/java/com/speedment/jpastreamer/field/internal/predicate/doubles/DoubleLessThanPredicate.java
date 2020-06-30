@@ -26,18 +26,17 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  * double}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class DoubleLessThanPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
+public final class DoubleLessThanPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY>>
 implements HasArg0<Double> {
     
     private final double value;
     
-    public DoubleLessThanPredicate(HasDoubleValue<ENTITY, D> field, double value) {
+    public DoubleLessThanPredicate(HasDoubleValue<ENTITY> field, double value) {
         super(PredicateType.LESS_THAN, field, entity -> field.getAsDouble(entity) < value);
         this.value = value;
     }
@@ -48,7 +47,7 @@ implements HasArg0<Double> {
     }
     
     @Override
-    public DoubleGreaterOrEqualPredicate<ENTITY, D> negate() {
+    public DoubleGreaterOrEqualPredicate<ENTITY> negate() {
         return new DoubleGreaterOrEqualPredicate<>(getField(), value);
     }
 }

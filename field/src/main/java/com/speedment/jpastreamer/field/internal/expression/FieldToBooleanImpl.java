@@ -32,7 +32,7 @@ public final class FieldToBooleanImpl<ENTITY, V>
     implements FieldToBoolean<ENTITY, V> {
 
     public FieldToBooleanImpl(
-        final ReferenceField<ENTITY, ?, V> field,
+        final ReferenceField<ENTITY, V> field,
         final ToBooleanFunction<V> mapper
     ) {
         super(field, mapper);

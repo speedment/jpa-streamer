@@ -30,13 +30,12 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is not between two bytes.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.11
  */
-public final class ByteNotBetweenPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY, D>> 
+public final class ByteNotBetweenPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY>>
 implements HasInclusion,
         HasArg0<Byte> ,
         HasArg1<Byte> {
@@ -46,7 +45,7 @@ implements HasInclusion,
     private final Inclusion inclusion;
     
     public ByteNotBetweenPredicate(
-            HasByteValue<ENTITY, D> field,
+            HasByteValue<ENTITY> field,
             byte start,
             byte end,
             Inclusion inclusion) {
@@ -91,7 +90,7 @@ implements HasInclusion,
     }
     
     @Override
-    public ByteBetweenPredicate<ENTITY, D> negate() {
+    public ByteBetweenPredicate<ENTITY> negate() {
         return new ByteBetweenPredicate<>(getField(), start, end, inclusion);
     }
 }

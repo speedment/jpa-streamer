@@ -42,7 +42,7 @@ extends Expression<ENTITY>, ToNullable<ENTITY, R, NON_NULLABLE> {
      *
      * @return  the field
      */
-    ReferenceField<ENTITY, ?, T> getField();
+    ReferenceField<ENTITY, T> getField();
 
     /**
      * Returns the functional interface implementation that is used when doing

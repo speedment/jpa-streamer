@@ -28,29 +28,28 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> entity type
- * @param <D>      database type
  *
  * @author Emil Forslund
  * @since  3.1.4
  */
-public class BooleanFieldComparatorImpl<ENTITY, D>
+public class BooleanFieldComparatorImpl<ENTITY>
 extends AbstractFieldComparator<ENTITY>
-implements BooleanFieldComparator<ENTITY, D> {
+implements BooleanFieldComparator<ENTITY> {
 
-    private final HasBooleanValue<ENTITY, D> field;
+    private final HasBooleanValue<ENTITY> field;
     private final boolean reversed;
 
-    public BooleanFieldComparatorImpl(HasBooleanValue<ENTITY, D> field) {
+    public BooleanFieldComparatorImpl(HasBooleanValue<ENTITY> field) {
         this(field, false);
     }
 
-    BooleanFieldComparatorImpl(HasBooleanValue<ENTITY, D> field, boolean reversed) {
+    BooleanFieldComparatorImpl(HasBooleanValue<ENTITY> field, boolean reversed) {
         this.field    = requireNonNull(field);
         this.reversed = reversed;
     }
 
     @Override
-    public HasBooleanValue<ENTITY, D> getField() {
+    public HasBooleanValue<ENTITY> getField() {
         return field;
     }
 
@@ -65,7 +64,7 @@ implements BooleanFieldComparator<ENTITY, D> {
     }
 
     @Override
-    public BooleanFieldComparatorImpl<ENTITY, D> reversed() {
+    public BooleanFieldComparatorImpl<ENTITY> reversed() {
         return new BooleanFieldComparatorImpl<>(field, !reversed);
     }
 

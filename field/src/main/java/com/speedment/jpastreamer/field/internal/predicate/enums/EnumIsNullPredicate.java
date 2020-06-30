@@ -27,12 +27,12 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.1.2
  */
-public final class EnumIsNullPredicate<ENTITY, D, E extends Enum<E>>
+public final class EnumIsNullPredicate<ENTITY, E extends Enum<E>>
 implements FieldIsNullPredicate<ENTITY, E> {
 
-    private final EnumField<ENTITY, D, E> field;
+    private final EnumField<ENTITY, E> field;
 
-    public EnumIsNullPredicate(EnumField<ENTITY, D, E> field) {
+    public EnumIsNullPredicate(EnumField<ENTITY, E> field) {
         this.field = requireNonNull(field);
     }
 
@@ -52,7 +52,7 @@ implements FieldIsNullPredicate<ENTITY, E> {
     }
 
     @Override
-    public EnumField<ENTITY, D, E> getField() {
+    public EnumField<ENTITY, E> getField() {
         return field;
     }
 }

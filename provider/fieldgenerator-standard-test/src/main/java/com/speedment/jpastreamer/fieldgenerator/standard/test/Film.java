@@ -46,17 +46,16 @@ public class Film
     private String long_description;
 
     /** DATE AND TIME */
-/*
     @Column(name = "release_date", nullable = false, columnDefinition = "DATE")
     @Temporal(TemporalType.DATE)
-    private java.util.Date releaseDate;*/
+    private java.util.Date releaseDate;
 
     @Column(name = "release_timestamp", nullable = false, columnDefinition = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar releaseTimestamp;
 
-    @Column(name = "release_time", nullable = false, columnDefinition = "TIME")
-    private java.sql.Time releaseTime;
+    @Column(name = "release_time", nullable = false, columnDefinition = "DATE")
+    private java.sql.Date releaseTime;
 
 
     /*@ManyToOne
@@ -98,6 +97,7 @@ public class Film
 
     @Column(name = "last_update", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime lastUpdate;
+
 
     public Integer getFilmId() {
         return filmId;
@@ -280,14 +280,14 @@ public class Film
     public void setFilmRatings(Set<FilmRating[]> filmRatings) {
         this.filmRatings = filmRatings;
     }
-/*
+
     public java.util.Date getReleaseDate() {
         return releaseDate;
     }
 
     public void setReleaseDate(java.util.Date releaseDate) {
         this.releaseDate = releaseDate;
-    }*/
+    }
 
     public Calendar getReleaseTimestamp() {
         return releaseTimestamp;
@@ -297,11 +297,11 @@ public class Film
         this.releaseTimestamp = releaseTimestamp;
     }
 
-    public Time getReleaseTime() {
+    public java.sql.Date getReleaseTime() {
         return releaseTime;
     }
 
-    public void setReleaseTime(Time releaseTime) {
+    public void setReleaseTime(java.sql.Date releaseTime) {
         this.releaseTime = releaseTime;
     }
 }

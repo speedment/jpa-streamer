@@ -32,7 +32,7 @@ public final class FieldToDoubleImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, Double, ToDouble<ENTITY>, ToDoubleFunction<V>>
 implements FieldToDouble<ENTITY, V> {
 
-    public FieldToDoubleImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToDoubleImpl(ReferenceField<ENTITY, V> field,
                              ToDoubleFunction<V> mapper) {
         super(field, mapper);
     }

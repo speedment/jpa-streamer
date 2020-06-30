@@ -25,20 +25,19 @@ import static com.speedment.jpastreamer.field.predicate.PredicateType.LESS_OR_EQ
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class ReferenceLessOrEqualPredicate<ENTITY, D, V extends Comparable<? super V>>
+public final class ReferenceLessOrEqualPredicate<ENTITY, V extends Comparable<? super V>>
 extends AbstractFieldPredicate<ENTITY,
-        HasReferenceValue<ENTITY, D, V>>
+        HasReferenceValue<ENTITY, V>>
 implements HasArg0<V> {
 
     private final V value;
 
-    public ReferenceLessOrEqualPredicate(HasReferenceValue<ENTITY, D, V> field, V value) {
+    public ReferenceLessOrEqualPredicate(HasReferenceValue<ENTITY, V> field, V value) {
         super(LESS_OR_EQUAL, field, entity -> {
             final V fieldValue = field.get(entity);
             if (fieldValue == null && value == null) {
@@ -57,7 +56,7 @@ implements HasArg0<V> {
     }
 
     @Override
-    public ReferenceGreaterThanPredicate<ENTITY, D, V> negate() {
+    public ReferenceGreaterThanPredicate<ENTITY, V> negate() {
         return new ReferenceGreaterThanPredicate<>(getField(), value);
     }
 }

@@ -30,10 +30,8 @@ import com.speedment.jpastreamer.field.method.ReferenceGetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 
-import javax.persistence.AttributeConverter;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
@@ -44,17 +42,14 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.0.10
  */
-public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
+public final class EnumFieldImpl<ENTITY, E extends Enum<E>>
     implements
-    EnumField<ENTITY, D, E>,
+    EnumField<ENTITY, E>,
         FieldComparator<ENTITY> {
 
     private final Class<ENTITY> table;
     private final String columnName;
     private final ReferenceGetter<ENTITY, E> getter;
-    Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass;
-    private final Function<E, D> enumToDbType;
-    private final Function<D, E> dbTypeToEnum;
     private final Class<E> enumClass;
     private final EnumSet<E> constants;
 
@@ -62,17 +57,11 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
             final Class<ENTITY> table,
             final String columnName,
             final ReferenceGetter<ENTITY, E> getter,
-            final Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass,
-            final Function<E, D> enumToDbType,
-            final Function<D, E> dbTypeToEnum,
             final Class<E> enumClass
     ) {
         this.table = requireNonNull(table);
         this.columnName = requireNonNull(columnName);
         this.getter       = requireNonNull(getter);
-        this.attributeConverterClass = attributeConverterClass;
-        this.enumToDbType = requireNonNull(enumToDbType);
-        this.dbTypeToEnum = requireNonNull(dbTypeToEnum);
         this.enumClass    = requireNonNull(enumClass);
         this.constants    = EnumSet.allOf(enumClass);
     }
@@ -99,21 +88,6 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
     @Override
     public ReferenceGetter<ENTITY, E> getter() {
         return getter;
-    }
-
-    @Override
-    public Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass() {
-        return attributeConverterClass;
-    }
-
-    @Override
-    public Function<D, E> dbTypeToEnum() {
-        return dbTypeToEnum;
-    }
-
-    @Override
-    public Function<E, D> enumToDbType() {
-        return enumToDbType;
     }
 
     @Override
@@ -171,12 +145,12 @@ public final class EnumFieldImpl<ENTITY, D, E extends Enum<E>>
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public EnumIsNullPredicate<ENTITY, D, E> isNull() {
+    public EnumIsNullPredicate<ENTITY, E> isNull() {
         return new EnumIsNullPredicate<>(this);
     }
 
     @Override
-    public EnumIsNotNullPredicate<ENTITY, D, E> isNotNull() {
+    public EnumIsNotNullPredicate<ENTITY, E> isNotNull() {
         return new EnumIsNotNullPredicate<>(this);
     }
 

@@ -28,29 +28,28 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class ShortFieldComparatorImpl<ENTITY, D>
+public final class ShortFieldComparatorImpl<ENTITY>
 extends AbstractFieldComparator<ENTITY> 
-implements ShortFieldComparator<ENTITY, D> {
+implements ShortFieldComparator<ENTITY> {
     
-    private final HasShortValue<ENTITY, D> field;
+    private final HasShortValue<ENTITY> field;
     private final boolean reversed;
     
-    public ShortFieldComparatorImpl(HasShortValue<ENTITY, D> field) {
+    public ShortFieldComparatorImpl(HasShortValue<ENTITY> field) {
         this(field, false);
     }
     
-    ShortFieldComparatorImpl(HasShortValue<ENTITY, D> field, boolean reversed) {
+    ShortFieldComparatorImpl(HasShortValue<ENTITY> field, boolean reversed) {
         this.field    = requireNonNull(field);
         this.reversed = reversed;
     }
     
     @Override
-    public HasShortValue<ENTITY, D> getField() {
+    public HasShortValue<ENTITY> getField() {
         return field;
     }
     
@@ -65,7 +64,7 @@ implements ShortFieldComparator<ENTITY, D> {
     }
     
     @Override
-    public ShortFieldComparatorImpl<ENTITY, D> reversed() {
+    public ShortFieldComparatorImpl<ENTITY> reversed() {
         return new ShortFieldComparatorImpl<>(field, !reversed);
     }
     

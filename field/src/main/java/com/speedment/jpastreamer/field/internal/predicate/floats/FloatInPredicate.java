@@ -29,18 +29,17 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is included in a set of floats.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class FloatInPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY, D>>
+public final class FloatInPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY>>
 implements HasArg0<Set<Float>> {
     
     private final Set<Float> set;
     
-    public FloatInPredicate(HasFloatValue<ENTITY, D> field, Set<Float> set) {
+    public FloatInPredicate(HasFloatValue<ENTITY> field, Set<Float> set) {
         super(PredicateType.IN, field, entity -> set.contains(field.getAsFloat(entity)));
         this.set = requireNonNull(set);
     }
@@ -51,7 +50,7 @@ implements HasArg0<Set<Float>> {
     }
     
     @Override
-    public FloatNotInPredicate<ENTITY, D> negate() {
+    public FloatNotInPredicate<ENTITY> negate() {
         return new FloatNotInPredicate<>(getField(), set);
     }
 }

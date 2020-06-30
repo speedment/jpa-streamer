@@ -22,16 +22,15 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
 /**
  *
  * @param <ENTITY> the entity type
- * @param <D> the database type
  *
  * @author Per Minborg
  * @since  2.2.0
  */
-public final class StringContainsIgnoreCasePredicate<ENTITY, D>
-extends AbstractStringPredicate<ENTITY, D> {
+public final class StringContainsIgnoreCasePredicate<ENTITY>
+extends AbstractStringPredicate<ENTITY> {
 
     public StringContainsIgnoreCasePredicate(
-            final HasReferenceValue<ENTITY, D, String> field,
+            final HasReferenceValue<ENTITY, String> field,
             final String lowerCase) {
 
         super(PredicateType.CONTAINS_IGNORE_CASE, field, lowerCase, entity -> {
@@ -42,7 +41,7 @@ extends AbstractStringPredicate<ENTITY, D> {
     }
 
     @Override
-    public StringNotContainsIgnoreCasePredicate<ENTITY, D> negate() {
+    public StringNotContainsIgnoreCasePredicate<ENTITY> negate() {
         return new StringNotContainsIgnoreCasePredicate<>(getField(), get0());
     }
     

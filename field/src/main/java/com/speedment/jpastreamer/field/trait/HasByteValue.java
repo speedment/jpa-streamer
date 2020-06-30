@@ -23,15 +23,14 @@ import com.speedment.jpastreamer.field.method.GetByte;
  * A representation of an Entity field that is a primitive {@code byte} type.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasByteValue<ENTITY, D> extends Field<ENTITY> {
+public interface HasByteValue<ENTITY> extends Field<ENTITY> {
 
     @Override
-    GetByte<ENTITY, D> getter();
+    GetByte<ENTITY> getter();
 
     /**
      * Gets the value from the Entity field.

@@ -29,18 +29,17 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is included in a set of bytes.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class ByteInPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY, D>>
+public final class ByteInPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY>>
 implements HasArg0<Set<Byte>> {
     
     private final Set<Byte> set;
     
-    public ByteInPredicate(HasByteValue<ENTITY, D> field, Set<Byte> set) {
+    public ByteInPredicate(HasByteValue<ENTITY> field, Set<Byte> set) {
         super(PredicateType.IN, field, entity -> set.contains(field.getAsByte(entity)));
         this.set = requireNonNull(set);
     }
@@ -51,7 +50,7 @@ implements HasArg0<Set<Byte>> {
     }
     
     @Override
-    public ByteNotInPredicate<ENTITY, D> negate() {
+    public ByteNotInPredicate<ENTITY> negate() {
         return new ByteNotInPredicate<>(getField(), set);
     }
 }

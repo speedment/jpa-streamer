@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.trait.HasByteValue;
  * A predicate that evaluates if a value is {@code >=} a specified {@code byte}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class ByteGreaterOrEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY, D>> 
+public final class ByteGreaterOrEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasByteValue<ENTITY>>
 implements HasArg0<Byte> {
     
     private final byte value;
     
-    public ByteGreaterOrEqualPredicate(HasByteValue<ENTITY, D> field, byte value) {
+    public ByteGreaterOrEqualPredicate(HasByteValue<ENTITY> field, byte value) {
         super(PredicateType.GREATER_OR_EQUAL, field, entity -> field.getAsByte(entity) >= value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Byte> {
     }
     
     @Override
-    public ByteLessThanPredicate<ENTITY, D> negate() {
+    public ByteLessThanPredicate<ENTITY> negate() {
         return new ByteLessThanPredicate<>(getField(), value);
     }
 }

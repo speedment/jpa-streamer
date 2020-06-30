@@ -29,7 +29,6 @@ import static java.util.Objects.requireNonNull;
  * The default implementation of the {@link ReferenceFieldComparator} interface.
  * 
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
@@ -37,23 +36,23 @@ import static java.util.Objects.requireNonNull;
  * @since   2.2.0
  */
 public final class ReferenceFieldComparatorImpl
-    <ENTITY, D, V extends Comparable<? super V>>
+    <ENTITY, V extends Comparable<? super V>>
 extends AbstractFieldComparator<ENTITY>
-implements ReferenceFieldComparator<ENTITY, D, V> {
+implements ReferenceFieldComparator<ENTITY, V> {
 
-    private final ComparableField<ENTITY, D, V> field;
+    private final ComparableField<ENTITY, V> field;
     private final NullOrder nullOrder;
     private final boolean reversed;
     
     public ReferenceFieldComparatorImpl(
-            final ComparableField<ENTITY, D, V> field,
+            final ComparableField<ENTITY, V> field,
             final NullOrder nullOrder) {
 
         this(field, nullOrder, false);
     }
 
     ReferenceFieldComparatorImpl(
-            final ComparableField<ENTITY, D, V> field,
+            final ComparableField<ENTITY, V> field,
             final NullOrder nullOrder,
             final boolean reversed) {
 
@@ -63,7 +62,7 @@ implements ReferenceFieldComparator<ENTITY, D, V> {
     }
 
     @Override
-    public ComparableField<ENTITY, D, V> getField() {
+    public ComparableField<ENTITY, V> getField() {
         return field;
     }
 

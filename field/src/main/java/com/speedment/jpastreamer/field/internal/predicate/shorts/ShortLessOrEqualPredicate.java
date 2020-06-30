@@ -26,18 +26,17 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  * short}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class ShortLessOrEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY, D>>
+public final class ShortLessOrEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY>>
 implements HasArg0<Short> {
     
     private final short value;
     
-    public ShortLessOrEqualPredicate(HasShortValue<ENTITY, D> field, short value) {
+    public ShortLessOrEqualPredicate(HasShortValue<ENTITY> field, short value) {
         super(PredicateType.LESS_OR_EQUAL, field, entity -> field.getAsShort(entity) <= value);
         this.value = value;
     }
@@ -48,7 +47,7 @@ implements HasArg0<Short> {
     }
     
     @Override
-    public ShortGreaterThanPredicate<ENTITY, D> negate() {
+    public ShortGreaterThanPredicate<ENTITY> negate() {
         return new ShortGreaterThanPredicate<>(getField(), value);
     }
 }

@@ -22,16 +22,15 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
 /**
  *
  * @param <ENTITY> the entity type
- * @param <D>      the database type
  *
  * @author Emil Forslund
  * @since  3.0.11
  */
-public final class StringNotEndsWithPredicate<ENTITY, D>
-extends AbstractStringPredicate<ENTITY, D> {
+public final class StringNotEndsWithPredicate<ENTITY>
+extends AbstractStringPredicate<ENTITY> {
 
     public StringNotEndsWithPredicate(
-            final HasReferenceValue<ENTITY, D, String> field,
+            final HasReferenceValue<ENTITY, String> field,
             final String str) {
 
         super(PredicateType.NOT_ENDS_WITH, field, str, entity -> {
@@ -42,7 +41,7 @@ extends AbstractStringPredicate<ENTITY, D> {
     }
 
     @Override
-    public StringEndsWithPredicate<ENTITY, D> negate() {
+    public StringEndsWithPredicate<ENTITY> negate() {
         return new StringEndsWithPredicate<>(getField(), get0());
     }
 }

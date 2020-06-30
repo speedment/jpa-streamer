@@ -24,19 +24,18 @@ import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class ReferenceGreaterOrEqualPredicate<ENTITY, D, V extends Comparable<? super V>>
-extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
+public final class ReferenceGreaterOrEqualPredicate<ENTITY, V extends Comparable<? super V>>
+extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, V>>
 implements HasArg0<V> {
 
     private final V value;
 
-    public ReferenceGreaterOrEqualPredicate(HasReferenceValue<ENTITY, D, V> field, V value) {
+    public ReferenceGreaterOrEqualPredicate(HasReferenceValue<ENTITY, V> field, V value) {
         super(PredicateType.GREATER_OR_EQUAL, field, entity -> {
             final V fieldValue = field.get(entity);
             if (fieldValue == null && value == null) {
@@ -55,7 +54,7 @@ implements HasArg0<V> {
     }
 
     @Override
-    public ReferenceLessThanPredicate<ENTITY, D, V> negate() {
+    public ReferenceLessThanPredicate<ENTITY, V> negate() {
         return new ReferenceLessThanPredicate<>(getField(), value);
     }
 }

@@ -26,24 +26,23 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetReference}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
  * @param <T>      the java type
  * 
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetReferenceImpl<ENTITY, D, T> implements GetReference<ENTITY, D, T> {
-    
-    private final HasReferenceValue<ENTITY, D, T> field;
+public final class GetReferenceImpl<ENTITY, T> implements GetReference<ENTITY, T> {
+
+    private final HasReferenceValue<ENTITY, T> field;
     private final ReferenceGetter<ENTITY, T> getter;
 
-    public GetReferenceImpl(HasReferenceValue<ENTITY, D, T> field, ReferenceGetter<ENTITY, T> getter) {
+    public GetReferenceImpl(HasReferenceValue<ENTITY, T> field, ReferenceGetter<ENTITY, T> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
 
     @Override
-    public HasReferenceValue<ENTITY, D, T> getField() {
+    public HasReferenceValue<ENTITY, T> getField() {
         return field;
     }
 

@@ -22,13 +22,8 @@ import com.speedment.jpastreamer.field.internal.EnumFieldImpl;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
 import com.speedment.jpastreamer.field.predicate.FieldIsNotNullPredicate;
 import com.speedment.jpastreamer.field.predicate.FieldIsNullPredicate;
-import com.speedment.jpastreamer.field.predicate.Inclusion;
-import com.speedment.jpastreamer.field.trait.HasStringOperators;
 
-import javax.persistence.AttributeConverter;
 import java.util.EnumSet;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
 
 /**
@@ -39,8 +34,8 @@ import java.util.function.ToDoubleFunction;
  *
  * @see  ComparableField
  */
-public interface EnumField<ENTITY, D, E extends Enum<E>>
-extends ComparableField<ENTITY, D, E>,
+public interface EnumField<ENTITY, E extends Enum<E>>
+extends ComparableField<ENTITY, E>,
         ToEnumNullable<ENTITY, E> {
 
     /**
@@ -61,27 +56,6 @@ extends ComparableField<ENTITY, D, E>,
      * @return  the constants
      */
     EnumSet<E> constants();
-
-    /**
-     * A method that takes a value of type {@code D} and converts it into an enum for
-     * this field.
-     * <p>
-     * The function should return {@code null} if a {@code null} value is
-     * specified as input and throw an exception if the value is invalid.
-     *
-     * @return  the db-type-to-enum mapper
-     */
-    Function<D, E> dbTypeToEnum();
-
-    /**
-     * A method that takes an enum and converts it into the corresponding database type {@code D}
-     * <p>
-     * The function should return {@code null} if a {@code null} value is
-     * specified as input and throw an exception if the value is invalid.
-     *
-     * @return  the enum-to-db-type mapper
-     */
-    Function<E, D> enumToDbType();
 
     @Override
     FieldIsNullPredicate<ENTITY, E> isNull();
@@ -105,30 +79,22 @@ extends ComparableField<ENTITY, D, E>,
      * Create a new instance of this interface using the default implementation.
      *
      * @param <ENTITY>      the entity type
-     * @param <D>           the database type
      * @param <E>           the java enum type
      * @param table         the table that this field belongs to
      * @param columnName the name of the database column the field represents
      * @param getter        method reference to the getter in the entity
-     * @param attributeConverterClass    the attribute converter class
-     * @param enumToDbType  method to convert enum to the database type
-     * @param dbTypeToEnum  method to convert the database type to enum
      * @param enumClass     the enum class
      *
      * @return            the created field
      */
-    static <ENTITY, D, E extends Enum<E>> EnumField<ENTITY, D, E> create(
+    static <ENTITY, E extends Enum<E>> EnumField<ENTITY, E> create(
             Class<ENTITY> table,
             String columnName,
             ReferenceGetter<ENTITY, E> getter,
-            Class<? extends AttributeConverter<E, ? super D>> attributeConverterClass,
-            Function<E, D> enumToDbType,
-            Function<D, E> dbTypeToEnum,
             Class<E> enumClass) {
 
         return new EnumFieldImpl<>(
-                table, columnName, getter, attributeConverterClass,
-                enumToDbType, dbTypeToEnum, enumClass
+                table, columnName, getter, enumClass
         );
     }
 }

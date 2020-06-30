@@ -23,12 +23,11 @@ import com.speedment.jpastreamer.field.trait.HasByteValue;
  * A {@link FieldComparator} that compares values of a {@link ByteField}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface ByteFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
+public interface ByteFieldComparator<ENTITY> extends FieldComparator<ENTITY> {
     
     /**
      * Gets the field that is being compared.
@@ -36,8 +35,8 @@ public interface ByteFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> 
      * @return the compared field
      */
     @Override
-    HasByteValue<ENTITY, D> getField();
+    HasByteValue<ENTITY> getField();
     
     @Override
-    ByteFieldComparator<ENTITY, D> reversed();
+    ByteFieldComparator<ENTITY> reversed();
 }

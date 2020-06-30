@@ -36,7 +36,7 @@ implements FieldToEnum<ENTITY, V, E> {
 
     private final Class<E> enumClass;
 
-    public FieldToEnumImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToEnumImpl(ReferenceField<ENTITY, V> field,
                            Function<V, E> mapper,
                            Class<E> enumClass) {
         super(field, mapper);

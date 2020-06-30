@@ -23,12 +23,11 @@ import com.speedment.jpastreamer.field.trait.HasCharValue;
  * A {@link FieldComparator} that compares values of a {@link CharField}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface CharFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
+public interface CharFieldComparator<ENTITY> extends FieldComparator<ENTITY> {
     
     /**
      * Gets the field that is being compared.
@@ -36,8 +35,8 @@ public interface CharFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> 
      * @return the compared field
      */
     @Override
-    HasCharValue<ENTITY, D> getField();
+    HasCharValue<ENTITY> getField();
     
     @Override
-    CharFieldComparator<ENTITY, D> reversed();
+    CharFieldComparator<ENTITY> reversed();
 }

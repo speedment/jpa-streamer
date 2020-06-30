@@ -26,18 +26,17 @@ import com.speedment.jpastreamer.field.trait.HasShortValue;
  * short}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class ShortNotEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY, D>>
+public final class ShortNotEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY>>
 implements HasArg0<Short> {
     
     private final short value;
     
-    public ShortNotEqualPredicate(HasShortValue<ENTITY, D> field, short value) {
+    public ShortNotEqualPredicate(HasShortValue<ENTITY> field, short value) {
         super(PredicateType.NOT_EQUAL, field, entity -> field.getAsShort(entity) != value);
         this.value = value;
     }
@@ -48,7 +47,7 @@ implements HasArg0<Short> {
     }
     
     @Override
-    public ShortEqualPredicate<ENTITY, D> negate() {
+    public ShortEqualPredicate<ENTITY> negate() {
         return new ShortEqualPredicate<>(getField(), value);
     }
 }

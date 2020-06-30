@@ -29,40 +29,35 @@ import com.speedment.jpastreamer.field.method.ReferenceGetter;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 
-import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author  Per Minborg
  * @author  Emil Forslund
  * @since   2.2.0
  */
-public final class StringFieldImpl<ENTITY, D>
-implements StringField<ENTITY, D>,
+public final class StringFieldImpl<ENTITY>
+implements StringField<ENTITY>,
         FieldComparator<ENTITY> {
 
     private final Class<ENTITY> table;
     private final String columnName;
     private final ReferenceGetter<ENTITY, String> getter;
-    private final Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public StringFieldImpl(
         final Class<ENTITY> table,
         final String columnName,
         final ReferenceGetter<ENTITY, String> getter,
-        final Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass,
         final boolean unique
     ) {
         this.table = requireNonNull(table);
         this.columnName = requireNonNull(columnName);
         this.getter     = requireNonNull(getter);
-        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
     }
 
@@ -80,11 +75,6 @@ implements StringField<ENTITY, D>,
         return getter;
     }
 
-    @Override
-    public Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass() {
-        return attributeConverterClass;
-    }
-    
     @Override
     public boolean isUnique() {
         return unique;
@@ -139,12 +129,12 @@ implements StringField<ENTITY, D>,
     ////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public StringIsNullPredicate<ENTITY, D> isNull() {
+    public StringIsNullPredicate<ENTITY> isNull() {
         return new StringIsNullPredicate<>(this);
     }
 
     @Override
-    public StringIsNotNullPredicate<ENTITY, D> isNotNull() {
+    public StringIsNotNullPredicate<ENTITY> isNotNull() {
         return new StringIsNotNullPredicate<>(this);
     }
 

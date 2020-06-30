@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.trait.HasLongValue;
  * A predicate that evaluates if a value is {@code <} a specified {@code long}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class LongLessThanPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY, D>> 
+public final class LongLessThanPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasLongValue<ENTITY>>
 implements HasArg0<Long> {
     
     private final long value;
     
-    public LongLessThanPredicate(HasLongValue<ENTITY, D> field, long value) {
+    public LongLessThanPredicate(HasLongValue<ENTITY> field, long value) {
         super(PredicateType.LESS_THAN, field, entity -> field.getAsLong(entity) < value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Long> {
     }
     
     @Override
-    public LongGreaterOrEqualPredicate<ENTITY, D> negate() {
+    public LongGreaterOrEqualPredicate<ENTITY> negate() {
         return new LongGreaterOrEqualPredicate<>(getField(), value);
     }
 }

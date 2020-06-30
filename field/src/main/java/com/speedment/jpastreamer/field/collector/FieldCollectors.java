@@ -37,103 +37,103 @@ import static java.util.stream.Collectors.toList;
 public final class FieldCollectors {
     private FieldCollectors() {}
 
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<Long, List<ENTITY>>>
-    groupingBy(LongField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<Long, List<ENTITY>>>
+    groupingBy(LongField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<Integer, List<ENTITY>>>
-    groupingBy(IntField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<Integer, List<ENTITY>>>
+    groupingBy(IntField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<Short, List<ENTITY>>>
-    groupingBy(ShortField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<Short, List<ENTITY>>>
+    groupingBy(ShortField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<Byte, List<ENTITY>>>
-    groupingBy(ByteField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<Byte, List<ENTITY>>>
+    groupingBy(ByteField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<Double, List<ENTITY>>>
-    groupingBy(DoubleField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<Double, List<ENTITY>>>
+    groupingBy(DoubleField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<Float, List<ENTITY>>>
-    groupingBy(FloatField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<Float, List<ENTITY>>>
+    groupingBy(FloatField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<Boolean, List<ENTITY>>>
-    groupingBy(BooleanField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<Boolean, List<ENTITY>>>
+    groupingBy(BooleanField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
 
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<Character, List<ENTITY>>>
-    groupingBy(CharField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<Character, List<ENTITY>>>
+    groupingBy(CharField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D> Collector<ENTITY, ?, Map<String, List<ENTITY>>>
-    groupingBy(StringField<ENTITY, D> field) {
+    public static <ENTITY> Collector<ENTITY, ?, Map<String, List<ENTITY>>>
+    groupingBy(StringField<ENTITY> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D, T> Collector<ENTITY, ?, Map<T, List<ENTITY>>>
-    groupingBy(ReferenceField<ENTITY, D, T> field) {
+    public static <ENTITY, T> Collector<ENTITY, ?, Map<T, List<ENTITY>>>
+    groupingBy(ReferenceField<ENTITY, T> field) {
         return groupingBy(field, field.getter()::apply, HashMap::new, toList());
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<Long, R>>
-    groupingBy(LongField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<Long, R>>
+    groupingBy(LongField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<Integer, R>>
-    groupingBy(IntField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<Integer, R>>
+    groupingBy(IntField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<Short, R>>
-    groupingBy(ShortField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<Short, R>>
+    groupingBy(ShortField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<Byte, R>>
-    groupingBy(ByteField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<Byte, R>>
+    groupingBy(ByteField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<Double, R>>
-    groupingBy(DoubleField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<Double, R>>
+    groupingBy(DoubleField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<Float, R>>
-    groupingBy(FloatField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<Float, R>>
+    groupingBy(FloatField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<Boolean, R>>
-    groupingBy(BooleanField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<Boolean, R>>
+    groupingBy(BooleanField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<Character, R>>
-    groupingBy(CharField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<Character, R>>
+    groupingBy(CharField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, D, A, R> Collector<ENTITY, ?, Map<String, R>>
-    groupingBy(StringField<ENTITY, D> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, A, R> Collector<ENTITY, ?, Map<String, R>>
+    groupingBy(StringField<ENTITY> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     
-    public static <ENTITY, T, D, A, R> Collector<ENTITY, ?, Map<T, R>>
-    groupingBy(ReferenceField<ENTITY, D, T> field, Collector<ENTITY, A, R> downstream) {
+    public static <ENTITY, T, A, R> Collector<ENTITY, ?, Map<T, R>>
+    groupingBy(ReferenceField<ENTITY, T> field, Collector<ENTITY, A, R> downstream) {
         return groupingBy(field, field.getter()::apply, HashMap::new, downstream);
     }
     

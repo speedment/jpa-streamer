@@ -31,14 +31,13 @@ import static java.util.Objects.requireNonNull;
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class ReferenceBetweenPredicate<ENTITY, D, V extends Comparable<? super V>>
-    extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
+public final class ReferenceBetweenPredicate<ENTITY, V extends Comparable<? super V>>
+    extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, V>>
     implements HasInclusion,
         HasArg0<V>,
         HasArg1<V> {
@@ -48,7 +47,7 @@ public final class ReferenceBetweenPredicate<ENTITY, D, V extends Comparable<? s
     private final Inclusion inclusion;
 
     public ReferenceBetweenPredicate(
-        final HasReferenceValue<ENTITY, D, V> referenceField,
+        final HasReferenceValue<ENTITY, V> referenceField,
         final V start,
         final V end,
         final Inclusion inclusion
@@ -59,7 +58,7 @@ public final class ReferenceBetweenPredicate<ENTITY, D, V extends Comparable<? s
         this.inclusion = requireNonNull(inclusion);
     }
 
-    private static <ENTITY, D, V extends Comparable<? super V>> Predicate<ENTITY> entityPredicate(HasReferenceValue<ENTITY, D, V> referenceField, V start, V end, Inclusion inclusion) {
+    private static <ENTITY, D, V extends Comparable<? super V>> Predicate<ENTITY> entityPredicate(HasReferenceValue<ENTITY, V> referenceField, V start, V end, Inclusion inclusion) {
         return entity -> {
             final V fieldValue = referenceField.get(entity);
 
@@ -131,7 +130,7 @@ public final class ReferenceBetweenPredicate<ENTITY, D, V extends Comparable<? s
     }
 
     @Override
-    public ReferenceNotBetweenPredicate<ENTITY, D, V> negate() {
+    public ReferenceNotBetweenPredicate<ENTITY, V> negate() {
         return new ReferenceNotBetweenPredicate<>(getField(), start, end, inclusion);
     }
     

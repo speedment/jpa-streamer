@@ -35,12 +35,12 @@ import static java.util.Objects.requireNonNull;
  * @since  3.0.11
  */
 public final class CharNotInPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY, D>>
+extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY>>
 implements HasArg0<Set<Character>> {
     
     private final Set<Character> set;
     
-    public CharNotInPredicate(HasCharValue<ENTITY, D> field, Set<Character> set) {
+    public CharNotInPredicate(HasCharValue<ENTITY> field, Set<Character> set) {
         super(PredicateType.NOT_IN, field, entity -> !set.contains(field.getAsChar(entity)));
         this.set = requireNonNull(set);
     }

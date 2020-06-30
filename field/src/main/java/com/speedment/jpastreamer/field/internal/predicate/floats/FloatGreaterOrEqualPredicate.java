@@ -26,18 +26,17 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  * float}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class FloatGreaterOrEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY, D>>
+public final class FloatGreaterOrEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY>>
 implements HasArg0<Float> {
     
     private final float value;
     
-    public FloatGreaterOrEqualPredicate(HasFloatValue<ENTITY, D> field, float value) {
+    public FloatGreaterOrEqualPredicate(HasFloatValue<ENTITY> field, float value) {
         super(PredicateType.GREATER_OR_EQUAL, field, entity -> field.getAsFloat(entity) >= value);
         this.value = value;
     }
@@ -48,7 +47,7 @@ implements HasArg0<Float> {
     }
     
     @Override
-    public FloatLessThanPredicate<ENTITY, D> negate() {
+    public FloatLessThanPredicate<ENTITY> negate() {
         return new FloatLessThanPredicate<>(getField(), value);
     }
 }

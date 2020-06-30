@@ -23,15 +23,14 @@ import com.speedment.jpastreamer.field.method.GetInt;
  * A representation of an Entity field that is a primitive {@code int} type.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasIntValue<ENTITY, D> extends Field<ENTITY> {
+public interface HasIntValue<ENTITY> extends Field<ENTITY> {
     
     @Override
-    GetInt<ENTITY, D> getter();
+    GetInt<ENTITY> getter();
 
     /**
      * Gets the value from the Entity field.

@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.trait.HasShortValue;
  * A predicate that evaluates if a value is {@code >} a specified {@code short}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class ShortGreaterThanPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY, D>>
+public final class ShortGreaterThanPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY>>
 implements HasArg0<Short> {
     
     private final short value;
     
-    public ShortGreaterThanPredicate(HasShortValue<ENTITY, D> field, short value) {
+    public ShortGreaterThanPredicate(HasShortValue<ENTITY> field, short value) {
         super(PredicateType.GREATER_THAN, field, entity -> field.getAsShort(entity) > value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Short> {
     }
     
     @Override
-    public ShortLessOrEqualPredicate<ENTITY, D> negate() {
+    public ShortLessOrEqualPredicate<ENTITY> negate() {
         return new ShortLessOrEqualPredicate<>(getField(), value);
     }
 }

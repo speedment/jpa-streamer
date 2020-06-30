@@ -35,7 +35,6 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> the entity type
- * @param <D>      the database type
  * @param <V>      the field value type
  * 
  * @author  Per Minborg
@@ -43,26 +42,23 @@ import static java.util.Objects.requireNonNull;
  * 
  * @since   2.2.0
  */
-public final class ComparableFieldImpl<ENTITY, D, V extends Comparable<? super V>>
-implements ComparableField<ENTITY, D, V>, FieldComparator<ENTITY> {
+public final class ComparableFieldImpl<ENTITY, V extends Comparable<? super V>>
+implements ComparableField<ENTITY, V>, FieldComparator<ENTITY> {
 
     private final Class<ENTITY> table;
     private final String columnName;
     private final ReferenceGetter<ENTITY, V> getter;
-    private final Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public ComparableFieldImpl(
             Class<ENTITY> table,
             String columnName,
             ReferenceGetter<ENTITY, V> getter,
-            Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
             boolean unique) {
         
         this.table = requireNonNull(table);
         this.columnName = requireNonNull(columnName);
         this.getter     = requireNonNull(getter);
-        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
     }
 
@@ -80,11 +76,6 @@ implements ComparableField<ENTITY, D, V>, FieldComparator<ENTITY> {
         return getter;
     }
 
-    @Override
-    public Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass() {
-        return attributeConverterClass;
-    }
-    
     @Override
     public boolean isUnique() {
         return unique;

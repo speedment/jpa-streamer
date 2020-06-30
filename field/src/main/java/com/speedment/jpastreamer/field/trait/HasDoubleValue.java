@@ -23,15 +23,14 @@ import com.speedment.jpastreamer.field.method.GetDouble;
  * A representation of an Entity field that is a primitive {@code double} type.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasDoubleValue<ENTITY, D> extends Field<ENTITY> {
+public interface HasDoubleValue<ENTITY> extends Field<ENTITY> {
     
     @Override
-    GetDouble<ENTITY, D> getter();
+    GetDouble<ENTITY> getter();
 
     /**
      * Gets the value from the Entity field.

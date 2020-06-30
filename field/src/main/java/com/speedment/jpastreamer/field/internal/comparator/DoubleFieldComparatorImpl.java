@@ -28,29 +28,28 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class DoubleFieldComparatorImpl<ENTITY, D>
+public final class DoubleFieldComparatorImpl<ENTITY>
 extends AbstractFieldComparator<ENTITY> 
-implements DoubleFieldComparator<ENTITY, D> {
+implements DoubleFieldComparator<ENTITY> {
     
-    private final HasDoubleValue<ENTITY, D> field;
+    private final HasDoubleValue<ENTITY> field;
     private final boolean reversed;
     
-    public DoubleFieldComparatorImpl(HasDoubleValue<ENTITY, D> field) {
+    public DoubleFieldComparatorImpl(HasDoubleValue<ENTITY> field) {
         this(field, false);
     }
     
-    DoubleFieldComparatorImpl(HasDoubleValue<ENTITY, D> field, boolean reversed) {
+    DoubleFieldComparatorImpl(HasDoubleValue<ENTITY> field, boolean reversed) {
         this.field    = requireNonNull(field);
         this.reversed = reversed;
     }
     
     @Override
-    public HasDoubleValue<ENTITY, D> getField() {
+    public HasDoubleValue<ENTITY> getField() {
         return field;
     }
     
@@ -65,7 +64,7 @@ implements DoubleFieldComparator<ENTITY, D> {
     }
     
     @Override
-    public DoubleFieldComparatorImpl<ENTITY, D> reversed() {
+    public DoubleFieldComparatorImpl<ENTITY> reversed() {
         return new DoubleFieldComparatorImpl<>(field, !reversed);
     }
     

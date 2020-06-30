@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  * A predicate that evaluates if a value is {@code >} a specified {@code float}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class FloatGreaterThanPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY, D>>
+public final class FloatGreaterThanPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY>>
 implements HasArg0<Float> {
     
     private final float value;
     
-    public FloatGreaterThanPredicate(HasFloatValue<ENTITY, D> field, float value) {
+    public FloatGreaterThanPredicate(HasFloatValue<ENTITY> field, float value) {
         super(PredicateType.GREATER_THAN, field, entity -> field.getAsFloat(entity) > value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Float> {
     }
     
     @Override
-    public FloatLessOrEqualPredicate<ENTITY, D> negate() {
+    public FloatLessOrEqualPredicate<ENTITY> negate() {
         return new FloatLessOrEqualPredicate<>(getField(), value);
     }
 }

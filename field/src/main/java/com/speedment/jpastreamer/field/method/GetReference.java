@@ -21,13 +21,12 @@ import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 /**
  *
  * @param <ENTITY> the entity type
- * @param <D>      the database type
  * @param <T>      the java type
  * 
  * @author Emil Forslund
  * @since  3.0.2
  */
-public interface GetReference<ENTITY, D, T> 
+public interface GetReference<ENTITY, T>
 extends ReferenceGetter<ENTITY, T> {
     
     /**
@@ -35,6 +34,6 @@ extends ReferenceGetter<ENTITY, T> {
      * 
      * @return  the field
      */
-    HasReferenceValue<ENTITY, D, T> getField();
+    HasReferenceValue<ENTITY, T> getField();
     
 }

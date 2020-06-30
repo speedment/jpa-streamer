@@ -23,17 +23,16 @@ import com.speedment.jpastreamer.field.trait.HasFloatValue;
  * field that created it.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public interface GetFloat<ENTITY, D> extends FloatGetter<ENTITY> {
+public interface GetFloat<ENTITY> extends FloatGetter<ENTITY> {
     
     /**
      * Returns the field that created the {@code get()}-operation.
      * 
      * @return the field
      */
-    HasFloatValue<ENTITY, D> getField();
+    HasFloatValue<ENTITY> getField();
 }

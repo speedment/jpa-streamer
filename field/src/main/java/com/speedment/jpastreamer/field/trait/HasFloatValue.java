@@ -23,15 +23,14 @@ import com.speedment.jpastreamer.field.method.GetFloat;
  * A representation of an Entity field that is a primitive {@code float} type.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasFloatValue<ENTITY, D> extends Field<ENTITY> {
+public interface HasFloatValue<ENTITY> extends Field<ENTITY> {
     
     @Override
-    GetFloat<ENTITY, D> getter();
+    GetFloat<ENTITY> getter();
 
     /**
      * Gets the value from the Entity field.

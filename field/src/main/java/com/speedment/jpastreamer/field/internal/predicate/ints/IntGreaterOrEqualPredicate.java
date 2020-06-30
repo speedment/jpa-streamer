@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  * A predicate that evaluates if a value is {@code >=} a specified {@code int}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class IntGreaterOrEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY, D>>
+public final class IntGreaterOrEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY>>
 implements HasArg0<Integer> {
     
     private final int value;
     
-    public IntGreaterOrEqualPredicate(HasIntValue<ENTITY, D> field, int value) {
+    public IntGreaterOrEqualPredicate(HasIntValue<ENTITY> field, int value) {
         super(PredicateType.GREATER_OR_EQUAL, field, entity -> field.getAsInt(entity) >= value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Integer> {
     }
     
     @Override
-    public IntLessThanPredicate<ENTITY, D> negate() {
+    public IntLessThanPredicate<ENTITY> negate() {
         return new IntLessThanPredicate<>(getField(), value);
     }
 }

@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  * A predicate that evaluates if a value is {@code ==} a specified {@code int}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class IntEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY, D>>
+public final class IntEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY>>
 implements HasArg0<Integer> {
     
     private final int value;
     
-    public IntEqualPredicate(HasIntValue<ENTITY, D> field, int value) {
+    public IntEqualPredicate(HasIntValue<ENTITY> field, int value) {
         super(PredicateType.EQUAL, field, entity -> field.getAsInt(entity) == value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Integer> {
     }
     
     @Override
-    public IntNotEqualPredicate<ENTITY, D> negate() {
+    public IntNotEqualPredicate<ENTITY> negate() {
         return new IntNotEqualPredicate<>(getField(), value);
     }
 }

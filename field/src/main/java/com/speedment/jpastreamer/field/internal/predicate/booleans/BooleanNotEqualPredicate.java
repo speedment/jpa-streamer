@@ -26,18 +26,17 @@ import com.speedment.jpastreamer.field.trait.HasBooleanValue;
  * boolean}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class BooleanNotEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasBooleanValue<ENTITY, D>> 
+public final class BooleanNotEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasBooleanValue<ENTITY>>
 implements HasArg0<Boolean> {
     
     private final boolean value;
     
-    public BooleanNotEqualPredicate(HasBooleanValue<ENTITY, D> field, boolean value) {
+    public BooleanNotEqualPredicate(HasBooleanValue<ENTITY> field, boolean value) {
         super(PredicateType.NOT_EQUAL, field, entity -> field.getAsBoolean(entity) != value);
         this.value = value;
     }
@@ -48,7 +47,7 @@ implements HasArg0<Boolean> {
     }
     
     @Override
-    public BooleanEqualPredicate<ENTITY, D> negate() {
+    public BooleanEqualPredicate<ENTITY> negate() {
         return new BooleanEqualPredicate<>(getField(), value);
     }
 }

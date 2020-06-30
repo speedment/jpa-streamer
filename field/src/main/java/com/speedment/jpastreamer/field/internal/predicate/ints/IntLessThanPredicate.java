@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.trait.HasIntValue;
  * A predicate that evaluates if a value is {@code <} a specified {@code int}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class IntLessThanPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY, D>> 
+public final class IntLessThanPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY>>
 implements HasArg0<Integer> {
     
     private final int value;
     
-    public IntLessThanPredicate(HasIntValue<ENTITY, D> field, int value) {
+    public IntLessThanPredicate(HasIntValue<ENTITY> field, int value) {
         super(PredicateType.LESS_THAN, field, entity -> field.getAsInt(entity) < value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Integer> {
     }
     
     @Override
-    public IntGreaterOrEqualPredicate<ENTITY, D> negate() {
+    public IntGreaterOrEqualPredicate<ENTITY> negate() {
         return new IntGreaterOrEqualPredicate<>(getField(), value);
     }
 }

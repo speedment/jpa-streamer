@@ -23,15 +23,14 @@ import com.speedment.jpastreamer.field.method.GetBoolean;
  * A representation of an Entity field that is a primitive {@code boolean} type.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasBooleanValue<ENTITY, D> extends Field<ENTITY> {
+public interface HasBooleanValue<ENTITY> extends Field<ENTITY> {
     
     @Override
-    GetBoolean<ENTITY, D> getter();
+    GetBoolean<ENTITY> getter();
     
     /**
      * Gets the value from the Entity field.

@@ -23,17 +23,16 @@ import com.speedment.jpastreamer.field.trait.HasBooleanValue;
  * the field that created it.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public interface GetBoolean<ENTITY, D> extends BooleanGetter<ENTITY> {
+public interface GetBoolean<ENTITY> extends BooleanGetter<ENTITY> {
     
     /**
      * Returns the field that created the {@code get()}-operation.
      * 
      * @return the field
      */
-    HasBooleanValue<ENTITY, D> getField();
+    HasBooleanValue<ENTITY> getField();
 }

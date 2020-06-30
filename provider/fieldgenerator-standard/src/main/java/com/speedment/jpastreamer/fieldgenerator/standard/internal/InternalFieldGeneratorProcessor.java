@@ -6,6 +6,7 @@ import com.speedment.common.codegen.constant.SimpleType;
 import com.speedment.common.codegen.controller.AlignTabs;
 import com.speedment.common.codegen.controller.AutoImports;
 import com.speedment.common.codegen.internal.java.JavaGenerator;
+import com.speedment.common.codegen.internal.java.view.FieldView;
 import com.speedment.common.codegen.model.*;
 import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Field;
@@ -15,7 +16,6 @@ import com.speedment.jpastreamer.typeparser.standard.StandardTypeParser;
 
 import javax.annotation.processing.*;
 import javax.lang.model.element.*;
-import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.util.Elements;
 import javax.persistence.*;
 import javax.tools.Diagnostic;
@@ -24,11 +24,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.Enum;
 import java.lang.reflect.Type;
-import java.sql.Blob;
-import java.sql.Clob;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.speedment.common.codegen.util.Formatting.*;
 import static com.speedment.jpastreamer.fieldgenerator.standard.util.GeneratorUtil.*;
@@ -74,7 +71,11 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .filter(ae -> ae.getKind() == ElementKind.CLASS)
                 .forEach(ae -> {
                     try {
-                        generateFields(ae);
+                        String qualifiedGenEntityName = ae.asType().toString() + "$";
+                        JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(qualifiedGenEntityName);
+                        Writer writer = builderFile.openWriter();
+                        generateFields(ae, writer);
+                        writer.close();
                     } catch(IOException e) {
                         e.printStackTrace();
                     }
@@ -83,7 +84,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return true;
     }
 
-    private void generateFields(Element annotatedElement) throws IOException {
+    void generateFields(Element annotatedElement, Writer writer) throws IOException {
 
         // Retrieve all declared fields of the annotated class
         Set<? extends Element> enclosedFields = annotatedElement.getEnclosedElements().stream()
@@ -93,7 +94,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         String entityName = shortName(annotatedElement.asType().toString());
         String genEntityName = entityName + "$";
-        String qualifiedGenEntityName = annotatedElement.asType().toString() + "$";
 
         PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(annotatedElement);
         String packageName;
@@ -104,12 +104,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             packageName = packageElement.getQualifiedName().toString();
         }
 
-        JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(qualifiedGenEntityName);
-        Writer writer = builderFile.openWriter();
-
         File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);
         writer.write(new JavaGenerator().on(file).get());
-        writer.close();
     }
 
     private File generatedEntity(Set<? extends Element> enclosedFields, String entityName, String genEntityName, String packageName) {
@@ -160,42 +156,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         fieldParams.add(Value.ofReference(
                 entityName + "::" + GETTER_METHOD_PREFIX + ucfirst(fieldName)));
 
-        // Add optional Attribute Converter
-        try {
-            final Convert annotation = field.getAnnotation(Convert.class);
-            if (annotation != null) {
-                annotation.converter();
-            } else {
-                fieldParams.add(Value.ofReference("null"));
-            }
-        } catch(MirroredTypeException e) {
-            if (e.getTypeMirror() != null) {
-                SimpleType converterType = SimpleType.create(e.getTypeMirror().toString());
-                clazz.add(Import.of(converterType));
-                fieldParams.add(Value.ofReference(shortName(converterType.getTypeName()) + ".class"));
-            } else {
-                throw new FieldGeneratorProcessorException("Could not fetch the designated converter for field " + fieldName + " in entity " + entityName);
-            }
-        }
-
         if (Enum.class.isAssignableFrom(fieldClass)) {
             String fieldTypeName = shortName(fieldType(field).getTypeName());
-            String enumToDbTypeFunction;
-            String dbTypeToEnumFunction;
-
-            Enumerated enumerated = field.getAnnotation(Enumerated.class);
-            if (enumerated != null && enumerated.value() == EnumType.STRING) {
-                dbTypeToEnumFunction = fieldTypeName + "::valueOf";
-                enumToDbTypeFunction = fieldTypeName + "::toString";
-            } else {
-                dbTypeToEnumFunction = "i -> " + fieldTypeName + ".values()[i]";
-                enumToDbTypeFunction = fieldTypeName + "::ordinal";
-            }
-            // Add function from enum to database type
-            fieldParams.add(Value.ofReference(enumToDbTypeFunction));
-
-            // Add function from database type to enum
-            fieldParams.add(Value.ofReference(dbTypeToEnumFunction));
 
             // Add enum class
             fieldParams.add(Value.ofReference(fieldTypeName + ".class"));
@@ -204,6 +166,11 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             fieldParams.add(Value.ofBoolean(col != null && col.unique()));
         }
 
+        Field field1 = Field.of(fieldName, referenceType);
+        FieldView fieldView = new FieldView();
+        Optional<String> output = fieldView.transform(generator, field1);
+
+        messager.printMessage(Diagnostic.Kind.NOTE, "Rendering reference type to: " + output + " for field with name: " + field.getSimpleName());
         clazz.add(Field.of(fieldName, referenceType)
                 .public_().static_().final_()
                 .set(Value.ofInvocation(
@@ -219,7 +186,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     private Type referenceType(Element field, java.lang.Class fieldClass, String entityName) throws FieldGeneratorProcessorException {
         Type fieldType = fieldType(field);
-        Type dbType = dbType(field);
         Type entityType = SimpleType.create(entityName);
         final Type type;
 
@@ -227,14 +193,25 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             if (fieldClass.isPrimitive()) {
                 type = primitiveFieldType(fieldType, entityType, fieldClass);
             } else if (Enum.class.isAssignableFrom(fieldClass)) {
-                type = enumFieldType(field, fieldType, entityType);
+                type = SimpleParameterizedType.create(
+                        EnumField.class,
+                        entityType,
+                        fieldType);
             } else if (Comparable.class.isAssignableFrom(fieldClass) && field.getAnnotation(Lob.class) == null) {
                 type = String.class.equals(fieldClass) ?
-                        SimpleParameterizedType.create(StringField.class, entityType, String.class) :
-                        SimpleParameterizedType.create(ComparableField.class, entityType, dbType, fieldType);
+                        SimpleParameterizedType.create(
+                                StringField.class,
+                                entityType) :
+                        SimpleParameterizedType.create(
+                                ComparableField.class,
+                                entityType,
+                                fieldType);
+                messager.printMessage(Diagnostic.Kind.NOTE, "Parsing field type: " + type.getClass() + " for field " + field.getSimpleName());
             } else {
-                type = SimpleParameterizedType.create(ReferenceField.class, entityType, dbType, fieldType);
-                messager.printMessage(Diagnostic.Kind.NOTE, "Parsing field type: " + fieldType.getTypeName() + " for field " + field.getSimpleName());
+                type = SimpleParameterizedType.create(
+                        ReferenceField.class,
+                        entityType,
+                        fieldType);
             }
         } catch (UnsupportedOperationException e) {
             throw new FieldGeneratorProcessorException("Primitive type " + fieldType.getTypeName() + " could not be parsed.");
@@ -243,69 +220,9 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return type;
     }
 
-    private Type enumFieldType(Element field, Type fieldType, Type entityType) {
-        Type type;
-        Enumerated enumerated = field.getAnnotation(Enumerated.class);
-        if (enumerated != null && enumerated.value() == EnumType.STRING) {
-            type = SimpleParameterizedType.create(
-                    EnumField.class,
-                    entityType,
-                    String.class,
-                    fieldType);
-        } else {
-            type = SimpleParameterizedType.create(
-                    EnumField.class,
-                    entityType,
-                    Integer.class, // Default is EnumType.ORDINAL
-                    fieldType);
-        }
-        return type;
-    }
-
     private Type fieldType(Element field) {
         messager.printMessage(Diagnostic.Kind.NOTE, "Using type parser to parse: " + field.asType().toString());
         return StandardTypeParser.render(field.asType().toString());
-    }
-
-    /* Returns the field database type. If no converter is used, the database type is assumed to be the same as the field type. */
-    private Type dbType(Element field) {
-        Optional<Type> databaseType = Optional.empty();
-
-        final Lob lob = field.getAnnotation(Lob.class);
-        final Temporal temporal = field.getAnnotation(Temporal.class);
-        final Convert convert = field.getAnnotation(Convert.class);
-        final Column column = field.getAnnotation(Column.class);
-
-        if (lob != null) {
-            // byte[] correspond to Blob and String correspond to Clob
-            java.lang.Class<?> c = parseType(field.asType().toString());
-            databaseType = (c.isArray() || c.isAssignableFrom(Blob.class)) ? Optional.of(Blob.class) : Optional.of(Clob.class);
-        } else if (temporal != null) {
-            databaseType = timeType(temporal.value());
-        } else if (column != null
-                && (column.columnDefinition().equals("TIME")
-                || column.columnDefinition().equals("DATE")
-                || column.columnDefinition().equals("TIMESTAMP"))) {
-            databaseType = timeType(column.columnDefinition());
-
-        } else {
-            // Derive database field type from converter
-            try {
-                if (convert != null) {
-                    convert.converter();
-                }
-            } catch (MirroredTypeException e) {
-                Optional<SimpleType> converterType = Optional.of(SimpleType.create(e.getTypeMirror().toString()));
-                java.lang.Class<?> c = parseType(converterType.get().getTypeName());
-                // Stream converter methods to retrieve database type
-                databaseType = Stream.of(c.getDeclaredMethods())
-                        .filter(m -> m.getName().equals("convertToDatabaseColumn")
-                                && !m.getReturnType().getSimpleName().equals("Object"))
-                        .map(m -> (Type) SimpleType.create(m.getReturnType().getTypeName()))
-                        .findFirst();
-            }
-        }
-        return databaseType.orElse(fieldType(field));
     }
 
     private Optional<Type> timeType(TemporalType temporalType) {
@@ -337,69 +254,40 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     }
 
     private Type primitiveFieldType(Type fieldType, Type entityType, java.lang.Class c) throws UnsupportedOperationException {
-        Type type;
+        java.lang.Class fieldClass;
         switch (c.getSimpleName()) {
             case "int":
-                type = SimpleParameterizedType.create(
-                        IntField.class,
-                        entityType,
-                        Integer.class
-                );
+                fieldClass = IntField.class;
                 break;
             case "byte":
-                type = SimpleParameterizedType.create(
-                        ByteField.class,
-                        entityType,
-                        Byte.class
-                );
+                fieldClass = ByteField.class;
                 break;
             case "short":
-                type = SimpleParameterizedType.create(
-                        ShortField.class,
-                        entityType,
-                        Short.class
-                );
+                fieldClass = ShortField.class;
                 break;
             case "long":
-                type = SimpleParameterizedType.create(
-                        LongField.class,
-                        entityType,
-                        Long.class
-                );
+                fieldClass = LongField.class;
                 break;
             case "float":
-                type = SimpleParameterizedType.create(
-                        FloatField.class,
-                        entityType,
-                        Float.class
-                );
+                fieldClass = FloatField.class;
                 break;
             case "double":
-                type = SimpleParameterizedType.create(
-                        DoubleField.class,
-                        entityType,
-                        Double.class
-                );
+                fieldClass = DoubleField.class;
                 break;
             case "char":
-                type = SimpleParameterizedType.create(
-                        CharField.class,
-                        entityType,
-                        Character.class
-                );
+                fieldClass = CharField.class;
                 break;
             case "boolean":
-                type = SimpleParameterizedType.create(
-                        BooleanField.class,
-                        entityType,
-                        Boolean.class
-                );
+                fieldClass = BooleanField.class;
                 break;
             default : throw new UnsupportedOperationException(
                     "Unknown primitive type: '" + fieldType.getTypeName() + "'."
             );
         }
-        return type;
+        return SimpleParameterizedType.create(
+                fieldClass,
+                entityType
+        );
     }
 
 }

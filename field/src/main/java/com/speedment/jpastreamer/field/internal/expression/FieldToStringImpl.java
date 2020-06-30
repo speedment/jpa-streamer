@@ -32,7 +32,7 @@ public final class FieldToStringImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, String, ToString<ENTITY>, Function<V, String>>
 implements FieldToString<ENTITY, V> {
 
-    public FieldToStringImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToStringImpl(ReferenceField<ENTITY, V> field,
                              Function<V, String> mapper) {
         super(field, mapper);
     }

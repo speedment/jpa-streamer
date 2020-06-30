@@ -25,19 +25,18 @@ import static com.speedment.jpastreamer.field.predicate.PredicateType.GREATER_TH
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class ReferenceGreaterThanPredicate<ENTITY, D, V extends Comparable<? super V>>
-extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
+public final class ReferenceGreaterThanPredicate<ENTITY, V extends Comparable<? super V>>
+extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, V>>
 implements HasArg0<V> {
     
     private final V value;
 
-    public ReferenceGreaterThanPredicate(HasReferenceValue<ENTITY, D, V> field, V value) {
+    public ReferenceGreaterThanPredicate(HasReferenceValue<ENTITY, V> field, V value) {
         super(GREATER_THAN, field, entity -> {
             final V fieldValue = field.get(entity);
             if (fieldValue == null || value == null) {
@@ -54,7 +53,7 @@ implements HasArg0<V> {
     }
 
     @Override
-    public ReferenceLessOrEqualPredicate<ENTITY, D, V> negate() {
+    public ReferenceLessOrEqualPredicate<ENTITY, V> negate() {
         return new ReferenceLessOrEqualPredicate<>(getField(), value);
     }
 }

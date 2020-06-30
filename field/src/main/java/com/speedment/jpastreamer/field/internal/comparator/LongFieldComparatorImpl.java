@@ -28,29 +28,28 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class LongFieldComparatorImpl<ENTITY, D>
+public final class LongFieldComparatorImpl<ENTITY>
 extends AbstractFieldComparator<ENTITY> 
-implements LongFieldComparator<ENTITY, D> {
+implements LongFieldComparator<ENTITY> {
     
-    private final HasLongValue<ENTITY, D> field;
+    private final HasLongValue<ENTITY> field;
     private final boolean reversed;
     
-    public LongFieldComparatorImpl(HasLongValue<ENTITY, D> field) {
+    public LongFieldComparatorImpl(HasLongValue<ENTITY> field) {
         this(field, false);
     }
     
-    LongFieldComparatorImpl(HasLongValue<ENTITY, D> field, boolean reversed) {
+    LongFieldComparatorImpl(HasLongValue<ENTITY> field, boolean reversed) {
         this.field    = requireNonNull(field);
         this.reversed = reversed;
     }
     
     @Override
-    public HasLongValue<ENTITY, D> getField() {
+    public HasLongValue<ENTITY> getField() {
         return field;
     }
     
@@ -65,7 +64,7 @@ implements LongFieldComparator<ENTITY, D> {
     }
     
     @Override
-    public LongFieldComparatorImpl<ENTITY, D> reversed() {
+    public LongFieldComparatorImpl<ENTITY> reversed() {
         return new LongFieldComparatorImpl<>(field, !reversed);
     }
     

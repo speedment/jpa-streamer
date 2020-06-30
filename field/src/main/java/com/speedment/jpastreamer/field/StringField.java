@@ -23,14 +23,11 @@ import com.speedment.jpastreamer.field.predicate.FieldIsNotNullPredicate;
 import com.speedment.jpastreamer.field.predicate.FieldIsNullPredicate;
 import com.speedment.jpastreamer.field.trait.HasStringOperators;
 
-import javax.persistence.AttributeConverter;
-
 /**
  * A field that represents a string column.
  * 
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
- * 
+ *
  * @author  Per Minborg
  * @author  Emil Forslund
  * @since   2.2.0
@@ -38,8 +35,8 @@ import javax.persistence.AttributeConverter;
  * @see  ComparableField
  * @see  HasStringOperators
  */
-public interface StringField<ENTITY, D> extends
-    ComparableField<ENTITY, D, String>,
+public interface StringField<ENTITY> extends
+    ComparableField<ENTITY, String>,
     HasStringOperators<ENTITY>,
     ToStringNullable<ENTITY> {
 
@@ -47,24 +44,21 @@ public interface StringField<ENTITY, D> extends
      * Creates a new {@link StringField} using the default implementation. 
      * 
      * @param <ENTITY>    the entity type
-     * @param <D>         the database type
      * @param table       the table that the field belongs to
      * @param columnName the name of the database column the field represents
      * @param getter      method reference to the getter in the entity
-     * @param attributeConverterClass  the attribute converter class
      * @param unique      represented column only contains unique values
      *
      * @return            the created field
      */
-    static <ENTITY, D> StringField<ENTITY, D> create(
+    static <ENTITY> StringField<ENTITY> create(
             Class<ENTITY> table,
             String columnName,
             ReferenceGetter<ENTITY, String> getter,
-            Class<? extends AttributeConverter<String, ? super D>> attributeConverterClass,
             boolean unique) {
         
         return new StringFieldImpl<>(
-                table, columnName, getter, attributeConverterClass, unique
+                table, columnName, getter, unique
         );
     }
 

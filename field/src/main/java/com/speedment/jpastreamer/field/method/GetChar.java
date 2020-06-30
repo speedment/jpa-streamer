@@ -23,17 +23,16 @@ import com.speedment.jpastreamer.field.trait.HasCharValue;
  * field that created it.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public interface GetChar<ENTITY, D> extends CharGetter<ENTITY> {
+public interface GetChar<ENTITY> extends CharGetter<ENTITY> {
     
     /**
      * Returns the field that created the {@code get()}-operation.
      * 
      * @return the field
      */
-    HasCharValue<ENTITY, D> getField();
+    HasCharValue<ENTITY> getField();
 }

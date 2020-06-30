@@ -21,39 +21,33 @@ import com.speedment.jpastreamer.field.ReferenceField;
 import com.speedment.jpastreamer.field.internal.predicate.reference.ReferenceIsNullPredicate;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
 
-import javax.persistence.AttributeConverter;
-
 import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> the entity type
- * @param <D>      the database type
  * @param <V>      the field value type
  * 
  * @author  Per Minborg
  * @author  Emil Forslund
  * @since   2.2.0
  */
-public final class ReferenceFieldImpl<ENTITY, D, V> 
-implements ReferenceField<ENTITY, D, V> {
+public final class ReferenceFieldImpl<ENTITY, V>
+implements ReferenceField<ENTITY, V> {
 
     private final Class<ENTITY> table;
     private final String columnName;
     private final ReferenceGetter<ENTITY, V> getter;
-    private final Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass;
     private final boolean unique;
 
     public ReferenceFieldImpl(
         final Class<ENTITY> table,
         final String columnName,
         final ReferenceGetter<ENTITY, V> getter,
-        final Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
         final boolean unique
     ) {
         this.table = requireNonNull(table);
         this.columnName = requireNonNull(columnName);
         this.getter     = requireNonNull(getter);
-        this.attributeConverterClass = attributeConverterClass;
         this.unique     = unique;
     }
 
@@ -71,11 +65,6 @@ implements ReferenceField<ENTITY, D, V> {
         return getter;
     }
 
-    @Override
-    public Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass() {
-        return attributeConverterClass;
-    }
-    
     @Override
     public boolean isUnique() {
         return unique;

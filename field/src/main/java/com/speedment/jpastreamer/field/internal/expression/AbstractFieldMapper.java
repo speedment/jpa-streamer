@@ -35,16 +35,16 @@ import static java.util.Objects.requireNonNull;
 abstract class AbstractFieldMapper<ENTITY, V, T, NON_NULLABLE extends Expression<ENTITY>, MAPPER>
 implements FieldMapper<ENTITY, V, T, NON_NULLABLE, MAPPER> {
 
-    final ReferenceField<ENTITY, ?, V> field;
+    final ReferenceField<ENTITY, V> field;
     final MAPPER mapper;
 
-    AbstractFieldMapper(ReferenceField<ENTITY, ?, V> field, MAPPER mapper) {
+    AbstractFieldMapper(ReferenceField<ENTITY, V> field, MAPPER mapper) {
         this.field  = requireNonNull(field);
         this.mapper = requireNonNull(mapper);
     }
 
     @Override
-    public ReferenceField<ENTITY, ?, V> getField() {
+    public ReferenceField<ENTITY, V> getField() {
         return field;
     }
 
@@ -67,10 +67,10 @@ implements FieldMapper<ENTITY, V, T, NON_NULLABLE, MAPPER> {
     implements FieldIsNullPredicate<ENTITY, T> {
 
         private final ToNullable<ENTITY, T, ?> expression;
-        private final ReferenceField<ENTITY, ?, V> field;
+        private final ReferenceField<ENTITY, V> field;
 
         MapperIsNull(ToNullable<ENTITY, T, ?> expression,
-                     ReferenceField<ENTITY, ?, V> field) {
+                     ReferenceField<ENTITY, V> field) {
             this.expression = requireNonNull(expression);
             this.field      = requireNonNull(field);
         }
@@ -100,10 +100,10 @@ implements FieldMapper<ENTITY, V, T, NON_NULLABLE, MAPPER> {
         implements FieldIsNotNullPredicate<ENTITY, T> {
 
         private final ToNullable<ENTITY, T, ?> expression;
-        private final ReferenceField<ENTITY, ?, V> field;
+        private final ReferenceField<ENTITY, V> field;
 
         MapperIsNotNull(ToNullable<ENTITY, T, ?> expression,
-                        ReferenceField<ENTITY, ?, V> field) {
+                        ReferenceField<ENTITY, V> field) {
             this.expression = requireNonNull(expression);
             this.field      = requireNonNull(field);
         }

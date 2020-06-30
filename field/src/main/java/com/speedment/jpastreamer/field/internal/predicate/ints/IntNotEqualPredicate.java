@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.trait.HasIntValue;
  * A predicate that evaluates if a value is {@code !=} a specified {@code int}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class IntNotEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY, D>>
+public final class IntNotEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasIntValue<ENTITY>>
 implements HasArg0<Integer> {
     
     private final int value;
     
-    public IntNotEqualPredicate(HasIntValue<ENTITY, D> field, int value) {
+    public IntNotEqualPredicate(HasIntValue<ENTITY> field, int value) {
         super(PredicateType.NOT_EQUAL, field, entity -> field.getAsInt(entity) != value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Integer> {
     }
     
     @Override
-    public IntEqualPredicate<ENTITY, D> negate() {
+    public IntEqualPredicate<ENTITY> negate() {
         return new IntEqualPredicate<>(getField(), value);
     }
 }

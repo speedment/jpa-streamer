@@ -31,7 +31,7 @@ public final class FieldToCharImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, Character, ToChar<ENTITY>, ToCharFunction<V>>
 implements FieldToChar<ENTITY, V> {
 
-    public FieldToCharImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToCharImpl(ReferenceField<ENTITY, V> field,
                            ToCharFunction<V> mapper) {
         super(field, mapper);
     }

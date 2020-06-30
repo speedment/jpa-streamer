@@ -28,29 +28,28 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class ByteFieldComparatorImpl<ENTITY, D>
+public final class ByteFieldComparatorImpl<ENTITY>
 extends AbstractFieldComparator<ENTITY> 
-implements ByteFieldComparator<ENTITY, D> {
+implements ByteFieldComparator<ENTITY> {
     
-    private final HasByteValue<ENTITY, D> field;
+    private final HasByteValue<ENTITY> field;
     private final boolean reversed;
     
-    public ByteFieldComparatorImpl(HasByteValue<ENTITY, D> field) {
+    public ByteFieldComparatorImpl(HasByteValue<ENTITY> field) {
         this(field, false);
     }
     
-    ByteFieldComparatorImpl(HasByteValue<ENTITY, D> field, boolean reversed) {
+    ByteFieldComparatorImpl(HasByteValue<ENTITY> field, boolean reversed) {
         this.field    = requireNonNull(field);
         this.reversed = reversed;
     }
     
     @Override
-    public HasByteValue<ENTITY, D> getField() {
+    public HasByteValue<ENTITY> getField() {
         return field;
     }
     
@@ -65,7 +64,7 @@ implements ByteFieldComparator<ENTITY, D> {
     }
     
     @Override
-    public ByteFieldComparatorImpl<ENTITY, D> reversed() {
+    public ByteFieldComparatorImpl<ENTITY> reversed() {
         return new ByteFieldComparatorImpl<>(field, !reversed);
     }
     

@@ -26,23 +26,22 @@ import static java.util.Objects.requireNonNull;
  * Default implementation of the {@link GetFloat}-interface.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public final class GetFloatImpl<ENTITY, D> implements GetFloat<ENTITY, D> {
+public final class GetFloatImpl<ENTITY> implements GetFloat<ENTITY> {
     
-    private final HasFloatValue<ENTITY, D> field;
+    private final HasFloatValue<ENTITY> field;
     private final FloatGetter<ENTITY> getter;
     
-    public GetFloatImpl(HasFloatValue<ENTITY, D> field, FloatGetter<ENTITY> getter) {
+    public GetFloatImpl(HasFloatValue<ENTITY> field, FloatGetter<ENTITY> getter) {
         this.field  = requireNonNull(field);
         this.getter = requireNonNull(getter);
     }
     
     @Override
-    public HasFloatValue<ENTITY, D> getField() {
+    public HasFloatValue<ENTITY> getField() {
         return field;
     }
     

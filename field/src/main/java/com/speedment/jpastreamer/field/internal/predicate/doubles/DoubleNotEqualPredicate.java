@@ -26,18 +26,17 @@ import com.speedment.jpastreamer.field.predicate.PredicateType;
  * double}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class DoubleNotEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY, D>>
+public final class DoubleNotEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasDoubleValue<ENTITY>>
 implements HasArg0<Double> {
     
     private final double value;
     
-    public DoubleNotEqualPredicate(HasDoubleValue<ENTITY, D> field, double value) {
+    public DoubleNotEqualPredicate(HasDoubleValue<ENTITY> field, double value) {
         super(PredicateType.NOT_EQUAL, field, entity -> field.getAsDouble(entity) != value);
         this.value = value;
     }
@@ -48,7 +47,7 @@ implements HasArg0<Double> {
     }
     
     @Override
-    public DoubleEqualPredicate<ENTITY, D> negate() {
+    public DoubleEqualPredicate<ENTITY> negate() {
         return new DoubleEqualPredicate<>(getField(), value);
     }
 }

@@ -24,16 +24,15 @@ import static com.speedment.jpastreamer.field.predicate.PredicateType.IS_NOT_EMP
 /**
  *
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author  Emil Forslund
  * @since   3.0.11
  */
-public final class StringIsNotEmptyPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, String>> {
+public final class StringIsNotEmptyPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, String>> {
 
     public StringIsNotEmptyPredicate(
-            final HasReferenceValue<ENTITY, D, String> field) {
+            final HasReferenceValue<ENTITY, String> field) {
 
         super(IS_NOT_EMPTY, field, entity -> {
             final String result = field.get(entity);
@@ -42,7 +41,7 @@ extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, String>> {
     }
 
     @Override
-    public StringIsEmptyPredicate<ENTITY, D> negate() {
+    public StringIsEmptyPredicate<ENTITY> negate() {
         return new StringIsEmptyPredicate<>(getField());
     }
 }

@@ -24,22 +24,21 @@ import static com.speedment.jpastreamer.field.predicate.PredicateType.IS_NULL;
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class ReferenceIsNullPredicate<ENTITY, D, V>
+public final class ReferenceIsNullPredicate<ENTITY, V>
 extends AbstractFieldPredicate<ENTITY,
-        HasReferenceValue<ENTITY, D, V>> {
+        HasReferenceValue<ENTITY, V>> {
 
-    public ReferenceIsNullPredicate(HasReferenceValue<ENTITY, D, V> field) {
+    public ReferenceIsNullPredicate(HasReferenceValue<ENTITY, V> field) {
         super(IS_NULL, field, entity -> entity == null || field.get(entity) == null);
     }
 
     @Override
-    public ReferenceIsNotNullPredicate<ENTITY, D, V> negate() {
+    public ReferenceIsNotNullPredicate<ENTITY, V> negate() {
         return new ReferenceIsNotNullPredicate<>(getField());
     }
 }

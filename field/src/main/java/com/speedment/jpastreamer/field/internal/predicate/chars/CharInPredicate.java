@@ -29,18 +29,17 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is included in a set of chars.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
 public final class CharInPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY, D>>
+extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY>>
 implements HasArg0<Set<Character>> {
     
     private final Set<Character> set;
     
-    public CharInPredicate(HasCharValue<ENTITY, D> field, Set<Character> set) {
+    public CharInPredicate(HasCharValue<ENTITY> field, Set<Character> set) {
         super(PredicateType.IN, field, entity -> set.contains(field.getAsChar(entity)));
         this.set = requireNonNull(set);
     }

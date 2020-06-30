@@ -24,14 +24,13 @@ import com.speedment.jpastreamer.field.method.ReferenceGetter;
  * {@code Integer} and not {@code int}).
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database value type
  * @param <V>       the field value type
  *
  * @author  Per Minborg
  * @author  Emil Forslund
  * @since   2.2.0
  */
-public interface HasReferenceValue<ENTITY, D, V> extends Field<ENTITY> {
+public interface HasReferenceValue<ENTITY, V> extends Field<ENTITY> {
 
     @Override
     ReferenceGetter<ENTITY, V> getter();

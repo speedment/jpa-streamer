@@ -23,12 +23,11 @@ import com.speedment.jpastreamer.field.trait.HasIntValue;
  * A {@link FieldComparator} that compares values of a {@link IntField}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface IntFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
+public interface IntFieldComparator<ENTITY> extends FieldComparator<ENTITY> {
     
     /**
      * Gets the field that is being compared.
@@ -36,8 +35,8 @@ public interface IntFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
      * @return the compared field
      */
     @Override
-    HasIntValue<ENTITY, D> getField();
+    HasIntValue<ENTITY> getField();
     
     @Override
-    IntFieldComparator<ENTITY, D> reversed();
+    IntFieldComparator<ENTITY> reversed();
 }

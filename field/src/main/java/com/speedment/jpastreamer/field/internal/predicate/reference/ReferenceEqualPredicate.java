@@ -27,19 +27,18 @@ import static com.speedment.jpastreamer.field.predicate.PredicateType.EQUAL;
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class ReferenceEqualPredicate<ENTITY, D, V extends Comparable<? super V>>
-extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, V>>
+public final class ReferenceEqualPredicate<ENTITY, V extends Comparable<? super V>>
+extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, V>>
 implements HasArg0<V> {
 
     private final V value;
 
-    public ReferenceEqualPredicate(HasReferenceValue<ENTITY, D, V> field, V value) {
+    public ReferenceEqualPredicate(HasReferenceValue<ENTITY, V> field, V value) {
         super(EQUAL, field, entity -> Objects.equals(field.get(entity), value));
         this.value = value;
     }
@@ -50,7 +49,7 @@ implements HasArg0<V> {
     }
 
     @Override
-    public ReferenceNotEqualPredicate<ENTITY, D, V> negate() {
+    public ReferenceNotEqualPredicate<ENTITY, V> negate() {
         return new ReferenceNotEqualPredicate<>(getField(), value);
     }
      

@@ -23,12 +23,11 @@ import com.speedment.jpastreamer.field.trait.HasBooleanValue;
  * A {@link FieldComparator} that compares values of a {@link BooleanField}.
  *
  * @param <ENTITY> entity type
- * @param <D>      database type
  *
  * @author Emil Forslund
  * @since  3.1.4
  */
-public interface BooleanFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
+public interface BooleanFieldComparator<ENTITY> extends FieldComparator<ENTITY> {
 
     /**
      * Gets the field that is being compared.
@@ -36,8 +35,8 @@ public interface BooleanFieldComparator<ENTITY, D> extends FieldComparator<ENTIT
      * @return the compared field
      */
     @Override
-    HasBooleanValue<ENTITY, D> getField();
+    HasBooleanValue<ENTITY> getField();
 
     @Override
-    BooleanFieldComparator<ENTITY, D> reversed();
+    BooleanFieldComparator<ENTITY> reversed();
 }

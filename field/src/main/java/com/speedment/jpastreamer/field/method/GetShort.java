@@ -23,17 +23,16 @@ import com.speedment.jpastreamer.field.trait.HasShortValue;
  * field that created it.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public interface GetShort<ENTITY, D> extends ShortGetter<ENTITY> {
+public interface GetShort<ENTITY> extends ShortGetter<ENTITY> {
     
     /**
      * Returns the field that created the {@code get()}-operation.
      * 
      * @return the field
      */
-    HasShortValue<ENTITY, D> getField();
+    HasShortValue<ENTITY> getField();
 }

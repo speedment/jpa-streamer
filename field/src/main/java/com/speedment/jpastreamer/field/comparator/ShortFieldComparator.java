@@ -23,12 +23,11 @@ import com.speedment.jpastreamer.field.trait.HasShortValue;
  * A {@link FieldComparator} that compares values of a {@link ShortField}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface ShortFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
+public interface ShortFieldComparator<ENTITY> extends FieldComparator<ENTITY> {
     
     /**
      * Gets the field that is being compared.
@@ -36,8 +35,8 @@ public interface ShortFieldComparator<ENTITY, D> extends FieldComparator<ENTITY>
      * @return the compared field
      */
     @Override
-    HasShortValue<ENTITY, D> getField();
+    HasShortValue<ENTITY> getField();
     
     @Override
-    ShortFieldComparator<ENTITY, D> reversed();
+    ShortFieldComparator<ENTITY> reversed();
 }

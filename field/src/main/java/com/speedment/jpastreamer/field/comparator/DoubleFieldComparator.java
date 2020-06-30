@@ -23,12 +23,11 @@ import com.speedment.jpastreamer.field.DoubleField;
  * A {@link FieldComparator} that compares values of a {@link DoubleField}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface DoubleFieldComparator<ENTITY, D> extends FieldComparator<ENTITY> {
+public interface DoubleFieldComparator<ENTITY> extends FieldComparator<ENTITY> {
     
     /**
      * Gets the field that is being compared.
@@ -36,8 +35,8 @@ public interface DoubleFieldComparator<ENTITY, D> extends FieldComparator<ENTITY
      * @return the compared field
      */
     @Override
-    HasDoubleValue<ENTITY, D> getField();
+    HasDoubleValue<ENTITY> getField();
     
     @Override
-    DoubleFieldComparator<ENTITY, D> reversed();
+    DoubleFieldComparator<ENTITY> reversed();
 }

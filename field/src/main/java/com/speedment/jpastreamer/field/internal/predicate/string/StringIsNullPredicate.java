@@ -28,12 +28,12 @@ import static java.util.Objects.requireNonNull;
  * @author Emil Forslund
  * @since  3.1.2
  */
-public final class StringIsNullPredicate<ENTITY, D>
+public final class StringIsNullPredicate<ENTITY>
 implements FieldIsNullPredicate<ENTITY, String> {
 
-    private final StringField<ENTITY, D> field;
+    private final StringField<ENTITY> field;
 
-    public StringIsNullPredicate(StringField<ENTITY, D> field) {
+    public StringIsNullPredicate(StringField<ENTITY> field) {
         this.field = requireNonNull(field);
     }
 

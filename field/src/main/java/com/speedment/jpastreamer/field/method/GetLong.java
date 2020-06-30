@@ -23,17 +23,16 @@ import com.speedment.jpastreamer.field.trait.HasLongValue;
  * field that created it.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public interface GetLong<ENTITY, D> extends LongGetter<ENTITY> {
+public interface GetLong<ENTITY> extends LongGetter<ENTITY> {
     
     /**
      * Returns the field that created the {@code get()}-operation.
      * 
      * @return the field
      */
-    HasLongValue<ENTITY, D> getField();
+    HasLongValue<ENTITY> getField();
 }

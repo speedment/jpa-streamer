@@ -23,15 +23,14 @@ import com.speedment.jpastreamer.field.method.GetShort;
  * A representation of an Entity field that is a primitive {@code short} type.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasShortValue<ENTITY, D> extends Field<ENTITY> {
+public interface HasShortValue<ENTITY> extends Field<ENTITY> {
     
     @Override
-    GetShort<ENTITY, D> getter();
+    GetShort<ENTITY> getter();
 
     /**
      * Gets the value from the Entity field.

@@ -23,17 +23,16 @@ import com.speedment.jpastreamer.field.trait.HasIntValue;
  * field that created it.
  * 
  * @param <ENTITY> the entity type
- * @param <D>      the database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.2
  */
-public interface GetInt<ENTITY, D> extends IntGetter<ENTITY> {
+public interface GetInt<ENTITY> extends IntGetter<ENTITY> {
     
     /**
      * Returns the field that created the {@code get()}-operation.
      * 
      * @return the field
      */
-    HasIntValue<ENTITY, D> getField();
+    HasIntValue<ENTITY> getField();
 }

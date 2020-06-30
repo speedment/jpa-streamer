@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  * @since  3.0.11
  */
 public final class ShortNotBetweenPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY, D>> 
+extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY>>
 implements HasInclusion,
         HasArg0<Short>,
         HasArg1<Short> {
@@ -46,7 +46,7 @@ implements HasInclusion,
     private final Inclusion inclusion;
     
     public ShortNotBetweenPredicate(
-            HasShortValue<ENTITY, D> field,
+            HasShortValue<ENTITY> field,
             short start,
             short end,
             Inclusion inclusion) {

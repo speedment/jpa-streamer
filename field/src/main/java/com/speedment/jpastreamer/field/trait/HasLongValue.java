@@ -23,15 +23,14 @@ import com.speedment.jpastreamer.field.Field;
  * A representation of an Entity field that is a primitive {@code long} type.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public interface HasLongValue<ENTITY, D> extends Field<ENTITY> {
+public interface HasLongValue<ENTITY> extends Field<ENTITY> {
     
     @Override
-    GetLong<ENTITY, D> getter();
+    GetLong<ENTITY> getter();
 
     /**
      * Gets the value from the Entity field.

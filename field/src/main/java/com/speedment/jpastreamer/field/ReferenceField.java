@@ -21,13 +21,11 @@ import com.speedment.jpastreamer.field.exception.SpeedmentFieldException;
 import com.speedment.jpastreamer.field.internal.ReferenceFieldImpl;
 import com.speedment.jpastreamer.field.internal.expression.*;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
-import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasReferenceOperators;
 import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 import com.speedment.runtime.compute.*;
 import com.speedment.runtime.compute.trait.HasMapToDoubleIfPresent;
 
-import javax.persistence.AttributeConverter;
 import java.math.BigDecimal;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
@@ -40,7 +38,6 @@ import static java.lang.String.format;
  * A field that represents an object value.
  * 
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the field value type
  * 
  * @author  Per Minborg
@@ -51,37 +48,32 @@ import static java.lang.String.format;
  * @see  HasReferenceOperators
  * @see  HasReferenceValue
  */
-public interface ReferenceField<ENTITY, D, V> 
+public interface ReferenceField<ENTITY, V>
 extends Field<ENTITY>, 
         HasReferenceOperators<ENTITY>,
-        HasReferenceValue<ENTITY, D, V>,
-        HasMapToDoubleIfPresent<ENTITY, ToDoubleFunction<V>>,
-        HasAttributeConverterClass<V, D>
-{
+        HasReferenceValue<ENTITY, V>,
+        HasMapToDoubleIfPresent<ENTITY, ToDoubleFunction<V>> {
     
     /**
      * Creates a new {@link ReferenceField} using the default implementation. 
      * 
      * @param <ENTITY>    the entity type
-     * @param <D>         the database type
      * @param <V>         the field value type
      * @param table  the column that this field represents
      * @param columnName the name of the database column the field represents
      * @param getter      method reference to the getter in the entity
-     * @param attributeConverterClass  the type mapper that is applied
      * @param unique      represented column only contains unique values
      *
      * @return the created field
      */
-    static <ENTITY, D, V> ReferenceField<ENTITY, D, V> create(
+    static <ENTITY, V> ReferenceField<ENTITY, V> create(
             Class<ENTITY> table,
             String columnName,
             ReferenceGetter<ENTITY, V> getter,
-            Class<? extends AttributeConverter<? super V, ? super D>> attributeConverterClass,
             boolean unique) {
         
         return new ReferenceFieldImpl<>(
-                table, columnName, getter, attributeConverterClass, unique
+                table, columnName, getter, unique
         );
     }
 

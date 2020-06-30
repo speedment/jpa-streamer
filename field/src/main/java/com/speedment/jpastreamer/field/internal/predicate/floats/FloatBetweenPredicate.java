@@ -30,13 +30,12 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is between two floats.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class FloatBetweenPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY, D>>
+public final class FloatBetweenPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasFloatValue<ENTITY>>
 implements HasInclusion,
         HasArg0<Float>,
         HasArg1<Float> {
@@ -46,7 +45,7 @@ implements HasInclusion,
     private final Inclusion inclusion;
     
     public FloatBetweenPredicate(
-            HasFloatValue<ENTITY, D> field,
+            HasFloatValue<ENTITY> field,
             float start,
             float end,
             Inclusion inclusion) {
@@ -91,7 +90,7 @@ implements HasInclusion,
     }
     
     @Override
-    public FloatNotBetweenPredicate<ENTITY, D> negate() {
+    public FloatNotBetweenPredicate<ENTITY> negate() {
         return new FloatNotBetweenPredicate<>(getField(), start, end, inclusion);
     }
 }

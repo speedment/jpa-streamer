@@ -29,18 +29,17 @@ import static java.util.Objects.requireNonNull;
  * A predicate that evaluates if a value is not included in a set of shorts.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.11
  */
-public final class ShortNotInPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY, D>> 
+public final class ShortNotInPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasShortValue<ENTITY>>
 implements HasArg0<Set<Short>> {
     
     private final Set<Short> set;
     
-    public ShortNotInPredicate(HasShortValue<ENTITY, D> field, Set<Short> set) {
+    public ShortNotInPredicate(HasShortValue<ENTITY> field, Set<Short> set) {
         super(PredicateType.NOT_IN, field, entity -> !set.contains(field.getAsShort(entity)));
         this.set = requireNonNull(set);
     }
@@ -51,7 +50,7 @@ implements HasArg0<Set<Short>> {
     }
     
     @Override
-    public ShortInPredicate<ENTITY, D> negate() {
+    public ShortInPredicate<ENTITY> negate() {
         return new ShortInPredicate<>(getField(), set);
     }
 }

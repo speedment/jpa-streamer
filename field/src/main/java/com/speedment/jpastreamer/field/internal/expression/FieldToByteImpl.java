@@ -31,7 +31,7 @@ public final class FieldToByteImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, Byte, ToByte<ENTITY>, ToByteFunction<V>>
 implements FieldToByte<ENTITY, V> {
 
-    public FieldToByteImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToByteImpl(ReferenceField<ENTITY, V> field,
                            ToByteFunction<V> mapper) {
         super(field, mapper);
     }

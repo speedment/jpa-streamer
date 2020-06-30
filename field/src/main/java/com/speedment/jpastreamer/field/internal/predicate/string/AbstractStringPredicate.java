@@ -32,14 +32,14 @@ import java.util.function.Predicate;
  * @author Per Minborg
  * @since  2.2.0
  */
-abstract class AbstractStringPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, D, String>>
+abstract class AbstractStringPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasReferenceValue<ENTITY, String>>
 implements HasArg0<String> {
 
     private final String operand;
 
     AbstractStringPredicate(PredicateType predicateType,
-            final HasReferenceValue<ENTITY, D, String> field,
+            final HasReferenceValue<ENTITY, String> field,
             final String operand,
             final Predicate<ENTITY> tester) {
 

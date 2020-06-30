@@ -32,7 +32,7 @@ public final class FieldToLongImpl<ENTITY, V>
 extends AbstractFieldMapper<ENTITY, V, Long, ToLong<ENTITY>, ToLongFunction<V>>
 implements FieldToLong<ENTITY, V> {
 
-    public FieldToLongImpl(ReferenceField<ENTITY, ?, V> field,
+    public FieldToLongImpl(ReferenceField<ENTITY, V> field,
                            ToLongFunction<V> mapper) {
         super(field, mapper);
     }

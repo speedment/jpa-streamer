@@ -25,18 +25,17 @@ import com.speedment.jpastreamer.field.trait.HasCharValue;
  * A predicate that evaluates if a value is {@code <=} a specified {@code char}.
  * 
  * @param <ENTITY> entity type
- * @param <D>      database type
- * 
+ *
  * @author Emil Forslund
  * @since  3.0.0
  */
-public final class CharLessOrEqualPredicate<ENTITY, D>
-extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY, D>> 
+public final class CharLessOrEqualPredicate<ENTITY>
+extends AbstractFieldPredicate<ENTITY, HasCharValue<ENTITY>>
 implements HasArg0<Character> {
     
     private final char value;
     
-    public CharLessOrEqualPredicate(HasCharValue<ENTITY, D> field, char value) {
+    public CharLessOrEqualPredicate(HasCharValue<ENTITY> field, char value) {
         super(PredicateType.LESS_OR_EQUAL, field, entity -> field.getAsChar(entity) <= value);
         this.value = value;
     }
@@ -47,7 +46,7 @@ implements HasArg0<Character> {
     }
     
     @Override
-    public CharGreaterThanPredicate<ENTITY, D> negate() {
+    public CharGreaterThanPredicate<ENTITY> negate() {
         return new CharGreaterThanPredicate<>(getField(), value);
     }
 }

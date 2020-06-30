@@ -22,13 +22,12 @@ import com.speedment.jpastreamer.field.ComparableField;
  * A {@link FieldComparator} that compares values of a {@link ComparableField}.
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
  * 
  * @author  Per Minborg
  * @since   3.1.4
  */
-public interface ReferenceFieldComparator<ENTITY, D, V extends Comparable<? super V>>
+public interface ReferenceFieldComparator<ENTITY, V extends Comparable<? super V>>
 extends FieldComparator<ENTITY> {
 
     /**
@@ -37,6 +36,6 @@ extends FieldComparator<ENTITY> {
      * @return  the compared field
      */
     @Override
-    ComparableField<ENTITY, D, V> getField();
+    ComparableField<ENTITY, V> getField();
 
 }

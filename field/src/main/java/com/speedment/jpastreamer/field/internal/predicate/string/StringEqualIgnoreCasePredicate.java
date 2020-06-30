@@ -23,16 +23,15 @@ import com.speedment.jpastreamer.field.trait.HasReferenceValue;
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
- * 
+ *                *
  * @author  Per Minborg
  * @since   2.2.0
  */
-public final class StringEqualIgnoreCasePredicate<ENTITY, D>
-extends AbstractStringPredicate<ENTITY, D> {
+public final class StringEqualIgnoreCasePredicate<ENTITY>
+extends AbstractStringPredicate<ENTITY> {
 
     public StringEqualIgnoreCasePredicate(
-            final HasReferenceValue<ENTITY, D, String> field,
+            final HasReferenceValue<ENTITY, String> field,
             final String lowerCase) {
 
         super(PredicateType.EQUAL_IGNORE_CASE, field, lowerCase, entity -> {
@@ -43,7 +42,7 @@ extends AbstractStringPredicate<ENTITY, D> {
     }
 
     @Override
-    public StringNotEqualIgnoreCasePredicate<ENTITY, D> negate() {
+    public StringNotEqualIgnoreCasePredicate<ENTITY> negate() {
         return new StringNotEqualIgnoreCasePredicate<>(getField(), get0());
     }
 }
