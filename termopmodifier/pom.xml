@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>termopmod</artifactId>
+    <artifactId>termopmodifier</artifactId>
 
     <properties>
-        <module-name>jpastreamer.termopmod</module-name>
+        <module-name>jpastreamer.termopmodifier</module-name>
     </properties>
 
     <name>TerminalOperationModifier</name>
