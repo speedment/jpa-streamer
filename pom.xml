@@ -58,6 +58,7 @@
         <module>merger</module>
         <module>criteria</module>
         <module>termopmod</module>
+        <module>termopoptimizer</module>
         <module>provider</module>
     </modules>
     
