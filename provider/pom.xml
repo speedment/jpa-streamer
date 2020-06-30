@@ -27,6 +27,7 @@
         <module>fieldgenerator-standard-test</module>
         <module>fieldgenerator-standard-component</module>
         <module>typeparser-standard</module>
+        <module>termopmodifier-standard</module>
     </modules>
 
 </project>
