@@ -57,7 +57,8 @@
         <module>preoptimizer</module>
         <module>merger</module>
         <module>criteria</module>
-
+        <module>termopmodifier</module>
+        <module>termopoptimizer</module>
         <module>provider</module>
         <module>fieldgenerator</module>
     </modules>
