@@ -23,6 +23,8 @@
         <module>preoptimizer-standard</module>
         <module>merger-standard</module>
         <module>criteria-standard</module>
+        <module>termopmodifier-standard</module>
+        <module>termopoptimizer-standard</module>
     </modules>
 
 </project>
