@@ -60,15 +60,13 @@ public enum FilterCriteriaModifier implements CriteriaModifier {
             return;
         }
 
-        final Optional<SpeedmentPredicate<T>> optionalPredicate = getPredicate(operation);
-
-        if (optionalPredicate.isPresent()) {
-            final Predicate predicate = predicateFactory.createPredicate(criteria, optionalPredicate.get());
+        this.<T>getPredicate(operation).ifPresent(speedmentPredicate -> {
+            final Predicate predicate = predicateFactory.createPredicate(criteria, speedmentPredicate);
             criteria.getQuery().where(predicate);
 
             mergingTracker.markAsMerged(operationType);
             mergingTracker.markForRemoval(operationReference.index());
-        }
+        });
     }
     @SuppressWarnings("unchecked")
     private <T> Optional<SpeedmentPredicate<T>> getPredicate(final IntermediateOperation<?, ?> operation) {
