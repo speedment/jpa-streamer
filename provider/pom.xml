@@ -21,12 +21,8 @@
         <module>pipeline-standard</module>
         <module>renderer-standard</module>
         <module>preoptimizer-standard</module>
-        <module>fieldgenerator-standard</module>
         <module>merger-standard</module>
         <module>criteria-standard</module>
-        <module>fieldgenerator-standard-test</module>
-        <module>fieldgenerator-standard-component</module>
-        <module>typeparser-standard</module>
     </modules>
 
 </project>

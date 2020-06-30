@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fieldgenerator</artifactId>
+        <groupId>com.speedment.jpastreamer</groupId>
+        <version>0.1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fieldgenerator-standard</artifactId>
+
+    <properties>
+        <module-name>jpastreamer.fieldgenerator.standard</module-name>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <auto-service.version>1.0-rc7</auto-service.version>
+    </properties>
+
+    <name>FieldGenerator</name>
+    <description>
+        Annotation processor which generates field representations for JPA entities.
+    </description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.common</groupId>
+            <artifactId>codegen</artifactId>
+            <version>${speedment-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>typeparser-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service-annotations</artifactId>
+            <version>${auto-service.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.testing.compile</groupId>
+            <artifactId>compile-testing</artifactId>
+            <version>0.18</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.speedment.common</groupId>
+                <artifactId>common-all</artifactId>
+                <version>${speedment-version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.google.auto.service</groupId>
+                            <artifactId>auto-service</artifactId>
+                            <version>${auto-service.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+</project>
