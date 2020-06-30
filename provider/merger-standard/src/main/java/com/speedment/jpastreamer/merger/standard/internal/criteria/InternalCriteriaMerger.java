@@ -18,6 +18,7 @@ package com.speedment.jpastreamer.merger.standard.internal.criteria;
 
 import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.DISTINCT;
 import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.FILTER;
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.SORTED;
 import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.criteria.Criteria;
@@ -27,6 +28,7 @@ import com.speedment.jpastreamer.merger.standard.internal.criteria.result.Intern
 import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.DistinctCriteriaModifier;
 import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.FilterCriteriaModifier;
 import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.CriteriaModifier;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.SortedCriteriaModifier;
 import com.speedment.jpastreamer.merger.standard.internal.reference.IntermediateOperationReference;
 import com.speedment.jpastreamer.merger.standard.internal.tracker.MergingTracker;
 import com.speedment.jpastreamer.pipeline.Pipeline;
@@ -45,6 +47,7 @@ public final class InternalCriteriaMerger implements CriteriaMerger {
     public InternalCriteriaMerger() {
         registerMergingStrategy(FILTER, FilterCriteriaModifier.INSTANCE);
         registerMergingStrategy(DISTINCT, DistinctCriteriaModifier.INSTANCE);
+        registerMergingStrategy(SORTED, SortedCriteriaModifier.INSTANCE);
     }
 
     @Override
