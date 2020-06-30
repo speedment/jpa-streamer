@@ -111,7 +111,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         }
 
         File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);
-        writer.write(new JavaGenerator().on(file).get());
+        writer.write(generator.on(file).get());
     }
 
     private File generatedEntity(Set<? extends Element> enclosedFields, String entityName, String genEntityName, String packageName) {
@@ -137,7 +137,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     private void addFieldToClass(Element field, Class clazz, String entityName) {
         String fieldName = field.getSimpleName().toString();
-        Column col = field.getAnnotation(Column.class);
 
         java.lang.Class fieldClass;
         try {
@@ -155,8 +154,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         // Add table entity
         fieldParams.add(Value.ofReference(entityName + ".class"));
 
-        // Add db column name if stated, else fall back on entity field name
-        fieldParams.add(Value.ofText((col != null && !col.name().isEmpty()) ? col.name() : fieldName));
+        // Add the attribute name
+        fieldParams.add(Value.ofText(fieldName));
 
         // Add getter method reference
         fieldParams.add(Value.ofReference(
@@ -169,14 +168,10 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             fieldParams.add(Value.ofReference(fieldTypeName + ".class"));
         } else {
             // Add the 'unique' boolean to the end for all field but enum
+            Column col = field.getAnnotation(Column.class);
             fieldParams.add(Value.ofBoolean(col != null && col.unique()));
         }
 
-        Field field1 = Field.of(fieldName, referenceType);
-        FieldView fieldView = new FieldView();
-        Optional<String> output = fieldView.transform(generator, field1);
-
-        messager.printMessage(Diagnostic.Kind.NOTE, "Rendering reference type to: " + output + " for field with name: " + field.getSimpleName());
         clazz.add(Field.of(fieldName, referenceType)
                 .public_().static_().final_()
                 .set(Value.ofInvocation(
