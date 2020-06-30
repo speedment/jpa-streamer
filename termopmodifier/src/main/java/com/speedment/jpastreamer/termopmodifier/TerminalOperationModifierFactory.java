@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.termopmod;
+package com.speedment.jpastreamer.termopmodifier;
 
 @FunctionalInterface
 public interface TerminalOperationModifierFactory {

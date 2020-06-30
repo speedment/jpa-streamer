@@ -14,8 +14,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-module jpastreamer.termopmod {
+module jpastreamer.termopmodifier {
     requires transitive jpastreamer.pipeline;
 
-    exports com.speedment.jpastreamer.termopmod;
+    exports com.speedment.jpastreamer.termopmodifier;
 }

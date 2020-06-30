@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.termopmod;
+package com.speedment.jpastreamer.termopmodifier;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
