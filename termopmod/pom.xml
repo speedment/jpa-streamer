@@ -15,7 +15,7 @@
         <module-name>jpastreamer.termopmod</module-name>
     </properties>
 
-    <name>Terminal Operation Modifier</name>
+    <name>TerminalOperationModifier</name>
     <description>
         Terminal Operator Modifier
     </description>
