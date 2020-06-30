@@ -14,21 +14,21 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.criteria.standard.internal.predicate;
+package com.speedment.jpastreamer.criteria.standard.internal.order;
 
 import com.speedment.jpastreamer.criteria.Criteria;
-import com.speedment.jpastreamer.field.predicate.FieldPredicate;
+import com.speedment.jpastreamer.field.comparator.FieldComparator;
 
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Order;
 
-public interface PredicateMapper {
+public interface OrderMapper {
 
-    <T> Predicate mapPredicate(
+    <T> Order mapOrder(
         final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+        final FieldComparator<? super T> fieldComparator
     );
 
-    static PredicateMapper createPredicateMapper() {
-        return new DefaultPredicateMapper();
+    static OrderMapper createOrderMapper() {
+        return new DefaultOrderMapper();
     }
 }
