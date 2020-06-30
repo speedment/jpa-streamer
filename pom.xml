@@ -1005,6 +1005,30 @@
             </dependency>
 
             <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>termopmodifier</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>termopmodifier-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>termopoptimizer</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>termopoptimizer-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>javax.persistence</groupId>
                 <artifactId>javax.persistence-api</artifactId>
                 <version>${jpa.version}</version>

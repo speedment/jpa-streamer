@@ -30,7 +30,7 @@ import javax.persistence.criteria.Predicate;
 
 public final class InternalPredicateFactory implements PredicateFactory {
 
-    private final PredicateMapper predicateMapper = PredicateMapper.getInstance();
+    private final PredicateMapper predicateMapper = PredicateMapper.createPredicateMapper();
 
     @Override
     @SuppressWarnings("unchecked")

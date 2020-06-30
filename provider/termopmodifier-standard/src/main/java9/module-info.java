@@ -1,4 +1,5 @@
 /*
+ *
  * Copyright (c) 2006-2020, Speedment, Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); You may not
@@ -13,22 +14,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+module jpastreamer.termopmodifier.standard {
+    requires transitive jpastreamer.termopmodifier;
 
-package com.speedment.jpastreamer.criteria.standard.internal.predicate;
+    exports com.speedment.jpastreamer.termopmodifier.standard;
 
-import com.speedment.jpastreamer.criteria.Criteria;
-import com.speedment.jpastreamer.field.predicate.FieldPredicate;
-
-import javax.persistence.criteria.Predicate;
-
-public interface PredicateMapper {
-
-    <T> Predicate mapPredicate(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
-    );
-
-    static PredicateMapper createPredicateMapper() {
-        return new DefaultPredicateMapper();
-    }
+    // Todo: Enable this
+    // provides com.speedment.jpastreamer.application.JpaStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJpaStreamBuilderFactory;
 }

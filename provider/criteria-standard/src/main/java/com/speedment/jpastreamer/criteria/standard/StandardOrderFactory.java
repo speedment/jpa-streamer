@@ -14,21 +14,25 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.criteria.standard.internal.predicate;
+package com.speedment.jpastreamer.criteria.standard;
 
 import com.speedment.jpastreamer.criteria.Criteria;
-import com.speedment.jpastreamer.field.predicate.FieldPredicate;
+import com.speedment.jpastreamer.criteria.OrderFactory;
+import com.speedment.jpastreamer.criteria.standard.internal.InternalOrderFactory;
 
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Order;
+import java.util.Comparator;
+import java.util.List;
 
-public interface PredicateMapper {
+public final class StandardOrderFactory implements OrderFactory {
 
-    <T> Predicate mapPredicate(
+    private final OrderFactory delegate = new InternalOrderFactory();
+
+    @Override
+    public <T> List<Order> createOrder(
         final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
-    );
-
-    static PredicateMapper createPredicateMapper() {
-        return new DefaultPredicateMapper();
+        final Comparator<T> comparator
+    ) {
+        return delegate.createOrder(criteria, comparator);
     }
 }
