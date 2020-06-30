@@ -1,6 +1,6 @@
-# jpa-streamer
+# JPA Streamer
 
-JpaStreamer is a lightweight toolkit for creating Java Streams from database content using any JPA provider such as Hibernate.
+JPA Streamer is a lightweight toolkit for creating Java Streams from database content using any JPA provider such as Hibernate.
 
 ## Initializing JPA Streamer
 

@@ -16,72 +16,60 @@
 
 package com.speedment.jpastreamer.merger.standard.internal.criteria.strategy;
 
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.*;
 import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.PredicateFactory;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-import com.speedment.jpastreamer.merger.CriteriaMerger;
-import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
-import com.speedment.jpastreamer.merger.standard.internal.criteria.result.InternalCriteriaMergeResult;
-import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.merger.standard.internal.reference.IntermediateOperationReference;
+import com.speedment.jpastreamer.merger.standard.internal.tracker.MergingTracker;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 
 import javax.persistence.criteria.Predicate;
-import java.util.List;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
-public enum FilterCriteriaMerger implements CriteriaMerger {
+public enum FilterCriteriaModifier implements CriteriaModifier {
 
     INSTANCE;
 
     private final PredicateFactory predicateFactory;
 
-    FilterCriteriaMerger() {
+    FilterCriteriaModifier() {
         this.predicateFactory = RootFactory.getOrThrow(PredicateFactory.class, ServiceLoader::load);
     }
 
     @Override
-    public <T> CriteriaMergeResult<T> merge(
-        final Pipeline<T> pipeline,
-        final Criteria<T> criteria
+    public <T> void modifyCriteria(
+        final IntermediateOperationReference operationReference,
+        final Criteria<T> criteria,
+        final MergingTracker mergingTracker
     ) {
-        requireNonNull(pipeline);
+        requireNonNull(operationReference);
         requireNonNull(criteria);
+        requireNonNull(mergingTracker);
 
-        final List<IntermediateOperation<?, ?>> operations = pipeline.intermediateOperations();
+        final IntermediateOperation<?, ?> operation = operationReference.get();
 
-        Integer filterIndex = null;
+        final IntermediateOperationType operationType = operation.type();
 
-        for (int i = 0; i < operations.size(); i++) {
-            final IntermediateOperation<?, ?> operation = operations.get(i);
-
-            if (operation.type() != IntermediateOperationType.FILTER) {
-                continue;
-            }
-
-            final Optional<SpeedmentPredicate<T>> optionalPredicate = getPredicate(operation);
-
-            if (optionalPredicate.isPresent()) {
-                final Predicate predicate = predicateFactory.createPredicate(criteria, optionalPredicate.get());
-                criteria.getQuery().where(predicate);
-
-                filterIndex = i;
-            }
-
-            break;
+        if (operationType != FILTER) {
+            return;
         }
 
-        if (filterIndex != null) {
-            operations.remove((int) filterIndex);
-        }
+        final Optional<SpeedmentPredicate<T>> optionalPredicate = getPredicate(operation);
 
-        return new InternalCriteriaMergeResult<>(pipeline, criteria);
+        if (optionalPredicate.isPresent()) {
+            final Predicate predicate = predicateFactory.createPredicate(criteria, optionalPredicate.get());
+            criteria.getQuery().where(predicate);
+
+            mergingTracker.markAsMerged(operationType);
+            mergingTracker.markForRemoval(operationReference.index());
+        }
     }
-
     @SuppressWarnings("unchecked")
     private <T> Optional<SpeedmentPredicate<T>> getPredicate(final IntermediateOperation<?, ?> operation) {
         final Object[] arguments = operation.arguments();

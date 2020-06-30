@@ -16,24 +16,34 @@
 
 package com.speedment.jpastreamer.merger.standard.internal.query;
 
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.LIMIT;
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.SKIP;
 import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.merger.result.QueryMergeResult;
 import com.speedment.jpastreamer.merger.standard.internal.query.result.InternalQueryMergeResult;
-import com.speedment.jpastreamer.merger.standard.internal.query.strategy.SkipLimitMerger;
+import com.speedment.jpastreamer.merger.standard.internal.query.strategy.QueryModifier;
+import com.speedment.jpastreamer.merger.standard.internal.query.strategy.SkipLimitModifier;
+import com.speedment.jpastreamer.merger.standard.internal.reference.IntermediateOperationReference;
+import com.speedment.jpastreamer.merger.standard.internal.tracker.MergingTracker;
 import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 
 import javax.persistence.Query;
-import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class InternalQueryMerger implements QueryMerger {
 
-    private final List<QueryMerger> mergingStrategies = new ArrayList<>();
+    private final Map<IntermediateOperationType, QueryModifier> mergingStrategies = new HashMap<>();
 
     public InternalQueryMerger() {
-        registerMergingStrategy(SkipLimitMerger.INSTANCE);
+        registerMergingStrategy(SKIP, SkipLimitModifier.INSTANCE);
+        registerMergingStrategy(LIMIT, SkipLimitModifier.INSTANCE);
     }
 
     @Override
@@ -41,16 +51,39 @@ public final class InternalQueryMerger implements QueryMerger {
         requireNonNull(pipeline);
         requireNonNull(query);
 
-        QueryMergeResult<T> result = new InternalQueryMergeResult<>(pipeline, query);
+        final MergingTracker mergingTracker = MergingTracker.createTracker();
 
-        for (QueryMerger merger : mergingStrategies) {
-            result = merger.merge(result.getPipeline(), result.getQuery());
+        final List<IntermediateOperation<?, ?>> intermediateOperations = pipeline.intermediateOperations();
+
+        for (int i = 0; i < intermediateOperations.size(); i++) {
+            final IntermediateOperation<?, ?> operation = intermediateOperations.get(i);
+            final IntermediateOperationType operationType = operation.type();
+
+            if (mergingTracker.mergedOperations().contains(operationType)) {
+                continue;
+            }
+
+            final QueryModifier queryModifier = mergingStrategies.get(operationType);
+
+            if (queryModifier == null) {
+                continue;
+            }
+
+            final IntermediateOperationReference operationReference =
+                    IntermediateOperationReference.createReference(operation, i, intermediateOperations);
+
+            queryModifier.modifyQuery(operationReference, query, mergingTracker);
         }
 
-        return result;
+        mergingTracker.forRemoval()
+            .stream()
+            .sorted(Comparator.reverseOrder())
+            .forEach(idx -> intermediateOperations.remove((int) idx));
+
+        return new InternalQueryMergeResult<>(pipeline, query);
     }
 
-    private void registerMergingStrategy(final QueryMerger queryMerger) {
-        mergingStrategies.add(queryMerger);
+    private void registerMergingStrategy(final IntermediateOperationType operationType, final QueryModifier queryModifier) {
+        mergingStrategies.put(operationType, queryModifier);
     }
 }

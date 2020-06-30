@@ -16,28 +16,32 @@
 
 package com.speedment.jpastreamer.merger.standard.internal.criteria;
 
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.FILTER;
 import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
 import com.speedment.jpastreamer.merger.standard.internal.criteria.result.InternalCriteriaMergeResult;
-import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.FilterCriteriaMerger;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.FilterCriteriaModifier;
+import com.speedment.jpastreamer.merger.standard.internal.criteria.strategy.CriteriaModifier;
+import com.speedment.jpastreamer.merger.standard.internal.reference.IntermediateOperationReference;
+import com.speedment.jpastreamer.merger.standard.internal.tracker.MergingTracker;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public final class InternalCriteriaMerger implements CriteriaMerger {
 
-    private final List<CriteriaMerger> mergingStrategies = new ArrayList<>();
+    private final Map<IntermediateOperationType, CriteriaModifier> mergingStrategies = new HashMap<>();
 
     public InternalCriteriaMerger() {
-        registerMergingStrategy(FilterCriteriaMerger.INSTANCE);
+        registerMergingStrategy(FILTER, FilterCriteriaModifier.INSTANCE);
     }
 
     @Override
@@ -48,16 +52,39 @@ public final class InternalCriteriaMerger implements CriteriaMerger {
         requireNonNull(pipeline);
         requireNonNull(criteria);
 
-        CriteriaMergeResult<T> result = new InternalCriteriaMergeResult<>(pipeline, criteria);
+        final MergingTracker mergingTracker = MergingTracker.createTracker();
 
-        for (CriteriaMerger merger : mergingStrategies) {
-            result = merger.merge(result.getPipeline(), result.getCriteria());
+        final List<IntermediateOperation<?, ?>> intermediateOperations = pipeline.intermediateOperations();
+
+        for (int i = 0; i < intermediateOperations.size(); i++) {
+            final IntermediateOperation<?, ?> operation = intermediateOperations.get(i);
+            final IntermediateOperationType operationType = operation.type();
+
+            if (mergingTracker.mergedOperations().contains(operationType)) {
+                continue;
+            }
+
+            final CriteriaModifier criteriaModifier = mergingStrategies.get(operationType);
+
+            if (criteriaModifier == null) {
+                continue;
+            }
+
+            final IntermediateOperationReference operationReference =
+                    IntermediateOperationReference.createReference(operation, i, intermediateOperations);
+
+            criteriaModifier.modifyCriteria(operationReference, criteria, mergingTracker);
         }
 
-        return result;
+        mergingTracker.forRemoval()
+            .stream()
+            .sorted(Comparator.reverseOrder())
+            .forEach(idx -> intermediateOperations.remove((int) idx));
+
+        return new InternalCriteriaMergeResult<>(pipeline, criteria);
     }
 
-    private void registerMergingStrategy(final CriteriaMerger criteriaMerger) {
-        mergingStrategies.add(criteriaMerger);
+    private void registerMergingStrategy(final IntermediateOperationType operationType, final CriteriaModifier criteriaModifier) {
+        mergingStrategies.put(operationType, criteriaModifier);
     }
 }
