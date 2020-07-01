@@ -18,12 +18,12 @@ package com.speedment.jpastreamer.criteria.standard.internal.predicate;
 
 import static java.util.Objects.requireNonNull;
 
-import com.speedment.common.tuple.Tuple;
 import com.speedment.common.tuple.Tuple3;
 import com.speedment.common.tuple.Tuples;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.standard.internal.util.Cast;
 import com.speedment.jpastreamer.exception.JpaStreamerException;
+import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.trait.HasInclusion;
@@ -33,6 +33,7 @@ import com.speedment.jpastreamer.field.trait.HasArg1;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -274,14 +275,25 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         final Criteria<T> criteria,
         final FieldPredicate<T> fieldPredicate
     ) {
-        throw new UnsupportedOperationException("todo");
+        final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
+
+        if (!(value instanceof Set)) {
+            throw new JpaStreamerException();
+        }
+
+        final Field<T> field = fieldPredicate.getField();
+        final String column = field.columnName();
+
+        final Set<?> set = (Set<?>) value;
+
+        return criteria.getRoot().get(column).in(set);
     }
 
     private <T> Predicate notIn(
         final Criteria<T> criteria,
         final FieldPredicate<T> fieldPredicate
     ) {
-        throw new UnsupportedOperationException("todo");
+        return in(criteria, fieldPredicate).not();
     }
 
     @SuppressWarnings("unchecked")
