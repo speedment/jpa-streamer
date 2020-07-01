@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="sv"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultPredicateMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Criteria - Standard</a> &gt; <a href="index.source.html" class="el_package">com.speedment.jpastreamer.criteria.standard.internal.predicate</a> &gt; <span class="el_source">DefaultPredicateMapper.java</span></div><h1>DefaultPredicateMapper.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2006-2020, Speedment, Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); You may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at:
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.speedment.jpastreamer.criteria.standard.internal.predicate;
+
+import static java.util.Objects.requireNonNull;
+
+import com.speedment.common.tuple.Tuple;
+import com.speedment.common.tuple.Tuple3;
+import com.speedment.common.tuple.Tuples;
+import com.speedment.jpastreamer.criteria.Criteria;
+import com.speedment.jpastreamer.criteria.standard.internal.util.Cast;
+import com.speedment.jpastreamer.exception.JpaStreamerException;
+import com.speedment.jpastreamer.field.predicate.FieldPredicate;
+import com.speedment.jpastreamer.field.predicate.Inclusion;
+import com.speedment.jpastreamer.field.predicate.trait.HasInclusion;
+import com.speedment.jpastreamer.field.trait.HasArg0;
+import com.speedment.jpastreamer.field.trait.HasArg1;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+<span class="fc" id="L39">public final class DefaultPredicateMapper implements PredicateMapper {</span>
+    
+    @Override
+    public &lt;T&gt; Predicate mapPredicate(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L46">        requireNonNull(criteria);</span>
+<span class="nc" id="L47">        requireNonNull(fieldPredicate);</span>
+
+<span class="nc" id="L49">        return mapPredicate0(criteria, fieldPredicate);</span>
+    }
+
+    private &lt;T&gt; Predicate alwaysTrue(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L56">        return noValueMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L58">            column -&gt; criteria.getBuilder().isTrue(criteria.getBuilder().literal(true))</span>
+        );
+    }
+
+    private &lt;T&gt; Predicate alwaysFalse(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L66">        return noValueMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L68">            column -&gt; criteria.getBuilder().isFalse(criteria.getBuilder().literal(true))</span>
+        );
+    }
+
+    private &lt;T&gt; Predicate isNull(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L76">        return noValueMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L78">            column -&gt; criteria.getBuilder().isNull(criteria.getRoot().get(column))</span>
+        );
+    }
+
+    private &lt;T&gt; Predicate isNotNull(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L86">        return noValueMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L88">            column -&gt; criteria.getBuilder().isNotNull(criteria.getRoot().get(column))</span>
+        );
+    }
+
+    private &lt;T&gt; Predicate equal(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L96">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L98">            (column, value) -&gt; criteria.getBuilder().equal(criteria.getRoot().get(column), value),</span>
+            Object.class
+        );
+    }
+
+    private &lt;T&gt; Predicate notEqual(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L107">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L109">            (column, value) -&gt; criteria.getBuilder().notEqual(criteria.getRoot().get(column), value),</span>
+            Object.class
+        );
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private &lt;T&gt; Predicate lessThan(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L119">        return singleBoundRangeComparisonMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L121">            (column, value) -&gt; criteria.getBuilder().lt(criteria.getRoot().get(column), value),</span>
+<span class="nc" id="L122">            (column, value) -&gt; criteria.getBuilder().lessThan(criteria.getRoot().get(column), value)</span>
+        );
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private &lt;T&gt; Predicate lessOrEqual(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L131">        return singleBoundRangeComparisonMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L133">            (column, value) -&gt; criteria.getBuilder().le(criteria.getRoot().get(column), value),</span>
+<span class="nc" id="L134">            (column, value) -&gt; criteria.getBuilder().lessThanOrEqualTo(criteria.getRoot().get(column), value)</span>
+        );
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private &lt;T, S extends Comparable&lt;? super S&gt;&gt; Predicate between(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L143">        return doubleBoundRangeComparisonMapping(</span>
+            fieldPredicate,
+            (column, value) -&gt; {
+<span class="nc" id="L146">                final CriteriaBuilder builder = criteria.getBuilder();</span>
+<span class="nc" id="L147">                final Path&lt;S&gt; columnPath = criteria.getRoot().get(column);</span>
+
+<span class="nc" id="L149">                final S first = (S) value.get0();</span>
+<span class="nc" id="L150">                final S second = (S) value.get1();</span>
+
+<span class="nc" id="L152">                final Inclusion inclusion = value.get2();</span>
+
+<span class="nc bnc" id="L154" title="All 5 branches missed.">                switch (inclusion) {</span>
+                    case START_EXCLUSIVE_END_EXCLUSIVE:
+<span class="nc" id="L156">                        return builder.between(</span>
+                            columnPath,
+                            first,
+                            second
+                        );
+                    case START_INCLUSIVE_END_EXCLUSIVE:
+<span class="nc" id="L162">                        return builder.and(</span>
+<span class="nc" id="L163">                            builder.greaterThanOrEqualTo(</span>
+                                columnPath,
+                                first
+                            ),
+<span class="nc" id="L167">                            builder.lessThan(</span>
+                                columnPath,
+                                second
+                            )
+                        );
+                    case START_EXCLUSIVE_END_INCLUSIVE:
+<span class="nc" id="L173">                        return builder.and(</span>
+<span class="nc" id="L174">                            builder.greaterThan(</span>
+                                columnPath,
+                                first
+                            ),
+<span class="nc" id="L178">                            builder.lessThanOrEqualTo(</span>
+                                columnPath,
+                                second
+                            )
+                        );
+                    case START_INCLUSIVE_END_INCLUSIVE:
+<span class="nc" id="L184">                        return builder.and(</span>
+<span class="nc" id="L185">                            builder.greaterThanOrEqualTo(</span>
+                                columnPath,
+                                first
+                            ),
+<span class="nc" id="L189">                            builder.lessThanOrEqualTo(</span>
+                                columnPath,
+                                second
+                            )
+                        );
+                    default:
+<span class="nc" id="L195">                        throw new JpaStreamerException(</span>
+                            &quot;Inclusion type [&quot; + inclusion + &quot;] is not supported&quot;
+                        );
+                }
+            }
+        );
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private &lt;T, S extends Comparable&lt;? super S&gt;&gt; Predicate notBetween(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L208">        return doubleBoundRangeComparisonMapping(</span>
+            fieldPredicate,
+            (column, value) -&gt; {
+<span class="nc" id="L211">                final CriteriaBuilder builder = criteria.getBuilder();</span>
+<span class="nc" id="L212">                final Path&lt;S&gt; columnPath = criteria.getRoot().get(column);</span>
+
+<span class="nc" id="L214">                final S first = (S) value.get0();</span>
+<span class="nc" id="L215">                final S second = (S) value.get1();</span>
+
+<span class="nc" id="L217">                final Inclusion inclusion = value.get2();</span>
+
+<span class="nc bnc" id="L219" title="All 5 branches missed.">                switch (inclusion) {</span>
+                    case START_EXCLUSIVE_END_EXCLUSIVE:
+<span class="nc" id="L221">                        return builder.or(</span>
+<span class="nc" id="L222">                            builder.lessThanOrEqualTo(</span>
+                                columnPath,
+                                first
+                            ),
+<span class="nc" id="L226">                            builder.greaterThanOrEqualTo(</span>
+                                columnPath,
+                                second
+                            )
+                        );
+                    case START_EXCLUSIVE_END_INCLUSIVE:
+<span class="nc" id="L232">                        return builder.or(</span>
+<span class="nc" id="L233">                            builder.lessThanOrEqualTo(</span>
+                                columnPath,
+                                first
+                            ),
+<span class="nc" id="L237">                            builder.greaterThan(</span>
+                                columnPath,
+                                second
+                            )
+                        );
+                    case START_INCLUSIVE_END_INCLUSIVE:
+<span class="nc" id="L243">                        return builder.or(</span>
+<span class="nc" id="L244">                            builder.lessThan(</span>
+                                columnPath,
+                                first
+                            ),
+<span class="nc" id="L248">                            builder.greaterThan(</span>
+                                columnPath,
+                                second
+                            )
+                        );
+                    case START_INCLUSIVE_END_EXCLUSIVE:
+<span class="nc" id="L254">                        return builder.or(</span>
+<span class="nc" id="L255">                            builder.lessThan(</span>
+                                columnPath,
+                                first
+                            ),
+<span class="nc" id="L259">                            builder.greaterThanOrEqualTo(</span>
+                                columnPath,
+                                second
+                            )
+                        );
+                    default:
+<span class="nc" id="L265">                        throw new JpaStreamerException(</span>
+                            &quot;Inclusion type [&quot; + inclusion + &quot;] is not supported&quot;
+                        );
+                    }
+                }
+        );
+    }
+
+    private &lt;T&gt; Predicate in(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L277">        throw new UnsupportedOperationException(&quot;todo&quot;);</span>
+    }
+
+    private &lt;T&gt; Predicate notIn(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L284">        throw new UnsupportedOperationException(&quot;todo&quot;);</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private &lt;T&gt; Predicate greaterThan(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L292">        return singleBoundRangeComparisonMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L294">            (column, value) -&gt; criteria.getBuilder().gt(criteria.getRoot().get(column), value),</span>
+<span class="nc" id="L295">            (column, value) -&gt; criteria.getBuilder().greaterThan(criteria.getRoot().get(column), value)</span>
+        );
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private &lt;T&gt; Predicate greaterOrEqual(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L304">        return singleBoundRangeComparisonMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L306">            (column, value) -&gt; criteria.getBuilder().ge(criteria.getRoot().get(column), value),</span>
+<span class="nc" id="L307">            (column, value) -&gt; criteria.getBuilder().greaterThanOrEqualTo(criteria.getRoot().get(column), value)</span>
+        );
+    }
+
+    private &lt;T&gt; Predicate equalIgnoreCase(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L315">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L317">            (column, value) -&gt; criteria.getBuilder().equal(</span>
+<span class="nc" id="L318">                criteria.getBuilder().lower(criteria.getRoot().get(column)), value.toLowerCase()),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate notEqualIgnoreCase(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L327">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L329">            (column, value) -&gt; criteria.getBuilder().notEqual(</span>
+<span class="nc" id="L330">                criteria.getBuilder().lower(criteria.getRoot().get(column)), value.toLowerCase()),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate startsWith(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L339">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L341">            (column, value) -&gt; criteria.getBuilder().like(criteria.getRoot().get(column), value + &quot;%&quot;),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate notStartsWith(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L350">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L352">            (column, value) -&gt; criteria.getBuilder().notLike(criteria.getRoot().get(column), value + &quot;%&quot;),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate startsWithIgnoreCase(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L361">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L363">            (column, value) -&gt; criteria.getBuilder().like(</span>
+<span class="nc" id="L364">                criteria.getBuilder().lower(criteria.getRoot().get(column)), value.toLowerCase() + &quot;%&quot;),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate notStartsWithIgnoreCase(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L373">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L375">            (column, value) -&gt; criteria.getBuilder().notLike(</span>
+<span class="nc" id="L376">                criteria.getBuilder().lower(criteria.getRoot().get(column)), value.toLowerCase() + &quot;%&quot;),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate endsWith(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L385">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L387">            (column, value) -&gt; criteria.getBuilder().like(criteria.getRoot().get(column), &quot;%&quot; + value),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate notEndsWith(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L396">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L398">            (column, value) -&gt; criteria.getBuilder().notLike(criteria.getRoot().get(column), &quot;%&quot; + value),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate endsWithIgnoreCase(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L407">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L409">            (column, value) -&gt; criteria.getBuilder().like(</span>
+<span class="nc" id="L410">                criteria.getBuilder().lower(criteria.getRoot().get(column)), &quot;%&quot; + value.toLowerCase()),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate notEndsWithIgnoreCase(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L419">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L421">            (column, value) -&gt; criteria.getBuilder().notLike(</span>
+<span class="nc" id="L422">                criteria.getBuilder().lower(criteria.getRoot().get(column)), &quot;%&quot; + value.toLowerCase()),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate contains(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L431">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L433">            (column, value) -&gt; criteria.getBuilder().like(criteria.getRoot().get(column), &quot;%&quot; + value + &quot;%&quot;),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate notContains(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L442">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L444">            (column, value) -&gt; criteria.getBuilder().notLike(criteria.getRoot().get(column), &quot;%&quot; + value + &quot;%&quot;),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate containsIgnoreCase(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L453">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L455">            (column, value) -&gt; criteria.getBuilder().like(</span>
+<span class="nc" id="L456">                criteria.getBuilder().lower(criteria.getRoot().get(column)), &quot;%&quot; + value.toLowerCase() + &quot;%&quot;),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate notContainsIgnoreCase(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L465">        return typeMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L467">            (column, value) -&gt; criteria.getBuilder().notLike(</span>
+<span class="nc" id="L468">                criteria.getBuilder().lower(criteria.getRoot().get(column)), &quot;%&quot; + value.toLowerCase() + &quot;%&quot;),</span>
+            String.class
+        );
+    }
+
+    private &lt;T&gt; Predicate isEmpty(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L477">        return noValueMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L479">            column -&gt; criteria.getBuilder().equal(criteria.getRoot().get(column), &quot;&quot;)</span>
+        );
+    }
+
+    private &lt;T&gt; Predicate isNotEmpty(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc" id="L487">        return noValueMapping(</span>
+            fieldPredicate,
+<span class="nc" id="L489">            column -&gt; criteria.getBuilder().notEqual(criteria.getRoot().get(column), &quot;&quot;)</span>
+        );
+    }
+
+    /*
+     * Mapping Helpers - Start
+     */
+
+    private &lt;T&gt; Predicate noValueMapping(
+        final FieldPredicate&lt;T&gt; fieldPredicate,
+        final Function&lt;String, Predicate&gt; callback
+    ) {
+<span class="nc" id="L501">        final String column = fieldPredicate.getField().columnName();</span>
+
+<span class="nc" id="L503">        return callback.apply(column);</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private &lt;T, S&gt; Predicate typeMapping(
+        final FieldPredicate&lt;T&gt; fieldPredicate,
+        final BiFunction&lt;String, S, Predicate&gt; callback,
+        final Class&lt;S&gt; clazz
+    ) {
+<span class="nc" id="L512">        final String column = fieldPredicate.getField().columnName();</span>
+<span class="nc" id="L513">        final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();</span>
+
+<span class="nc bnc" id="L515" title="All 2 branches missed.">        if (clazz.isInstance(value)) {</span>
+<span class="nc" id="L516">            return callback.apply(column, (S) value);</span>
+        }
+
+<span class="nc" id="L519">        throw new JpaStreamerException();</span>
+    }
+
+    @SuppressWarnings(&quot;rawtypes&quot;)
+    private &lt;T&gt; Predicate singleBoundRangeComparisonMapping(
+        final FieldPredicate&lt;T&gt; fieldPredicate,
+        final BiFunction&lt;String, Number, Predicate&gt; callback,
+        final BiFunction&lt;String, Comparable, Predicate&gt; comparableCallback
+    ) {
+<span class="nc" id="L528">        final String column = fieldPredicate.getField().columnName();</span>
+<span class="nc" id="L529">        final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();</span>
+
+<span class="nc bnc" id="L531" title="All 2 branches missed.">        if (value instanceof Number) {</span>
+<span class="nc" id="L532">            return callback.apply(column, (Number) value);</span>
+        }
+
+<span class="nc bnc" id="L535" title="All 2 branches missed.">        if (value instanceof Character) {</span>
+<span class="nc" id="L536">            return callback.apply(column, (int) (char) value);</span>
+        }
+
+<span class="nc bnc" id="L539" title="All 2 branches missed.">        if (value instanceof Comparable) {</span>
+<span class="nc" id="L540">            return comparableCallback.apply(column, (Comparable) value);</span>
+        }
+
+<span class="nc" id="L543">        throw new JpaStreamerException(&quot;Illegal comparison value [&quot; + value + &quot;]&quot;);</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    private &lt;T, S extends Comparable&lt;? super S&gt;&gt; Predicate doubleBoundRangeComparisonMapping(
+            final FieldPredicate&lt;T&gt; fieldPredicate,
+            final BiFunction&lt;String, Tuple3&lt;S, S, Inclusion&gt;, Predicate&gt; callback
+    ) {
+<span class="nc" id="L551">        final String column = fieldPredicate.getField().columnName();</span>
+<span class="nc" id="L552">        final Object arg0 = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();</span>
+<span class="nc" id="L553">        final Object arg1 = Cast.castOrFail(fieldPredicate, HasArg1.class).get1();</span>
+
+<span class="nc" id="L555">        final Inclusion inclusion = Cast.cast(fieldPredicate, HasInclusion.class)</span>
+<span class="nc" id="L556">            .map(HasInclusion::getInclusion)</span>
+<span class="nc" id="L557">            .orElse(Inclusion.START_INCLUSIVE_END_INCLUSIVE);</span>
+
+<span class="nc bnc" id="L559" title="All 4 branches missed.">        if (arg0 instanceof Comparable &amp;&amp; arg1 instanceof Comparable) {</span>
+<span class="nc" id="L560">            final Tuple3&lt;S, S, Inclusion&gt; tuple3 = Tuples.of(</span>
+                (S) arg0,
+                (S) arg1,
+                inclusion
+            );
+
+<span class="nc" id="L566">            return callback.apply(column, tuple3);</span>
+        }
+
+<span class="nc" id="L569">        throw new JpaStreamerException(&quot;Illegal comparison values [&quot; + arg0 + &quot;,&quot; + arg1 + &quot;]&quot;);</span>
+    }
+
+    /*
+     * Mapping Helpers - End
+     */
+
+    private &lt;T&gt; Predicate mapPredicate0(
+        final Criteria&lt;T&gt; criteria,
+        final FieldPredicate&lt;T&gt; fieldPredicate
+    ) {
+<span class="nc bnc" id="L580" title="All 31 branches missed.">        switch (fieldPredicate.getPredicateType()) {</span>
+            case ALWAYS_TRUE:
+<span class="nc" id="L582">                return alwaysTrue(criteria, fieldPredicate);</span>
+            case ALWAYS_FALSE:
+<span class="nc" id="L584">                return alwaysFalse(criteria, fieldPredicate);</span>
+            case IS_NULL:
+<span class="nc" id="L586">                return isNull(criteria, fieldPredicate);</span>
+            case IS_NOT_NULL:
+<span class="nc" id="L588">                return isNotNull(criteria, fieldPredicate);</span>
+            case EQUAL:
+<span class="nc" id="L590">                return equal(criteria, fieldPredicate);</span>
+            case NOT_EQUAL:
+<span class="nc" id="L592">                return notEqual(criteria, fieldPredicate);</span>
+            case GREATER_THAN:
+<span class="nc" id="L594">                return greaterThan(criteria, fieldPredicate);</span>
+            case GREATER_OR_EQUAL:
+<span class="nc" id="L596">                return greaterOrEqual(criteria, fieldPredicate);</span>
+            case LESS_THAN:
+<span class="nc" id="L598">                return lessThan(criteria, fieldPredicate);</span>
+            case LESS_OR_EQUAL:
+<span class="nc" id="L600">                return lessOrEqual(criteria, fieldPredicate);</span>
+            case BETWEEN:
+<span class="nc" id="L602">                return between(criteria, fieldPredicate);</span>
+            case NOT_BETWEEN:
+<span class="nc" id="L604">                return notBetween(criteria, fieldPredicate);</span>
+            case IN:
+<span class="nc" id="L606">                return in(criteria, fieldPredicate);</span>
+            case NOT_IN:
+<span class="nc" id="L608">                return notIn(criteria, fieldPredicate);</span>
+            case EQUAL_IGNORE_CASE:
+<span class="nc" id="L610">                return equalIgnoreCase(criteria, fieldPredicate);</span>
+            case NOT_EQUAL_IGNORE_CASE:
+<span class="nc" id="L612">                return notEqualIgnoreCase(criteria, fieldPredicate);</span>
+            case STARTS_WITH:
+<span class="nc" id="L614">                return startsWith(criteria, fieldPredicate);</span>
+            case NOT_STARTS_WITH:
+<span class="nc" id="L616">                return notStartsWith(criteria, fieldPredicate);</span>
+            case STARTS_WITH_IGNORE_CASE:
+<span class="nc" id="L618">                return startsWithIgnoreCase(criteria, fieldPredicate);</span>
+            case NOT_STARTS_WITH_IGNORE_CASE:
+<span class="nc" id="L620">                return notStartsWithIgnoreCase(criteria, fieldPredicate);</span>
+            case ENDS_WITH:
+<span class="nc" id="L622">                return endsWith(criteria, fieldPredicate);</span>
+            case NOT_ENDS_WITH:
+<span class="nc" id="L624">                return notEndsWith(criteria, fieldPredicate);</span>
+            case ENDS_WITH_IGNORE_CASE:
+<span class="nc" id="L626">                return endsWithIgnoreCase(criteria, fieldPredicate);</span>
+            case NOT_ENDS_WITH_IGNORE_CASE:
+<span class="nc" id="L628">                return notEndsWithIgnoreCase(criteria, fieldPredicate);</span>
+            case CONTAINS:
+<span class="nc" id="L630">                return contains(criteria, fieldPredicate);</span>
+            case NOT_CONTAINS:
+<span class="nc" id="L632">                return notContains(criteria, fieldPredicate);</span>
+            case CONTAINS_IGNORE_CASE:
+<span class="nc" id="L634">                return containsIgnoreCase(criteria, fieldPredicate);</span>
+            case NOT_CONTAINS_IGNORE_CASE:
+<span class="nc" id="L636">                return notContainsIgnoreCase(criteria, fieldPredicate);</span>
+            case IS_EMPTY:
+<span class="nc" id="L638">                return isEmpty(criteria, fieldPredicate);</span>
+            case IS_NOT_EMPTY:
+<span class="nc" id="L640">                return isNotEmpty(criteria, fieldPredicate);</span>
+            default:
+<span class="nc" id="L642">                throw new JpaStreamerException(</span>
+<span class="nc" id="L643">                    &quot;Predicate type [&quot; + fieldPredicate.getPredicateType()</span>
+                        + &quot;] is not supported&quot;
+                );
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,0 +1,13 @@
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/terminal/ApplyTerminalOperation.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/terminal/InternalTerminalOperationFactory.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/intermediate/StandardIntermediateOperationFactory.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/pipeline/StandardPipeline.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/terminal/AcceptTerminalOperation.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/intermediate/StandardIntermediateOperation.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/intermediate/InternalIntermediateOperationFactory.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/pipeline/InternalPipelineFactory.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/terminal/ApplyAsLongTerminalOperation.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/terminal/AbstractTerminalOperation.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/internal/terminal/TestTerminalOperation.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/terminal/StandardTerminalOperationFactory.java
+/Users/juliagustafsson/Documents/Speedment/Klonade GIT-repon/jpa-streamer/provider/pipeline-standard/src/main/java/com/speedment/jpastreamer/pipeline/standard/StandardPipelineFactory.java

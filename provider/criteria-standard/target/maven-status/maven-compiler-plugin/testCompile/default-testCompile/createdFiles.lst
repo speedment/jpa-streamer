@@ -1,0 +1,9 @@
+com/speedment/jpastreamer/criteria/standard/support/StringNotEqualPredicate.class
+com/speedment/jpastreamer/criteria/standard/StandardCriteriaFactoryTest.class
+com/speedment/jpastreamer/criteria/standard/internal/InternalPredicateFactoryTest$1.class
+com/speedment/jpastreamer/criteria/standard/support/StringEqualPredicate.class
+com/speedment/jpastreamer/criteria/standard/support/CombinedStringPredicate.class
+com/speedment/jpastreamer/criteria/standard/internal/InternalPredicateFactoryTest.class
+com/speedment/jpastreamer/criteria/standard/internal/InternalPredicateFactoryTest$MockPredicateMapper.class
+com/speedment/jpastreamer/criteria/standard/StandardPredicateFactoryTest.class
+com/speedment/jpastreamer/criteria/standard/internal/InternalCriteriaTest.class

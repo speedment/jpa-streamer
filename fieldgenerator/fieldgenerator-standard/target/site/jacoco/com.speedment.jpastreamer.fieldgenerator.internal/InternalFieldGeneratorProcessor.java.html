@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="sv"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InternalFieldGeneratorProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">FieldGenerator</a> &gt; <a href="index.source.html" class="el_package">com.speedment.jpastreamer.fieldgenerator.internal</a> &gt; <span class="el_source">InternalFieldGeneratorProcessor.java</span></div><h1>InternalFieldGeneratorProcessor.java</h1><pre class="source lang-java linenums">package com.speedment.jpastreamer.fieldgenerator.internal;
+
+import com.speedment.common.codegen.Generator;
+import com.speedment.common.codegen.constant.SimpleParameterizedType;
+import com.speedment.common.codegen.constant.SimpleType;
+import com.speedment.common.codegen.controller.AlignTabs;
+import com.speedment.common.codegen.controller.AutoImports;
+import com.speedment.common.codegen.internal.java.JavaGenerator;
+import com.speedment.common.codegen.internal.java.view.FieldView;
+import com.speedment.common.codegen.model.Class;
+import com.speedment.common.codegen.model.Field;
+import com.speedment.common.codegen.model.*;
+import com.speedment.jpastreamer.fieldgenerator.exception.FieldGeneratorProcessorException;
+import com.speedment.jpastreamer.fieldgenerator.internal.typeparser.TypeParser;
+import com.speedment.jpastreamer.field.*;
+
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.*;
+import javax.lang.model.util.Elements;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.TemporalType;
+import javax.tools.Diagnostic;
+import javax.tools.JavaFileObject;
+import java.io.IOException;
+import java.io.Writer;
+import java.lang.Enum;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.speedment.common.codegen.util.Formatting.*;
+import static com.speedment.jpastreamer.fieldgenerator.util.GeneratorUtil.parseType;
+
+/**
+ * JPAStreamer standard annotation processor that generates fields for classes annotated
+ * with {@code Entity}.
+ *
+ * @author Julia Gustafsson
+ * @since 0.0.9
+ */
+
+<span class="nc" id="L47">public final class InternalFieldGeneratorProcessor extends AbstractProcessor {</span>
+
+    protected static final String GETTER_METHOD_PREFIX = &quot;get&quot;;
+
+<span class="nc" id="L51">    private static final Generator generator = Generator.forJava();</span>
+
+    private ProcessingEnvironment processingEnvironment;
+    private Elements elementUtils;
+    private Messager messager;
+
+    @Override
+    public synchronized void init(ProcessingEnvironment env) {
+<span class="nc" id="L59">        super.init(env);</span>
+
+<span class="nc" id="L61">        this.processingEnvironment = env;</span>
+<span class="nc" id="L62">        this.elementUtils = processingEnvironment.getElementUtils();</span>
+
+<span class="nc" id="L64">        messager = processingEnvironment.getMessager();</span>
+<span class="nc" id="L65">        messager.printMessage(Diagnostic.Kind.NOTE, &quot;JPA Streamer Field Generator Processor&quot;);</span>
+<span class="nc" id="L66">    }</span>
+
+    @Override
+    public boolean process(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment roundEnv) {
+
+<span class="nc bnc" id="L71" title="All 4 branches missed.">        if(annotations.size() == 0 || roundEnv.processingOver()) {</span>
+            // Allow other processors to run
+<span class="nc" id="L73">            return false;</span>
+        }
+
+<span class="nc" id="L76">        roundEnv.getElementsAnnotatedWith(Entity.class).stream()</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">                .filter(ae -&gt; ae.getKind() == ElementKind.CLASS)</span>
+<span class="nc" id="L78">                .forEach(ae -&gt; {</span>
+                    try {
+<span class="nc" id="L80">                        String qualifiedGenEntityName = ae.asType().toString() + &quot;$&quot;;</span>
+<span class="nc" id="L81">                        JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(qualifiedGenEntityName);</span>
+<span class="nc" id="L82">                        Writer writer = builderFile.openWriter();</span>
+<span class="nc" id="L83">                        generateFields(ae, writer);</span>
+<span class="nc" id="L84">                        writer.close();</span>
+<span class="nc" id="L85">                    } catch(IOException e) {</span>
+<span class="nc" id="L86">                        e.printStackTrace();</span>
+<span class="nc" id="L87">                    }</span>
+<span class="nc" id="L88">                });</span>
+
+<span class="nc" id="L90">        return true;</span>
+    }
+
+    void generateFields(Element annotatedElement, Writer writer) throws IOException {
+
+        // Retrieve all declared fields of the annotated class
+<span class="nc" id="L96">        Set&lt;? extends Element&gt; enclosedFields = annotatedElement.getEnclosedElements().stream()</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                .filter(ee -&gt; ee.getKind().isField()</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                        &amp;&amp; !ee.getModifiers().contains(Modifier.FINAL)) // Ignore immutable fields</span>
+<span class="nc" id="L99">                .collect(Collectors.toSet());</span>
+
+<span class="nc" id="L101">        String entityName = shortName(annotatedElement.asType().toString());</span>
+<span class="nc" id="L102">        String genEntityName = entityName + &quot;$&quot;;</span>
+
+<span class="nc" id="L104">        PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(annotatedElement);</span>
+        String packageName;
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (packageElement.isUnnamed()) {</span>
+<span class="nc" id="L107">            messager.printMessage(Diagnostic.Kind.WARNING, &quot;Class &quot; + entityName + &quot;has an unnamed package.&quot;);</span>
+<span class="nc" id="L108">            packageName = &quot;&quot;;</span>
+        } else {
+<span class="nc" id="L110">            packageName = packageElement.getQualifiedName().toString();</span>
+        }
+
+<span class="nc" id="L113">        File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);</span>
+<span class="nc" id="L114">        writer.write(new JavaGenerator().on(file).get());</span>
+<span class="nc" id="L115">    }</span>
+
+    private File generatedEntity(Set&lt;? extends Element&gt; enclosedFields, String entityName, String genEntityName, String packageName) {
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        File file = packageName.isEmpty() ?</span>
+<span class="nc" id="L119">                File.of(genEntityName + &quot;.java&quot;) :</span>
+<span class="nc" id="L120">                File.of(packageName + &quot;/&quot; + genEntityName + &quot;.java&quot;);</span>
+<span class="nc" id="L121">        Class clazz = Class.of(genEntityName).public_()</span>
+<span class="nc" id="L122">                .set(Javadoc.of(</span>
+                        &quot;The generated base for entity {@link &quot; + entityName + &quot;} representing entities of the&quot;
+<span class="nc" id="L124">                                + &quot; {@code &quot; + lcfirst(entityName) + &quot;}-table in the database.&quot; +</span>
+<span class="nc" id="L125">                                nl() + &quot;&lt;p&gt; This file has been automatically generated by JPAStreamer.&quot;</span>
+<span class="nc" id="L126">                ).author(&quot;JPAStreamer&quot;));</span>
+
+<span class="nc" id="L128">        enclosedFields</span>
+<span class="nc" id="L129">                .forEach(field -&gt; {</span>
+<span class="nc" id="L130">                    addFieldToClass(field, clazz, entityName);</span>
+<span class="nc" id="L131">                });</span>
+
+<span class="nc" id="L133">        file.add(clazz);</span>
+<span class="nc" id="L134">        file.call(new AutoImports(generator.getDependencyMgr())).call(new AlignTabs&lt;&gt;());</span>
+<span class="nc" id="L135">        return file;</span>
+    }
+
+    private void addFieldToClass(Element field, Class clazz, String entityName) {
+<span class="nc" id="L139">        String fieldName = field.getSimpleName().toString();</span>
+<span class="nc" id="L140">        Column col = field.getAnnotation(Column.class);</span>
+
+        java.lang.Class fieldClass;
+        try {
+<span class="nc" id="L144">            messager.printMessage(Diagnostic.Kind.NOTE, &quot;parsing type: &quot; + fieldType(field).getTypeName());</span>
+<span class="nc" id="L145">            fieldClass = parseType(fieldType(field).getTypeName());</span>
+<span class="nc" id="L146">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L147">            throw new FieldGeneratorProcessorException(&quot;Type with name &quot; + fieldType(field).getTypeName() + &quot; was not found.&quot;);</span>
+<span class="nc" id="L148">        }</span>
+
+<span class="nc" id="L150">        Type referenceType = referenceType(field, fieldClass, entityName);</span>
+
+        // Begin building the field value parameters
+<span class="nc" id="L153">        final List&lt;Value&lt;?&gt;&gt; fieldParams = new ArrayList&lt;&gt;();</span>
+
+        // Add table entity
+<span class="nc" id="L156">        fieldParams.add(Value.ofReference(entityName + &quot;.class&quot;));</span>
+
+        // Add db column name if stated, else fall back on entity field name
+<span class="nc bnc" id="L159" title="All 4 branches missed.">        fieldParams.add(Value.ofText((col != null &amp;&amp; !col.name().isEmpty()) ? col.name() : fieldName));</span>
+
+        // Add getter method reference
+<span class="nc" id="L162">        fieldParams.add(Value.ofReference(</span>
+<span class="nc" id="L163">                entityName + &quot;::&quot; + GETTER_METHOD_PREFIX + ucfirst(fieldName)));</span>
+
+<span class="nc bnc" id="L165" title="All 2 branches missed.">        if (Enum.class.isAssignableFrom(fieldClass)) {</span>
+<span class="nc" id="L166">            String fieldTypeName = shortName(fieldType(field).getTypeName());</span>
+
+            // Add enum class
+<span class="nc" id="L169">            fieldParams.add(Value.ofReference(fieldTypeName + &quot;.class&quot;));</span>
+<span class="nc" id="L170">        } else {</span>
+            // Add the 'unique' boolean to the end for all field but enum
+<span class="nc bnc" id="L172" title="All 4 branches missed.">            fieldParams.add(Value.ofBoolean(col != null &amp;&amp; col.unique()));</span>
+        }
+
+<span class="nc" id="L175">        Field field1 = Field.of(fieldName, referenceType);</span>
+<span class="nc" id="L176">        FieldView fieldView = new FieldView();</span>
+<span class="nc" id="L177">        Optional&lt;String&gt; output = fieldView.transform(generator, field1);</span>
+
+<span class="nc" id="L179">        messager.printMessage(Diagnostic.Kind.NOTE, &quot;Rendering reference type to: &quot; + output + &quot; for field with name: &quot; + field.getSimpleName());</span>
+<span class="nc" id="L180">        clazz.add(Field.of(fieldName, referenceType)</span>
+<span class="nc" id="L181">                .public_().static_().final_()</span>
+<span class="nc" id="L182">                .set(Value.ofInvocation(</span>
+                        referenceType,
+                        &quot;create&quot;,
+<span class="nc" id="L185">                        fieldParams.toArray(new Value&lt;?&gt;[0])</span>
+                ))
+<span class="nc" id="L187">                .set(Javadoc.of(</span>
+                        &quot;This Field corresponds to the {@link &quot; + entityName + &quot;} field that can be obtained using the &quot;
+<span class="nc" id="L189">                                + &quot;{@link &quot; + entityName + &quot;#get&quot; + ucfirst(fieldName) + &quot;()} method.&quot;</span>
+                )));
+<span class="nc" id="L191">    }</span>
+
+    private Type referenceType(Element field, java.lang.Class fieldClass, String entityName) throws FieldGeneratorProcessorException {
+<span class="nc" id="L194">        Type fieldType = fieldType(field);</span>
+<span class="nc" id="L195">        Type entityType = SimpleType.create(entityName);</span>
+        final Type type;
+
+        try {
+<span class="nc bnc" id="L199" title="All 2 branches missed.">            if (fieldClass.isPrimitive()) {</span>
+<span class="nc" id="L200">                type = primitiveFieldType(fieldType, entityType, fieldClass);</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            } else if (Enum.class.isAssignableFrom(fieldClass)) {</span>
+<span class="nc" id="L202">                type = SimpleParameterizedType.create(</span>
+                        EnumField.class,
+                        entityType,
+                        fieldType);
+<span class="nc bnc" id="L206" title="All 4 branches missed.">            } else if (Comparable.class.isAssignableFrom(fieldClass) &amp;&amp; field.getAnnotation(Lob.class) == null) {</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">                type = String.class.equals(fieldClass) ?</span>
+<span class="nc" id="L208">                        SimpleParameterizedType.create(</span>
+                                StringField.class,
+                                entityType) :
+<span class="nc" id="L211">                        SimpleParameterizedType.create(</span>
+                                ComparableField.class,
+                                entityType,
+                                fieldType);
+<span class="nc" id="L215">                messager.printMessage(Diagnostic.Kind.NOTE, &quot;Parsing field type: &quot; + type.getClass() + &quot; for field &quot; + field.getSimpleName());</span>
+            } else {
+<span class="nc" id="L217">                type = SimpleParameterizedType.create(</span>
+                        ReferenceField.class,
+                        entityType,
+                        fieldType);
+            }
+<span class="nc" id="L222">        } catch (UnsupportedOperationException e) {</span>
+<span class="nc" id="L223">            throw new FieldGeneratorProcessorException(&quot;Primitive type &quot; + fieldType.getTypeName() + &quot; could not be parsed.&quot;);</span>
+<span class="nc" id="L224">        }</span>
+
+<span class="nc" id="L226">        return type;</span>
+    }
+
+    private Type fieldType(Element field) {
+<span class="nc" id="L230">        messager.printMessage(Diagnostic.Kind.NOTE, &quot;Using type parser to parse: &quot; + field.asType().toString());</span>
+<span class="nc" id="L231">        TypeParser typeParser = new TypeParser();</span>
+<span class="nc" id="L232">        return typeParser.render(field.asType().toString());</span>
+    }
+
+    private Optional&lt;Type&gt; timeType(TemporalType temporalType) {
+<span class="nc" id="L236">        Objects.requireNonNull(temporalType, &quot;Temporal type cannot be null&quot;);</span>
+<span class="nc bnc" id="L237" title="All 4 branches missed.">        switch (temporalType) {</span>
+            case DATE:
+<span class="nc" id="L239">                return Optional.of(java.sql.Date.class);</span>
+            case TIME:
+<span class="nc" id="L241">                return Optional.of(java.sql.Time.class);</span>
+            case TIMESTAMP:
+<span class="nc" id="L243">                return Optional.of(java.sql.Timestamp.class);</span>
+            default:
+<span class="nc" id="L245">                throw new FieldGeneratorProcessorException(&quot;Unknown temporal type &quot; + temporalType);</span>
+        }
+    }
+
+    private Optional&lt;Type&gt; timeType(String columnDefinition) {
+<span class="nc" id="L250">        Objects.requireNonNull(columnDefinition, &quot;Column definition type cannot be null&quot;);</span>
+<span class="nc bnc" id="L251" title="All 4 branches missed.">        switch (columnDefinition) {</span>
+            case &quot;DATE&quot;:
+<span class="nc" id="L253">                return Optional.of(java.sql.Date.class);</span>
+            case &quot;TIME&quot;:
+<span class="nc" id="L255">                return Optional.of(java.sql.Time.class);</span>
+            case &quot;TIMESTAMP&quot;:
+<span class="nc" id="L257">                return Optional.of(java.sql.Timestamp.class);</span>
+            default:
+<span class="nc" id="L259">                throw new FieldGeneratorProcessorException(&quot;Cannot process information about database time type from columnDefinition: &quot; +  columnDefinition);</span>
+        }
+    }
+
+    private Type primitiveFieldType(Type fieldType, Type entityType, java.lang.Class c) throws UnsupportedOperationException {
+        java.lang.Class fieldClass;
+<span class="nc bnc" id="L265" title="All 9 branches missed.">        switch (c.getSimpleName()) {</span>
+            case &quot;int&quot;:
+<span class="nc" id="L267">                fieldClass = IntField.class;</span>
+<span class="nc" id="L268">                break;</span>
+            case &quot;byte&quot;:
+<span class="nc" id="L270">                fieldClass = ByteField.class;</span>
+<span class="nc" id="L271">                break;</span>
+            case &quot;short&quot;:
+<span class="nc" id="L273">                fieldClass = ShortField.class;</span>
+<span class="nc" id="L274">                break;</span>
+            case &quot;long&quot;:
+<span class="nc" id="L276">                fieldClass = LongField.class;</span>
+<span class="nc" id="L277">                break;</span>
+            case &quot;float&quot;:
+<span class="nc" id="L279">                fieldClass = FloatField.class;</span>
+<span class="nc" id="L280">                break;</span>
+            case &quot;double&quot;:
+<span class="nc" id="L282">                fieldClass = DoubleField.class;</span>
+<span class="nc" id="L283">                break;</span>
+            case &quot;char&quot;:
+<span class="nc" id="L285">                fieldClass = CharField.class;</span>
+<span class="nc" id="L286">                break;</span>
+            case &quot;boolean&quot;:
+<span class="nc" id="L288">                fieldClass = BooleanField.class;</span>
+<span class="nc" id="L289">                break;</span>
+<span class="nc" id="L290">            default : throw new UnsupportedOperationException(</span>
+<span class="nc" id="L291">                    &quot;Unknown primitive type: '&quot; + fieldType.getTypeName() + &quot;'.&quot;</span>
+            );
+        }
+<span class="nc" id="L294">        return SimpleParameterizedType.create(</span>
+                fieldClass,
+                entityType
+        );
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

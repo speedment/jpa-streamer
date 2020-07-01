@@ -1,0 +1,5 @@
+com/speedment/jpastreamer/application/standard/internal/Streamer.class
+com/speedment/jpastreamer/application/standard/internal/StandardJpaStreamer.class
+com/speedment/jpastreamer/application/standard/internal/StandardJpaStreamerBuilder.class
+com/speedment/jpastreamer/application/standard/StandardJpaStreamerBuilderFactory.class
+com/speedment/jpastreamer/application/standard/internal/StandardStreamer.class

@@ -1,0 +1,10 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard.internal.strategy.abstracts,AbstractPredicateSquash,0,17,0,2,0,7,0,6,0,5
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard.internal.strategy.abstracts,AbstractLongSquash,0,10,0,0,0,4,0,4,0,4
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard.internal.strategy.abstracts,AbstractSquash,0,93,1,9,0,21,1,8,0,4
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard.internal,InternalPreOptimizerFactory,0,41,0,0,0,9,0,2,0,2
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard,StandardPreOptimizerFactory,0,12,0,0,0,3,0,2,0,2
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard.internal.strategy,SquashLimit,0,30,0,2,0,10,0,7,0,6
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard.internal.strategy,RemovePeek,18,0,2,0,4,0,4,0,3,0
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard.internal.strategy,SquashFilter,0,15,0,0,0,5,0,3,0,3
+PreOptimizer - Standard,com.speedment.jpastreamer.preoptimizer.standard.internal.strategy,SquashSkip,0,15,0,0,0,5,0,3,0,3

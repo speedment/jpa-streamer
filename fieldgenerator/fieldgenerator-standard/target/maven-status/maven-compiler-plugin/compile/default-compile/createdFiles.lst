@@ -1,0 +1,9 @@
+com/speedment/jpastreamer/fieldgenerator/exception/FieldGeneratorProcessorException.class
+com/speedment/jpastreamer/fieldgenerator/exception/TypeParserException.class
+com/speedment/jpastreamer/fieldgenerator/internal/typeparser/TypeParser.class
+com/speedment/jpastreamer/fieldgenerator/util/GeneratorUtil.class
+META-INF/services/javax.annotation.processing.Processor
+com/speedment/jpastreamer/fieldgenerator/StandardFieldGeneratorProcessor.class
+com/speedment/jpastreamer/fieldgenerator/internal/InternalFieldGeneratorProcessor$1.class
+com/speedment/jpastreamer/fieldgenerator/internal/InternalFieldGeneratorProcessor.class
+com/speedment/jpastreamer/fieldgenerator/internal/typeparser/Node.class

@@ -1,0 +1,6 @@
+com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/AbstractSquashTest$PipelineTestCase.class
+com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/SquashSkipTest.class
+com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/SquashLimitTest.class
+com/speedment/jpastreamer/preoptimizer/standard/StandardPreOptimizerFactoryTest.class
+com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/AbstractSquashTest.class
+com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/SquashFilterTest.class

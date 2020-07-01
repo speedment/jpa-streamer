@@ -1,0 +1,5 @@
+com/speedment/jpastreamer/merger/QueryMerger.class
+com/speedment/jpastreamer/merger/CriteriaMerger.class
+com/speedment/jpastreamer/merger/result/QueryMergeResult.class
+com/speedment/jpastreamer/merger/MergerFactory.class
+com/speedment/jpastreamer/merger/result/CriteriaMergeResult.class

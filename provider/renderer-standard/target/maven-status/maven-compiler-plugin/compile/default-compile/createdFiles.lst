@@ -1,0 +1,4 @@
+com/speedment/jpastreamer/renderer/standard/internal/InternalRendererFactory.class
+com/speedment/jpastreamer/renderer/standard/StandardRendererFactory.class
+com/speedment/jpastreamer/renderer/standard/internal/StandardRenderer.class
+com/speedment/jpastreamer/renderer/standard/internal/StandardRenderResult.class

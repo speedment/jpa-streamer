@@ -1,0 +1,14 @@
+com/speedment/jpastreamer/merger/standard/internal/criteria/strategy/CriteriaModifier.class
+com/speedment/jpastreamer/merger/standard/internal/query/InternalQueryMerger.class
+com/speedment/jpastreamer/merger/standard/internal/tracker/MergingTracker.class
+com/speedment/jpastreamer/merger/standard/internal/InternalMergerFactory.class
+com/speedment/jpastreamer/merger/standard/internal/query/result/InternalQueryMergeResult.class
+com/speedment/jpastreamer/merger/standard/internal/reference/DefaultIntermediateOperationReference.class
+com/speedment/jpastreamer/merger/standard/StandardMergerFactory.class
+com/speedment/jpastreamer/merger/standard/internal/criteria/result/InternalCriteriaMergeResult.class
+com/speedment/jpastreamer/merger/standard/internal/criteria/InternalCriteriaMerger.class
+com/speedment/jpastreamer/merger/standard/internal/query/strategy/SkipLimitModifier.class
+com/speedment/jpastreamer/merger/standard/internal/tracker/DefaultMergingTracker.class
+com/speedment/jpastreamer/merger/standard/internal/criteria/strategy/FilterCriteriaModifier.class
+com/speedment/jpastreamer/merger/standard/internal/reference/IntermediateOperationReference.class
+com/speedment/jpastreamer/merger/standard/internal/query/strategy/QueryModifier.class

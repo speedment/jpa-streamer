@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Builder - Standard,com.speedment.jpastreamer.builder.standard,StandardBuilderFactory,14,0,0,0,4,0,2,0,2,0
+Builder - Standard,com.speedment.jpastreamer.builder.standard.internal,StreamBuilder,353,134,0,2,92,38,39,15,39,14
+Builder - Standard,com.speedment.jpastreamer.builder.standard.internal,BaseStreamSupport,24,8,0,0,9,3,5,1,5,1
+Builder - Standard,com.speedment.jpastreamer.builder.standard.internal,InjectedFactories,3,52,0,0,1,11,1,5,1,5
+Builder - Standard,com.speedment.jpastreamer.builder.standard.internal,StreamBuilderUtil,42,0,6,0,15,0,5,0,2,0
+Builder - Standard,com.speedment.jpastreamer.builder.standard.internal,MockRendererFactory,12,0,0,0,4,0,2,0,2,0
+Builder - Standard,com.speedment.jpastreamer.builder.standard.internal,MockRendererFactory.MockRenderer,17,0,0,0,5,0,3,0,3,0
+Builder - Standard,com.speedment.jpastreamer.builder.standard.internal,InternalBuilderFactory,10,0,0,0,2,0,2,0,2,0

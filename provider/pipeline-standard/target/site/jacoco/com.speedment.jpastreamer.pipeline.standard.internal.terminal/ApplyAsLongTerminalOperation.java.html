@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="sv"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplyAsLongTerminalOperation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Pipeline - Standard</a> &gt; <a href="index.source.html" class="el_package">com.speedment.jpastreamer.pipeline.standard.internal.terminal</a> &gt; <span class="el_source">ApplyAsLongTerminalOperation.java</span></div><h1>ApplyAsLongTerminalOperation.java</h1><pre class="source lang-java linenums">package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
+
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFunctionalType;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
+
+import java.util.function.Function;
+import java.util.function.ToLongFunction;
+import java.util.stream.BaseStream;
+
+import static java.util.Objects.requireNonNull;
+
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">final class ApplyAsLongTerminalOperation&lt;S extends BaseStream&lt;?, S&gt;, R, F extends ToLongFunction&lt;S&gt;&gt;</span>
+        extends AbstractTerminalOperation&lt;S, R&gt;
+        implements TerminalOperation&lt;S, R&gt; {
+
+    private final F toLongFunction;
+
+    ApplyAsLongTerminalOperation(final TerminalOperationType type,
+                                 final Class&lt;? super S&gt; streamType,
+                                 final Class&lt;? super R&gt; returnType,
+                                 final F toLongFunction,
+                                 final Object... arguments) {
+<span class="fc" id="L24">        super(type, streamType, returnType, arguments);</span>
+<span class="pc bpc" id="L25" title="2 of 4 branches missed.">        assert type.functionalType() == TerminalOperationFunctionalType.APPLY_AS_LONG;</span>
+<span class="fc" id="L26">        this.toLongFunction = requireNonNull(toLongFunction);</span>
+<span class="fc" id="L27">    }</span>
+
+    @Override
+    public ToLongFunction&lt;S&gt; toLongFunction() {
+<span class="nc" id="L31">        return toLongFunction;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

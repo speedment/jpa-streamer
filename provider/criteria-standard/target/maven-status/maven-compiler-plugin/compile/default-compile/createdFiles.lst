@@ -1,0 +1,10 @@
+com/speedment/jpastreamer/criteria/standard/StandardCriteriaFactory.class
+com/speedment/jpastreamer/criteria/standard/internal/predicate/DefaultPredicateMapper$1.class
+com/speedment/jpastreamer/criteria/standard/internal/predicate/PredicateMapper.class
+com/speedment/jpastreamer/criteria/standard/internal/InternalPredicateFactory$1.class
+com/speedment/jpastreamer/criteria/standard/internal/util/Cast.class
+com/speedment/jpastreamer/criteria/standard/StandardPredicateFactory.class
+com/speedment/jpastreamer/criteria/standard/internal/InternalPredicateFactory.class
+com/speedment/jpastreamer/criteria/standard/internal/InternalCriteriaFactory.class
+com/speedment/jpastreamer/criteria/standard/internal/InternalCriteria.class
+com/speedment/jpastreamer/criteria/standard/internal/predicate/DefaultPredicateMapper.class

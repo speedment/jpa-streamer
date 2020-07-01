@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/application/application.iml" filepath="$PROJECT_DIR$/application/application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/application-standard/application-standard.iml" filepath="$PROJECT_DIR$/provider/application-standard/application-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/autoclose/autoclose.iml" filepath="$PROJECT_DIR$/autoclose/autoclose.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/autoclose-standard/autoclose-standard.iml" filepath="$PROJECT_DIR$/provider/autoclose-standard/autoclose-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/builder/builder.iml" filepath="$PROJECT_DIR$/builder/builder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/builder-standard/builder-standard.iml" filepath="$PROJECT_DIR$/provider/builder-standard/builder-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/criteria/criteria.iml" filepath="$PROJECT_DIR$/criteria/criteria.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/criteria-standard/criteria-standard.iml" filepath="$PROJECT_DIR$/provider/criteria-standard/criteria-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exception/exception.iml" filepath="$PROJECT_DIR$/exception/exception.iml" />
+      <module fileurl="file://$PROJECT_DIR$/field/field.iml" filepath="$PROJECT_DIR$/field/field.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/field-generator-standard-component.iml" filepath="$PROJECT_DIR$/provider/field-generator-standard-component.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fieldgenerator/fieldgenerator.iml" filepath="$PROJECT_DIR$/fieldgenerator/fieldgenerator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fieldgenerator/fieldgenerator-component/fieldgenerator-component.iml" filepath="$PROJECT_DIR$/fieldgenerator/fieldgenerator-component/fieldgenerator-component.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fieldgenerator/fieldgenerator-standard/fieldgenerator-standard.iml" filepath="$PROJECT_DIR$/fieldgenerator/fieldgenerator-standard/fieldgenerator-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fieldgenerator/fieldgenerator-test/fieldgenerator-test.iml" filepath="$PROJECT_DIR$/fieldgenerator/fieldgenerator-test/fieldgenerator-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/javanine/javanine.iml" filepath="$PROJECT_DIR$/javanine/javanine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jpastreamer-parent.iml" filepath="$PROJECT_DIR$/jpastreamer-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/merger/merger.iml" filepath="$PROJECT_DIR$/merger/merger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/merger-standard/merger-standard.iml" filepath="$PROJECT_DIR$/provider/merger-standard/merger-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pipeline/pipeline.iml" filepath="$PROJECT_DIR$/pipeline/pipeline.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/pipeline-standard/pipeline-standard.iml" filepath="$PROJECT_DIR$/provider/pipeline-standard/pipeline-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/preoptimizer/preoptimizer.iml" filepath="$PROJECT_DIR$/preoptimizer/preoptimizer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/preoptimizer-standard/preoptimizer-standard.iml" filepath="$PROJECT_DIR$/provider/preoptimizer-standard/preoptimizer-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/provider.iml" filepath="$PROJECT_DIR$/provider/provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/renderer/renderer.iml" filepath="$PROJECT_DIR$/renderer/renderer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider/renderer-standard/renderer-standard.iml" filepath="$PROJECT_DIR$/provider/renderer-standard/renderer-standard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rootfactory/rootfactory.iml" filepath="$PROJECT_DIR$/rootfactory/rootfactory.iml" />
+      <module fileurl="file://$PROJECT_DIR$/termopmodifier/termopmodifier.iml" filepath="$PROJECT_DIR$/termopmodifier/termopmodifier.iml" />
+      <module fileurl="file://$PROJECT_DIR$/termopoptimizer/termopoptimizer.iml" filepath="$PROJECT_DIR$/termopoptimizer/termopoptimizer.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,7 @@
+com/speedment/jpastreamer/autoclose/standard/internal/AutoClosingIntStream.class
+com/speedment/jpastreamer/autoclose/standard/internal/AutoClosingStream.class
+com/speedment/jpastreamer/autoclose/standard/internal/InternalAutoCloseFactory.class
+com/speedment/jpastreamer/autoclose/standard/internal/AutoClosingDoubleStream.class
+com/speedment/jpastreamer/autoclose/standard/internal/AbstractAutoClosingBaseStream.class
+com/speedment/jpastreamer/autoclose/standard/StandardAutoCloseFactory.class
+com/speedment/jpastreamer/autoclose/standard/internal/AutoClosingLongStream.class
