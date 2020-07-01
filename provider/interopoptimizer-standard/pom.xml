@@ -9,43 +9,29 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>renderer-standard</artifactId>
+    <artifactId>interopoptimizer-standard</artifactId>
 
     <properties>
-        <module-name>jpastreamer.renderer.standard</module-name>
+        <module-name>jpastreamer.interopoptimizer.standard</module-name>
     </properties>
 
-    <name>Renderer - Standard</name>
+    <name>IntermediateOperationOptimizer - Standard</name>
     <description>
-        Standard Renderer
+        Standard IntermediateOperationOptimizer
     </description>
 
     <dependencies>
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>renderer</artifactId>
+            <artifactId>interopoptimizer</artifactId>
+            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>pipeline</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>criteria</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>merger</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>interopoptimizer</artifactId>
-            <version>0.1.0</version>
+            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
@@ -54,10 +40,10 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>pipeline-standard</artifactId>
+            <scope>test</scope>
         </dependency>
-
 
     </dependencies>
 

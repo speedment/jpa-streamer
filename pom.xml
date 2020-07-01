@@ -54,7 +54,7 @@
         <module>pipeline</module>
         <module>builder</module>
         <module>renderer</module>
-        <module>preoptimizer</module>
+        <module>interopoptimizer</module>
         <module>merger</module>
         <module>criteria</module>
         <module>termopmodifier</module>
@@ -994,13 +994,13 @@
 
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>preoptimizer</artifactId>
+                <artifactId>interopoptimizer</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>preoptimizer-standard</artifactId>
+                <artifactId>interopoptimizer-standard</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
