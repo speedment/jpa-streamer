@@ -1,9 +1,0 @@
-com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/abstracts/AbstractLongSquash.class
-com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/abstracts/AbstractSquash.class
-com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/SquashFilter.class
-com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/SquashSkip.class
-com/speedment/jpastreamer/preoptimizer/standard/StandardPreOptimizerFactory.class
-com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/RemovePeek.class
-com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/abstracts/AbstractPredicateSquash.class
-com/speedment/jpastreamer/preoptimizer/standard/internal/InternalPreOptimizerFactory.class
-com/speedment/jpastreamer/preoptimizer/standard/internal/strategy/SquashLimit.class

@@ -1,8 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-FieldGenerator,com.speedment.jpastreamer.fieldgenerator.util,GeneratorUtil,153,0,27,0,35,0,24,0,3,0
-FieldGenerator,com.speedment.jpastreamer.fieldgenerator.internal.typeparser,TypeParser,30,194,5,23,3,45,6,18,2,8
-FieldGenerator,com.speedment.jpastreamer.fieldgenerator.internal.typeparser,Node,68,27,10,0,12,9,9,5,4,5
-FieldGenerator,com.speedment.jpastreamer.fieldgenerator,StandardFieldGeneratorProcessor,19,0,0,0,5,0,3,0,3,0
-FieldGenerator,com.speedment.jpastreamer.fieldgenerator.exception,TypeParserException,4,0,0,0,2,0,1,0,1,0
-FieldGenerator,com.speedment.jpastreamer.fieldgenerator.exception,FieldGeneratorProcessorException,23,0,0,0,9,0,5,0,5,0
-FieldGenerator,com.speedment.jpastreamer.fieldgenerator.internal,InternalFieldGeneratorProcessor,736,0,51,0,132,0,47,0,16,0
