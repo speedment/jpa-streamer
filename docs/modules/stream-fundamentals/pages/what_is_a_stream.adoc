@@ -3,8 +3,7 @@ keywords: stream
 author: Per Minborg
 :reftext: What is a Stream?
 :navtitle: What is a Stream?
-:source-highlighter: coderay
-:source-language: java
+:source-highlighter: highlight.js
 
 JPA Streamer is all about Java 8 Streams, that allows you to process data in a declarative way similar to SQL statements. So if you are not familiar with the concept of `Streams`, I encourage you to read this chapter carefully. If you consider yourself a `Stream` expert, feel free to skip directly to the next chapter.
 
@@ -14,5 +13,7 @@ Streams can be used to express a kind of "recipe" style of operations, allowing 
 
 Consider the following simple example:
 
+[source, java]
+----
 include::example$SoccerExample.java[]
-
+----

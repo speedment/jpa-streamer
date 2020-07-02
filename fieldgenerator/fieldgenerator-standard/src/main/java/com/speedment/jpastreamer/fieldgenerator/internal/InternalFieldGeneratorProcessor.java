@@ -5,8 +5,6 @@ import com.speedment.common.codegen.constant.SimpleParameterizedType;
 import com.speedment.common.codegen.constant.SimpleType;
 import com.speedment.common.codegen.controller.AlignTabs;
 import com.speedment.common.codegen.controller.AutoImports;
-import com.speedment.common.codegen.internal.java.JavaGenerator;
-import com.speedment.common.codegen.internal.java.view.FieldView;
 import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Field;
 import com.speedment.common.codegen.model.*;
@@ -140,7 +138,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         java.lang.Class fieldClass;
         try {
-            messager.printMessage(Diagnostic.Kind.NOTE, "parsing type: " + fieldType(field).getTypeName());
             fieldClass = parseType(fieldType(field).getTypeName());
         } catch (IllegalArgumentException e) {
             throw new FieldGeneratorProcessorException("Type with name " + fieldType(field).getTypeName() + " was not found.");
@@ -207,7 +204,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                                 ComparableField.class,
                                 entityType,
                                 fieldType);
-                messager.printMessage(Diagnostic.Kind.NOTE, "Parsing field type: " + type.getClass() + " for field " + field.getSimpleName());
             } else {
                 type = SimpleParameterizedType.create(
                         ReferenceField.class,
@@ -222,7 +218,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     }
 
     private Type fieldType(Element field) {
-        messager.printMessage(Diagnostic.Kind.NOTE, "Using type parser to parse: " + field.asType().toString());
         TypeParser typeParser = new TypeParser();
         return typeParser.render(field.asType().toString());
     }
