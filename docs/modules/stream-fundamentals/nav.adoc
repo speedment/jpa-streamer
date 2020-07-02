@@ -1,2 +1,3 @@
 * Stream Fundamentals
 ** xref:what_is_a_stream.adoc[What is a Stream?]
+** xref:intermediate_operations.adoc[Intermediate Operations]
