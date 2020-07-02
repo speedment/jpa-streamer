@@ -5,16 +5,18 @@ author: Per Minborg
 :navtitle: Intermediate Operations
 :source-highlighter: highlight.js
 
-An Intermediate Operation is an operation that allows further operations to be added to a Stream. For example, filter is an Intermediate Operation because additional operations can be added to a Stream pipeline after filter has been applied to the Stream.
+An intermediate operation is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an intermediate operation since additional operations can be added to a `Stream` pipeline after `filter` has been applied to the `Stream`.
+
+NOTE: In the examples below, many of the lambdas could be replaced by method references (e.g. the lambda `() -> new StringBuilder` can be replaced by a method reference `StringBuilder::new`).
 
 == Common Operations
-The following Intermediate Operations can be accepted by a Stream:
+The following intermediate operations are accepted by a `Stream`:
 
 [width="100%", cols="3", options="header"]
 |==========================================================
 | Operation         | Parameter          | Returns a `Stream` that:
 
-| `filter`          | `Predicate`        | contains only those elements that match the `Predicate`
+| `filter`          | `Predicate`        | contains only the elements that match the `Predicate`
 | `map`             | `Function`         | contains the results of applying the given `Function` to the elements of this stream
 | `distinct`        | -                  | contains the distinct (i.e. unique) elements in the stream as per the element's `equals()` method
 | `sorted`          | -                  | contains the elements in the stream in sorted order as per the element's `compareTo()` method
@@ -25,62 +27,7 @@ The following Intermediate Operations can be accepted by a Stream:
 | `peek`            | `Consumer`         | contains the original elements in the stream but additionally letting the given `Consumer` accept each element (side effect)
 |==========================================================
 
-== Stream Property Operations
-There are also a number of *Intermediate Operations* that controls the properties of the `Stream` and has no effect on its actual content. These are:
-
-[width="100%", cols="3", options="header"]
-|=============
-| Operation         | Parameter          | Returns a `Stream` that:
-
-| `parallel`        | -                  | is parallel (not sequential)
-| `sequential`      | -                  | is sequential (not parallel)
-| `unordered`       | -                  | is unordered (data might appear in any order)
-| `onClose`         | `Runnable`         | will run the provided `Runnable` when closed
-|=============
-
-== Map to Primitive Operations
-There are also some *Intermediate Operations* that maps a `Stream` to one of the special primitive stream types; `IntStrem`, `LongStream` and `DoubleStream`:
-
-[width="100%", cols="3", options="header"]
-|=============
-| Operation         | Parameter          | Returns a `Stream` that:
-| `mapToInt`        | `ToIntFunction`    | is an `IntStream` containing `int` elements obtained by applying the given `ToIntFunction` to the elements of this stream
-| `mapToLong`       | `ToLongFunction`   | is a `LongStream` containing `long` elements obtained by applying the given `ToLongFunction` to the elements of this stream
-| `mapToDouble`     | `ToDoubleFunction` | is a `DoubleStream` containing `double` elements obtained by applying the given `ToDoubleFunction` to the elements of this stream
-| `flatMapToInt`    | `Function`         | contains the `int` elements of the `IntStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
-| `flatMapToLong`   | `Function`         | contains the `long` elements of the `LongStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
-| `flatMapToDouble` | `Function`         | contains the `double` elements of the `DoubleStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
-|=============
-
-Primitive streams provides better performance in many cases but can only handle streams of: `int`, `long` and `double`.
-
-== Primitive Operations
-Primitive streams (like `IntStream` and `LongStream`) provide similar functionality as ordinary streams but usually the parameter count and types differ so that primitive streams can accept more optimized function variants.
-Here is a table of some additional *Intermediate Operations* that primitive Streams can take:
-
-[width="100%", cols="3", options="header"]
-|=============
-| Operation         | Parameter          | Returns a `Stream` that:
-| `boxed`           | -                  | contains the boxed elements in the original stream (e.g. an `int` is boxed to an `Integer`)
-| `asLongStream`    | -                  | contains the elements in the original stream converted to `long` elements
-| `asDoubleStream`  | -                  | contains the elements in the original stream converted to `double` elements
-|=============
-
-== Java 9 Operations
-Two new *Intermediate Operations* were introduced in Java 9. Because these methods were added to the Stream interface with default implementations, these methods can be used by any Stream implementation written in either Java 8 or Java 9.
-
-[width="100%", cols="3", options="header"]
-|=============
-| Operation         | Parameter          | Returns a `Stream` that:
-| `takeWhile`       | `Predicate`        | contains the elements in the original stream until the the first one fails the `Predicate` test
-| `dropWhile`       | `Predicate`        | contains the elements in the original stream dropping all elements until the the first one fails the `Predicate` test then containing the rest of the elements
-|=============
-
-Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *Intermediate Operations*:
-
-== Intermediate Operations Examples
-
-Here is a list with examples for many of the  *Intermediate Operations*. In the examples below, lambdas are used but many times, the lambdas could be replaces by method references (e.g. the lambda `() -> new StringBuilder` can be replaced by a method reference `StringBuilder::new`). The source code for the examples with *Intermediate Operations* below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/stream_fundamentals/IntermediateOperations.java)
+Below are examples that demonstrate how these operations can be applied.
 
 === filter
 [source, java]
@@ -97,7 +44,7 @@ returns a `Stream` with the elements "B" and "B" because only elements that are 
         Stream.of("B", "A", "C" , "B")
             .map(s -> s.toLowerCase())
 ----
-is a `Stream` with the elements "b", "a", "c" and "b" because each element will be mapped (converted) to its lower case representation.
+returns a `Stream` with the elements "b", "a", "c" and "b" because each element will be mapped (converted) to its lower case representation.
 
 === distinct
 [source, java]
@@ -105,7 +52,7 @@ is a `Stream` with the elements "b", "a", "c" and "b" because each element will 
     Stream.of("B", "A", "C" , "B")
         .distinct()
 ----
-is a `Stream` with the elements "B", "A" and "C" because only unique elements will pass the `distinct` operation.
+returns a `Stream` with the elements "B", "A" and "C" because only unique elements will pass the `distinct` operation.
 
 === sorted
 [source, java]
@@ -120,7 +67,7 @@ returns a `Stream` with the elements "A", "B", "B" and "C" because the `sort` op
         Stream.of("B", "A", "C" , "B")
             .sorted(Comparator.reverseOrder())
 ----
-is a `Stream` with the elements "C", "B", "B" and "A" because the `sort` operation will sort all elements in the stream according to the provided `Comparator` (in reversed natural order).
+returns a `Stream` with the elements "C", "B", "B" and "A" because the `sort` operation will sort all elements in the stream according to the provided `Comparator` (in reversed natural order).
 
 === limit
 
@@ -129,7 +76,7 @@ is a `Stream` with the elements "C", "B", "B" and "A" because the `sort` operati
     Stream.of("B", "A", "C" , "B")
         .limit(2)
 ----
-is a `Stream` with the elements "B" and "A" because after the two first elements the rest of the elements will be discarded.
+returns a `Stream` with the elements "B" and "A" because after the two first elements the rest of the elements will be discarded.
 
 === skip
 
@@ -138,7 +85,7 @@ is a `Stream` with the elements "B" and "A" because after the two first elements
     Stream.of("B", "A", "C" , "B")
         .skip(1)
 ----
-is a `Stream` with the elements "A", "C" and "B" because the first element in the stream will be skipped.
+returns a `Stream` with the elements "A", "C" and "B" because the first element in the stream will be skipped.
 
 === flatMap
 
@@ -170,7 +117,23 @@ returns a `Stream` with the elements "B", "A", "C" and "B" because the two lists
     Stream.of("B", "A", "C" , "B")
         .peek(System.out::print)
 ----
-is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect. Note that side effect usage in stream are discouraged. Use this operation for debug only.
+returns a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect.
+
+NOTE: Side-effect usage is discouraged in Streams. Use this operation for debug only.
+
+== Stream Property Operations
+There are also a number of intermediate operations that controls the properties of the `Stream` and has no effect on its actual content. These are:
+
+[width="100%", cols="3", options="header"]
+|=============
+| Operation         | Parameter          | Returns a `Stream` that:
+
+| `parallel`        | -                  | is parallel (not sequential)
+| `sequential`      | -                  | is sequential (not parallel)
+| `unordered`       | -                  | is unordered (data might appear in any order)
+| `onClose`         | `Runnable`         | will run the provided `Runnable` when closed
+|=============
+
 
 === parallel
 
@@ -179,7 +142,7 @@ is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its 
         Stream.of("B", "A", "C" , "B")
             .parallel()
 ----
-is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Thread`s. By default, parallel streams are executed on the default `ForkJoinPool`.
+returns a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Threads. By default, parallel streams are executed on the default `ForkJoinPool`.
 
 === sequential
 
@@ -189,7 +152,7 @@ is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elemen
         .parallel()
         .sequential()
 ----
-is a `Stream` with the elements "B", "A", "C" and "B" that is not parallel.
+returns a `Stream` with the elements "B", "A", "C" and "B" that is not parallel.
 
 === unordered
 
@@ -198,7 +161,7 @@ is a `Stream` with the elements "B", "A", "C" and "B" that is not parallel.
     Stream.of("B", "A", "C" , "B")
         .unordered()
 ----
-is a `Stream` with the given elements but not necessary in any particular order. So when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A". Note that `unordered` is just a relaxation of the stream requirements. Unordered streams can retain their original element order or elements can appear in any other order.
+returns a `Stream` with the given elements but not necessary in any particular order. So when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A". Note that `unordered` is just a relaxation of the stream requirements. Unordered streams can retain their original element order or elements can appear in any other order.
 
 === onClose
 
@@ -209,6 +172,22 @@ is a `Stream` with the given elements but not necessary in any particular order.
 ----
 is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".
 
+== Map to Primitive Operations
+There are also some intermediate operations that maps a `Stream` to one of the special primitive stream types; `IntStrem`, `LongStream` and `DoubleStream`:
+
+[width="100%", cols="3", options="header"]
+|=============
+| Operation         | Parameter          | Returns a `Stream` that:
+| `mapToInt`        | `ToIntFunction`    | is an `IntStream` containing `int` elements obtained by applying the given `ToIntFunction` to the elements of this stream
+| `mapToLong`       | `ToLongFunction`   | is a `LongStream` containing `long` elements obtained by applying the given `ToLongFunction` to the elements of this stream
+| `mapToDouble`     | `ToDoubleFunction` | is a `DoubleStream` containing `double` elements obtained by applying the given `ToDoubleFunction` to the elements of this stream
+| `flatMapToInt`    | `Function`         | contains the `int` elements of the `IntStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `flatMapToLong`   | `Function`         | contains the `long` elements of the `LongStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `flatMapToDouble` | `Function`         | contains the `double` elements of the `DoubleStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+|=============
+
+NOTE: In many cases, primitive streams provide better performance but can only handle streams of: `int`, `long` and `double`.
+
 === mapToInt
 
 [source,java]
@@ -216,7 +195,7 @@ is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will pri
     Stream.of("B", "A", "C" , "B")
         .mapToInt(s -> s.hashCode())
 ----
-is an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B is 66 and so on)
+returns an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B is 66 and so on)
 
 === mapToLong
 
@@ -225,7 +204,7 @@ is an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B is 66 a
     Stream.of("B", "A", "C", "B")
         .mapToLong(s -> s.hashCode() * 1_000_000_000_000l)
 ----
-is a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.
+returns a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.
 
 === mapToDouble
 
@@ -234,7 +213,7 @@ is a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000
         Stream.of("B", "A", "C", "B")
             .mapToDouble(s -> s.hashCode() / 10.0)
 ----
-is a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
+returns a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
 === flatMapToInt
 
 [source,java]
@@ -245,7 +224,7 @@ is a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
     )
         .flatMapToInt(s -> s.map(i -> i + 1))
 ----
-is an `IntStream` with the `int` elements 2, 3, 4 and 5 because the two `IntStream`s where flattened to one stream whereby 1 was added to each element.
+returns an `IntStream` with the `int` elements 2, 3, 4 and 5 because the two `IntStream`s where flattened to one stream whereby 1 was added to each element.
 
 === flatMapToLong
 
@@ -257,20 +236,31 @@ is an `IntStream` with the `int` elements 2, 3, 4 and 5 because the two `IntStre
     )
         .flatMapToLong(s -> s.map(i -> i + 1))
 ----
-is a `LongStream` with the `long` elements 2, 3, 4 and 5 because the two `LongStream`s where flattened to one stream whereby 1 was added to each element.
+returns a `LongStream` with the `long` elements 2, 3, 4 and 5 because the two `LongStreams` where flattened to one stream whereby 1 was added to each element.
 
 === flatMapToDouble
 
 [source,java]
 ----
         Stream.of(
-            LongStream.of(1.0, 2.0),
-            LongStream.of(3.0, 4.0)
+            DoubleStream.of(1.0, 2.0),
+            DoubleStream.of(3.0, 4.0)
         )
             .flatMapToDouble(s -> s.map(i -> i + 1))
 ----
-is a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0 because the two `DoubleStream`s where flattened to one stream whereby 1 was added to each element.
+returns a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0 because the two `DoubleStream`s where flattened to one stream whereby 1 was added to each element.
 
+== Primitive Operations
+Primitive streams (like `IntStream` and `LongStream`) provide similar functionality as ordinary streams but usually the parameter count and types differ so that primitive streams can accept more optimized function variants.
+Here is a table of some additional *Intermediate Operations* that primitive Streams can take:
+
+[width="100%", cols="3", options="header"]
+|=============
+| Operation         | Parameter          | Returns a `Stream` that:
+| `boxed`           | -                  | contains the boxed elements in the original stream (e.g. an `int` is boxed to an `Integer`)
+| `asLongStream`    | -                  | contains the elements in the original stream converted to `long` elements
+| `asDoubleStream`  | -                  | contains the elements in the original stream converted to `double` elements
+|=============
 
 === boxed
 
@@ -279,7 +269,7 @@ is a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0 because the
     IntStream.of(1, 2, 3, 4)
         .boxed()
 ----
-is a `Stream` with the `Integer` elements 1, 2, 3 and 4 because the original `int` elements were boxed to their corresponding `Integer` elements.
+returns a `Stream` with the `Integer` elements 1, 2, 3 and 4 because the original `int` elements were boxed to their corresponding `Integer` elements.
 
 === asLongStream
 
@@ -288,7 +278,7 @@ is a `Stream` with the `Integer` elements 1, 2, 3 and 4 because the original `in
      IntStream.of(1, 2, 3, 4)
         .asLongStream()
 ----
-is a `LongStream` with the `long` elements 1, 2, 3 and 4 because the original `int` elements were converted to `long` elements.
+returns a `LongStream` with the `long` elements 1, 2, 3 and 4 because the original `int` elements were converted to `long` elements.
 
 === asDoubleStream
 
@@ -297,7 +287,18 @@ is a `LongStream` with the `long` elements 1, 2, 3 and 4 because the original `i
 IntStream.of(1, 2, 3, 4)
 .asDoubleStream()
 ----
-is a `DoubleStream` with the `double` elements 1.0, 2.0, 3.0 and 4.0 because the original `int` elements were converted to `double` elements.
+returns a `DoubleStream` with the `double` elements 1.0, 2.0, 3.0 and 4.0 because the original `int` elements were converted to `double` elements.
+
+
+== Java 9 Operations
+Two new intermediate operations were introduced in Java 9. Since these methods were added to the `Stream` interface with default implementations, these methods can be used by any `Stream` implementation written in either Java 8 or Java 9.
+
+[width="100%", cols="3", options="header"]
+|=============
+| Operation         | Parameter          | Returns a `Stream` that:
+| `takeWhile`       | `Predicate`        | contains the elements in the original stream until the the first one fails the `Predicate` test
+| `dropWhile`       | `Predicate`        | contains the elements in the original stream dropping all elements until the the first one fails the `Predicate` test then containing the rest of the elements
+|=============
 
 === takeWhile (Java 9 only)
 
@@ -306,7 +307,7 @@ is a `DoubleStream` with the `double` elements 1.0, 2.0, 3.0 and 4.0 because the
 Stream.of("B", "A", "C", "B")
 .takeWhile(s -> "B".compareTo(s) >= 0)
 ----
-is a `Stream` with the elements "B" and "A" because when "C" in encountered in the stream, that element and all following are dropped.
+returns a `Stream` with the elements "B" and "A" because when "C" is encountered in the `Stream`, that element and all following are dropped.
 
 === dropWhile (Java 9 only)
 
@@ -315,6 +316,4 @@ is a `Stream` with the elements "B" and "A" because when "C" in encountered in t
 Stream.of("B", "A", "C", "B")
 .dropWhile(s -> "B".compareTo(s) >= 0)
 ----
-is a `Stream` with the elements "C" and "B" because elements are dropped from the stream but when "C" in encountered, subsequent elements are not dropped.
-
-This completes the example list of *Intermediate Operation* examples.
+returns a `Stream` with the elements "C" and "B" because elements are dropped from the `Stream` but when "C" in encountered, subsequent elements are not dropped.
