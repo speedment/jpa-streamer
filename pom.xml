@@ -61,6 +61,7 @@
         <module>termopoptimizer</module>
         <module>provider</module>
         <module>fieldgenerator</module>
+        <module>core</module>
     </modules>
     
     <!-- Properties -->
