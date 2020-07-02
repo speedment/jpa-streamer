@@ -25,7 +25,7 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-final class SquashFilterTest extends AbstractSquashTest<String, SquashFilter> {
+final class SquashFilterTest extends SquashTest<String, SquashFilter> {
 
     @Override
     SquashFilter getSquashInstance() {

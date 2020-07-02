@@ -14,32 +14,15 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.abstracts;
+package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.abstracts;
 
+import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.SingleValueSquash;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
-import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizer;
 
 import java.util.LinkedList;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
-public abstract class AbstractSquash<S> implements IntermediateOperationOptimizer {
-
-    protected abstract Class<S> valueClass();
-
-    protected abstract S initialValue();
-
-    protected abstract IntermediateOperationType operationType();
-
-    protected abstract BiFunction<S, S, S> squash();
-
-    protected abstract Function<S, IntermediateOperation<?, ?>> operationProvider();
-
-    protected S checkValue() { return initialValue(); }
-
-    protected S resetValue() { return initialValue(); }
+public abstract class AbstractSingleValueSquash<S> implements SingleValueSquash<S> {
 
     @Override
     @SuppressWarnings("unchecked")

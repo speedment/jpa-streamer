@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.abstracts.AbstractSquash;
+import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.Squash;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.PipelineFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
-abstract class AbstractSquashTest<ENTITY, T extends AbstractSquash<?>> {
+abstract class SquashTest<ENTITY, T extends Squash> {
 
     protected final PipelineFactory pipelineFactory = RootFactory.getOrThrow(PipelineFactory.class, ServiceLoader::load);
     protected final IntermediateOperationFactory operationFactory = RootFactory.getOrThrow(IntermediateOperationFactory.class, ServiceLoader::load);

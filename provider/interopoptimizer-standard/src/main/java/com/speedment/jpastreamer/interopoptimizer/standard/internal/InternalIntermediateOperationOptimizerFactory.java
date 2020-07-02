@@ -16,6 +16,7 @@
 
 package com.speedment.jpastreamer.interopoptimizer.standard.internal;
 
+import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.SquashDistinct;
 import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.SquashFilter;
 import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.SquashLimit;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
@@ -29,8 +30,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
-public final class InternalIntermediateOperationOptimizerFactory implements
-        IntermediateOperationOptimizerFactory {
+public final class InternalIntermediateOperationOptimizerFactory implements IntermediateOperationOptimizerFactory {
 
     private final List<IntermediateOperationOptimizer> intermediateOperationOptimizers = new ArrayList<>();
 
@@ -41,6 +41,7 @@ public final class InternalIntermediateOperationOptimizerFactory implements
         intermediateOperationOptimizers.add(new SquashSkip(intermediateOperationFactory));
         intermediateOperationOptimizers.add(new SquashLimit(intermediateOperationFactory));
         intermediateOperationOptimizers.add(new SquashFilter(intermediateOperationFactory));
+        intermediateOperationOptimizers.add(new SquashDistinct(intermediateOperationFactory));
     }
 
     public Stream<IntermediateOperationOptimizer> stream() {

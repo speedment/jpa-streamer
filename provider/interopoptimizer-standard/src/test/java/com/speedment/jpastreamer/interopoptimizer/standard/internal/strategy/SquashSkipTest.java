@@ -22,7 +22,7 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-final class SquashSkipTest extends AbstractSquashTest<String, SquashSkip> {
+final class SquashSkipTest extends SquashTest<String, SquashSkip> {
 
     @Override
     SquashSkip getSquashInstance() {

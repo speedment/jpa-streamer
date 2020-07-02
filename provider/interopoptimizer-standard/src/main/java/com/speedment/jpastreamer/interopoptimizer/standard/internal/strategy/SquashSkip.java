@@ -16,14 +16,14 @@
 
 package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy;
 
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.abstracts.AbstractLongSquash;
+import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.abstracts.LongSquash;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 
 import java.util.function.Function;
 
-public final class SquashSkip extends AbstractLongSquash {
+public final class SquashSkip extends LongSquash {
 
     private final IntermediateOperationFactory intermediateOperationFactory;
 
@@ -32,12 +32,12 @@ public final class SquashSkip extends AbstractLongSquash {
     }
 
     @Override
-    protected IntermediateOperationType operationType() {
+    public IntermediateOperationType operationType() {
         return IntermediateOperationType.SKIP;
     }
 
     @Override
-    protected Function<Long, IntermediateOperation<?, ?>> operationProvider() {
+    public Function<Long, IntermediateOperation<?, ?>> operationProvider() {
         return intermediateOperationFactory::createSkip;
     }
 }

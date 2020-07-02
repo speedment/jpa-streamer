@@ -14,24 +14,14 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.abstracts;
+package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash;
 
-import java.util.function.BiFunction;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 
-public abstract class AbstractLongSquash extends AbstractSquash<Long> {
+import java.util.function.Supplier;
 
-    @Override
-    protected Class<Long> valueClass() {
-        return Long.class;
-    }
+public interface NoValueSquash extends Squash {
 
-    @Override
-    protected Long initialValue() {
-        return (long) 0;
-    }
+    Supplier<IntermediateOperation<?, ?>> operationProvider();
 
-    @Override
-    protected BiFunction<Long, Long, Long> squash() {
-        return Long::sum;
-    }
 }

@@ -16,30 +16,28 @@
 
 package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy;
 
+import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.abstracts.AbstractNoValueSquash;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.abstracts.PredicateSquash;
 
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.Supplier;
 
-public final class SquashFilter extends PredicateSquash {
+public final class SquashDistinct extends AbstractNoValueSquash {
 
     private final IntermediateOperationFactory intermediateOperationFactory;
 
-    public SquashFilter(final IntermediateOperationFactory intermediateOperationFactory) {
+    public SquashDistinct(final IntermediateOperationFactory intermediateOperationFactory) {
         this.intermediateOperationFactory = intermediateOperationFactory;
     }
 
     @Override
-    public IntermediateOperationType operationType() {
-        return IntermediateOperationType.FILTER;
+    public Supplier<IntermediateOperation<?, ?>> operationProvider() {
+        return intermediateOperationFactory::acquireDistinct;
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
-    public Function<Predicate, IntermediateOperation<?, ?>> operationProvider() {
-        return intermediateOperationFactory::createFilter;
+    public IntermediateOperationType operationType() {
+        return IntermediateOperationType.DISTINCT;
     }
 }

@@ -14,32 +14,24 @@
  * the License.
  */
 
-package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.abstracts;
+package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.abstracts;
 
 import java.util.function.BiFunction;
-import java.util.function.Predicate;
 
-@SuppressWarnings({"rawtypes","unchecked"})
-public abstract class AbstractPredicateSquash extends AbstractSquash<Predicate> {
+public abstract class LongSquash extends AbstractSingleValueSquash<Long> {
 
     @Override
-    protected Class<Predicate> valueClass() {
-        return Predicate.class;
+    public Class<Long> valueClass() {
+        return Long.class;
     }
 
     @Override
-    protected Predicate initialValue() {
-        return null;
+    public Long initialValue() {
+        return (long) 0;
     }
 
     @Override
-    protected BiFunction<Predicate, Predicate, Predicate> squash() {
-        return (value, result) -> {
-            if (result == null) {
-                return value;
-            }
-
-            return value.and(result);
-        };
+    public BiFunction<Long, Long, Long> squash() {
+        return Long::sum;
     }
 }
