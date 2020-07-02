@@ -26,9 +26,9 @@ public final class StandardIntermediateOperationOptimizerFactory implements Inte
 
     private final IntermediateOperationOptimizerFactory delegate = new InternalIntermediateOperationOptimizerFactory();
 
+    @Override
     public Stream<IntermediateOperationOptimizer> stream() {
         return delegate.stream();
     }
-
 
 }
