@@ -1,1 +1,2 @@
 * Stream Fundamentals
+** xref:what_is_a_stream.adoc
