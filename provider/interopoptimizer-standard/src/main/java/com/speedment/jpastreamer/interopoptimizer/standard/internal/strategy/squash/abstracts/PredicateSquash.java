@@ -19,21 +19,22 @@ package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.sq
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
-@SuppressWarnings({"rawtypes","unchecked"})
-public abstract class PredicateSquash extends AbstractSingleValueSquash<Predicate> {
+public abstract class PredicateSquash<T> extends AbstractSingleValueSquash<Predicate<T>> {
 
     @Override
-    public Class<Predicate> valueClass() {
-        return Predicate.class;
+    @SuppressWarnings("unchecked")
+    public Class<Predicate<T>> valueClass() {
+        final Predicate<T> $ = x -> true;
+        return (Class<Predicate<T>>) $.getClass().getInterfaces()[0];
     }
 
     @Override
-    public Predicate initialValue() {
+    public Predicate<T> initialValue() {
         return null;
     }
 
     @Override
-    public BiFunction<Predicate, Predicate, Predicate> squash() {
+    public BiFunction<Predicate<T>, Predicate<T>, Predicate<T>> squash() {
         return (value, result) -> {
             if (result == null) {
                 return value;
