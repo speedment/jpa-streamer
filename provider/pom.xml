@@ -20,7 +20,7 @@
         <module>builder-standard</module>
         <module>pipeline-standard</module>
         <module>renderer-standard</module>
-        <module>preoptimizer-standard</module>
+        <module>interopoptimizer-standard</module>
         <module>merger-standard</module>
         <module>criteria-standard</module>
         <module>termopmodifier-standard</module>

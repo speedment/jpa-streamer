@@ -4,12 +4,12 @@ import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.CriteriaFactory;
+import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizerFactory;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
 import com.speedment.jpastreamer.merger.MergerFactory;
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
-import com.speedment.jpastreamer.preoptimizer.PreOptimizerFactory;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
@@ -25,14 +25,14 @@ public final class StandardRenderer implements Renderer {
     private final EntityManager entityManager;
     private final CriteriaFactory criteriaFactory;
 
-    private final PreOptimizerFactory preOptimizerFactory;
+    private final IntermediateOperationOptimizerFactory intermediateOperationOptimizerFactory;
 
     private final MergerFactory mergerFactory;
 
     StandardRenderer(final EntityManagerFactory entityManagerFactory) {
         this.entityManager = requireNonNull(entityManagerFactory).createEntityManager();
         this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class, ServiceLoader::load);
-        this.preOptimizerFactory = RootFactory.getOrThrow(PreOptimizerFactory.class, ServiceLoader::load);
+        this.intermediateOperationOptimizerFactory = RootFactory.getOrThrow(IntermediateOperationOptimizerFactory.class, ServiceLoader::load);
         this.mergerFactory = RootFactory.getOrThrow(MergerFactory.class, ServiceLoader::load);
     }
 
@@ -85,7 +85,7 @@ public final class StandardRenderer implements Renderer {
     }
 
     private <T> void optimizePipeline(final Pipeline<T> pipeline) {
-        preOptimizerFactory.stream().forEach(preOptimizer -> preOptimizer.optimize(pipeline));
+        intermediateOperationOptimizerFactory.stream().forEach(intermediateOperationOptimizer -> intermediateOperationOptimizer.optimize(pipeline));
     }
 
     @Override
