@@ -17,7 +17,7 @@
 
     <name>Application</name>
     <description>
-        The entry API of JpaStreamer
+        The entry API of JPAStreamer
     </description>
 
     <dependencies>

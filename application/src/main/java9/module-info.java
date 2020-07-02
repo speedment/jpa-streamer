@@ -20,6 +20,6 @@ module jpastreamer.application {
 
     exports com.speedment.jpastreamer.application;
 
-    uses com.speedment.jpastreamer.application.JpaStreamerBuilderFactory;
+    uses com.speedment.jpastreamer.application.JPAStreamerBuilderFactory;
 
 }

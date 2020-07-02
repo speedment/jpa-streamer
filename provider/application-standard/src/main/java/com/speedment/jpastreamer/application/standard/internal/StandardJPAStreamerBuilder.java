@@ -1,26 +1,25 @@
 package com.speedment.jpastreamer.application.standard.internal;
 
-import com.speedment.jpastreamer.application.JpaStreamer;
-import com.speedment.jpastreamer.application.JpaStreamerBuilder;
-
-import javax.persistence.EntityManagerFactory;
-
-import java.util.Optional;
-
 import static java.util.Objects.requireNonNull;
 
-public final class StandardJpaStreamerBuilder implements JpaStreamerBuilder {
+import com.speedment.jpastreamer.application.JPAStreamer;
+import com.speedment.jpastreamer.application.JPAStreamerBuilder;
+
+import javax.persistence.EntityManagerFactory;
+import java.util.Optional;
+
+public final class StandardJPAStreamerBuilder implements JPAStreamerBuilder {
 
     private final EntityManagerFactory entityManagerFactory;
 
-    public StandardJpaStreamerBuilder(final EntityManagerFactory entityManagerFactory) {
+    public StandardJPAStreamerBuilder(final EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = requireNonNull(entityManagerFactory);
     }
 
     @Override
-    public JpaStreamer build() {
+    public JPAStreamer build() {
 
-        // http://patorjk.com/software/taag/#p=display&f=Doom&t=JpaStreamer
+        // http://patorjk.com/software/taag/#p=display&f=Doom&t=JPAStreamer
 
         final String welcome = String.format(
                 "   _________  ___    _____ _                                      \n" +
@@ -35,12 +34,12 @@ public final class StandardJpaStreamerBuilder implements JpaStreamerBuilder {
 
         System.out.println(welcome);
 
-        return new StandardJpaStreamer(entityManagerFactory);
+        return new StandardJPAStreamer(entityManagerFactory);
     }
 
 
     public static String implementationVersion() {
-        return Optional.ofNullable(StandardJpaStreamerBuilder.class.getPackage().getImplementationVersion())
+        return Optional.ofNullable(StandardJPAStreamerBuilder.class.getPackage().getImplementationVersion())
                 .orElse("unknown version");
     }
 

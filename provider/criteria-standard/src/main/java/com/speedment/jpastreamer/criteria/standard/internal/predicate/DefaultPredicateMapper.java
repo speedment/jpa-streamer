@@ -22,7 +22,7 @@ import com.speedment.common.tuple.Tuple3;
 import com.speedment.common.tuple.Tuples;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.standard.internal.util.Cast;
-import com.speedment.jpastreamer.exception.JpaStreamerException;
+import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
@@ -193,7 +193,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                             )
                         );
                     default:
-                        throw new JpaStreamerException(
+                        throw new JPAStreamerException(
                             "Inclusion type [" + inclusion + "] is not supported"
                         );
                 }
@@ -263,7 +263,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                             )
                         );
                     default:
-                        throw new JpaStreamerException(
+                        throw new JPAStreamerException(
                             "Inclusion type [" + inclusion + "] is not supported"
                         );
                     }
@@ -278,7 +278,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
 
         if (!(value instanceof Set)) {
-            throw new JpaStreamerException();
+            throw new JPAStreamerException();
         }
 
         final Field<T> field = fieldPredicate.getField();
@@ -528,7 +528,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             return callback.apply(column, (S) value);
         }
 
-        throw new JpaStreamerException();
+        throw new JPAStreamerException();
     }
 
     @SuppressWarnings("rawtypes")
@@ -552,7 +552,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             return comparableCallback.apply(column, (Comparable) value);
         }
 
-        throw new JpaStreamerException("Illegal comparison value [" + value + "]");
+        throw new JPAStreamerException("Illegal comparison value [" + value + "]");
     }
 
     @SuppressWarnings("unchecked")
@@ -578,7 +578,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             return callback.apply(column, tuple3);
         }
 
-        throw new JpaStreamerException("Illegal comparison values [" + arg0 + "," + arg1 + "]");
+        throw new JPAStreamerException("Illegal comparison values [" + arg0 + "," + arg1 + "]");
     }
 
     /*
@@ -651,7 +651,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             case IS_NOT_EMPTY:
                 return isNotEmpty(criteria, fieldPredicate);
             default:
-                throw new JpaStreamerException(
+                throw new JPAStreamerException(
                     "Predicate type [" + fieldPredicate.getPredicateType()
                         + "] is not supported"
                 );

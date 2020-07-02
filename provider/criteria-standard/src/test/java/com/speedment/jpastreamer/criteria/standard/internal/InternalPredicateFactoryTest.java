@@ -27,13 +27,12 @@ import com.speedment.jpastreamer.criteria.PredicateFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.predicate.PredicateMapper;
 import com.speedment.jpastreamer.criteria.standard.support.CombinedStringPredicate;
 import com.speedment.jpastreamer.criteria.standard.support.StringEqualPredicate;
-import com.speedment.jpastreamer.exception.JpaStreamerException;
+import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.field.predicate.CombinedPredicate.Type;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.FieldSetter;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -72,7 +71,7 @@ final class InternalPredicateFactoryTest {
 
         final SpeedmentPredicate<String> invalidCombinedPredicate = new CombinedStringPredicate(Collections.singletonList(x -> true));
 
-        assertThrows(JpaStreamerException.class, () -> predicateFactory.createPredicate(criteria, invalidCombinedPredicate));
+        assertThrows(JPAStreamerException.class, () -> predicateFactory.createPredicate(criteria, invalidCombinedPredicate));
 
         final SpeedmentPredicate<String> andCombinedPredicate = new CombinedStringPredicate(Arrays.asList(stringEqualPredicate, stringNotEqualPredicate));
 

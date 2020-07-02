@@ -21,7 +21,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.OrderFactory;
-import com.speedment.jpastreamer.exception.JpaStreamerException;
+import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.merger.standard.internal.reference.IntermediateOperationReference;
 import com.speedment.jpastreamer.merger.standard.internal.tracker.MergingTracker;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
@@ -72,7 +72,7 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
 
             try {
                 orders = orderFactory.createOrder(criteria, optionalComparator.get());
-            } catch (JpaStreamerException e) {
+            } catch (JPAStreamerException e) {
                 // don't merge operator in case we encounter an unsupported Comparator
                 return;
             }

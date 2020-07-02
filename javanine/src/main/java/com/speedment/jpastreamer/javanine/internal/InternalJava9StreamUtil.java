@@ -16,7 +16,7 @@
  */
 package com.speedment.jpastreamer.javanine.internal;
 
-import com.speedment.jpastreamer.exception.JpaStreamerException;
+import com.speedment.jpastreamer.exception.JPAStreamerException;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -100,7 +100,7 @@ public final class InternalJava9StreamUtil {
             final Object obj = DOUBLE_TAKE_WHILE_METHOD_HANDLE.invoke(stream, predicate);
             return (DoubleStream) obj;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -124,7 +124,7 @@ public final class InternalJava9StreamUtil {
             final Object obj = DOUBLE_DROP_WHILE_METHOD_HANDLE.invoke(stream, predicate);
             return (DoubleStream) obj;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -135,7 +135,7 @@ public final class InternalJava9StreamUtil {
         try {
             return (DoubleStream) DOUBLE_FILTER_METHOD_HANDLE.invoke(stream, predicate);
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -159,7 +159,7 @@ public final class InternalJava9StreamUtil {
             final Object obj = INT_TAKE_WHILE_METHOD_HANDLE.invoke(stream, predicate);
             return (IntStream) obj;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -183,7 +183,7 @@ public final class InternalJava9StreamUtil {
             final Object obj = INT_DROP_WHILE_METHOD_HANDLE.invoke(stream, predicate);
             return (IntStream) obj;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -194,7 +194,7 @@ public final class InternalJava9StreamUtil {
         try {
             return (IntStream) INT_FILTER_METHOD_HANDLE.invoke(stream, predicate);
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -218,7 +218,7 @@ public final class InternalJava9StreamUtil {
             final Object obj = LONG_TAKE_WHILE_METHOD_HANDLE.invoke(stream, predicate);
             return (LongStream) obj;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -242,7 +242,7 @@ public final class InternalJava9StreamUtil {
             final Object obj = LONG_DROP_WHILE_METHOD_HANDLE.invoke(stream, predicate);
             return (LongStream) obj;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -253,7 +253,7 @@ public final class InternalJava9StreamUtil {
         try {
             return (LongStream) LONG_FILTER_METHOD_HANDLE.invoke(stream, predicate);
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -279,7 +279,7 @@ public final class InternalJava9StreamUtil {
             final Object obj = TAKE_WHILE_METHOD_HANDLE.invoke(stream, predicate);
             return (Stream<T>) obj;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -305,7 +305,7 @@ public final class InternalJava9StreamUtil {
             final Object obj = DROP_WHILE_METHOD_HANDLE.invoke(stream, predicate);
             return (Stream<T>) obj;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 
@@ -318,7 +318,7 @@ public final class InternalJava9StreamUtil {
             final Stream<T> s = (Stream<T>) FILTER_METHOD_HANDLE.invoke(stream, predicate);
             return s;
         } catch (Throwable t) {
-            throw new JpaStreamerException(t);
+            throw new JPAStreamerException(t);
         }
     }
 

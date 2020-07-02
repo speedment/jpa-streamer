@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.toList;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.OrderFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.order.OrderMapper;
-import com.speedment.jpastreamer.exception.JpaStreamerException;
+import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.field.comparator.CombinedComparator;
 import com.speedment.jpastreamer.field.comparator.FieldComparator;
 
@@ -57,7 +57,7 @@ public final class InternalOrderFactory implements OrderFactory {
                 .collect(toList());
         }
 
-        throw new JpaStreamerException(
+        throw new JPAStreamerException(
             "Comparator type [" + comparator.getClass().getSimpleName() + "] is not supported"
         );
     }

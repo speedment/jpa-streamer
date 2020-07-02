@@ -20,5 +20,5 @@ module jpastreamer.interopoptimizer.standard {
     exports com.speedment.jpastreamer.interopoptimizer.standard;
 
     // Todo: Enable this
-    // provides com.speedment.jpastreamer.application.JpaStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJpaStreamBuilderFactory;
+    // provides com.speedment.jpastreamer.application.JPAStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJPAStreamBuilderFactory;
 }

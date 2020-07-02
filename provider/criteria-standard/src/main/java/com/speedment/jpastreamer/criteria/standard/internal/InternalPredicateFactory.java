@@ -21,7 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.PredicateFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.predicate.PredicateMapper;
-import com.speedment.jpastreamer.exception.JpaStreamerException;
+import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.field.predicate.CombinedPredicate;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
@@ -54,7 +54,7 @@ public final class InternalPredicateFactory implements PredicateFactory {
                 if (predicate instanceof SpeedmentPredicate) {
                     return createPredicate(criteria, (SpeedmentPredicate<T>) predicate);
                 }
-                throw new JpaStreamerException(
+                throw new JPAStreamerException(
                     "Predicate type [" + predicate.getClass().getSimpleName() + "] is not supported"
                 );
             }).toArray(Predicate[]::new);
@@ -65,13 +65,13 @@ public final class InternalPredicateFactory implements PredicateFactory {
                 case OR:
                     return criteria.getBuilder().or(predicates);
                 default:
-                    throw new JpaStreamerException(
+                    throw new JPAStreamerException(
                         "Predicate logical operator [" + combinedPredicate.getType() + "] is not supported"
                     );
             }
         }
 
-        throw new JpaStreamerException(
+        throw new JPAStreamerException(
             "Predicate type [" + speedmentPredicate.getClass().getSimpleName() + "] is not supported"
         );
     }

@@ -19,7 +19,7 @@
     <description>
         Partly generated model of the fields that represent columns in the
         database. Fields can be used to produce special predicates and functions
-        that contain metadata that JpaStream can analyze runtime.
+        that contain metadata that JPAStream can analyze runtime.
     </description>
 
     <dependencies>

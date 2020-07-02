@@ -17,7 +17,7 @@
 
     <name>Application - Standard</name>
     <description>
-        Standard provider of the entry API of JpaStreamer
+        Standard provider of the entry API of JPAStreamer
     </description>
 
     <dependencies>

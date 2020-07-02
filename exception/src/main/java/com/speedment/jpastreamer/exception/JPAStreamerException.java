@@ -1,11 +1,11 @@
 package com.speedment.jpastreamer.exception;
 
 /**
- * {@code JpaStreamerException} is the superclass of those exceptions that can be
- * thrown during the normal operation of the JpaStreamer framework. Exceptions of
+ * {@code JPAStreamerException} is the superclass of those exceptions that can be
+ * thrown during the normal operation of the JPAStreamer framework. Exceptions of
  * this type are sometimes used to wrap checked exception.
  * <p>
- * {@code JpaStreamerException} and its subclasses are <em>unchecked
+ * {@code JPAStreamerException} and its subclasses are <em>unchecked
  * exceptions</em>. Unchecked exceptions do <em>not</em> need to be declared in
  * a method or constructor's {@code throws} clause if they can be thrown by the
  * execution of the method or constructor and propagate outside the method or
@@ -14,33 +14,33 @@ package com.speedment.jpastreamer.exception;
  * @author  Per Minborg
  * @since   0.6.0
  */
-public final class JpaStreamerException extends RuntimeException {
+public final class JPAStreamerException extends RuntimeException {
 
     static final long serialVersionUID = -2376282327232872L;
 
     /**
-     * Constructs a new {@code JpaStreamerException} with {@code null} as its
+     * Constructs a new {@code JPAStreamerException} with {@code null} as its
      * detail message. The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause}.
      */
-    public JpaStreamerException() {
+    public JPAStreamerException() {
         super();
     }
 
     /**
-     * Constructs a new {@code JpaStreamerException} with the specified detail
+     * Constructs a new {@code JPAStreamerException} with the specified detail
      * message. The cause is not initialized, and may subsequently be
      * initialized by a call to {@link #initCause}.
      *
      * @param message the detail message. The detail message is saved for later
      * retrieval by the {@link #getMessage()} method.
      */
-    public JpaStreamerException(final String message) {
+    public JPAStreamerException(final String message) {
         super(message);
     }
 
     /**
-     * Constructs a new {@code JpaStreamerException} with the specified detail
+     * Constructs a new {@code JPAStreamerException} with the specified detail
      * message and cause.
      * <p>
      * Note that the detail message associated with {@code cause} is <i>not</i>
@@ -52,12 +52,12 @@ public final class JpaStreamerException extends RuntimeException {
      * {@link #getCause()} method). (A {@code null} value is permitted, and
      * indicates that the cause is nonexistent or unknown.)
      */
-    public JpaStreamerException(final String message, final Throwable cause) {
+    public JPAStreamerException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * Constructs a new {@code JpaStreamerException} with the specified cause and
+     * Constructs a new {@code JPAStreamerException} with the specified cause and
      * a detail message of {@code (cause==null ? null : cause.toString())}
      * (which typically contains the class and detail message of
      * {@code cause}). This constructor is useful for exceptions that are
@@ -68,7 +68,7 @@ public final class JpaStreamerException extends RuntimeException {
      * {@link #getCause()} method). (A {@code null} value is permitted, and
      * indicates that the cause is nonexistent or unknown.)
      */
-    public JpaStreamerException(final Throwable cause) {
+    public JPAStreamerException(final Throwable cause) {
         super(cause);
     }
 
@@ -85,7 +85,7 @@ public final class JpaStreamerException extends RuntimeException {
      * @param writableStackTrace whether or not the stack trace should be
      * writable
      */
-    protected JpaStreamerException(final String message,
+    protected JPAStreamerException(final String message,
                                    final Throwable cause,
                                    final boolean enableSuppression,
                                    final boolean writableStackTrace) {

@@ -1,20 +1,20 @@
 package com.speedment.jpastreamer.application.standard.internal;
 
-import com.speedment.jpastreamer.application.JpaStreamer;
+import static java.util.Objects.requireNonNull;
+
+import com.speedment.jpastreamer.application.JPAStreamer;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-import static java.util.Objects.requireNonNull;
-
-final class StandardJpaStreamer implements JpaStreamer {
+final class StandardJPAStreamer implements JPAStreamer {
 
     private final EntityManagerFactory entityManagerFactory;
     private final Map<Class<?>, Streamer<?>> streamerCache;
 
-    StandardJpaStreamer(final EntityManagerFactory entityManagerFactory) {
+    StandardJPAStreamer(final EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = requireNonNull(entityManagerFactory);
         streamerCache = new ConcurrentHashMap<>();
     }

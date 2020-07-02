@@ -6,7 +6,7 @@ JPA Streamer is a lightweight toolkit for creating Java Streams from database co
 
 This is how you initialize JPA Streamer using a persistence unit name "sakila":
 
-    JpaStreamer jpaStreamer = JpaStreamer.createJpaStreamerBuilder("sakila")
+    JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila")
                 .build(); 
 
 ## Examples

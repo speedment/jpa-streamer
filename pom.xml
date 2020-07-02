@@ -40,7 +40,7 @@
     <!-- Project Metadata -->
     <name>Parent</name>
     <description>
-        JpaStreamer is a lightweight toolkit for creating Java Streams from database content
+        JPAStreamer is a lightweight toolkit for creating Java Streams from database content
     </description>
     
     <!-- Modules -->
