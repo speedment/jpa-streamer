@@ -40,7 +40,7 @@ public final class InternalIntermediateOperationOptimizerFactory implements Inte
 
         intermediateOperationOptimizers.add(new SquashSkip(intermediateOperationFactory));
         intermediateOperationOptimizers.add(new SquashLimit(intermediateOperationFactory));
-        intermediateOperationOptimizers.add(new SquashFilter(intermediateOperationFactory));
+        intermediateOperationOptimizers.add(new SquashFilter<>(intermediateOperationFactory));
         intermediateOperationOptimizers.add(new SquashDistinct(intermediateOperationFactory));
     }
 

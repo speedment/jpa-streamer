@@ -24,7 +24,7 @@ import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squ
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public final class SquashFilter extends PredicateSquash {
+public final class SquashFilter<T> extends PredicateSquash<T> {
 
     private final IntermediateOperationFactory intermediateOperationFactory;
 
@@ -38,8 +38,7 @@ public final class SquashFilter extends PredicateSquash {
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
-    public Function<Predicate, IntermediateOperation<?, ?>> operationProvider() {
+    public Function<Predicate<T>, IntermediateOperation<?, ?>> operationProvider() {
         return intermediateOperationFactory::createFilter;
     }
 }
