@@ -4,7 +4,7 @@ version: 0.1.0
 start_page: introduction:overview.adoc
 nav:
   - modules/ROOT/nav.adoc
+  - modules/introduction/nav.adoc
   - modules/getting-started/nav.adoc
   - modules/stream-fundamentals/nav.adoc
   - modules/fetching-data/nav.adoc
-  - modules/introduction/nav.adoc

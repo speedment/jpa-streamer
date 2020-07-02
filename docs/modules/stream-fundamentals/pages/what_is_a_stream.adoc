@@ -1,0 +1,16 @@
+= What is a Stream?
+keywords: stream
+author: Per Minborg
+:reftext: What is a Stream?
+:navtitle: What is a Stream?
+
+JPA Streamer is all about Java 8 Streams, that allows you to process data in a declarative way similar to SQL statements. So if you are not familiar with the concept of `Streams`, I encourage you to read this chapter carefully. If you consider yourself a `Stream` expert, feel free to skip directly to the next chapter.
+
+A Java 8 `Stream` is an `interface` with implementations that supports a functional style operation on streams of elements. The entire Java Collection framework was retrofitted with `Stream` support in Java 8.
+
+Streams can be used to express a kind of "recipe" style of operations, allowing us to compose a number of function and only when the `Stream` is started, the functions are applied to the elements in the `Stream`. This means that `Streams` can be very efficient and general. A `Stream` recipe says *what to do* but generally *not how to do it* which is good from an abstraction point of view.
+
+Consider the following simple example:
+
+include::example$SoccerExample.java[]
+
