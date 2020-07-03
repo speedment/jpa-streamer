@@ -1,0 +1,260 @@
+= SQL Equivalents
+keywords: stream, jpastreamer, java, SQL
+author: Per Minborg
+:reftext: SQL Equivalents
+:navtitle: SQL Equivalents
+:source-highlighter: highlight.js
+
+This chapter contains a number of typical database queries that can be expressed using JPAStreamer. For users that are accustomed to SQL, this chapter provides an overview of how to translate SQL to Streams. The examples included in this chapter are based on the https://dev.mysql.com/doc/sakila/en/[MySQL "sakila" example database], which models a classic movie rental store. An object that corresponds to a row in the database are, by convention, called an "Entity".
+
+The table below gives an overview of how SQL operators map to the Java Stream API.
+
+[width="100%", cols="2", options="header"]
+|==========================================================
+SQL | Java Stream |
+FROM |  stream() |
+WHERE |	filter() (before collecting) |
+ORDER BY|	sorted() |
+OFFSET|	skip() |
+LIMIT |	limit() |
+COUNT |	count() |
+SELECT |	map() |
+HAVING| filter() (after collecting) |
+JOIN|	flatmap() |
+UNION|	concat(s0, s1).distinct() |
+GROUP BY	|collect(groupingBY()) |
+|==========================================================
+
+== FROM
+`FROM` can be expressed using `.stream()`. To access this method, you need access to an instance of a `JPAStreamer`:
+
+[source,java]
+----
+   JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") #<1>
+    build();
+----
+<1> "sakila" is to be replaced with the name of the relevant persistence unit
+
+The method `.stream()` accepts a reference to the Entity representing the table to be streamed. For example, the table 'film' has a corresponding `Film` Entity:
+
+[source,java]
+----
+@Entity
+public class Film {
+
+    @Id
+    @Column(name = "film_id", columnDefinition = "smallint(5)")
+    private Integer filmId;
+
+    @Column(name = "title", columnDefinition = "varchar(255)")
+    private String title;
+
+    ...
+}
+----
+This entity can be streamed like so:
+
+[source,java]
+----
+   jpaStreamer.stream(Film.class);
+----
+which will create a `Stream` with all the `Film` entities in the Film table:
+
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----
+
+== WHERE
+`WHERE` can be expressed using `.filter()`.
+
+By applying a `filter` to a `Stream`, certain entities can be retained in the `Stream` and other entities can be dropped. For example,
+to find a long film (of length greater than 120 minutes) you can apply a `filter` like this:
+
+[source, java]
+----
+    jpaStreamer.stream(Film.class)
+        .filter(Film$.length.greaterThan(120))
+        .forEachOrdered(System.out::println);
+----
+This will produce the following output:
+[source, text]
+----
+Optional[FilmImpl { filmId = 5, title = AFRICAN EGG,... , length = 130, ...]
+----
+
+NOTE: An important property with JPAStreamer streams is that they are able to optimize their own pipeline by introspection. It looks like the `Stream` will iterate over all rows in the 'film' table but this is not the case. Instead, JPAStreamer is able to optimize the resulting query in the background which is then passed to the used JPA provider. This means that only the relevant entities are pulled in from the database into the `Stream`.
+
+== ORDER BY
+`ORDER BY` can be expressed using `.sorted()`.
+
+Sorting all our films based on length can be done this way:
+[source,java]
+----
+    List<Film> filmsInLengthOrder = jpaStreamer.stream(Films.class)
+        .sorted(Film$.length) #<1>
+        .collect(Collectors.toList());
+----
+<1> Descending order can be obtained by calling, for example, `Film$.length.reversed()`.
+
+The list will have the following content:
+[source, text]
+----
+Film { filmId = 15, title = ALIEN CENTER, ..., length = 46, ...
+Film { filmId = 469, title = IRON MOON, ..., length = 46, ...
+Film { filmId = 730, title = RIDGEMONT SUBMARINE, ..., length = 46, ...
+Film { filmId = 504, title = KWAI HOMEWARD, ..., length = 46, ...
+Film { filmId = 505, title = LABYRINTH LEAGUE, ..., length = 46, ...
+Film { filmId = 784, title = SHANGHAI TYCOON, ..., length = 47, ...
+Film { filmId = 869, title = SUSPECTS QUILLS, ..., length = 47, ...
+...
+----
+
+Several "ORDER BY" columns can be used by composing comparators:
+[source, java]
+----
+.sorted(Film$.length.thenComparing(Film$.title.comparator()) #<1>
+----
+<1> The `.comparator()` method must be used for secondary fields.
+
+== OFFSET
+`OFFSET` can be expressed using `.skip()`.
+
+The `.skip()` operation is useful to skip a number of records before using them. Suppose you want to print out the films in title order but staring from the 100:th film then the skip-operation can be used like this:
+
+[source,java]
+----
+    films.stream()
+        .sorted(Film$.title)
+        .skip(100)
+        .forEachOrdered(System.out::println);
+----
+This will produce the following output:
+
+[source,text]
+----
+Film { filmId = 101, title = BROTHERHOOD BLANKET, ...
+Film { filmId = 102, title = BUBBLE GROSSE, ...
+Film { filmId = 103, title = BUCKET BROTHERHOOD, ...
+...
+----
+
+== LIMIT
+`LIMIT` can be expressed using `.limit()`.
+
+The number of records in a `Stream` can be controlled using the `.limit()` operation. This example will print out the 3 first films in title order:
+[source, java]
+----
+    jpaStreamer.stream(Film.class)
+        .sorted(Film$.title)
+        .limit(3)
+        .forEachOrdered(System.out::println);
+----
+
+This will produce the following output:
+[source, java]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+----
+
+== Combining OFFSET and LIMIT
+`LIMIT X OFFSET Y` can be expressed by `.skip(y).limit(x)` (note the order of `skip` and `limit`)
+
+There are many applications where both `.skip()` and `.limit()` are used. Remember that the order of these stream operations matters and that the order is different from what you might be used to from SQL. The following example expresses a stream used to fetch 50 films starting from the 100:th film in natural title order:
+[source, java]
+----
+    films.stream()
+        .sorted(Film.TITLE)
+        .skip(100)
+        .limit(50)
+        .forEachOrdered(System.out::println);
+----
+This will produce the following output:
+[source, text]
+----
+Film { filmId = 101, title = BROTHERHOOD BLANKET, ...
+Film { filmId = 102, title = BUBBLE GROSSE, ...
+Film { filmId = 103, title = BUCKET BROTHERHOOD, ...
+...
+----
+
+== COUNT
+`COUNT` can be expressed using `.count()`.
+
+Stream counting are optimized to database queries. Consider the following stream that counts the number of long films (with a length greater than 120 minutes):
+[source, java]
+----
+    long noLongFilms = jpaStreamer.stream(Film.class)
+        .filter(Film$.length.greaterThan(120))
+        .count();
+----
+When run, the code will calculate that there are 457 long films.
+
+== GROUP BY
+`GROUP BY` can be expressed using `collect(groupingBy(...))`
+
+Java has its own group-by `collector`. The example below groups all the Films by 'rating':
+[source,java]
+----
+    Map<String, List<Film>> filmCategories = jpaStreamer.stream(Film.class)
+        .collect(
+            Collectors.groupingBy(
+                Film$.rating
+            )
+        );
+
+        map.forEach((k, v) ->
+            System.out.format(
+                 "Rating %-5s maps to %d films %n", k, v.size()
+            )
+        );
+----
+This might produce the following output:
+[source, text]
+----
+Rating PG-13 has 223 films
+Rating R     has 195 films
+Rating NC-17 has 210 films
+Rating G     has 178 films
+Rating PG    has 194 films
+----
+The entire table will be pulled into the application in this example because all films will be in the `Map.
+
+To only count the occurrences of items for different classifications a down-stream `Collector` can be used instead:
+
+[source, java]
+----
+Map<String, Long> map = jpaStreamer.stream(Film.class)
+    .collect(
+        Collectors.groupingBy(
+            // Apply this classifier
+            Film$.rating,
+            // Then apply this down-stream collector
+            Collectors.counting()
+        )
+    );
+
+    System.out.println(map);
+----
+This might produce the following output:
+[source, text]
+----
+{PG-13=223, R=195, NC-17=210, G=178, PG=194}
+----
+
+== SELECT
+
+== HAVING
+
+== JOIN
+
+== UNION
+
+== OFFSET
+
+== GROUP BY

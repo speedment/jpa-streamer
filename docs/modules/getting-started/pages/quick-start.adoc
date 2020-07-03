@@ -12,7 +12,7 @@ This section helps you get started with JPAStreamer in a few minutes. The proces
 
 NOTE: Use of JPAStreamer requires Java 8 or later.
 
-== 1. Installing JPAStreamer
+== Installing JPAStreamer
 The installation is performed by notifying your build tool that the JPAStreamer dependency is required to compile your source code. This is accomplished with using either of the following dependencies for Maven or Gradle.
 
 === Maven
@@ -32,13 +32,24 @@ Install JPAStreamer by adding the following dependency in the project's pom.xml-
 === Gradle
 Install JPAStreamer by adding the following dependency in the project's gradle.build-file:
 
+[source]
+----
+repositories {
+	mavenCentral()
+}
 
-== 2. Build Your Project to Generate Fields
+dependencies {
+    compile "com.speedment.jpastreamer:core:version"
+    annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
+}
+----
+
+== Build Your Project to Generate Fields
 Once you have added the JPAStreamer dependency, go ahead and build your project to allow JPAStreamer to generate its required fields. The fields are generated into the target folder in the same package as the corresponding `Entity`.
 
 NOTE: If you are running in an IDE, you may have to manually configure the output target folder as a source folder, or else the runtime compiler may not be aware of the generated classes.
 
-== 3. Initiate JPAStreamer
+== Initiate JPAStreamer
 After installation, JPA Streamer is initialized with a simple builder. For JPAStreamer to know which database you would like to access, you need to provide the name of the persistence unit.
 
 [source, java]
@@ -64,7 +75,7 @@ To release any resources potentially held by JPA Streamer, simply close the stre
 jpaStreamer.close();
 ----
 
-== 4. Next Steps
+== Next Steps
 Now that you have access to JPAStreamer it's time to put the expressiveness of Java Streams to work. If you are not yet familiar with the `Stream` API, you may find our guide on xref:stream-fundamentals:what_is_a_stream.adoc[Stream Fundamentals] helpful.
 
 Otherwise, feel free to checkout the large collection of examples of JPAStreamer usage.

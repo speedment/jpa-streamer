@@ -1,0 +1,208 @@
+= Stream Examples
+keywords: stream, jpastreamer, java, examples
+author: Per Minborg
+:reftext: Stream Examples
+:navtitle: Stream Examples
+:source-highlighter: highlight.js
+
+This section contains mixed examples of how streams can operate on entities of type `User`. The `User` class looks like this:
+
+[source, java]
+----
+static class User {
+
+        private static final List<String> CARS = Arrays.asList("Toyota", "Volvo", "Tesla", "Fiat", "Ford");
+
+        private final int id;
+
+        public User(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return "Name" + id;
+        }
+
+        public String getPassword() {
+            return "PW" + (id ^ 0x7F93A27F);
+        }
+
+        public String getFavoriteCar() {
+            return CARS.get(id % CARS.size());
+        }
+
+        public int getBornYear() {
+            return 1950 + id % 50;
+        }
+
+        @Override
+        public String toString() {
+            return String.format(
+                "{id=%d, name=%s, password=%s, favoriteCar=%s, bornYear=%d}",
+                getId(),
+                getName(),
+                getPassword(),
+                getFavoriteCar(),
+                getBornYear()
+            );
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof User)) {
+                return false;
+            }
+            User that = (User) obj;
+            return this.id == that.id;
+        }
+
+        @Override
+        public int hashCode() {
+            return id;
+        }
+
+    }
+----
+
+NOTE: In the examples all fields will be derived from the `id`. This is good for tests and examples but of course not so useful in real applications. Because the id defines all other fields, only the id field needs to be used in the `equals` and `hashCode` methods.
+
+The first users will thus be:
+
+[width="100%", cols="2", options="header"]
+|==========================================================
+| id  | User
+| 0   | {id=0, name=Name0, password=PW346289151, favoriteCar=Toyota, bornYear=1950}
+| 1   | {id=1, name=Name1, password=PW1420030975, favoriteCar=Volvo, bornYear=1951}
+| 2   | {id=2, name=Name2, password=PW883160063, favoriteCar=Tesla, bornYear=1952}
+| 3   | {id=3, name=Name3, password=PW1956901887, favoriteCar=Fiat, bornYear=1953}
+| 4   | {id=4, name=Name4, password=PW77853695, favoriteCar=Ford, bornYear=1954}
+| 5   | {id=5, name=Name5, password=PW1151595519, favoriteCar=Toyota, bornYear=1955}
+| ... | ...
+|==========================================================
+
+There is also a `UserManager` that provides a static stream method that will return a `Stream<User>` that contains 1000 elements (with user ids in the range 0 to 999). The `UserManager` class is shown hereunder:
+``` java
+    static class UserManager {
+        static Stream<User> stream() {
+            return IntStream.range(0, 1000)
+                .mapToObj(User::new);
+        }
+    }
+```
+Note how the stream method creates an `IntStream` with elements from 0 to 999 and then maps each `int` element to a `User` object using the `User` constructor that takes an `int` as an argument.
+
+
+### Count the Number of Ford Likers
+The example below counts the number of users that like Ford:
+``` java
+    long count = UserManager.stream()
+        .filter(u -> "Ford".equals(u.getFavoriteCar()))
+        .count();
+
+        System.out.format("There are %d users that supports Ford %n", count);
+```
+The code above will produce:
+``` text
+There are 200 users that supports Ford
+```
+
+### Calculate Average Age
+The following example calculates the average age of the users that like Tesla assuming the current year is 2017:
+``` java
+    OptionalDouble avg = UserManager.stream()
+        .filter(u -> "Tesla".equals(u.getFavoriteCar()))
+        .mapToInt(u -> 2017 - u.getBornYear()) // Calculates the age
+        .average();
+
+    if (avg.isPresent()) {
+        System.out.format("The average age of Tesla likers are %d years %n", avg.getAsDouble());
+    } else {
+        System.out.format("There are no Tesla lovers");
+    }
+```
+The code above will produce:
+``` text
+The average age of Tesla likers are 42.500000 years
+```
+
+### Find the Youngest Volvo Digger
+The next example sets out to locate the youngest Volvo digger. The solution imposed below sorts all users in bornYear order and then picks the first one. Is there another solution without sort?
+``` java
+Comparator<User> comparator = Comparator.comparing(User::getBornYear).reversed();
+
+    Optional<User> youngest = UserManager.stream()
+        .filter(u -> "Volvo".equals(u.getFavoriteCar()))
+        .sorted(comparator)
+        .findFirst();
+
+    youngest.ifPresent(u
+        -> System.out.println("Found the youngest Volvo digger which is :" + u.toString())
+    );
+```
+This will produce the following output:
+``` text
+Found the youngest Volvo digger which is :{id=46, name=Name46, password=PW782496767, favoriteCar=Volvo, bornYear=1996}
+```
+
+### Collect a Stream in a List
+The following example collects all users that love Fiat in a List:
+``` java
+        List<User> fiatLovers = UserManager.stream()
+            .filter(u -> "Fiat".equals(u.getFavoriteCar()))
+            .collect(Collectors.toList());
+
+        System.out.format("There are %d fiat lovers %n", fiatLovers.size());
+```
+The code above will produce:
+``` text
+There are 200 fiat lovers
+```
+
+### Element Flow
+The example below examines the flow of elements and the different operations in the stream's pipeline. A `Stream` with five names is created and a `filter` is used to find those having a name that starts with the letter "A".
+A `sort` operation is also applied to the remaining names and then lastly the names are mapped to lower case. Lastly the remaining elements are printed. Print statements are used in between operations to enable observation of the separate operation:
+``` java
+    Stream.of("Bert", "Alice", "Charlie", "Assian", "Adam")
+        .filter(s -> {
+            String required = "A";
+            boolean result = s.startsWith(required);
+            System.out.format("filter        : \"%s\".startsWith(\"%s\") is %s (%s) %n", s, required, result, result ? "retained" : "dropped");
+            return result;
+        })
+        .sorted((s1, s2) -> {
+            int result = s1.compareTo(s2);
+            System.out.format("sort          : compare(%s, %s) is %d (%s)%n", s1, s2, result, result < 0 ? "not swapped" : "swapped");
+            return result;
+        })
+        .map(s -> {
+            String result = s.toLowerCase();
+            System.out.format("map           : %s -> %s %n", s, result);
+            return result;
+        })
+        .forEachOrdered(s
+            -> System.out.println("forEachOrdered: " + s)
+        );
+```
+This will print:
+``` text
+filter        : "Bert".startsWith("A") is false (dropped)
+filter        : "Alice".startsWith("A") is true (retained)
+filter        : "Charlie".startsWith("A") is false (dropped)
+filter        : "Assian".startsWith("A") is true (retained)
+filter        : "Adam".startsWith("A") is true (retained)
+sort          : compare(Assian, Alice) is 7 (swapped)
+sort          : compare(Adam, Assian) is -15 (not swapped)
+sort          : compare(Adam, Assian) is -15 (not swapped)
+sort          : compare(Adam, Alice) is -8 (not swapped)
+map           : Adam -> adam
+forEachOrdered: adam
+map           : Alice -> alice
+forEachOrdered: alice
+map           : Assian -> assian
+forEachOrdered: assian
+```
+So, in the end, the stream delivered the elements "adam", "alice" and "assian" as expected. Note how `sort` needs to retrieve all the element via the `filter` stage before it can emit result to the next stage. On the contrary, the last steps are executed in pipeline order because both `map` and `forEachOrdered` can process a stream element one at a time.

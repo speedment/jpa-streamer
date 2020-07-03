@@ -1,1 +1,4 @@
 * Fetching Data
+** xref:sql-equivalents.adoc[SQL Equivalents]
+** xref:stream-examples.adoc[Stream Examples]
+

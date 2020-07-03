@@ -1,0 +1,6 @@
+= Stream Examples
+keywords: stream, jpastreamer, java
+author: Per Minborg
+:reftext: Stream Examples
+:navtitle: Stream Examples
+:source-highlighter: highlight.js
