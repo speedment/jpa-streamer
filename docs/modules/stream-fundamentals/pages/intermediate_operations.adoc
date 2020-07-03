@@ -41,8 +41,8 @@ returns a `Stream` with the elements "B" and "B" because only elements that are 
 === map
 [source, java]
 ----
-        Stream.of("B", "A", "C" , "B")
-            .map(s -> s.toLowerCase())
+    Stream.of("B", "A", "C" , "B")
+        .map(s -> s.toLowerCase())
 ----
 returns a `Stream` with the elements "b", "a", "c" and "b" because each element will be mapped (converted) to its lower case representation.
 
@@ -64,8 +64,8 @@ returns a `Stream` with the elements "A", "B", "B" and "C" because the `sort` op
 
 [source,java]
 ----
-        Stream.of("B", "A", "C" , "B")
-            .sorted(Comparator.reverseOrder())
+    Stream.of("B", "A", "C" , "B")
+        .sorted(Comparator.reverseOrder())
 ----
 returns a `Stream` with the elements "C", "B", "B" and "A" because the `sort` operation will sort all elements in the stream according to the provided `Comparator` (in reversed natural order).
 
@@ -91,12 +91,12 @@ returns a `Stream` with the elements "A", "C" and "B" because the first element 
 
 [source,java]
 ----
-        Stream.of(
-            Stream.of("B", "A"),
-            Stream.of("C", "B")
-        )
-            .flatMap(Function.identity())
-            .forEachOrdered(System.out::println);
+    Stream.of(
+        Stream.of("B", "A"),
+        Stream.of("C", "B")
+    )
+        .flatMap(Function.identity())
+        .forEachOrdered(System.out::println);
 ----
 returns a `Stream` with the elements "B", "A", "C" and "B" because the two streams (that each contain two elements) are "flattened" to a single `Stream` with four elements.
 
@@ -134,13 +134,12 @@ There are also a number of intermediate operations that controls the properties 
 | `onClose`         | `Runnable`         | will run the provided `Runnable` when closed
 |=============
 
-
 === parallel
 
 [source,java]
 ----
-        Stream.of("B", "A", "C" , "B")
-            .parallel()
+    Stream.of("B", "A", "C" , "B")
+        .parallel()
 ----
 returns a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Threads. By default, parallel streams are executed on the default `ForkJoinPool`.
 
@@ -167,8 +166,8 @@ returns a `Stream` with the given elements but not necessary in any particular o
 
 [source,java]
 ----
-        Stream.of("B", "A", "C", "B")
-            .onClose( () -> System.out.println("The Stream was closed") );
+    Stream.of("B", "A", "C", "B")
+        .onClose( () -> System.out.println("The Stream was closed") );
 ----
 is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".
 
@@ -210,8 +209,8 @@ returns a `LongStream` with the `long` elements 66000000000000, 65000000000000, 
 
 [source,java]
 ----
-        Stream.of("B", "A", "C", "B")
-            .mapToDouble(s -> s.hashCode() / 10.0)
+    Stream.of("B", "A", "C", "B")
+        .mapToDouble(s -> s.hashCode() / 10.0)
 ----
 returns a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
 === flatMapToInt
@@ -242,11 +241,11 @@ returns a `LongStream` with the `long` elements 2, 3, 4 and 5 because the two `L
 
 [source,java]
 ----
-        Stream.of(
-            DoubleStream.of(1.0, 2.0),
-            DoubleStream.of(3.0, 4.0)
-        )
-            .flatMapToDouble(s -> s.map(i -> i + 1))
+    Stream.of(
+        DoubleStream.of(1.0, 2.0),
+        DoubleStream.of(3.0, 4.0)
+    )
+        .flatMapToDouble(s -> s.map(i -> i + 1))
 ----
 returns a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0 because the two `DoubleStream`s where flattened to one stream whereby 1 was added to each element.
 
@@ -284,8 +283,8 @@ returns a `LongStream` with the `long` elements 1, 2, 3 and 4 because the origin
 
 [source,java]
 ----
-IntStream.of(1, 2, 3, 4)
-.asDoubleStream()
+    IntStream.of(1, 2, 3, 4)
+        .asDoubleStream()
 ----
 returns a `DoubleStream` with the `double` elements 1.0, 2.0, 3.0 and 4.0 because the original `int` elements were converted to `double` elements.
 
@@ -304,8 +303,8 @@ Two new intermediate operations were introduced in Java 9. Since these methods w
 
 [source,java]
 ----
-Stream.of("B", "A", "C", "B")
-.takeWhile(s -> "B".compareTo(s) >= 0)
+    Stream.of("B", "A", "C", "B")
+        .takeWhile(s -> "B".compareTo(s) >= 0)
 ----
 returns a `Stream` with the elements "B" and "A" because when "C" is encountered in the `Stream`, that element and all following are dropped.
 
@@ -313,7 +312,7 @@ returns a `Stream` with the elements "B" and "A" because when "C" is encountered
 
 [source,java]
 ----
-Stream.of("B", "A", "C", "B")
-.dropWhile(s -> "B".compareTo(s) >= 0)
+    Stream.of("B", "A", "C", "B")
+        .dropWhile(s -> "B".compareTo(s) >= 0)
 ----
 returns a `Stream` with the elements "C" and "B" because elements are dropped from the `Stream` but when "C" in encountered, subsequent elements are not dropped.

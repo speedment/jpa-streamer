@@ -1,3 +1,5 @@
 * Stream Fundamentals
 ** xref:what_is_a_stream.adoc[What is a Stream?]
 ** xref:intermediate_operations.adoc[Intermediate Operations]
+** xref:terminal_operations.adoc[Terminal Operations]
+** xref:other_operations.adoc[Other Operations]

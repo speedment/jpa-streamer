@@ -1,0 +1,50 @@
+= Other Operations
+keywords: stream, jpastreamer, java
+author: Per Minborg
+:reftext: Other Operations
+:navtitle: Other Operations
+:source-highlighter: highlight.js
+
+There are a few operations that do not classify as either an intermediate operation or a terminal operation. These are shown in the table below:
+
+[width="100%", cols="2", options="header"]
+|==========================================================
+| Operation         | Action
+| `isParallel`      | Returns `true` if the Stream is parallel, else `false`
+| `close`           | Closes the `Stream` and releases all its resources (if any)
+|==========================================================
+
+== isParallel
+
+[source,java]
+----
+    Stream.of("B", "A", "C", "B")
+        .parallel()
+        .isParallel()
+----
+returns `true` because the `Stream` is parallel.
+
+[source,java]
+----
+    Stream.of("B", "A", "C", "B")
+        .sequential()
+        .isParallel()
+----
+returns `false` because the `Stream` is *not* parallel.
+
+== close
+
+[source,java]
+----
+    Stream<String> stream = Stream.of("B", "A", "C", "B");
+    stream.forEachOrdered(System.out::println);
+    stream.close();
+----
+prints all elements in the `Stream` and then closes the `Stream`. Some streams (e.g. streams from files) need to be closed to release their resources. Use the try-with-resource patterns if the `Stream` must be closed:
+
+[source,java]
+----
+    try (Stream<String> s = Stream.of("B", "A", "C", "B")) {
+        s.forEachOrdered(System.out::println);
+    }
+----

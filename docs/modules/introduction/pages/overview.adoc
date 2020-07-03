@@ -1,6 +1,23 @@
-= JPA Streamer Docs
+= Overview
+keywords: stream, jpastreamer, java
+author: Per Minborg
+:reftext: Overview
+:navtitle: Overview
+:source-highlighter: highlight.js
 
-JPA Streamer is an extension for JPA provides to allow queries to be expressed as standard Java Streams.
+JPA Streamer is a lightweight toolkit for creating Java Streams from database content using any JPA provider, such as Hibernate.
 
-JPA Streamer can be run with many different JPA providers including Hibernate.
+
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.equal("G"))
+    .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator()))
+    .skip(10)
+    .limit(5)
+    .forEach(System.out::println);
+----
+This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first 10 and then printing only the following 5 films.
+
+
 

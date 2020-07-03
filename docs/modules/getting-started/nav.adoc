@@ -1,1 +1,3 @@
 * Getting Started
+** xref:installation.adoc[Installing JPAStreamer]
+** xref:quick-start.adoc[Quick Start with JPAStreamer]

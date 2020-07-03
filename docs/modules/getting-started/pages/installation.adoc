@@ -1,0 +1,26 @@
+= Installing JPAStreamer
+keywords: stream, jpastreamer, java
+author: Per Minborg
+:reftext: Installation
+:navtitle: Installation
+:source-highlighter: highlight.js
+
+Since JPAStreamer acts merely as an API extension for any existing JPA provider it requires minimal installation and configuration efforts. This chapter describes how to integrate JPAStreamer in your Maven or Gradle build configuration.
+
+NOTE: JPAStreamer requires use of Java 8 or later.
+
+== Maven
+To set up JPAStreamer with Maven you have to specify that the JPAStreamer dependency is required to compile your source code. This is accomplished by adding the JPAStreamer dependency to the project's pom.xml-file.
+
+[source, xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>com.speedment.jpastreamer</groupId>
+        <artifactId>core</artifactId>
+        <version>${jpa-streamer-version}</version>
+    </dependency>
+</dependencies>
+----
+
+== Gradle
