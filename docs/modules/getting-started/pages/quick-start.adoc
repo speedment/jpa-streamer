@@ -32,7 +32,7 @@ Install JPAStreamer by adding the following dependency in the project's pom.xml-
 === Gradle
 Install JPAStreamer by adding the following dependency in the project's gradle.build-file:
 
-[source]
+[source, text]
 ----
 repositories {
 	mavenCentral()
