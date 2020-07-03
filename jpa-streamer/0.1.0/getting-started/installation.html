@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Overview :: JPA Streamer Docs</title>
+    <title>Installing JPAStreamer :: JPA Streamer Docs</title>
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
@@ -60,7 +60,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="overview.html">JPAStreamer Docs</a></h3>
+    <h3 class="title"><a href="../introduction/overview.html">JPAStreamer Docs</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -68,8 +68,8 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Introduction</span>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="overview.html">Overview</a>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../introduction/overview.html">Overview</a>
   </li>
 </ul>
   </li>
@@ -81,11 +81,11 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Getting Started</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../getting-started/installation.html">Installing JPAStreamer</a>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="installation.html">Installing JPAStreamer</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../getting-started/quick-start.html">Quick Start with JPAStreamer</a>
+    <a class="nav-link" href="quick-start.html">Quick Start with JPAStreamer</a>
   </li>
 </ul>
   </li>
@@ -142,7 +142,7 @@
       <span class="title">JPAStreamer Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="overview.html">0.1.0</a>
+          <a href="../introduction/overview.html">0.1.0</a>
         </li>
       </ul>
     </li>
@@ -154,33 +154,75 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="overview.html" class="home-link is-current"></a>
+  <a href="../introduction/overview.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="overview.html">JPAStreamer Docs</a></li>
-    <li>Introduction</li>
-    <li><a href="overview.html">Overview</a></li>
+    <li><a href="../introduction/overview.html">JPAStreamer Docs</a></li>
+    <li>Getting Started</li>
+    <li><a href="installation.html">Installing JPAStreamer</a></li>
   </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Overview</h1>
+<h1 class="page">Installing JPAStreamer</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>JPA Streamer is a lightweight toolkit for creating Java Streams from database content using any JPA provider, such as Hibernate.</p>
+<p>Since JPAStreamer acts merely as an API extension for any existing JPA provider it requires minimal installation and configuration efforts. You simply need to specify that the JPAStreamer dependency is required to compile your source code. Below is a description of how that is done in Maven and Gradle respectively.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+JPAStreamer requires use of Java 8 or later.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_maven"><a class="anchor" href="#_maven"></a>Maven</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In Maven, the follwing JPAStreamer dependency is added to the project&#8217;s pom.xml-file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
-    .filter(Film$.rating.equal("G"))
-    .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator()))
-    .skip(10)
-    .limit(5)
-    .forEach(System.out::println);</code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.speedment.jpastreamer&lt;/groupId&gt;
+        &lt;artifactId&gt;core&lt;/artifactId&gt;
+        &lt;version&gt;${jpa-streamer-version}&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gradle"><a class="anchor" href="#_gradle"></a>Gradle</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first 10 and then printing only the following 5 films.</p>
+<p>In Gradle, the following JPAStreamer dependency is added to the project&#8217;s gradle.build-file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compile "com.speedment.jpastreamer:core:version"
+    annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

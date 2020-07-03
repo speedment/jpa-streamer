@@ -78,21 +78,54 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <span class="nav-text">Getting Started</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../getting-started/installation.html">Installing JPAStreamer</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../getting-started/quick-start.html">Quick Start with JPAStreamer</a>
+  </li>
+</ul>
   </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <span class="nav-text">Stream Fundamentals</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="what_is_a_stream.html">What is a Stream?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="other_operations.html">Other Operations</a>
+  </li>
+</ul>
   </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <span class="nav-text">Fetching Data</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
   </li>
 </ul>
   </li>
@@ -125,6 +158,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../introduction/overview.html">JPAStreamer Docs</a></li>
+    <li>Stream Fundamentals</li>
     <li><a href="what_is_a_stream.html">What is a Stream?</a></li>
   </ul>
 </nav>
@@ -132,6 +166,8 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">What is a Stream?</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p>JPA Streamer is all about Java 8 Streams, that allows you to process data in a declarative way similar to SQL statements. So if you are not familiar with the concept of <code>Streams</code>, I encourage you to read this chapter carefully. If you consider yourself a <code>Stream</code> expert, feel free to skip directly to the next chapter.</p>
 </div>
@@ -144,8 +180,9 @@
 <div class="paragraph">
 <p>Consider the following simple example:</p>
 </div>
-<div class="paragraph">
-<p>Stream.of(                           // Creates a Stream with the given content
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of( <i class="conum" data-value="1"></i><b>(1)</b>
         "Zlatan",
         "Tim",
         "Bo",
@@ -153,9 +190,102 @@
         "Adam",
         "Oscar"
         )
-        .filter(n &#8594; n.length() &gt; 2)     // Retains only those Strings that are longer than 2 characters (i.e. "Bo" is dropped)
-        .sorted()                        // Sorts the remaining Strings in natural order
-        .collect(Collectors.toList());   // Collects the remaining sorted Strings in a List</p>
+        .filter(n -&gt; n.length() &gt; 2) <i class="conum" data-value="2"></i><b>(2)</b>
+        .sorted() <i class="conum" data-value="3"></i><b>(3)</b>
+        .collect(Collectors.toList()); <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Creates a <code>Stream</code> with the given content</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Retains only those <code>Strings</code> that are longer than 2 characters (i.e. "Bo" is dropped)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Sorts the remaining <code>Strings</code> in natural order</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Collects the remaining sorted <code>Strings</code> in a <code>List</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Start by creating a Stream using the statement Stream.of(). Note that nothing happens with the Stream at this point. This yields a Stream which can be used to further build a “recipe” around. By adding a filter only Strings that are longer than 2 characters will be included. Again, the Stream is not started, this only tells the Stream that when it starts, the Strings should be filtered. Next, a sorted() operation is added to the Stream recipe. This means that when the Stream is started, all Strings that passes the filter shall be sorted in natural order. Again, nothing is flowing through the Stream, the Stream recipe (the stream recipe can more formally be called a stream pipeline) now holds yet an operation. The last operation to be added is collect.</p>
+</div>
+<div class="paragraph">
+<p>This operation is different to all the previous operations in the way that it is a Terminal operation. Whenever a Terminal operation is applied to a Stream, the Stream cannot accept additional operations to its pipeline. It also means that the Stream is started.</p>
+</div>
+<div class="paragraph">
+<p>It shall be noted that elements in a Stream are pulled by the Terminal Operation (i.e. the collect operation) and not pushed by the stream source. So, Collect will ask for the first element and that request will traverse up to the stream source that will provide the first element “Zlatan”. The filter operation will check if the length of “Zlatan” is greater than two (which it is) and will then propagate “Zlatan” to the sorted operation. Because the sorted operation needs to see all strings before it can decide on its output order, it will ask the stream source for all its remaining elements which, via the filter, is sent down the stream. Once all strings are received by the sorted operator, it will sort the strings and then output its first element (i.e. “Adam”) to the collect operation. The result of the entire stream statement will thus be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>"Adam", "George", "Oscar", "Tim", "Zlatan"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_streams_with_jpastreamer"><a class="anchor" href="#_streams_with_jpastreamer"></a>Streams with JpaStreamer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>With JPAStreamer, it is possible to use exactly the same semantics as for Java 8 streams. Instead of Strings as shown in the example above, database rows can be streamed. This way, database tables can be viewed as pure Java 8 Streams as shown hereunder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">users.stream() <i class="conum" data-value="1"></i><b>(1)</b>
+    .map(u -&gt; u.getName()) <i class="conum" data-value="2"></i><b>(2)</b>
+    .filter(n -&gt; n.length() &gt; 2) <i class="conum" data-value="3"></i><b>(3)</b>
+    .sorted() <i class="conum" data-value="4"></i><b>(4)</b>
+    .collect(Collectors.toList()); <i class="conum" data-value="5"></i><b>(5)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Creates a <code>Stream</code> with users from a database</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Extract the name (a `String) from a user</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Retains only those <code>Strings</code> that are longer than 2 characters (i.e. "Bo" is dropped)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Sorts the remaining <code>Strings</code> in natural order</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Collects the remaining sorted <code>Strings</code> in a `List</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Since <code>Stream</code> is an interface, JPAStreamer can select from a variety of different implementations of a <code>Stream</code> depending on the pipeline that is used and other factors.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The order in which elements are produced by the stream is unspecified and may change from one invocation to another. Because of that, it is an error to assume any particular order. Use the intermediate operation <code>sorted(Comparator)</code> if you need a certain element order.
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

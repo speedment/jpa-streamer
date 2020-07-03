@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Overview :: JPA Streamer Docs</title>
+    <title>Stream Examples :: JPA Streamer Docs</title>
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
@@ -60,7 +60,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="overview.html">JPAStreamer Docs</a></h3>
+    <h3 class="title"><a href="../introduction/overview.html">JPAStreamer Docs</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -68,8 +68,8 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Introduction</span>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="overview.html">Overview</a>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../introduction/overview.html">Overview</a>
   </li>
 </ul>
   </li>
@@ -120,10 +120,10 @@
     <span class="nav-text">Fetching Data</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+    <a class="nav-link" href="sql-equivalents.html">SQL Equivalents</a>
   </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="stream-examples.html">Stream Examples</a>
   </li>
 </ul>
   </li>
@@ -142,7 +142,7 @@
       <span class="title">JPAStreamer Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="overview.html">0.1.0</a>
+          <a href="../introduction/overview.html">0.1.0</a>
         </li>
       </ul>
     </li>
@@ -154,34 +154,19 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="overview.html" class="home-link is-current"></a>
+  <a href="../introduction/overview.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="overview.html">JPAStreamer Docs</a></li>
-    <li>Introduction</li>
-    <li><a href="overview.html">Overview</a></li>
+    <li><a href="../introduction/overview.html">JPAStreamer Docs</a></li>
+    <li>Fetching Data</li>
+    <li><a href="stream-examples.html">Stream Examples</a></li>
   </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Overview</h1>
-<div class="paragraph">
-<p>JPA Streamer is a lightweight toolkit for creating Java Streams from database content using any JPA provider, such as Hibernate.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
-    .filter(Film$.rating.equal("G"))
-    .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator()))
-    .skip(10)
-    .limit(5)
-    .forEach(System.out::println);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first 10 and then printing only the following 5 films.</p>
-</div>
+<h1 class="page">Stream Examples</h1>
+
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
