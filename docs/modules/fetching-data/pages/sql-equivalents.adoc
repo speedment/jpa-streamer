@@ -327,7 +327,7 @@ The resulting `Stream` will contain duplicates with films that have a length bot
 
 == UNION
 `UNION` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)` followed by `.distinct()`.
-The following example creates a resulting `Stream` with all `Films` that are of length greater than 120 minutes and then all `Films` that are of rating "PG-13":
+The following example creates a `Stream` with all `Films` that are of length greater than 120 minutes and then all `Films` that are of rating "PG-13":
 
 [source, java]
 ----

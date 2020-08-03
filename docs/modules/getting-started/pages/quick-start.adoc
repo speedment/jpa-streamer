@@ -76,8 +76,8 @@ jpaStreamer.close();
 ----
 
 == Next Steps
-Now that you have access to JPAStreamer it's time to put the expressiveness of Java Streams to work. If you are not yet familiar with the `Stream` API, you may find our guide on xref:stream-fundamentals:what_is_a_stream.adoc[Stream Fundamentals] helpful.
+Now that you have access to JPAStreamer it's time to put the expressiveness of Java Streams to work. If you are not yet familiar with the `Stream` API, you may find our guide on xref:stream-fundamentals:stream-basics.adoc[Stream Fundamentals] helpful.
 
-Otherwise, feel free to checkout the large collection of examples of JPAStreamer usage.
+Otherwise, feel free to check out the large collection of examples of JPAStreamer usage.
 
 
