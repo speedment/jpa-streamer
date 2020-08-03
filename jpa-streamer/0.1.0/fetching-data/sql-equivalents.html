@@ -98,7 +98,7 @@
     <span class="nav-text">Stream Fundamentals</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../stream-fundamentals/what_is_a_stream.html">What is a Stream?</a>
+    <a class="nav-link" href="#stream-basics.adoc">What is a Stream?</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
@@ -211,24 +211,28 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">count()</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SELECT</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">map()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GROUP BY</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">collect(groupingBY())</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">HAVING</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">filter() (after collecting)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">JOIN</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">flatmap()</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DISTINCT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">distinct()</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SELECT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">map()</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">UNION</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">concat(s0, s1).distinct()</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GROUP BY</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">collect(groupingBY())</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JOIN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">flatmap()</p></td>
 </tr>
 </tbody>
 </table>
@@ -242,7 +246,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">   JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") <i class="conum" data-value="1"></i><b>(1)</b>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") <i class="conum" data-value="1"></i><b>(1)</b>
     build();</code></pre>
 </div>
 </div>
@@ -278,7 +282,7 @@ public class Film {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">   jpaStreamer.stream(Film.class);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -306,9 +310,9 @@ to find a long film (of length greater than 120 minutes) you can apply a <code>f
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    jpaStreamer.stream(Film.class)
-        .filter(Film$.length.greaterThan(120))
-        .forEachOrdered(System.out::println);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120))
+    .forEachOrdered(System.out::println);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -344,9 +348,9 @@ An important property with JPAStreamer streams is that they are able to optimize
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    List&lt;Film&gt; filmsInLengthOrder = jpaStreamer.stream(Films.class)
-        .sorted(Film$.length) <i class="conum" data-value="1"></i><b>(1)</b>
-        .collect(Collectors.toList());</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">List&lt;Film&gt; filmsInLengthOrder = jpaStreamer.stream(Films.class)
+    .sorted(Film$.length) <i class="conum" data-value="1"></i><b>(1)</b>
+    .collect(Collectors.toList());</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -401,10 +405,10 @@ Film { filmId = 869, title = SUSPECTS QUILLS, ..., length = 47, ...
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    films.stream()
-        .sorted(Film$.title)
-        .skip(100)
-        .forEachOrdered(System.out::println);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">films.stream()
+    .sorted(Film$.title)
+    .skip(100)
+    .forEachOrdered(System.out::println);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -431,10 +435,10 @@ Film { filmId = 103, title = BUCKET BROTHERHOOD, ...
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    jpaStreamer.stream(Film.class)
-        .sorted(Film$.title)
-        .limit(3)
-        .forEachOrdered(System.out::println);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .sorted(Film$.title)
+    .limit(3)
+    .forEachOrdered(System.out::println);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -460,11 +464,11 @@ Film { filmId = 3, title = ADAPTATION HOLES, ...</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    films.stream()
-        .sorted(Film.TITLE)
-        .skip(100)
-        .limit(50)
-        .forEachOrdered(System.out::println);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">films.stream()
+    .sorted(Film.TITLE)
+    .skip(100)
+    .limit(50)
+    .forEachOrdered(System.out::println);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -491,9 +495,9 @@ Film { filmId = 103, title = BUCKET BROTHERHOOD, ...
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    long noLongFilms = jpaStreamer.stream(Film.class)
-        .filter(Film$.length.greaterThan(120))
-        .count();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">long noLongFilms = jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120))
+    .count();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -505,25 +509,25 @@ Film { filmId = 103, title = BUCKET BROTHERHOOD, ...
 <h2 id="_group_by"><a class="anchor" href="#_group_by"></a>GROUP BY</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>GROUP BY</code> can be expressed using <code>collect(groupingBy(&#8230;&#8203;))</code></p>
+<p><code>GROUP BY</code> can be expressed using <code>collect(groupingBy(&#8230;&#8203;))</code>.</p>
 </div>
 <div class="paragraph">
 <p>Java has its own group-by <code>collector</code>. The example below groups all the Films by 'rating':</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Map&lt;String, List&lt;Film&gt;&gt; filmCategories = jpaStreamer.stream(Film.class)
-        .collect(
-            Collectors.groupingBy(
-                Film$.rating
-            )
-        );
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Map&lt;String, List&lt;Film&gt;&gt; filmCategories = jpaStreamer.stream(Film.class)
+    .collect(
+        Collectors.groupingBy(
+            Film$.rating
+        )
+    );
 
-        map.forEach((k, v) -&gt;
-            System.out.format(
-                 "Rating %-5s maps to %d films %n", k, v.size()
-            )
-        );</code></pre>
+    map.forEach((k, v) -&gt;
+        System.out.format(
+            "Rating %-5s maps to %d films %n", k, v.size()
+        )
+    );</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -539,7 +543,7 @@ Rating PG    has 194 films</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The entire table will be pulled into the application in this example because all films will be in the `Map.</p>
+<p>The entire table will be pulled into the application in this example because all films will be in the <code>Map</code>.</p>
 </div>
 <div class="paragraph">
 <p>To only count the occurrences of items for different classifications a down-stream <code>Collector</code> can be used instead:</p>
@@ -549,15 +553,25 @@ Rating PG    has 194 films</code></pre>
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Map&lt;String, Long&gt; map = jpaStreamer.stream(Film.class)
     .collect(
         Collectors.groupingBy(
-            // Apply this classifier
-            Film$.rating,
-            // Then apply this down-stream collector
-            Collectors.counting()
+            Film$.rating, <i class="conum" data-value="1"></i><b>(1)</b>
+            Collectors.counting() <i class="conum" data-value="2"></i><b>(2)</b>
         )
     );
 
-    System.out.println(map);</code></pre>
+System.out.println(map);</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Film rating is used as the classifier</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The down-stream collector</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>This might produce the following output:</p>
@@ -570,39 +584,172 @@ Rating PG    has 194 films</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_select"><a class="anchor" href="#_select"></a>SELECT</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
 <h2 id="_having"><a class="anchor" href="#_having"></a>HAVING</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p><code>HAVING</code> can be expressed by <code>.filter()</code> applied on a Stream from a previously collected Stream.</p>
+</div>
+<div class="paragraph">
+<p>The previous <a href="#_group_by">GROUP BY</a> example can be expanded by filtering out only those categories having more than 200 films. Such a <code>Stream</code> can be expressed by applying a new <code>Stream</code> on a <code>Stream</code> that has been previously collected:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Map&lt;String, List&lt;Film&gt;&gt; filmCategories = jpaStreamer.stream(Film.class)
+    .collect(
+        Collectors.groupingBy(
+            Film$.rating
+        )
+    )
+    .entrySet()
+    .stream()
+    .filter(e -&gt; e.getValue().size() &gt; 200)
+    .collect(
+        toMap(Entry::getKey, Entry::getValue)
+    );</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that only categories with more than 200 films are shown, the content of the <code>Map</code> will correspond to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Rating PG-13 has 223 films
+Rating NC-17 has 210 films</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_join"><a class="anchor" href="#_join"></a>JOIN</h2>
+<h2 id="_distinct"><a class="anchor" href="#_distinct"></a>DISTINCT</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p><code>DISTINCT</code> can be expressed using <code>.distinct()</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following code can be used to calculate what different ratings there are in the film tables:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Set&lt;String&gt; ratings = jpaStreamer.stream(Film.class)
+    .map(Film$.rating)
+    .distinct()
+    .collect(Collectors.toSet());</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In this example, the entire table will be pulled into the application.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_select"><a class="anchor" href="#_select"></a>SELECT</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>SELECT</code> can be expressed using <code>.map()</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you do not want to use the entire entity but instead only select one or several fields, that can be done by applying a <code>Map</code> operation to a <code>Stream</code>. Assuming for example you are only interested in the field 'id' of a <code>Film</code> you can select that field like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">final IntStream ids = jpaStreamer.stream(Film.class)
+    .mapToInt(Film$.filmId);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This creates an <code>IntStream</code> consisting of the ID:s of all <code>Films</code> by applying the <code>Film$.filmId</code> getter for each <code>Film</code> in the original stream.</p>
+</div>
+<div class="paragraph">
+<p>To select several fields, you can create a custom class that holds only the fields in question or use a Tuple to dynamically create a type-safe holder.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream&lt;Tuple2&lt;String, Integer&gt;&gt; items = jpaStreamer.stream(Film.class)
+    .map(Tuples.toTuple(Film$.title, Film$.length.getter()));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This creates a stream of <code>Tuples</code> with two elements: title (of type <code>String</code>) and length (of type <code>Integer</code>).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_union_all"><a class="anchor" href="#_union_all"></a>UNION ALL</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>UNION ALL</code> can be expressed using <code>StreamComposition.concatAndAutoClose(s0, s1, &#8230;&#8203;, sn)</code>.
+The following example creates a resulting <code>Stream</code> with all <code>Films</code> that are of length greater than 120 minutes and then all films that are of rating "PG-13":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">StreamComposition.concatAndAutoClose(
+    jpaStreamer.stream(Film.class).filter(Film$.length.greaterThan(120)),
+    jpaStreamer.stream(Film.class).filter(Film$.rating.equal("PG-13"))
+)
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The resulting <code>Stream</code> will contain duplicates with films that have a length both greater than 120 minutes and have a rating "PG-13".</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_union"><a class="anchor" href="#_union"></a>UNION</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p><code>UNION</code> can be expressed using <code>StreamComposition.concatAndAutoClose(s0, s1, &#8230;&#8203;, sn)</code> followed by <code>.distinct()</code>.
+The following example creates a <code>Stream</code> with all <code>Films</code> that are of length greater than 120 minutes and then all <code>Films</code> that are of rating "PG-13":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">StreamComposition.concatAndAutoClose(
+    jpaStreamer.stream(Film.class).filter(Film$.length.greaterThan(120)),
+    jpaStreamer.stream(Film.class).filter(Film$.rating.equal("PG-13"))
+)
+    .distinct()
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The resulting <code>Stream</code> will <strong>not</strong> contain duplicates because of the <code>.distinct()</code> operator.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It would be more efficient to produce a <code>Stream</code> with the same content (but a different order) using this <code>Stream</code>:
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120).or(Film$.rating.equal("PG-13")))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_offset_2"><a class="anchor" href="#_offset_2"></a>OFFSET</h2>
+<h2 id="_join"><a class="anchor" href="#_join"></a>JOIN</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>TBW</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_group_by_2"><a class="anchor" href="#_group_by_2"></a>GROUP BY</h2>
-<div class="sectionbody">
-
 </div>
 </div>
 </article>
