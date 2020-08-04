@@ -12,8 +12,10 @@ This section helps you get started with JPAStreamer in a few minutes. The proces
 
 NOTE: Use of JPAStreamer requires Java 8 or later.
 
+NOTE: This guide assumes you are starting from an existing project that conveys to the standard JPA specification i.e. represent database tables as Entities etc.
+
 == Installing JPAStreamer
-The installation is performed by notifying your build tool that the JPAStreamer dependency is required to compile your source code. This is accomplished with using either of the following dependencies for Maven or Gradle.
+The installation is performed by notifying your build tool that the JPAStreamer dependency is required to compile your source code. This is accomplished by using either of the following dependencies for Maven or Gradle.
 
 === Maven
 Install JPAStreamer by adding the following dependency in the project's pom.xml-file:
@@ -76,7 +78,7 @@ jpaStreamer.close();
 ----
 
 == Next Steps
-Now that you have access to JPAStreamer it's time to put the expressiveness of Java Streams to work. If you are not yet familiar with the `Stream` API, you may find our guide on xref:stream-fundamentals:stream-basics.adoc[Stream Fundamentals] helpful.
+Now that you have access to JPAStreamer it's time to put the expressiveness of Java Streams to work. If you are not yet familiar with the `Stream` API, you may find our guide on xref:stream-fundamentals:stream_basics.adoc[Stream Fundamentals] helpful.
 
 Otherwise, feel free to check out the large collection of examples of JPAStreamer usage.
 

@@ -4,3 +4,56 @@ author: Per Minborg
 :reftext: Stream Examples
 :navtitle: Stream Examples
 :source-highlighter: highlight.js
+
+== Paging
+The following example demonstrates how to serve request for pages from a GUI or similar applications. The page number (starting with page = 0) and ordering will be given as parameters:
+
+[source,java]
+----
+private static final int PAGE_SIZE = 20;
+
+private List<Film> getPage(int page, Comparator<Film> comparator) {
+    log("getPage(" + page + ", " + comparator + ")");
+    return jpaStreamer.stream(Film.class)
+        .sorted(comparator)
+        .skip(page * PAGE_SIZE)
+        .limit(PAGE_SIZE)
+        .collect(Collectors.toList());
+}
+----
+
+This method can e.g. be used to fetch the second page of films sorted by title in descending order:
+
+[source,java]
+----
+    getPage(1, Film$.title.reversed());
+----
+
+== Partition By
+Partitioning is a special case of grouping in which there are only two different classes: `false` or `true`. Java has its own partitioner that can be used to classify database entities. The example below classifies the films in two different categories: short and long films, where a long film is of length greater than 120 minutes.
+[source, java]
+----
+    Map<Boolean, List<Film>> map = jpaStreamer.stream(Film.class)
+        .collect(
+            Collectors.partitioningBy(Film$.length.greaterThan(120))
+        );
+
+    map.forEach((k, v) -> {
+        System.out.format("long is %5s has %d films%n", k, v.size());
+    });
+----
+
+This will print:
+[source, text]
+----
+long is false has 543 films
+long is  true has 457 films
+----
+
+== One-to-Many relations
+
+== Many-to-One relations
+
+== Many-to-Many relations
+
+== Pivot Data

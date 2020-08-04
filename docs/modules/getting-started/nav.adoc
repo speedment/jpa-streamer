@@ -1,3 +1,6 @@
 * Getting Started
 ** xref:installation.adoc[Installing JPAStreamer]
 ** xref:quick-start.adoc[Quick Start with JPAStreamer]
+** Integration
+*** xref:spring_integration.adoc[Spring Integration]
+*** xref:hibernate_integration.adoc[Hibernate Integration]
