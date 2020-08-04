@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Other Operations :: JPA Streamer Docs</title>
+    <title>Introduction :: JPA Streamer Docs</title>
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
@@ -60,12 +60,12 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../introduction/introduction.html">JPAStreamer Docs</a></h3>
+    <h3 class="title"><a href="introduction.html">JPAStreamer Docs</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="introduction.html">Introduction</a>
   </li>
 </ul>
   </li>
@@ -111,16 +111,16 @@
     <span class="nav-text">Stream Fundamentals</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="stream_basics.html">Stream Basics?</a>
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Basics?</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="intermediate_operations.html">Intermediate Operations</a>
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="terminal_operations.html">Terminal Operations</a>
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="other_operations.html">Other Operations</a>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
   </li>
 </ul>
   </li>
@@ -155,7 +155,7 @@
       <span class="title">JPAStreamer Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../introduction/introduction.html">0.1.0</a>
+          <a href="introduction.html">0.1.0</a>
         </li>
       </ul>
     </li>
@@ -167,91 +167,120 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../introduction/introduction.html" class="home-link"></a>
+  <a href="introduction.html" class="home-link is-current"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
-    <li>Stream Fundamentals</li>
-    <li><a href="other_operations.html">Other Operations</a></li>
+    <li><a href="introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="introduction.html">Introduction</a></li>
   </ul>
 </nav>
 </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Other Operations</h1>
+<h1 class="page">Introduction</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are a few operations that do not classify as either an intermediate operation or a terminal operation. These are shown in the table below:</p>
+<p>This chapter provides an overview of the JPAStreamer toolkit and its abilities.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_is_jpastreamer"><a class="anchor" href="#_what_is_jpastreamer"></a>What is JPAStreamer?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>JPA Streamer is a lightweight extension for any JPA provider that allows creation of Java Streams from database content. With a single dependency, your application can immediately operate on database elements using standard Stream operators e.g. filter(), sort() and map().</p>
+</div>
+<div class="paragraph">
+<p>For example, starting with a standard JPA Entity you can effortlessly derive intuitive stream queries:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
+@Table(name = "film", schema = "sakila")
+public class Film implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
+    private Integer filmId;
+
+    @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
+    private String title;
+
+    @Column(name = "length", columnDefinition = "smallint(5)")
+    private Integer length;
+
+    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
+    private String rating;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To operate on the elements of the table, JPAStreamer is first initialized with a simple builder (in this case using a persistence unit named "sakila"):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila")
+.build();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The obtained streamer is then used to create Streams that are rendered to database queries through JPA. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.equal("G")) <i class="conum" data-value="1"></i><b>(1)</b>
+    .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator())) <i class="conum" data-value="1"></i><b>(1)</b>
+    .skip(10)
+    .limit(5)
+    .forEach(System.out::println);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
 <tr>
-<th class="tableblock halign-left valign-top">Operation</th>
-<th class="tableblock halign-left valign-top">Action</th>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Film$ is automatically generated from the Film-table Entity at compile-time by JPAStreamer.</td>
 </tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isParallel</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Returns <code>true</code> if the Stream is parallel, else <code>false</code></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>close</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Closes the <code>Stream</code> and releases all its resources (if any)</p></td>
-</tr>
-</tbody>
 </table>
 </div>
+<div class="paragraph">
+<p>This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first ten and then printing only the following five films.</p>
 </div>
-<div class="sect1">
-<h2 id="_isparallel"><a class="anchor" href="#_isparallel"></a>isParallel</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .parallel()
-        .isParallel()</code></pre>
-</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+More examples are available in the chapter <a href="../fetching-data/stream-examples.html" class="page">Stream Examples</a>.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>returns <code>true</code> because the <code>Stream</code> is parallel.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .sequential()
-        .isParallel()</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>returns <code>false</code> because the <code>Stream</code> is <strong>not</strong> parallel.</p>
+<p>Using JPAStreamer, you can quickly create modern and robust web application. All components are pre-tested and work in all major browsers (see Compatibility and Versioning or the release notes). This allows you to spend your development time on your application, not testing with a large combination of different devices, browsers, and operating systems. When you do want to create tests, Vaadin has got you covered with a purpose-built tool, Vaadin TestBench.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_close"><a class="anchor" href="#_close"></a>close</h2>
+<h2 id="_resources"><a class="anchor" href="#_resources"></a>Resources</h2>
 <div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream&lt;String&gt; stream = Stream.of("B", "A", "C", "B");
-    stream.forEachOrdered(System.out::println);
-    stream.close();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>prints all elements in the <code>Stream</code> and then closes the <code>Stream</code>. Some streams (e.g. streams from files) need to be closed to release their resources. Use the try-with-resource patterns if the <code>Stream</code> must be closed:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    try (Stream&lt;String&gt; s = Stream.of("B", "A", "C", "B")) {
-        s.forEachOrdered(System.out::println);
-    }</code></pre>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Gitter Chat - <a href="https://gitter.im/speedment/jpa-streamer" class="bare">https://gitter.im/speedment/jpa-streamer</a></p>
+</li>
+<li>
+<p>Website - <a href="https://www.jpastreamer.org" class="bare">https://www.jpastreamer.org</a></p>
+</li>
+<li>
+<p>GitHub - <a href="https://github.com/speedment/jpa-streamer" class="bare">https://github.com/speedment/jpa-streamer</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
