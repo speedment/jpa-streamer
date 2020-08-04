@@ -1,0 +1,8 @@
+= Application Configuration
+keywords: stream, jpastreamer, java, configuration
+author: Julia Gustafsson
+:reftext: Application Configuration
+:navtitle: Application Configuration
+:source-highlighter: highlight.js
+
+// A chapter that describes the settings that can be provided to the JPAStreamer-builder.

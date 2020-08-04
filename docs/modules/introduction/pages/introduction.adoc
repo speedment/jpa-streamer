@@ -1,0 +1,70 @@
+= Introduction
+keywords: stream, jpastreamer, java
+author: Per Minborg
+:reftext: Introduction
+:navtitle: Introduction
+:source-highlighter: highlight.js
+
+This chapter provides an overview of the JPAStreamer toolkit and its abilities.
+
+== What is JPAStreamer?
+
+JPA Streamer is a lightweight extension for any JPA provider that allows creation of Java Streams from database content. With a single dependency, your application can immediately operate on database elements using standard Stream operators e.g. filter(), sort() and map().
+
+For example, starting with a standard JPA Entity you can effortlessly derive intuitive stream queries:
+
+[source, java]
+----
+@Entity
+@Table(name = "film", schema = "sakila")
+public class Film implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
+    private Integer filmId;
+
+    @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
+    private String title;
+
+    @Column(name = "length", columnDefinition = "smallint(5)")
+    private Integer length;
+
+    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
+    private String rating;
+}
+----
+To operate on the elements of the table, JPAStreamer is first initialized with a simple builder (in this case using a persistence unit named "sakila"):
+
+[source, java]
+----
+JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila")
+.build();
+----
+
+The obtained streamer is then used to create Streams that are rendered to database queries through JPA. For example:
+
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.equal("G")) #<1>
+    .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator())) #<1>
+    .skip(10)
+    .limit(5)
+    .forEach(System.out::println);
+----
+<1> Film$ is automatically generated from the Film-table Entity at compile-time by JPAStreamer.
+
+This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first ten and then printing only the following five films.
+
+NOTE: More examples are available in the chapter xref:fetching-data:stream-examples.adoc[Stream Examples].
+
+Using JPAStreamer, you can quickly create modern and robust web application. All components are pre-tested and work in all major browsers (see Compatibility and Versioning or the release notes). This allows you to spend your development time on your application, not testing with a large combination of different devices, browsers, and operating systems. When you do want to create tests, Vaadin has got you covered with a purpose-built tool, Vaadin TestBench.
+
+== Resources
+
+- Gitter Chat - https://gitter.im/speedment/jpa-streamer
+- Website - https://www.jpastreamer.org
+- GitHub - https://github.com/speedment/jpa-streamer
+
+

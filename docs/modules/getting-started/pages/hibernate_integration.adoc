@@ -1,0 +1,7 @@
+= Hibernate Integration
+keywords: stream, jpastreamer, java
+author:
+:reftext: Hibernate Integration
+:navtitle: Hibernate Integration
+:source-highlighter: highlight.js
+

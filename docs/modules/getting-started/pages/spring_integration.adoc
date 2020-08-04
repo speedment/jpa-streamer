@@ -1,0 +1,7 @@
+= Spring Integration
+keywords: stream, jpastreamer, java
+author:
+:reftext:  Spring Integration
+:navtitle:  Spring Integration
+:source-highlighter: highlight.js
+

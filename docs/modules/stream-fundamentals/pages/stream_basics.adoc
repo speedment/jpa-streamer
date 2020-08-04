@@ -1,0 +1,76 @@
+= Stream Basics
+keywords: stream, jpastreamer, java
+author: Per Minborg
+:reftext: Stream Basics
+:navtitle: Stream Basics
+:imagesdir: assets/images
+:source-highlighter: highlight.js
+
+JPAStreamer is all about Java 8 Streams that allow you to process data in a declarative manner similar to using SQL statements. If you are not yet familiar with the concept of `Streams`, you are encouraged to read this chapter carefully. Although, if you are comfortable with the use of `Stream`, feel free to skip directly to the xref:fetching-data:sql-equivalents.adoc[next chapter].
+
+== What is a Stream?
+
+A Java 8 `Stream` is an `interface` with implementations that support functional style operations on a stream of elements. The entire Java Collection framework was retrofitted with `Stream` support in Java 8.
+
+Streams can be used to express a kind of “recipe“ style of operations, allowing us to compose a number of function. The functions are applied to the elements in the `Stream` only when the `Stream` is “started“. A `Stream` recipe says *what to do* but generally *not how to do it* which is good from an abstraction point of view. This means that `Streams` can be very efficient and general.
+
+Consider the following simple example:
+
+[source, java]
+----
+Stream.of( #<1>
+        "Zlatan",
+        "Tim",
+        "Bo",
+        "George",
+        "Adam",
+        "Oscar"
+        )
+        .filter(n -> n.length() > 2) #<2>
+        .sorted() #<3>
+        .collect(Collectors.toList()); #<4>
+----
+<1> Creates a `Stream` with the given content
+<2> Retains only those `Strings` that are longer than 2 characters (i.e. "Bo" is dropped)
+<3> Sorts the remaining `Strings` in natural order
+<4> Collects the remaining sorted `Strings` in a `List`
+
+.A visual representation of the Stream pipeline.
+[#img-stream-pipeline]
+[caption=""]
+image::stream_pipeline.png[Stream Pipeline]
+
+It starts by creating a Stream using the statement Stream.of(). Note that nothing happens with the `Stream` at this point. This yields a `Stream` which can be used to further build a “recipe” around. By adding `filter()` only Strings that are longer than two characters will be included. Again, the `Stream` is not started, this only tells the `Stream` that when it starts, the Strings should be filtered. Next, a `sorted()` operator is added to the `Stream` recipe (more formally called a `Stream` pipeline). This means that when the `Stream` is started, all Strings that passes the filter shall be sorted in natural order. Again, nothing is flowing through the `Stream`.
+
+The last operation to be added is `collect()`. This operation is different to all the previous operations in the way that it is a Terminal operation. Whenever a Terminal operation is applied to a `Stream`, the `Stream` cannot accept additional operations to its pipeline. It also means that the `Stream` is started.
+
+It shall be noted that elements in a `Stream` are pulled by the Terminal operation (i.e. the collect operation) and not pushed by the `Stream`-source. So, `collect()` asks for the first element and that request then traverse up to the `Stream`-source that will provide the first element “Zlatan”. The `filter()` operator will check if the length of “Zlatan” is greater than two (which it is) and will then propagate “Zlatan” to the `sorted()` operator. Because the `sorted()` operation needs to see all Strings before it can decide on its output order, it will ask the `Stream`-source for all its remaining elements which, via the filter, is sent down the `Stream`. Once all Strings are received by the `sorted()` operator, it will sort the Strings and then output its first element (i.e. “Adam”) to the `collect()` operator. The result of the entire `Stream` pipeline will thus be:
+
+[source]
+----
+"Adam", "George", "Oscar", "Tim", "Zlatan"
+----
+
+.A Stream consists of a source followed by a pipeline of an arbitrary number of intermediate operations and a terminal operation.
+[#img-stream-pipeline]
+[caption=""]
+image::stream_basics_1.png[Stream Pipeline]
+
+== Streams with JpaStreamer
+With JPAStreamer, it is possible to use the same Stream semantics to operate on JPA Entities. In that case, database rows are streamed rather than Strings (as shown in the example above). This way, database tables can be viewed as pure Java Streams as shown hereunder:
+
+[source, java]
+----
+jpaStreamer.stream(Film.class) #<1>
+    .map(Film$.title) #<2>
+    .filter(s -> s.length() > 4) #<3>
+    .sorted() #<4>
+    .collect(Collectors.toList()); #<5>
+----
+<1> Creates a `Stream` of films from a database table represented by a JPA Entity called Film
+<2> Extract the title (a `String) from a Film using the automatically generated field Film$
+<3> Retains only those `Strings` that are longer than four characters (i.e. "Jaws" is dropped)
+<4> Sorts the remaining `Strings` in natural order
+<5> Collects the remaining sorted `Strings` in a `List`
+
+NOTE: Since `Stream` is an interface, JPAStreamer can select from a variety of different implementations of a `Stream` depending on the pipeline that is used and other factors. The Stream described above is rendered to a database query through JPA.
