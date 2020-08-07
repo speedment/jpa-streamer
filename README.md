@@ -1,3 +1,5 @@
+<img align="center" src="https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer.png?raw=true." alt="JPA Streamer Logo" title="JPA Streamer Logo" width="900px">
+
 # JPA Streamer
 
 JPA Streamer is a lightweight toolkit for creating Java Streams from database content using any JPA provider such as Hibernate.
