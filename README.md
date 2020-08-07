@@ -1,4 +1,4 @@
-<img align="center" src="https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer.png?raw=true." alt="JPA Streamer Logo" title="JPA Streamer Logo" width="900px">
+<img align="center" src="https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer.png?raw=true." alt="JPA Streamer Logo" title="JPA Streamer Logo" width="600px">
 
 # JPA Streamer
 
