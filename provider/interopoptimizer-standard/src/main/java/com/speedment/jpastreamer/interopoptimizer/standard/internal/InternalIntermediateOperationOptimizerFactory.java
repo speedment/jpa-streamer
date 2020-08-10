@@ -28,29 +28,62 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFact
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
 public final class InternalIntermediateOperationOptimizerFactory implements IntermediateOperationOptimizerFactory {
 
-    private final List<IntermediateOperationOptimizer> intermediateOperationOptimizers = new ArrayList<>();
+    private final Map<Priority, List<IntermediateOperationOptimizer>> intermediateOperationOptimizers = new EnumMap<>(Priority.class);
 
     public InternalIntermediateOperationOptimizerFactory() {
         final IntermediateOperationFactory intermediateOperationFactory = RootFactory
             .getOrThrow(IntermediateOperationFactory.class, ServiceLoader::load);
 
-        intermediateOperationOptimizers.add(new RemoveOrderAffectingOperations());
-        intermediateOperationOptimizers.add(new SquashSkip(intermediateOperationFactory));
-        intermediateOperationOptimizers.add(new SquashLimit(intermediateOperationFactory));
-        intermediateOperationOptimizers.add(new SquashFilter<>(intermediateOperationFactory));
-        intermediateOperationOptimizers.add(new SquashSorted<>(intermediateOperationFactory));
-        intermediateOperationOptimizers.add(new SquashDistinct(intermediateOperationFactory));
+        intermediateOperationOptimizers.put(Priority.HIGHEST, new ArrayList<>());
+        intermediateOperationOptimizers.put(Priority.HIGH, new ArrayList<>());
+        intermediateOperationOptimizers.put(Priority.NORMAL, new ArrayList<>());
+        intermediateOperationOptimizers.put(Priority.LOW, new ArrayList<>());
+        intermediateOperationOptimizers.put(Priority.LOWEST, new ArrayList<>());
+
+        registerOptimizer(new RemoveOrderAffectingOperations(), Priority.HIGH);
+        registerOptimizer(new SquashSkip(intermediateOperationFactory));
+        registerOptimizer(new SquashLimit(intermediateOperationFactory));
+        registerOptimizer(new SquashFilter<>(intermediateOperationFactory));
+        registerOptimizer(new SquashSorted<>(intermediateOperationFactory));
+        registerOptimizer(new SquashDistinct(intermediateOperationFactory));
     }
 
     @Override
     public Stream<IntermediateOperationOptimizer> stream() {
-        return intermediateOperationOptimizers.stream();
+        return intermediateOperationOptimizers.entrySet().stream()
+            .sorted(Entry.comparingByKey(Priority::compareTo))
+            .flatMap(x -> x.getValue().stream());
+    }
+
+    private void registerOptimizer(final IntermediateOperationOptimizer operationOptimizer) {
+        Objects.requireNonNull(operationOptimizer);
+
+        intermediateOperationOptimizers.get(Priority.NORMAL).add(operationOptimizer);
+    }
+
+    private void registerOptimizer(final IntermediateOperationOptimizer operationOptimizer, final Priority priority) {
+        Objects.requireNonNull(operationOptimizer);
+        Objects.requireNonNull(priority);
+
+        intermediateOperationOptimizers.get(priority).add(operationOptimizer);
+    }
+
+    private enum Priority {
+        HIGHEST,
+        HIGH,
+        NORMAL,
+        LOW,
+        LOWEST
     }
 
 }
