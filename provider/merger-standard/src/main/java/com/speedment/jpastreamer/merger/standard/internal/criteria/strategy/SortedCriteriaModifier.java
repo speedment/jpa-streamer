@@ -32,6 +32,7 @@ import javax.persistence.criteria.Order;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.SingularAttribute;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +78,10 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
                 return;
             }
 
-            criteria.getQuery().orderBy(orders);
+            final List<Order> previousOrders = new ArrayList<>(criteria.getQuery().getOrderList());
+            previousOrders.addAll(orders);
+
+            criteria.getQuery().orderBy(previousOrders);
 
             /*
             * If a Stream::sorted sequence contains a operation without a specified comparator
@@ -101,7 +105,10 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
                     final Order order = criteria.getBuilder()
                         .asc(criteria.getRoot().get(idFieldName));
 
-                    criteria.getQuery().orderBy(order);
+                    final List<Order> previousOrders = new ArrayList<>(criteria.getQuery().getOrderList());
+                    previousOrders.add(order);
+
+                    criteria.getQuery().orderBy(previousOrders);
 
                     operationReference.next().ifPresent(op -> {
                         if (op.get().type() != SORTED) {
