@@ -1,7 +1,7 @@
 <img align="center" src="https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer.png?raw=true." alt="JPA Streamer Logo" title="JPA Streamer Logo" width="600px">
 
-# JPA Streamer
-JPA Streamer is a lightweight extension for any JPA provider that allows creation of Java Streams from database content. With a single dependency, your application can immediately operate on database elements using standard Stream operators e.g. filter(), sort() and map().       
+# JPAstreamer
+JPAstreamer is a lightweight extension for any JPA provider that allows creation of Java Streams from database content. With a single dependency, your application can immediately operate on database elements using standard Stream operators e.g. filter(), sort() and map().       
 
 The following example assumes there is an existing JPA Entity that represents a table containing films as follows: 
 
@@ -25,7 +25,7 @@ The following example assumes there is an existing JPA Entity that represents a 
         
     }
     
-To operate on the elements of the table, JPAStreamer is first initialized with a simple builder (in this case using a persistence unit named "sakila"):
+To operate on the elements of the table, JPAstreamer is first initialized with a simple builder (in this case using a persistence unit named "sakila"):
 
     JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila")
         .build();
@@ -39,17 +39,17 @@ The obtained streamer is then used to create Streams that are rendered to databa
         .limit(5)
         .forEach(System.out::println);
 
-This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first ten and then printing only the following five films. (Film$ is automatically generated from the Film-table Entity at compile-time by JPAStreamer). 
+This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first ten and then printing only the following five films. (Film$ is automatically generated from the Film-table Entity at compile-time by JPAstreamer). 
 
-More examples are available in the JPAStreamer [documentation](https://speedment.github.io/jpa-streamer/jpa-streamer/0.1.0/fetching-data/stream-examples.html). 
+More examples are available in the JPAstreamer [documentation](https://speedment.github.io/jpa-streamer/jpa-streamer/0.1.0/fetching-data/stream-examples.html). 
 
 ## Install
-Since JPAStreamer acts merely as an API extension for existing JPA providers it requires minimal installation and configuration efforts. You only need to specify that the JPAStreamer dependency is required to compile your source code. 
+Since JPAstreamer acts merely as an API extension for existing JPA providers it requires minimal installation and configuration efforts. You only need to specify that the JPAstreamer dependency is required to compile your source code. 
 
 > **_NOTE:_** JPAStreamer requires use of Java 8 or later.
 
 ### Maven
-In Maven, the following JPAStreamer dependency is added to the project's pom.xml-file.
+In Maven, the following JPAstreamer dependency is added to the project's pom.xml-file.
 
     <dependencies>
 	    <dependency>
@@ -60,7 +60,7 @@ In Maven, the following JPAStreamer dependency is added to the project's pom.xml
     </dependencies>
 
 ### Gradle
-In Gradle, the following JPAStreamer dependency is added to the project's build.gradle-file:
+In Gradle, the following JPAstreamer dependency is added to the project's build.gradle-file:
 
     repositories {
 	    mavenCentral()
@@ -79,10 +79,10 @@ In Gradle, the following JPAStreamer dependency is added to the project's build.
 ## Contributing
 We gladly welcome any form of contributions, whether it is comments and questions, filed issues or pull requests. 
 
-Before we can accept your patches we need to establish a common legal ground to protect your rights to your contributions and the users of JPAStreamer. This is done by signing a Contributor License Agreement (CLA) with Speedment, Inc. The details of this process is laid out [here](). 
+Before we can accept your patches we need to establish a common legal ground to protect your rights to your contributions and the users of JPAstreamer. This is done by signing a Contributor License Agreement (CLA) with Speedment, Inc. The details of this process is laid out [here](). 
  
 ## Phone Home
 JPAstreamer sends certain data back to Speedment's servers as described [here](https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD). If you wish to disable this feature, please contact us at info@jpastreamer.org.
 
 ## License
-JPAsteamer is released under the [MIT License](https://github.com/speedment/jpa-streamer/blob/master/LICENSE). 
+JPAstreamer is released under the [MIT License](https://github.com/speedment/jpa-streamer/blob/master/LICENSE). 
