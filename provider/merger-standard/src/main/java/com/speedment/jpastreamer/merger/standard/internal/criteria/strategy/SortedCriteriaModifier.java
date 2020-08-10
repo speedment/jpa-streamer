@@ -79,7 +79,17 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
 
             criteria.getQuery().orderBy(orders);
 
-            mergingTracker.markAsMerged(operationType);
+            /*
+            * If a Stream::sorted sequence contains a operation without a specified comparator
+            * we cannot squash that sequence into a single operation. Because of this, we should
+            * only mark the operation as merged if it's the last one in the sequence.
+            * */
+            operationReference.next().ifPresent(op -> {
+                if (op.get().type() != SORTED) {
+                    mergingTracker.markAsMerged(operationType);
+                }
+            });
+
             mergingTracker.markForRemoval(operationReference.index());
         } else {
             final EntityType<T> entityType = criteria.getRoot().getModel();
@@ -93,7 +103,12 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
 
                     criteria.getQuery().orderBy(order);
 
-                    mergingTracker.markAsMerged(operationType);
+                    operationReference.next().ifPresent(op -> {
+                        if (op.get().type() != SORTED) {
+                            mergingTracker.markAsMerged(operationType);
+                        }
+                    });
+
                     mergingTracker.markForRemoval(operationReference.index());
             });
         }
