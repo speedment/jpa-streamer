@@ -1,70 +1,88 @@
 <img align="center" src="https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer.png?raw=true." alt="JPA Streamer Logo" title="JPA Streamer Logo" width="600px">
 
 # JPA Streamer
+JPA Streamer is a lightweight extension for any JPA provider that allows creation of Java Streams from database content. With a single dependency, your application can immediately operate on database elements using standard Stream operators e.g. filter(), sort() and map().       
 
-JPA Streamer is a lightweight toolkit for creating Java Streams from database content using any JPA provider such as Hibernate.
+The following example assumes there is an existing JPA Entity that represents a table containing films as follows: 
 
-## Initializing JPA Streamer
+    @Entity
+    @Table(name = "film", schema = "sakila")
+    public class Film implements Serializable {
 
-This is how you initialize JPA Streamer using a persistence unit name "sakila":
+   	    @Id
+   	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   	    @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
+   	    private Integer filmId;
+
+  	    @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
+        private String title;
+
+        @Column(name = "length", columnDefinition = "smallint(5)")
+        private Integer length;
+
+        @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
+        private String rating;
+        
+    }
+    
+To operate on the elements of the table, JPAStreamer is first initialized with a simple builder (in this case using a persistence unit named "sakila"):
 
     JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila")
-                .build(); 
+        .build();
 
-## Examples
+The obtained streamer is then used to create Streams that are rendered to database queries through JPA. For example:
 
-Here are some examples of streams that can be rendered to database queries though JPA.
+    jpaStreamer.stream(Film.class) // Film.class is the @Entity representing the film-table
+        .filter(Film$.rating.equal("G"))    
+        .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator()))
+        .skip(10)
+        .limit(5)
+        .forEach(System.out::println);
 
-### Streaming
+This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first ten and then printing only the following five films. (Film$ is automatically generated from the Film-table Entity at compile-time by JPAStreamer). 
 
-        jpaStreamer.stream(Film.class)
-                .forEach(System.out::println);
+More examples are available in the JPAStreamer [documentation](https://speedment.github.io/jpa-streamer/jpa-streamer/0.1.0/fetching-data/stream-examples.html). 
 
-This will print all films in the database.
+## Install
+Since JPAStreamer acts merely as an API extension for existing JPA providers it requires minimal installation and configuration efforts. You only need to specify that the JPAStreamer dependency is required to compile your source code. 
 
-### Filtering
+> **_NOTE:_** JPAStreamer requires use of Java 8 or later.
 
+### Maven
+In Maven, the following JPAStreamer dependency is added to the project's pom.xml-file.
 
+    <dependencies>
+	    <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>core</artifactId>
+            <version>${jpa-streamer-version}</version>
+        </dependency>
+    </dependencies>
 
-        jpaStreamer.stream(Film.class)
-                .filter(Film$.length.between(100, 120))
-                .forEach(System.out::println);
-                
-This will print all films with a length between 100 and 120 (inclusive).
+### Gradle
+In Gradle, the following JPAStreamer dependency is added to the project's build.gradle-file:
 
-### Combined Filters
+    repositories {
+	    mavenCentral()
+    }
+    dependencies {
+        compile "com.speedment.jpastreamer:core:version"
+        annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
+    }
 
-        jpaStreamer.stream(Film.class)
-                // Composing filters with "and"/"or"
-                .filter(Film$.rating.equal("G").or(Film$.length.greaterOrEqual(140)))
-                .forEach(System.out::println);
+## Resources
 
-This will print all films that are either rated "G" or has a length greater or equal to 140 minutes.                
+- **Documentation** - https://speedment.github.io/jpa-streamer
+- **Gitter Chat** - https://gitter.im/speedment/jpa-streamer
+- **Website** - www.jpastreamer.org
 
-### Sorting with skip and limit
-                
-        jpaStreamer.stream(Film.class)
-                .filter(Film$.rating.equal("G"))
-                .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator()))
-                .skip(10)
-                .limit(5)
-                .forEach(System.out::println);
+## Contributing
+We gladly welcome any form of contributions, whether it is comments and questions, filed issues or pull requests. 
 
-This will print films rated G in reversed length order (where films of equal length will be in title order)
-but skipping the first 10 and then printing only the following 5 films.
+Before we can accept your patches we need to establish a common legal ground to protect your rights to your contributions and the users of JPAStreamer. This is done by signing a Contributor License Agreement (CLA) with Speedment, Inc. The details of this process is laid out [here](). 
+ 
+## Phone Home
+JPAstreamer sends certain data back to Speedment's servers as described [here](https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD). If you wish to disable this feature, please contact us at info@jpastreamer.org.
 
-
-### Counting
-
-        long count = jpaStreamer.stream(Film.class)
-                .filter(Film$.rating.equal("G"))
-                .count();
-
-This will count the number of films with a rating of "G"
-
-                
-## Cleaning up
-
-    jpaStreamer.close();
-
-This will release any resources potentially held by JPA Streamer.    
+## License
+JPAsteamer is released under the [MIT License](). 
