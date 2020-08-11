@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Introduction :: JPAStreamer</title>
-    <link rel="next" href="../getting-started/installation.html">
+    <title>Transactions :: JPAStreamer</title>
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
@@ -43,8 +42,8 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="introduction.html">Introduction</a>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
   </li>
 </ul>
   </li>
@@ -134,7 +133,7 @@
       <span class="title">JPAStreamer Docs</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="introduction.html">0.1.0</a>
+          <a href="../introduction/introduction.html">0.1.0</a>
         </li>
       </ul>
     </li>
@@ -151,128 +150,54 @@
 <article class="doc">
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="introduction.html">JPAStreamer Docs</a></li>
-    <li><a href="introduction.html">Introduction</a></li>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="transactions.html">Transactions</a></li>
   </ul>
 </nav>
-<h1 class="page">Introduction</h1>
-<div id="preamble">
-<div class="sectionbody">
+<h1 class="page">Transactions</h1>
 <div class="paragraph">
-<p>This chapter provides an overview of the JPAStreamer toolkit and its abilities.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_what_is_jpastreamer"><a class="anchor" href="#_what_is_jpastreamer"></a>What is JPAStreamer?</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>JPA Streamer is a lightweight extension for any JPA provider that allows creation of Java Streams from database content. With a single dependency, your application can immediately operate on database elements using standard Stream operators e.g. filter(), sort() and map().</p>
+<p>Transactions are an essential part of JPA that determines when modifications to the data is synchronised with the underlying database. JPAstreamer can assist with the modifications while the actual transactions are handled using standard JPA.</p>
 </div>
 <div class="paragraph">
-<p>For example, starting with a standard JPA Entity you can effortlessly derive intuitive stream queries:</p>
+<p>The following example increases the rental rate of every R-rated film (for adults only) with 1 dollar as a JPA transaction:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
-@Table(name = "film", schema = "sakila")
-public class Film implements Serializable {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">void method() {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
-    private Integer filmId;
+    EntityManager em = ...;
 
-    @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
-    private String title;
+    try {
+        em.getTransaction().begin();
+        jpaStreamer.stream(Film.class) <i class="conum" data-value="1"></i><b>(1)</b>
+            .filter(Film$.rating.equal("R")) <i class="conum" data-value="2"></i><b>(2)</b>
+            .forEach(f -&gt;
+                f.setRentalRate(f.getRentalRate() + 1) <i class="conum" data-value="3"></i><b>(3)</b>
+            );
+        em.getTransaction().commit();
+    } catch(Exception e) {
+        em.getTransaction().rollback();
+    }
 
-    @Column(name = "length", columnDefinition = "smallint(5)")
-    private Integer length;
-
-    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
-    private String rating;
 }</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To operate on the elements of the table, JPAStreamer is first initialized with a simple builder (in this case using a persistence unit named "sakila"):</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila")
-.build();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The obtained streamer is then used to create Streams that are rendered to database queries through JPA. For example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
-    .filter(Film$.rating.equal("G")) <i class="conum" data-value="1"></i><b>(1)</b>
-    .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator())) <i class="conum" data-value="1"></i><b>(1)</b>
-    .skip(10)
-    .limit(5)
-    .forEach(System.out::println);</code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Film$ is automatically generated from the Film-table Entity at compile-time by JPAStreamer.</td>
+<td>Streams the film-table</td>
 </tr>
-</table>
-</div>
-<div class="paragraph">
-<p>This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first ten and then printing only the following five films.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
 <tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-More examples are available in the chapter <a href="../fetching-data/stream-examples.html" class="page">Stream Examples</a>.
-</td>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Filters out R-rated films</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Updates the price with 1 dollar</td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Using JPAStreamer, you can quickly create modern and robust web application. All components are pre-tested and work in all major browsers (see Compatibility and Versioning or the release notes). This allows you to spend your development time on your application, not testing with a large combination of different devices, browsers, and operating systems. When you do want to create tests, Vaadin has got you covered with a purpose-built tool, Vaadin TestBench.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_resources"><a class="anchor" href="#_resources"></a>Resources</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>Gitter Chat - <a href="https://gitter.im/speedment/jpa-streamer" class="bare">https://gitter.im/speedment/jpa-streamer</a></p>
-</li>
-<li>
-<p>Website - <a href="https://www.jpastreamer.org" class="bare">https://www.jpastreamer.org</a></p>
-</li>
-<li>
-<p>GitHub - <a href="https://github.com/speedment/jpa-streamer" class="bare">https://github.com/speedment/jpa-streamer</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_phone_home"><a class="anchor" href="#_phone_home"></a>Phone Home</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>JPAstreamer sends certain data back to Speedment&#8217;s servers as described <a href="https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD">here</a>. If you wish to disable this feature, please contact us at <a href="mailto:info@jpastreamer.org">info@jpastreamer.org</a>.</p>
-</div>
-</div>
-</div>
-<nav class="pagination">
-  <span class="next"><a href="../getting-started/installation.html">Installing JPAStreamer</a></span>
-</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
