@@ -5,6 +5,8 @@ author: Per Minborg
 :navtitle: Stream Examples
 :source-highlighter: highlight.js
 
+The examples in this section make use of the MySQL example database link:https://dev.mysql.com/doc/sakila/en/[Sakila]. It models a classic movie rental store and contains tables such as Film, Actor, Language etc.
+
 == Paging
 The following example demonstrates how to serve request for pages from a GUI or similar applications. The page number (starting with page = 0) and ordering will be given as parameters:
 
@@ -50,10 +52,173 @@ long is false has 543 films
 long is  true has 457 films
 ----
 
-== One-to-Many relations
+== One-to-Many, Many-to-One, Many-to-Many relations
+Relationships between tables are handled via the JPA provider. Hence, JPAstreamer assumes that the correct relationships are described by the present `@Entity` beans. The following examples makes use of the three tables `Film`, `Actor` and `Language` from the link:https://dev.mysql.com/doc/sakila/en/[Sakila database]. The corresponding entities are described below:
 
-== Many-to-One relations
+[source, java]
+----
+@Entity
+@Table(name = "film", schema = "sakila")
+public class Film {
 
-== Many-to-Many relations
+    @Id
+    @Column(name = "film_id", columnDefinition = "smallint(5)")
+    private Integer filmId;
+
+    @ManyToOne #<1>
+    @JoinColumn(name="language_id", nullable = false)
+    private Language language;
+
+    @ManyToMany(cascade = { CascadeType.ALL }) #<2>
+    @JoinTable(
+            name = "film_actor",
+            joinColumns = { @JoinColumn(name = "film_id") },
+            inverseJoinColumns = { @JoinColumn(name = "actor_id") }
+    )
+    List<Actor> actors = new ArrayList<>();
+
+    //...
+
+}
+----
+<1> A film can only be spoken in one language (simplified reality)
+<2> A film can starr many actors
+
+[source, java]
+----
+@Entity
+@Table(name = "language", schema = "sakila")
+public class Language {
+
+    @Id
+    @Column(name = "language_id", columnDefinition = "tinyint(5)")
+    private Integer languageId;
+
+    @OneToMany(mappedBy = "language") #<1>
+    private List<Film> films;
+
+    //...
+
+}
+----
+<1> One language can occur in many films
+
+[source, java]
+----
+@Entity
+@Table(name = "actor", schema = "sakila")
+public class Actor {
+
+    @Id
+    @Column(name = "actor_id", columnDefinition = "smallint(5)")
+    private Integer actorId;
+
+    @ManyToMany(mappedBy = "actors") #<1>
+    List<Film> films = new ArrayList<>();
+
+    //...
+}
+----
+<1> An actor can starr in many films
+
+=== One-to-Many relations
+A One-to-Many relationship is defined as a relationship between two tables where a row from a first table can have multiple matching rows in a second table. For example, many films can be in the same language.
+
+The following example maps the languages to a list of all films that are spoken in that language:
+
+[source, java]
+----
+    Map<Language, List<Film>> languageFilmMap = jpaStreamer.stream(Language.class)
+        .collect(
+            toMap(Function.identity(),
+                Language::getFilms)
+        );
+----
+
+=== Many-to-One relations
+A Many-to-one relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
+
+The following example maps every film with rating PG-13 to its spoken language:
+
+[source, java]
+----
+Map<Film, Language> languageMap = jpaStreamer.stream(Film.class) #<1>
+    .filter(Film$.rating.equal("PG-13"))
+    .collect(
+            Collectors.toMap(Function.identity(), #<2>
+                Film::getLanguage #<3>
+            )
+    );
+----
+
+If printed with some formatting this may yield the following output:
+
+[source, text]
+----
+ALTER VICTORY: English
+APOLLO TEEN: English
+AIRPLANE SIERRA: English
+...
+----
+
+=== Many-to-Many relations
+A Many-to-Many relationship is defined as a relationship between two tables where many multiple rows from a first table can match multiple rows in a second table. Often a third table is used to form these relations. For example, an actor may participate in several films and a film usually have several actors.
+
+Given the entities above, we can create a filmography that maps every actor to a list of films that they have starred in:
+
+[source, java]
+----
+Map<Actor, List<Film>> filmography = jpaStreamer.stream(Actor.class) #<1>
+    .collect(
+            Collectors.toMap(Function.identity(), #<2>
+                Actor::getFilms #<3>
+            )
+    );
+----
+<1> Stream over the Actor-table
+<2> The identity function assigns the current Actor as the key
+<3> Enters the List of films as the value
+
+If printed with some formatting this may yield the following output:
+
+[source, text]
+----
+JENNIFER DAVIS: [GREEDY ROOTS, HANOVER GALAXY, ... ]
+ED CHASE: [ARTIST COLDBLOODED, IMAGE PRINCESS, ... ]
+NICK WAHLBERG: [JEKYLL FROGMEN, CHISUM BEHAVIOR, ... ]
+...
+----
 
 == Pivot Data
+The following example shows a pivot table of all the actors and the number of films they have participated in for each film rating category (e.g. “PG-13”):
+
+[source, java]
+----
+    Map<Actor, Map<String, Long>> pivot = jpaStreamer.stream(Actor.class) #<1>
+        .collect(
+            groupingBy(Function.identity(), #<2>
+                Collectors.flatMapping(a -> a.getFilms().stream(), #<3>
+                    groupingBy(Film::getRating, counting()) #<4>
+                )
+            )
+        );
+----
+As this is a more advanced example it requires some thinking to understand.
+
+<1> Streams the Actor table
+<2> Assigns Actor as the key
+<3> Applies a downstream collector which flatmaps all the films which the actor starr in
+<4> The films are grouped according to rating, and the number of films of each rating is counted
+
+NOTE: `Collectors.flatMapping()` is only present in Java 9 and forward.
+
+This will produce the following (slightly simplified) output:
+
+[source, text]
+----
+MICHAEL BOLGER  {PG-13=9, R=3, NC-17=6, PG=4, G=8}
+LAURA BRODY  {PG-13=8, R=3, NC-17=6, PG=6, G=3}
+CAMERON ZELLWEGER  {PG-13=8, R=2, NC-17=3, PG=15, G=5}
+...
+----
+

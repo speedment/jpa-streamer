@@ -57,7 +57,7 @@ jpaStreamer.stream(Film.class)
 
 This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first ten and then printing only the following five films.
 
-NOTE: More examples are available in the chapter xref:fetching-data:stream-examples.adoc[Stream Examples].
+TIP: More examples are available in the chapter xref:fetching-data:stream-examples.adoc[Stream Examples].
 
 Using JPAStreamer, you can quickly create modern and robust web application. All components are pre-tested and work in all major browsers (see Compatibility and Versioning or the release notes). This allows you to spend your development time on your application, not testing with a large combination of different devices, browsers, and operating systems. When you do want to create tests, Vaadin has got you covered with a purpose-built tool, Vaadin TestBench.
 
@@ -66,5 +66,8 @@ Using JPAStreamer, you can quickly create modern and robust web application. All
 - Gitter Chat - https://gitter.im/speedment/jpa-streamer
 - Website - https://www.jpastreamer.org
 - GitHub - https://github.com/speedment/jpa-streamer
+
+== Phone Home
+JPAstreamer sends certain data back to Speedment's servers as described link:https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD[here]. If you wish to disable this feature, please contact us at info@jpastreamer.org.
 
 

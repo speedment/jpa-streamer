@@ -52,7 +52,7 @@ It shall be noted that elements in a `Stream` are pulled by the Terminal operati
 ----
 
 .A Stream consists of a source followed by a pipeline of an arbitrary number of intermediate operations and a terminal operation.
-[#img-stream-pipeline]
+[#img-stream-basics]
 [caption=""]
 image::stream_basics_1.png[Stream Pipeline]
 
