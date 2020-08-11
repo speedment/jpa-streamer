@@ -35,12 +35,24 @@ public abstract class AbstractSingleValueSquash<S> implements SingleValueSquash<
             final IntermediateOperation<?, ?> intermediateOperation = intermediateOperations.get(i);
 
             if (intermediateOperation.type() == operationType()) {
+                if (intermediateOperation.arguments().length == 0) {
+                    if (result != checkValue()) {
+                        final IntermediateOperation<?, ?> newOperation = operationProvider()
+                                .apply(result);
+                        intermediateOperations.add(i + 1, newOperation);
+
+                        result = resetValue();
+                    }
+                    continue;
+                }
+
                 if (valueClass().isAssignableFrom(intermediateOperation.arguments()[0].getClass())) {
                     S value = (S) intermediateOperation.arguments()[0];
                     result = squash().apply(value, result);
 
                     intermediateOperations.remove(i);
                 }
+
                 continue;
             }
 

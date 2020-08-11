@@ -4,4 +4,71 @@ author:
 :reftext:  Spring Integration
 :navtitle:  Spring Integration
 :source-highlighter: highlight.js
+JPAStreamer comes with first-party support for projects built on top of Spring Boot. Dependency Injection is a fundamental feature of the Spring framework. With this in mind, a JPAStreamer autoconfiguration module can be used to quickly and easily integrate JPAStreamer into your Spring Boot projects.
 
+. <<Installing the autoconfiguration module>>
+. <<Accessing JPAStreamer>>
+
+== Installing the autoconfiguration module
+
+The installation process will differ depending on the build tool you're using. In this guide, Maven and Gradle are covered.
+
+=== Maven
+For Maven projects, the following JPAStreamer dependency must be added to the project's pom.xml file:
+
+[source, xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>com.speedment.jpastreamer.integration.spring</groupId>
+        <artifactId>spring-boot-jpastreamer-autoconfigure</artifactId>
+        <version>${jpa-streamer-version}</version>
+    </dependency>
+</dependencies>
+----
+
+=== Gradle
+For Gradle projects, the following JPAStreamer dependency must be added to the project's build.gradle file:
+
+[source, groovy]
+----
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "com.speedment.jpastreamer.integration.spring:spring-boot-jpastreamer-autoconfigure:version"
+}
+----
+
+== Accessing JPAStreamer
+
+Once the required dependencies are installed, you can access JPAStreamer using Spring's Dependency Injection system:
+
+[source, java]
+----
+@Service
+public class DummyService {
+
+    @Autowired
+    private final JPAStreamer jpaStreamer;
+}
+----
+
+Direct field injection is usually not recommended, it's preferable to inject your dependencies via a constructor:
+
+[source, java]
+----
+@Service
+public class DummyService {
+
+    private final JPAStreamer jpaStreamer;
+
+    @Autowired
+    public DummyService(final JPAStreamer jpaStreamer) {
+        this.jpaStreamer = jpaStreamer;
+    }
+}
+----
+
+WARNING: JPAStreamer's autoconfiguration relies on a EntityManagerFactory bean being present. If you're using Spring Data JPA, this is already handled for you.

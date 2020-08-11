@@ -24,7 +24,7 @@ In Maven, the following JPAStreamer dependency is added to the project's pom.xml
 ----
 
 == Gradle
-In Gradle, the following JPAStreamer dependency is added to the project's gradle.build-file:
+In Gradle, the following JPAStreamer dependency is added to the project's build.gradle-file:
 
 [source, text]
 ----

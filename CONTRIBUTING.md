@@ -7,11 +7,9 @@ Contributor License Agreement
 In order to protect your rights to your contributions and in order to protect the users of Speedment, you need
 to sign a Contributor License Agreement with Speedment, Inc. before we can accept your contributions.
 
-Please review and <a href="https://www.clahub.com/agreements/speedment/jpa-streamer">sign the Contributor License Agreement here</a>
+The contract can be found [here](https://github.com/speedment/jpa-streamer/blob/master/CONTRIBUTOR_LICENSE_AGREEMENT) and a signed version of this is e-mailed to info@speedment.com.
 
-(Please ignore the fields in the actual agreement text and fill in your data at the bottom of the form instead)
-
-When you have signed the CLA, your name will be added to the project's ```<contributors>...</contributors>``` tags :-)
+Once we have received the signed CLA, your name will be added to the project's ```<contributors>...</contributors>``` tags :-)
 
 
 Creating a Pull Request
