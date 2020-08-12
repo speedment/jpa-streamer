@@ -28,10 +28,10 @@ import javax.persistence.criteria.Root;
 public final class InternalCriteriaFactory implements CriteriaFactory {
 
     @Override
-    public <T> Criteria<T> createCriteria(
+    public <ENTITY, RETURN> Criteria<ENTITY, RETURN> createCriteria(
         final CriteriaBuilder builder,
-        final CriteriaQuery<T> query,
-        final Root<T> root
+        final CriteriaQuery<RETURN> query,
+        final Root<ENTITY> root
     ) {
         requireNonNull(builder);
         requireNonNull(query);

@@ -35,12 +35,12 @@ public interface CriteriaMerger {
      *
      * @param pipeline to inspect and merge
      * @param criteria that provides access to the underlying builder and query
-     * @param <T> root entity
+     * @param <ENTITY> root entity
      * @return a new CriteriaMergeResult containing the modified {@code Pipeline}
      *         and {@code CriteriaQuery}
      */
-    <T> CriteriaMergeResult<T> merge(
-        final Pipeline<T> pipeline,
-        final Criteria<T> criteria
+    <ENTITY> CriteriaMergeResult<ENTITY> merge(
+        final Pipeline<ENTITY> pipeline,
+        final Criteria<ENTITY, ?> criteria
     );
 }

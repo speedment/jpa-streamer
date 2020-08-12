@@ -24,7 +24,7 @@ import javax.persistence.criteria.Root;
  * @author Mislav Miliceivc
  * @since 0.0.9
  */
-public interface Criteria<T> {
+public interface Criteria<ENTITY, RETURN> {
 
     /**
      * Returns the {@code CriteriaBuilder} that is stored within this {@code Criteria}
@@ -38,12 +38,12 @@ public interface Criteria<T> {
      *
      * @return the {@code CriteriaQuery} that is stored within this {@code Criteria}
      */
-    CriteriaQuery<T> getQuery();
+    CriteriaQuery<RETURN> getQuery();
 
     /**
      * Returns the {@code Root} that is stored within this {@code Criteria}
      *
      * @return the {@code Root} that is stored within this {@code Criteria}
      */
-    Root<T> getRoot();
+    Root<ENTITY> getRoot();
 }

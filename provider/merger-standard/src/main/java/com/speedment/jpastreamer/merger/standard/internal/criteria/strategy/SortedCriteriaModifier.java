@@ -49,9 +49,9 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
     }
 
     @Override
-    public <T> void modifyCriteria(
+    public <ENTITY> void modifyCriteria(
         final IntermediateOperationReference operationReference,
-        final Criteria<T> criteria,
+        final Criteria<ENTITY, ?> criteria,
         final MergingTracker mergingTracker
     ) {
         requireNonNull(operationReference);
@@ -66,7 +66,7 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
             return;
         }
 
-        final Optional<Comparator<T>> optionalComparator = getComparator(operation);
+        final Optional<Comparator<ENTITY>> optionalComparator = getComparator(operation);
 
         if (optionalComparator.isPresent()) {
             final List<Order> orders;
@@ -96,7 +96,7 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
 
             mergingTracker.markForRemoval(operationReference.index());
         } else {
-            final EntityType<T> entityType = criteria.getRoot().getModel();
+            final EntityType<ENTITY> entityType = criteria.getRoot().getModel();
 
             entityType.getDeclaredSingularAttributes().stream()
                 .filter(SingularAttribute::isId)

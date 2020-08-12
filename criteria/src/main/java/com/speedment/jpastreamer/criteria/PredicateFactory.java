@@ -32,11 +32,11 @@ public interface PredicateFactory {
      *
      * @param criteria used to create the JPA Predicate
      * @param speedmentPredicate used as a model for the JPA Predicate that is being created
-     * @param <T> root entity used in the Speedment Predicate
+     * @param <ENTITY> root entity used in the Speedment Predicate
      * @return JPA Predicate
      */
-    <T> Predicate createPredicate(
-        final Criteria<T> criteria,
-        final SpeedmentPredicate<T> speedmentPredicate
+    <ENTITY> Predicate createPredicate(
+        final Criteria<ENTITY, ?> criteria,
+        final SpeedmentPredicate<ENTITY> speedmentPredicate
     );
 }

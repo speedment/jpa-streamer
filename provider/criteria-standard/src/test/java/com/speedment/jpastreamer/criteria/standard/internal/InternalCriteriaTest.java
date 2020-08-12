@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 final class InternalCriteriaTest {
 
-    private final Criteria<Object> nullCriteria = new InternalCriteria<>(null, null, null);
+    private final Criteria<?, ?> nullCriteria = new InternalCriteria<>(null, null, null);
 
     @Test
     void getBuilder() {

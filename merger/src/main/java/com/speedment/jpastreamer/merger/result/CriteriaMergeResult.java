@@ -18,28 +18,26 @@ package com.speedment.jpastreamer.merger.result;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
-import javax.persistence.criteria.CriteriaQuery;
-
 /**
  * A container object used to store the results of the merge operation
  * performed on a {@code Pipeline}.
  *
- * @param <T> root entity
+ * @param <ENTITY> root entity
  * @author Mislav Milicevic
  */
-public interface CriteriaMergeResult<T> {
+public interface CriteriaMergeResult<ENTITY> {
 
     /**
      * Returns the pipeline that was used during operation merging.
      *
      * @return the pipeline that was used during operation merging
      */
-    Pipeline<T> getPipeline();
+    Pipeline<ENTITY> getPipeline();
 
     /**
      * Returns the criteria containing the query that the operations were merged into.
      *
      * @return the criteria containing the query that the operations were merged into
      */
-    Criteria<T> getCriteria();
+    Criteria<ENTITY, ?> getCriteria();
 }

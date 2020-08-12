@@ -28,9 +28,9 @@ public final class StandardPredicateFactory implements PredicateFactory {
     private final PredicateFactory delegate = new InternalPredicateFactory();
 
     @Override
-    public <T> Predicate createPredicate(
-        final Criteria<T> criteria,
-        final SpeedmentPredicate<T> speedmentPredicate
+    public <ENTITY> Predicate createPredicate(
+        final Criteria<ENTITY, ?> criteria,
+        final SpeedmentPredicate<ENTITY> speedmentPredicate
     ) {
         return delegate.createPredicate(criteria, speedmentPredicate);
     }

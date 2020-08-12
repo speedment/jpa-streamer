@@ -58,7 +58,7 @@ final class InternalPredicateFactoryTest {
         when(criteriaBuilder.and(any())).thenReturn(null);
         when(criteriaBuilder.or(any())).thenReturn(null);
 
-        final Criteria<String> criteria = new InternalCriteria<>(criteriaBuilder, null, null);
+        final Criteria<String, String> criteria = new InternalCriteria<>(criteriaBuilder, null, null);
         final FieldPredicate<String> stringEqual = new StringEqualPredicate("value");
 
         assertThrows(NullPointerException.class, () -> predicateFactory.createPredicate(criteria, null));
@@ -84,8 +84,8 @@ final class InternalPredicateFactoryTest {
 
     private static final class MockPredicateMapper implements PredicateMapper {
         @Override
-        public <T> Predicate mapPredicate(Criteria<T> criteria,
-                FieldPredicate<T> fieldPredicate) {
+        public <ENTITY> Predicate mapPredicate(Criteria<ENTITY, ?> criteria,
+                FieldPredicate<ENTITY> fieldPredicate) {
             return null;
         }
     }

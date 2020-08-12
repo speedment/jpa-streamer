@@ -30,18 +30,18 @@ public final class StandardCriteriaFactory implements CriteriaFactory {
     private final CriteriaFactory delegate = new InternalCriteriaFactory();
 
     @Override
-    public <T> Criteria<T> createCriteria(
+    public <ENTITY, RETURN> Criteria<ENTITY, RETURN> createCriteria(
         final CriteriaBuilder builder,
-        final CriteriaQuery<T> query,
-        final Root<T> root
+        final CriteriaQuery<RETURN> query,
+        final Root<ENTITY> root
     ) {
         return delegate.createCriteria(builder, query, root);
     }
 
     @Override
-    public <T> Criteria<T> createCriteria(
+    public <ENTITY> Criteria<ENTITY, ENTITY> createCriteria(
         final EntityManager entityManager,
-        final Class<T> entityClass
+        final Class<ENTITY> entityClass
     ) {
         return delegate.createCriteria(entityManager, entityClass);
     }

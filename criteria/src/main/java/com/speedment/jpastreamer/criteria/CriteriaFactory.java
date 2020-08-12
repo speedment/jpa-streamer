@@ -36,14 +36,15 @@ public interface CriteriaFactory {
      * @param builder to store in the {@code Criteria}
      * @param query to store in the {@code Criteria}
      * @param root to store in the {@code Criteria}
-     * @param <T> root entity
+     * @param <ENTITY> root entity
+     * @param <RETURN> type returned by the query
      * @return a {@code Criteria} containing the provided {@code builder},
      *         {@code query} and {@code root}
      */
-    <T> Criteria<T> createCriteria(
+    <ENTITY, RETURN> Criteria<ENTITY, RETURN> createCriteria(
         final CriteriaBuilder builder,
-        final CriteriaQuery<T> query,
-        final Root<T> root
+        final CriteriaQuery<RETURN> query,
+        final Root<ENTITY> root
     );
 
     /**
@@ -52,19 +53,39 @@ public interface CriteriaFactory {
      *
      * @param entityManager used to create the necessary {@code Criteria} objects
      * @param entityClass used to define the result model of the stored query and root
-     * @param <T> root entity
+     * @param <ENTITY> root entity
      * @return a {@code Criteria}
      */
-    default <T> Criteria<T> createCriteria(
+    default <ENTITY> Criteria<ENTITY, ENTITY> createCriteria(
         final EntityManager entityManager,
-        final Class<T> entityClass
+        final Class<ENTITY> entityClass
+    ) {
+        return createCriteria(entityManager, entityClass, entityClass);
+    }
+
+    /**
+     * Creates and returns a {@code Criteria} where the {@code CriteriaBuilder},
+     * {@code CriteriaQuery} and {@code Root} are created by the provided {@code entityManager}.
+     *
+     * @param entityManager used to create the necessary {@code Criteria} objects
+     * @param entityClass used to define the result model of the root
+     * @param returnClass used to define the result model of the query
+     * @param <ENTITY> root entity
+     * @param <RETURN> query return entity
+     * @return a {@code Criteria}
+     */
+    default <ENTITY, RETURN> Criteria<ENTITY, RETURN> createCriteria(
+        final EntityManager entityManager,
+        final Class<ENTITY> entityClass,
+        final Class<RETURN> returnClass
     ) {
         requireNonNull(entityManager);
         requireNonNull(entityClass);
+        requireNonNull(returnClass);
 
         final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
-        final Root<T> root = criteriaQuery.from(entityClass);
+        final CriteriaQuery<RETURN> criteriaQuery = criteriaBuilder.createQuery(returnClass);
+        final Root<ENTITY> root = criteriaQuery.from(entityClass);
 
         return createCriteria(criteriaBuilder, criteriaQuery, root);
     }

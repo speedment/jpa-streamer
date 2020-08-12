@@ -61,7 +61,7 @@ public final class StandardRenderer implements Renderer {
          final CriteriaMerger criteriaMerger,
          final QueryMerger queryMerger
      ) {
-         final Criteria<T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
+         final Criteria<T, T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
          criteria.getQuery().select(criteria.getRoot());
 
          criteriaMerger.merge(pipeline, criteria);

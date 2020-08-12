@@ -40,9 +40,9 @@ import java.util.function.Function;
 public final class DefaultPredicateMapper implements PredicateMapper {
     
     @Override
-    public <T> Predicate mapPredicate(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    public <ENTITY> Predicate mapPredicate(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         requireNonNull(criteria);
         requireNonNull(fieldPredicate);
@@ -50,9 +50,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         return mapPredicate0(criteria, fieldPredicate);
     }
 
-    private <T> Predicate alwaysTrue(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate alwaysTrue(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return noValueMapping(
             fieldPredicate,
@@ -60,9 +60,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate alwaysFalse(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate alwaysFalse(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return noValueMapping(
             fieldPredicate,
@@ -70,9 +70,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate isNull(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate isNull(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return noValueMapping(
             fieldPredicate,
@@ -80,9 +80,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate isNotNull(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate isNotNull(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return noValueMapping(
             fieldPredicate,
@@ -90,9 +90,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate equal(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate equal(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -101,9 +101,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate notEqual(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notEqual(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -113,9 +113,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> Predicate lessThan(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate lessThan(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return singleBoundRangeComparisonMapping(
             fieldPredicate,
@@ -125,9 +125,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> Predicate lessOrEqual(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate lessOrEqual(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return singleBoundRangeComparisonMapping(
             fieldPredicate,
@@ -137,9 +137,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private <T, S extends Comparable<? super S>> Predicate between(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY, S extends Comparable<? super S>> Predicate between(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return doubleBoundRangeComparisonMapping(
             fieldPredicate,
@@ -202,9 +202,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private <T, S extends Comparable<? super S>> Predicate notBetween(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY, S extends Comparable<? super S>> Predicate notBetween(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return doubleBoundRangeComparisonMapping(
             fieldPredicate,
@@ -271,9 +271,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate in(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate in(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
 
@@ -281,7 +281,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             throw new JPAStreamerException();
         }
 
-        final Field<T> field = fieldPredicate.getField();
+        final Field<ENTITY> field = fieldPredicate.getField();
         final String column = field.columnName();
 
         final Set<?> set = (Set<?>) value;
@@ -289,17 +289,17 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         return criteria.getRoot().get(column).in(set);
     }
 
-    private <T> Predicate notIn(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notIn(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return in(criteria, fieldPredicate).not();
     }
 
     @SuppressWarnings("unchecked")
-    private <T> Predicate greaterThan(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate greaterThan(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return singleBoundRangeComparisonMapping(
             fieldPredicate,
@@ -309,9 +309,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> Predicate greaterOrEqual(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate greaterOrEqual(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return singleBoundRangeComparisonMapping(
             fieldPredicate,
@@ -320,9 +320,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate equalIgnoreCase(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate equalIgnoreCase(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -332,9 +332,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate notEqualIgnoreCase(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notEqualIgnoreCase(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -344,9 +344,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate startsWith(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate startsWith(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -355,9 +355,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate notStartsWith(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notStartsWith(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -366,9 +366,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate startsWithIgnoreCase(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate startsWithIgnoreCase(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -378,9 +378,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate notStartsWithIgnoreCase(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notStartsWithIgnoreCase(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -390,9 +390,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate endsWith(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate endsWith(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -401,9 +401,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate notEndsWith(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notEndsWith(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -412,9 +412,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate endsWithIgnoreCase(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate endsWithIgnoreCase(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -424,9 +424,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate notEndsWithIgnoreCase(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notEndsWithIgnoreCase(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -436,9 +436,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate contains(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate contains(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -447,9 +447,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate notContains(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notContains(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -458,9 +458,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate containsIgnoreCase(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate containsIgnoreCase(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -470,9 +470,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate notContainsIgnoreCase(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate notContainsIgnoreCase(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
             fieldPredicate,
@@ -482,9 +482,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate isEmpty(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate isEmpty(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return noValueMapping(
             fieldPredicate,
@@ -492,9 +492,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <T> Predicate isNotEmpty(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate isNotEmpty(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return noValueMapping(
             fieldPredicate,
@@ -506,8 +506,8 @@ public final class DefaultPredicateMapper implements PredicateMapper {
      * Mapping Helpers - Start
      */
 
-    private <T> Predicate noValueMapping(
-        final FieldPredicate<T> fieldPredicate,
+    private <ENTITY> Predicate noValueMapping(
+        final FieldPredicate<ENTITY> fieldPredicate,
         final Function<String, Predicate> callback
     ) {
         final String column = fieldPredicate.getField().columnName();
@@ -516,8 +516,8 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private <T, S> Predicate typeMapping(
-        final FieldPredicate<T> fieldPredicate,
+    private <ENTITY, S> Predicate typeMapping(
+        final FieldPredicate<ENTITY> fieldPredicate,
         final BiFunction<String, S, Predicate> callback,
         final Class<S> clazz
     ) {
@@ -532,8 +532,8 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("rawtypes")
-    private <T> Predicate singleBoundRangeComparisonMapping(
-        final FieldPredicate<T> fieldPredicate,
+    private <ENTITY> Predicate singleBoundRangeComparisonMapping(
+        final FieldPredicate<ENTITY> fieldPredicate,
         final BiFunction<String, Number, Predicate> callback,
         final BiFunction<String, Comparable, Predicate> comparableCallback
     ) {
@@ -556,8 +556,8 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private <T, S extends Comparable<? super S>> Predicate doubleBoundRangeComparisonMapping(
-            final FieldPredicate<T> fieldPredicate,
+    private <ENTITY, S extends Comparable<? super S>> Predicate doubleBoundRangeComparisonMapping(
+            final FieldPredicate<ENTITY> fieldPredicate,
             final BiFunction<String, Tuple3<S, S, Inclusion>, Predicate> callback
     ) {
         final String column = fieldPredicate.getField().columnName();
@@ -585,9 +585,9 @@ public final class DefaultPredicateMapper implements PredicateMapper {
      * Mapping Helpers - End
      */
 
-    private <T> Predicate mapPredicate0(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    private <ENTITY> Predicate mapPredicate0(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     ) {
         switch (fieldPredicate.getPredicateType()) {
             case ALWAYS_TRUE:
