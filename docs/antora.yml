@@ -9,3 +9,4 @@ nav:
   - modules/application-configuration/nav.adoc
   - modules/stream-fundamentals/nav.adoc
   - modules/fetching-data/nav.adoc
+  - modules/transactions/nav.adoc

@@ -52,7 +52,7 @@ long is false has 543 films
 long is  true has 457 films
 ----
 
-== One-to-Many, Many-to-One, Many-to-Many relations
+== Joins
 Relationships between tables are handled via the JPA provider. Hence, JPAstreamer assumes that the correct relationships are described by the present `@Entity` beans. The following examples makes use of the three tables `Film`, `Actor` and `Language` from the link:https://dev.mysql.com/doc/sakila/en/[Sakila database]. The corresponding entities are described below:
 
 [source, java]
@@ -136,7 +136,7 @@ The following example maps the languages to a list of all films that are spoken 
 ----
 
 === Many-to-One relations
-A Many-to-one relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
+A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
 
 The following example maps every film with rating PG-13 to its spoken language:
 
@@ -150,6 +150,9 @@ Map<Film, Language> languageMap = jpaStreamer.stream(Film.class) #<1>
             )
     );
 ----
+<1> Stream over the Film-table
+<2> The identity function assigns the current Film as the key
+<3> Enters the spoken language as the value
 
 If printed with some formatting this may yield the following output:
 
