@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Stream Examples :: JPAStreamer</title>
     <link rel="prev" href="sql-equivalents.html">
+    <link rel="next" href="../transactions/transactions.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
@@ -12,7 +13,7 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="../../..">JPAStreamer</a>
+      <a class="navbar-item" href="../../.."></a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -121,6 +122,13 @@
   </li>
 </ul>
   </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
 </ul>
   </nav>
 </div>
@@ -224,7 +232,7 @@ long is  true has 457 films</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_one_to_many_many_to_one_many_to_many_relations"><a class="anchor" href="#_one_to_many_many_to_one_many_to_many_relations"></a>One-to-Many, Many-to-One, Many-to-Many relations</h2>
+<h2 id="_joins"><a class="anchor" href="#_joins"></a>Joins</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Relationships between tables are handled via the JPA provider. Hence, JPAstreamer assumes that the correct relationships are described by the present <code>@Entity</code> beans. The following examples makes use of the three tables <code>Film</code>, <code>Actor</code> and <code>Language</code> from the <a href="https://dev.mysql.com/doc/sakila/en/">Sakila database</a>. The corresponding entities are described below:</p>
@@ -340,7 +348,7 @@ public class Actor {
 <div class="sect2">
 <h3 id="_many_to_one_relations"><a class="anchor" href="#_many_to_one_relations"></a>Many-to-One relations</h3>
 <div class="paragraph">
-<p>A Many-to-one relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.</p>
+<p>A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.</p>
 </div>
 <div class="paragraph">
 <p>The following example maps every film with rating PG-13 to its spoken language:</p>
@@ -355,6 +363,22 @@ public class Actor {
             )
     );</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Stream over the Film-table</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The identity function assigns the current Film as the key</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Enters the spoken language as the value</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>If printed with some formatting this may yield the following output:</p>
@@ -484,6 +508,7 @@ CAMERON ZELLWEGER  {PG-13=8, R=2, NC-17=3, PG=15, G=5}
 </div>
 <nav class="pagination">
   <span class="prev"><a href="sql-equivalents.html">SQL Equivalents</a></span>
+  <span class="next"><a href="../transactions/transactions.html">Transactions</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
