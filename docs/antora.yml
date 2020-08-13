@@ -5,8 +5,11 @@ start_page: introduction:introduction.adoc
 nav:
   - modules/ROOT/nav.adoc
   - modules/introduction/nav.adoc
-  - modules/getting-started/nav.adoc
-  - modules/application-configuration/nav.adoc
+  - modules/why-jpastreamer/nav.adoc
+  - modules/how-it-works/nav.adoc
+  - modules/quick-start/nav.adoc
+  - modules/get-jpa-streamer/nav.adoc
+  - modules/predicates/nav.adoc
   - modules/stream-fundamentals/nav.adoc
   - modules/fetching-data/nav.adoc
   - modules/transactions/nav.adoc

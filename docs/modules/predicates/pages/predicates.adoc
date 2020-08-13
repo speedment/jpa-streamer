@@ -1,0 +1,114 @@
+= JPAstreamer Predicates
+keywords: stream, jpastreamer, java, predicates
+author: Per Minborg
+:reftext: JPAstreamer Predicates
+:navtitle: JPAstreamer Predicates
+:source-highlighter: highlight.js
+
+In JPAstreamer, the concept of _fields_ and _predicates_ is of central importance to achieve optimal performance. If you haven't already, we recommend reading the chapter xref:how-it-works:how-it-works.adoc[How JPAstreamer Works], to understand how fields are used by the JPAstreamer renderer to obtain optimized JPA queries.
+
+== What is a Predicate?
+`Predicate<T>` is a functional Java interface. An instance implementing this interface has a boolean function `test` that takes a parameter of type `T` and returns either `true` or `false`. JPAstreamer uses such predicates as arguments for Stream operations i.e. `filter()` and `sort()`.
+
+Here is an example that uses a `Predicate<String>` to return `true` if the `String` begins with an "A" and `false` otherwise:
+
+[source, java]
+----
+Predicate<String> startsWithA = (String s) -> s.startsWith("A");
+
+Stream.of("Snail", "Ape", "Bird", "Ant", "Alligator")
+    .filter(startsWithA)
+    .forEachOrdered(System.out::println);
+----
+
+This will print all animals that starts with "A": Ape, Ant and Alligator because the `filter` operator will only pass forward those elements where its `Predicate` returns `true`.
+
+TIP: The official JavaDoc contains more information about the interface link:https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html[Predicate<T>].
+
+=== Fields
+The fields included as part of the JPAstreamer metamodel (described xref:how-it-works:how-it-works.adoc[here]) can be used to produce `Predicates` that are related to the field.
+
+Here is an example of how a `StringField` can be used in conjuction with a `Film` object:
+
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.startsWith("A"))
+    .forEachOrdered(System.out::println);
+----
+
+In this example, the `StringField` 's method `Film$.title::startsWith` creates and returns a `Predicate<Film>` that, when tested with a `Film`, will return `true` if and only if that `Film` has a `title` that starts with an "A" (otherwise it will return `false`).
+
+When run, the code above will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, description = ...
+Film { filmId = 2, title = ACE GOLDFINGER, description = ...
+...
+----
+
+It would be possible to express the same semantics using a standard anonymous lambda:
+[source, java]
+----
+films.stream()
+    .filter(f -> f.getTitle().startsWith("A"))
+    .forEachOrdered(System.out::println);
+----
+
+but JPAstreamer would not be able to recognize and optimize such vanilla lambdas. This means JPAstreamer is forced to pull in the entire Film table and then apply the predicates in the JVM. Because of this, developers are *highly encouraged* to use the provided `Fields` when obtaining predicates because these predicates will always be recognizable by the JPAstreamer query optimizer.
+
+TIP: Do this: `filter(Film$.title.greaterOrEqual(\"He\"))`
+
+WARNING: Don't do this: `filter(f -> \"He\".compareTo(f.getTitle()) <= 0)`
+
+== Field types
+JPAstreamer uses a variety of field types to represent the attributes of the entity-classes. This is partly due to the fact that different types are compatible with different operations, but also for performance reasons.
+
+Below is a table describing how attribute types are mapped to fields.
+
+.How JPAstreamer's metamodel represents the attribute types as fields
+[width="100%", cols="2", options="header"]
+|=============
+| Attribute type | Field type
+| `int`	|	`IntField<ENTITY>`
+| `double`	|	`DoubleField<ENTITY>`
+| `float`	|	`FloatField<ENTITY>`
+| `byte`	|	`ByteField<ENTITY>`
+| `long` 	|	`LongField<ENTITY>`
+| `short`	|	`ShortField<ENTITY>`
+| `char`	|	`CharField<ENTITY>`
+| `Enum` 	|	`EnumField<ENTITY, Enum>`
+| `bool`	|	`BooleanField<ENTITY>`
+| `String` | `StringField<ENTITY>`
+| `Integer`	|	`ComparableField<ENTITY, Integer>`
+| `Double`	|	`ComparableField<ENTITY, Double>`
+| `Float`	|	`ComparableField<ENTITY, Float>`
+| `Byte`	|	`ComparableField<ENTITY, Byte>`
+| `Long` 	| 	`ComparableField<ENTITY, Long>`
+| `Short`	|	`ComparableField<ENTITY, Short>`
+| `Character`	|	`ComparableField<ENTITY, Character>`
+| `Boolean`	|	`ComparableField<ENTITY, Boolean>`
+| `CustomType`	|	`ReferenceField<ENTITY, CustomType>`
+| `Class<T>[]`	|	`ReferenceField<ENTITY, Class<?>[]>`
+| `Set<T>`	|	`ReferenceField<ENTITY, Set<?>>`
+| `Map<T>`	|	`ReferenceField<ENTITY, Map<?>>`
+| `List<T>`	| 	`ReferenceField<ENTITY, List<?>>`
+| `LocalDate` |	`ComparableField<ENTITY, LocalDate>`
+| `LocalDateTime` | `ComparableField<ENTITY, LocalDateTime>`
+| `LocalTime` |	`ComparableField<ENTITY, LocalTime>`
+| `Calendar` | `ComparableField<ENTITY, Calendar>`
+| `java.util.Date`	|	`ComparableField<ENTITY, java.util.Date>`
+| `java.sql.Time`	|	`ComparableField<ENTITY, java.sql.Time>`
+| `java.sql.Date`	|	`ComparableField<ENTITY, java.sql.Date>`
+| `java.sql.Timestamp`	| `ComparableField<ENTITY, java.sql.Timestamp>`
+|=============
+
+The following chapters will describe how to get predicates from different `Field` types and how these predicates can be xref:combining-predicates.adoc[combined] and xref:negating-predicates.adoc[negated].
+
+. xref:reference-predicates.adoc[Reference Predicates] describes what predicates can be obtained from `ReferenceField`
+. xref:comparable-predicates.adoc[Comparable Predicates] describes what predicates can be obtained from `ComparableField`
+. xref:primitive-predicates.adoc[Primitive Predicates] describes what predicates can be obtained from all primitive fields i.e. `IntField` and `DoubleField`
+. xref:string-predicates.adoc[String Fields] describes what predicates can be obtained from `StringField`
+
+
+

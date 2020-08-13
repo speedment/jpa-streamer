@@ -5,9 +5,31 @@ author: Julia Gustafsson
 :navtitle: Transactions
 :source-highlighter: highlight.js
 
-Transactions are an essential part of JPA that determines when modifications to the data is synchronised with the underlying database. JPAstreamer can assist with the modifications while the actual transactions are handled using standard JPA.
+Transactions are an essential part of JPA that determines when modifications to the data is synchronised with the underlying database. JPAstreamer can assist with the modifications while the actual transactions are handled using standard JPA. Below is an example of a JPA transaction that updates a selection of entries in a table.
 
-The following example increases the rental rate of every R-rated film (for adults only) with 1 dollar as a JPA transaction:
+The entity to operate on is called `Film` that, among others, declare the fields `rating` and `rentalRate`.
+
+[source, java]
+----
+
+@Entity
+@Table(name = "film", schema = "sakila")
+public class Film {
+
+    //...
+
+    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
+    private String rating;
+
+    @Column(name = "rental_rate", columnDefinition = "decimal(4,2)")
+    private Float rentalRate;
+
+    //...
+
+}
+----
+
+The transaction below performs a one dollar increase of the rental rate of every R-rated film (for adults only) in a film-table:
 
 [source, java]
 ----
@@ -19,16 +41,15 @@ void method() {
         em.getTransaction().begin();
         jpaStreamer.stream(Film.class) #<1>
             .filter(Film$.rating.equal("R")) #<2>
-            .forEach(f ->
-                f.setRentalRate(f.getRentalRate() + 1) #<3>
-            );
-        em.getTransaction().commit();
+            .forEach(f -> f.setRentalRate(f.getRentalRate() + 1)); #<3>
+        em.getTransaction().commit(); #<4>
     } catch(Exception e) {
         em.getTransaction().rollback();
     }
 
 }
 ----
-<1> Streams the film-table
-<2> Filters out R-rated films
-<3> Updates the price with 1 dollar
+<1> Selects the entries from the Film-table
+<2> Filters out only the R-rated films
+<3> Increases the current rental rate with 1 dollar
+

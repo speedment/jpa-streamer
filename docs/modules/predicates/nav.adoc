@@ -1,0 +1,7 @@
+* xref:predicates.adoc[Predicates]
+** xref:reference-predicates.adoc[Reference Predicates]
+** xref:comparable-predicates.adoc[Comparable Predicates]
+** xref:string-predicates.adoc[String Predicates]
+** xref:primitive-predicates.adoc[Primitive Predicates]
+** xref:negating-predicates.adoc[Negating Predicates]
+** xref:combining-predicates.adoc[Combining Predicates]

@@ -1,0 +1,70 @@
+= Reference Predicates
+keywords: stream, jpastreamer, java, predicates
+author: Per Minborg
+:reftext: Reference Predicates
+:navtitle: Reference Predicates
+:source-highlighter: highlight.js
+
+The following methods are available to all `ReferenceFields` (i.e. fields that are not primitive fields). The "Condition" in the table below is the condition for which the corresponding `Predicate` will hold `true`:
+
+[width="100%", cols="4", options="header"]
+|=============
+| Method         | Param Type | Operation          | Condition
+| isNull         | N/A        | field == null      | the field is null
+| isNotNull      | N/A        | field != null      | the field is not null
+|=============
+
+A `ReferenceField` implements the interface trait `HasReferenceOperators`.
+
+== Examples
+Below are examples of how the reference predicates can be used. Both examples operate on the JPA entity Film which has a rating field like so:
+
+[source, java]
+----
+@Entity
+@Table(name = "film", schema = "sakila")
+public class Film  {
+
+    // ...
+
+    @Column(name = "rating", nullable = true, columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
+    private String rating;
+
+    // ...
+}
+----
+
+NOTE: The referenced table is present in the https://dev.mysql.com/doc/sakila/en/[MySQL example database Sakila].
+
+=== isNull
+All films with a rating that *is null* can be counted like this:
+[source, java]
+----
+    long count = jpaStreamer.stream(Film.class)
+        .filter(Film$.rating.isNull())
+        .count();
+    System.out.format("There are %d films with a null rating %n", count);
+----
+
+The code will produce the following output:
+[source, text]
+----
+There are 0 films with a null rating
+----
+
+=== isNotNull
+
+All films with a rating that *is not null* can be counted like this:
+[source, java]
+----
+long count = jpaStreamer.stream(Film.class)
+        .filter(Film$.rating.isNotNull())
+        .count();
+    System.out.format("There are %d films with a non-null rating %n", count);
+----
+The code will produce the following output:
+[source, text]
+----
+There are 1000 films with a non-null rating
+----
+

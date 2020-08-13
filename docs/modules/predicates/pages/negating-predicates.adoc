@@ -1,0 +1,61 @@
+= Negating Predicates
+keywords: stream, jpastreamer, java, predicates
+author: Per Minborg
+:reftext: Negating Predicates
+:navtitle: Negating Predicates
+:source-highlighter: highlight.js
+
+All predicates (including already negated predicates) can be negated by calling the `negate()` method. Negation means that the result of the `Predicate<T>` will be inverted (i.e. `true` becomes `false` and `false` becomes `true`). Here is a list of predicates and their corresponding negation:
+
+== Reference Predicates
+
+[width="100%", cols="2", options="header"]
+|=============
+| Predicate                    | Equivalent Predicate
+| isNull().negate()            | isNotNull()
+| isNotNull().negate()         | isNull()
+|=============
+
+== Comparable Predicates
+
+[width="100%", cols="2", options="header"]
+|=============
+| Predicate                    | Equivalent Predicate
+| equal.negate(p)              | notEqual(p)
+| notEqual(p).negate()         | equal(p)
+| lessThan(p).negate()         | greaterOrEqual(p)
+| lessOrEqual(p).negate()      | greaterThan(p)
+| greaterThan(p).negate()      | lessOrEqual(p)
+| greaterOrEqual(p).negate()   | lessThan(p)
+| between(s, e).negate()       | notBetween(s, e)
+| notBetween(s, e).negate()    | between(s, e)
+| in(a, b, c).negate()         | notIn(a, b, c)
+| notIn(a, b, c).negate()      | in(a, b, c)
+|=============
+
+== String Predicates
+
+[width="100%", cols="2", options="header"]
+|=============
+| Predicate                           | Equivalent Predicate
+| isEmpty().negate()                  | isNotEmpty()
+| isNotEmpty().negate()               | isEmpty()
+| equalIgnoreCase(p).negate()         | notEqualIgnoreCase(p)
+| notEqualIgnoreCase(p).negate()      | equalIgnoreCase(p)
+| startsWith(p).negate()              | notStartsWith(p)
+| notStartsWith(p).negate()           | startsWith(p)
+| startsWithIgnoreCase(p).negate()    | notStartsWithIgnoreCase(p)
+| notStartsWithIgnoreCase(p).negate() | startsWithIgnoreCase(p)
+| endsWith(p).negate()                | notEndsWith(p)
+| notEndsWith(p).negate()             | endsWith(p)
+| endsWithIgnoreCase(p).negate()      | notEndsWithIgnoreCase(p)
+| notStartsWithIgnoreCase(p).negate() | startsWithIgnoreCase(p)
+| contains(p).negate()                | notContains(p)
+| notContains(p).negate()             | contains(p)
+| containsIgnoreCase(p).negate()      | notContainsIgnoreCase(p)
+| notContainsIgnoreCase(p).negate()   | containsIgnoreCase(p)
+|=============
+
+This means that `Film$.film_id.equal(1).negate()` is equivalent to `Film$.film_id.notEqual(1)` and `Film$.film_id.between(1,100).negate()` is equivalent to `Film$.film_id.notBetween(1, 100)`.
+
+TIP: Negating a `Predicate` an even number of times will give back the original `Predicate`. E.g. `Film$.film_id.equal(1).negate().negate()` is equivalent to `Film$.film_id.equal(1)`

@@ -1,0 +1,100 @@
+= Combining Predicates
+keywords: stream, jpastreamer, java, predicates
+author: Per Minborg
+:reftext: Combining Predicates
+:navtitle: Combining Predicates
+:source-highlighter: highlight.js
+
+A predicate can be composed of other predicates by means of the `and()` and `or()` methods as shown in the examples below.
+
+== and
+The `and()` method returns a composed predicate that represents a short-circuiting logical AND of a first predicate and another given second predicate. If the first predicate is evaluated to `false`, then the second predicate is not evaluated.
+
+The following code sample will print out all films that are long (apparently a film is long when its length is greater than 120 minutes) and that has a rating that is "PG-13":
+
+[source, java]
+----
+Predicate<Film> isLong = Film$.length.greaterThan(120);
+Predicate<Film> isPG13 = Film$.rating.equal("PG-13");
+
+jpaStreamer.stream(Film.class)
+    .filter(isLong.and(isPG13))
+    .forEachOrdered(System.out::println);
+----
+
+This will produce the following output:
+
+[source, text]
+----
+Film { filmId = 33, title = APOLLO TEEN, ... , length = 153, ..., rating = PG-13, ...
+Film { filmId = 35, title = ARACHNOPHOBIA ROLLERCOASTER, ..., length = 147, ..., rating = PG-13, ...
+Film { filmId = 36, title = ARGONAUTS TOWN, ..., length = 127, ..., rating = PG-13, ...
+...
+----
+
+The same result can be achieved by just stacking two `filter` operations on top of each other. So this:
+
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120))
+    .filter(Film$.rating.equal("PG-13"))
+    .forEachOrdered(System.out::println);
+----
+is equivalent to:
+
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120).and(Film$.rating.equal("PG-13"))
+    .forEachOrdered(System.out::println);
+----
+
+== or
+The `or()` method returns a composed predicate that represents a short-circuiting logical OR of a first predicate and another given second predicate. If the first predicate is evaluated to `true`, then the second predicate is not evaluated.
+
+The following code sample will print out all films that are either long (length > 120) or has a rating of "PG-13":
+[source, java]
+----
+Predicate<Film> isLong = Film$.length.greaterThan(120);
+Predicate<Film> isPG13 = Film$.rating.equal("PG-13");
+
+jpaStreamer.stream(Film.class)
+    .filter(isLong.or(isPG13))
+    .forEachOrdered(System.out::println);
+----
+
+This will produce the following output:
+[source, java]
+----
+Film { filmId = 5, title = AFRICAN EGG, ..., length = 130, ..., rating = G, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ..., rating = PG, ...
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ..., rating = PG-13, ...
+...
+----
+
+As for the `and()` method, there is an equivalent way of expressing compositions with `or()`. Here is an example of how streams can be concatenated to obtain the same functionality as above:
+
+[source, java]
+----
+StreamComposition.concatAndAutoClose(
+    jpaStreamer.stream(Film.class).filter(Film$.length.greaterThan(120)),
+    jpaStreamer.stream(Film.class).filter(Film$.rating.equal("PG-13"))
+    )
+    .distinct()
+    .forEachOrdered(System.out::println);
+----
+
+[source, text]
+----
+Film { filmId = 5, title = AFRICAN EGG, ..., length = 130, ..., rating = G, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ..., rating = PG, ...
+{... a number of films with length > 120}
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ..., rating = PG-13, ...
+{... a number of films with rating = "PG-13}
+...
+----
+
+In this case, optimized queries will be used for the two sub-streams but the films must be handled by the JVM from the `.distinct()` operation.
+
+TIP: JPAstreamer can optimize `Predicate::or` better than a concatenation of streams followed by a `distinct()` operation.

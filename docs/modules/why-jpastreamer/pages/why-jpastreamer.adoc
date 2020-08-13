@@ -1,0 +1,21 @@
+= Why JPAstreamer?
+keywords: stream, jpastreamer, java, SQL
+author: Julia Gustafsson
+:reftext: Why JPAstreamer?
+:navtitle: Why JPAstreamer?
+:source-highlighter: highlight.js
+
+
+=== Use type-safe Streams instead of JPQL/Criteria Builder
+JPAstreamer provides a fully type-safe API for writing JPA queries. This helps to detect errors at compile time and allows you to utilize IntelliSense for increased efficiency when coding. By doing so, JPAstreamer aspires to streamline the process of querying.
+
+=== Get rid of repetitive and complex coding
+Java Stream is a declarative interface that has won ground for its intuitive way of declaring your intent, _what_ you want, rather than _how_ to obtain that result. Most of the Stream operators happens to map naturally to SQL constructs (see xref:fetching-data:sql-equivalents.adoc[SQL equivalents]), which is why you can easily reap the benefits of the Java Stream interface when querying. As a result, your queries can be more terse while remaining expressive and intuitive to read.
+
+
+=== Leverage the Java stream ecosystem
+Beyond its powerful 
+The Stream interface is compatible with a large variety of Collectors that can be applied to reduce the results of the Stream into almost any Collection e.g. a `Map`, `List` or `Set`.
+
+A Stream can easily be reduced to a wide variety of collections and
+

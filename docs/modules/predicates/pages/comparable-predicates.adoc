@@ -1,0 +1,322 @@
+= Comparable Predicates
+keywords: stream, jpastreamer, java, predicates
+author: Per Minborg
+:reftext: Comparable Predicates
+:navtitle: Comparable Predicates
+:source-highlighter: highlight.js
+
+The following additional methods are available to a `ReferenceField` that is always associated to a `Comparable` field (e.g. `Integer`, `String`, `Date`, `Time` etc.). Comparable fields can be tested for equality and can also be compared to other objects of the same type. The "Condition" in the table below is the condition for which the corresponding `Predicate` will hold `true`:
+
+[width="100%", cols="4", options="header"]
+|=============
+| Method         | Param Type | Operation                  | Condition
+| equal          | `V`          | Objects.equals(p, field)   | the field is equal to the parameter
+| notEqual       | `V`          | !Objects.equals(p, field)  | the field is not equal to the parameter
+| lessThan       | `V`          | field < p                  | the field is less than the parameter
+| lessOrEqual    | `V`          | field <= p                 | the field is less or equal to the the parameter
+| greaterThan    | `V`          | field > p                  | the field is greater than the parameter
+| greaterOrEqual | `V`          | field >= p                 | the field is greater or equal to the parameter
+| between        | `V`,`V`      | field >= s && field < e  | the field is between s (inclusive) and e (exclusive)
+| between        | `V`,`V`, `Inclusion`| field >? s && field <? e  | the field is between s and e with inclusion according to the given Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)
+| notBetween     | `V`,`V`      | field < s && field >= e  | the field is not between p1 (exclusive) and p2 (inclusive)
+| notBetween     | `V`,`V`, `Inclusion`| field <? s && field >? e  | the field is not between s and e with inclusion according to the given Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)
+| in             | `V[]`        |  array p contains field    | the array parameter contains the field
+| in             | `Collection<V>`     |  p.contains(field)         | the `Collection<V>` contains the field
+| notIn          | `V[]`        |  array p does not contain field    | the array parameter does not contain the field
+| notIn          | `Collection<V>`     |  !p.contains(field)        | the `Collection<V>` does not contain the field
+|=============
+
+TIP: Fields that are `null` will never fulfill any of the predicates in the list above. Thus, neither `equals` nor `notEquals` will return `true` for null values.
+
+NOTE: The reason `equal` is not named `equals` is that the latter name is already used as a method name by the `Object` class (that every other class inherits from). The latter method has a different meaning than function than `equal` so a new name had to be used.
+
+A `ComparableField` implements the interface traits `HasReferenceOperators` and `HasComparableOperators`.
+
+== Examples
+Here is a list with examples for the *Comparable Predicates*.
+
+The examples below assume that the database contains a number of films with ratings according to the Motion Picture Association of America (MPAA) film rating system:
+
+[width="100%", cols="2", options="header"]
+|=============
+| G | General Audience
+| PG | Parental Guidance Suggested
+| PG-13 | PG-13 – Parents Strongly Cautioned
+| R | R – Restricted
+| NC-17 | NC-17 – Adults Only
+|=============
+
+=== equal
+To count all films with a rating that equals "PG-13" you can write the following snippet:
+[source, java]
+----
+long count = jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.equal("PG-13"))
+    .count();
+
+System.out.format("There are %d films(s) with a PG-13 rating %n", count);
+----
+
+The code will produce the following output:
+
+[source, text]
+----
+There are 223 films(s) with a PG-13 rating
+----
+
+=== notEqual
+
+The following example prints all films that has a rating that is *not* "PG-13":
+
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.notEqual("PG-13"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ..., rating = PG, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ..., rating = G, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ..., rating = NC-17, ...
+Film { filmId = 4, title = AFFAIR PREJUDICE, ..., rating = G, ...
+Film { filmId = 5, title = AFRICAN EGG, ..., rating = G, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., rating = PG, ...
+Film { filmId = 8, title = AIRPORT POLLOCK, ..., rating = R, ...
+...
+----
+
+=== lessThan
+
+The following example prints all films that has a length that is less or equal to 120:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.lessThan(120))
+    .forEachOrdered(System.out::println);
+----
+
+The code will produce the following output:
+[source, text]
+----
+Fil { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ..., length = 48, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ..., length = 50, ...
+Film { filmId = 4, title = AFFAIR PREJUDICE, ..., length = 117, ...
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+...
+----
+
+=== greaterThan
+The following example prints all films that has a length that is greater than 120:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source,text]
+----
+Film { filmId = 5, title = AFRICAN EGG, ..., length = 130, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ...
+Film { filmId = 11, title = ALAMO VIDEOTAPE, ..., length = 126, ...
+...
+----
+
+=== greaterOrEqual
+The following example prints all films that has a length that is greater than or equal to 120:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterOrEqual(120))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 5, title = AFRICAN EGG, ..., length = 130, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ...
+Film { filmId = 11, title = ALAMO VIDEOTAPE, ..., length = 126, ...
+...
+----
+
+=== between
+The following example prints all films that has a length that is between 60 (inclusive) and 120 (exclusive):
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.between(60, 120))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+Film { filmId = 4, title = AFFAIR PREJUDICE, ...,, length = 117, ...
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+Film { filmId = 9, title = ALABAMA DEVIL, ..., length = 114, ...
+...
+----
+
+There is also another variant of the `between` predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive.
+
+For an example, take the series [1 2 3 4 5]. If we select elements *in* the range (2, 4) from this series, we will get the following results:
+
+[width="100%", cols="3", options="header"]
+|=============
+| # | `Inclusive` Enum Constant	                     | Included Elements
+| 0 | `START_INCLUSIVE_END_INCLUSIVE`                | [2, 3, 4]
+| 1 | `START_INCLUSIVE_END_EXCLUSIVE`                | [2, 3]
+| 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]
+| 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]
+|=============
+
+Here is an example that prints all films that has a length that is between 3 (inclusive) and 9 (inclusive):
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.between(60, 120, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+Film { filmId = 4, title = AFFAIR PREJUDICE, ...,, length = 117, ...
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+Film { filmId = 9, title = ALABAMA DEVIL, ..., length = 114, ...
+...
+----
+
+TIP: The order of the two parameters `start` and `end` is significant. If the `start` parameter is larger than the `end` parameter, then the `between` `Predicate` will always evaluate to `false`.
+
+=== notBetween
+The following example prints all films that has a length that is *not* between 60 (inclusive) and 120 (exclusive):
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.notBetween(60, 120))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+
+[source, text]
+----
+Film { filmId = 2, ..., length = 48, ...
+Film { filmId = 3, ..., length = 50, ...
+Film { filmId = 5, ..., length = 130, ...
+Film { filmId = 6, ..., length = 169, ...
+----
+
+Note that a film with length 120 is printed because 120 is outside the range 60 (inclusive) and 120 (exclusive) (because 120 is NOT in the range as 120 is exclusive).
+
+There is also another variant of the `notBetween` predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive.
+
+For an example, take the series [1 2 3 4 5]. If you select elements *not in* the range (2, 4) from this series, we will get the following results:
+
+[width="100%", cols="3", options="header"]
+|=============
+| # | `Inclusive` Enum Constant                      | Included Elements
+| 0 | `START_INCLUSIVE_END_INCLUSIVE`                | [1, 5]
+| 1 | `START_INCLUSIVE_END_EXCLUSIVE`                | [1, 4, 5]
+| 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [1, 2, 5]
+| 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [1, 2, 4, 5]
+|=============
+
+Here is an example that prints all films that has a length that is *not* between 60 (inclusive) and 120 (inclusive):
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.length.notBetween(60, 120, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+
+[source, text]
+----
+Film { filmId = 2, ..., length = 48, ...
+Film { filmId = 3, ..., length = 50, ...
+Film { filmId = 5, ..., length = 130, ...
+Film { filmId = 6, ..., length = 169, ...
+...
+----
+
+TIP: The order of the two parameters `start` and `end` is significant. If the `start` parameter is larger than the `end` parameter, then the `notBetween` `Predicate` will always evaluate to `true`.
+
+=== in
+
+Here is an example that prints all films that has a rating that is either "G", "PG" or "PG-13":
+
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.in("G", "PG", "PG-13"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, ..., rating = PG, ...
+Film { filmId = 2, ..., rating = G, ...
+Film { filmId = 4, ..., rating = G, ...
+...
+----
+
+There is also a variant of the `in` predicate that takes a `Collection` as a parameter. For example like this:
+[source, java]
+----
+Set<String> set = Stream.of("G", "PG", "PG-13").collect(toSet());
+
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.in(set))
+    .forEachOrdered(System.out::println);
+----
+
+The code will produce the following output:
+
+[source, java]
+----
+Film { filmId = 1, ..., rating = PG, ...
+Film { filmId = 2, ..., rating = G, ...
+Film { filmId = 4, ..., rating = G, ...
+...
+----
+
+=== notIn
+Here is an example that prints all films that has a rating that is *neither* "G", "PG" *nor* "PG-13":
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.notIn("G", "PG", "PG-13"))
+    .forEachOrdered(System.out::println);
+----
+
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 3, ..., rating = NC-17, ...
+Film { filmId = 8, ..., rating = R, ...
+Film { filmId = 10, ..., rating = NC-17, ...
+----
+
+There is also a variant of the `noIn` predicate that takes a `Collection` as a parameter. For example like this:
+
+[source, java]
+----
+Set<String> set = Stream.of("G", "PG", "PG-13").collect(toSet());
+
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.notIn(set))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+
+[source, java]
+----
+Film { filmId = 3, ..., rating = NC-17, ...
+Film { filmId = 8, ..., rating = R, ...
+Film { filmId = 10, ..., rating = NC-17, ...
+...
+----

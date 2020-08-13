@@ -1,0 +1,4 @@
+* Get JPAstreamer
+** xref:install-maven.adoc[Install with Maven]
+** xref:install-gradle.adoc[Install with Gradle]
+** xref:spring_integration.adoc[Spring Integration]

@@ -1,0 +1,301 @@
+= String Predicates
+keywords: stream, jpastreamer, java, predicates
+author: Per Minborg
+:reftext: String Predicates
+:navtitle: String Predicates
+:source-highlighter: highlight.js
+
+The following additional methods (over `ReferenceField`) are available to a `StringField`. The "Condition" in the table below is the condition for which the corresponding `Predicate` will hold `true`:
+
+[width="100%", cols="4", options="header"]
+|=============
+| Method                  | Param Type   | Operation                  | Condition
+| isEmpty                 | `String`     | String::isEmpty            | the field is empty (i.e. field.length() == 0)
+| isNotEmpty              | `String`     | !String::isEmpty           | the field is not empty (i.e. field.length() !=0)
+| equalIgnoreCase         | `String`     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case
+| notEqualIgnoreCase      | `String`     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case
+| startsWith              | `String`     | String::startsWith         | the field starts with the given parameter
+| notStartsWith           | `String`     | !String::startsWith        | the field does not start with the given parameter
+| startsWithIgnoreCase    | `String`     | String::startsWith ic      | the field starts with the given parameter ignoring case
+| notStartsWithIgnoreCase | `String`     | !String::startsWith ic     | the field does not start with the given parameter ignoring case |
+| endsWith                | `String`     | String::endsWith           | the field ends with the given parameter
+| notEndsWith             | `String`     | !String::endsWith          | the field does not end with the given parameter
+| endsWithIgnoreCase      | `String`     | String::endsWith ic        | the field ends with the given parameter
+| notEndsWithIgnoreCase   | `String`     | !String::endsWith ic       | the field does not end with the given parameter
+| contains                | `String`     | String::contains           | the field contains the given parameter
+| notContains             | `String`     | !String::contains          | the field does not contain the given parameter
+| containsIgnoreCase      | `String`     | String::contains ic        | the field contains the given parameter ignoring case
+| notContainsIgnoreCase   | `String`     | !String::contains ic       | the field does not contain the given parameter ignoring case
+|=============
+
+TIP: Fields that are `null` will never fulfill any of the predicates in the list above. Thus, neither `contains` nor `notContains` will return `true` for null values.
+
+A `StringField` implements the interface traits `HasReferenceOperators`, `HasComparableOperators`} and `HasStringOperators`.
+
+NOTE: An informal notation of method references is made in the table above with \"!\" indicating the `Predicate::negate` method. I.e. it means that the operation indicates a `Predicate` that will return the negated value. The notation \"ic\" means that the method reference shall be applied ignoring case.
+
+== Examples
+Here is a list with examples for the *String Predicates*.
+
+=== isEmpty
+The following example that prints the number of films that has a title that is empty (e.g. is equal to ""):
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.isEmpty())
+    .count();
+
+    System.out.format("There are %d films(s) with an empty title %n", count);
+----
+
+The code will produce the following output:
+[source, text]
+----
+There are 0 films(s) with an empty title
+----
+
+=== isNotEmpty
+The following example prints the films that has a title that is *not* empty (e.g. is *not* equal to ""):
+
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.isNotEmpty())
+    .forEachOrdered(System.out::println);
+----
+
+The code will produce the following output:
+
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----
+
+=== equalIgnoreCase
+The following example prints the films that has a title that equals to "AlABama dEVil" ignoring case:
+[source, java]
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.equalIgnoreCase("AlABama dEVil"))
+    .forEachOrdered(System.out::println);
+----
+
+The code will produce the following output:
+[source, text]
+----
+FilmImpl { filmId = 9, title = ALABAMA DEVIL, ...
+----
+
+=== notEqualIgnoreCase
+The following example prints the films that has a title that does *not* equal to "AlABama dEVil" ignoring case:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notEqualIgnoreCase("AlABama dEVil"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----
+
+=== startsWith
+The following example prints the films that has a title that starts with "ALABAMA":
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.startsWith("ALABAMA"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, java]
+----
+Film { filmId = 9, title = ALABAMA DEVIL, ...
+----
+
+=== notStartsWith
+The following example prints the films that has a title that does *not* start with "ALABAMA":
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notStartsWith("ALABAMA"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----
+
+=== startsWithIgnoreCase
+The following example prints the films that has a title that starts with "ala" ignoring case:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.startsWithIgnoreCase("ala"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, java]
+----
+Film { filmId = 9, title = ALABAMA DEVIL, ...
+----
+
+=== notStartsWithIgnoreCase
+The following example prints the films that has a title that does *not* start with "ala" ignoring case:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notStartsWithIgnoreCase("ala"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----
+
+=== endsWith
+The following example prints the films that has a title that ends with "DEVIL":
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.endsWith("DEVIL"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 9, title = ALABAMA DEVIL, ...
+Film { filmId = 155, title = CLEOPATRA DEVIL, ...
+Film { filmId = 313, title = FIDELITY DEVIL, ...
+----
+
+=== notEndsWith
+The following example prints the films that has a title that does *not* end with "DEVIL":
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notEndsWith("DEVIL"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----
+
+=== endsWithIgnoreCase
+The following example prints the films that has a title that ends with "deVIL" ignoring case:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.endsWithIgnoreCase("deVIL"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 9, title = ALABAMA DEVIL, ...
+Film { filmId = 155, title = CLEOPATRA DEVIL, ...
+Film { filmId = 313, title = FIDELITY DEVIL, ...
+----
+
+=== notEndsWithIgnoreCase
+The following example prints the films that has a title that does *not* start with "deVIL" ignoring case:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notEndsWithIgnoreCase("deVIL"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----
+
+=== contains
+The following example prints the films that has a title that contains the string "CON":
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.contains("CON"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 23, title = ANACONDA CONFESSIONS, ...
+Film { filmId = 127, title = CAT CONEHEADS, ...
+Film { filmId = 138, title = CHARIOTS CONSPIRACY, ...
+----
+
+=== notContains
+The following example prints the films that has a title that does *not* contain the string "CON":
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notContains("CON"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----
+
+=== containsIgnoreCase
+The following example prints the films that has a title that contains the string "CoN" ignoring case:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.containsIgnoreCase("CoN"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 23, title = ANACONDA CONFESSIONS, ...
+Film { filmId = 127, title = CAT CONEHEADS, ...
+Film { filmId = 138, title = CHARIOTS CONSPIRACY, ...
+...
+----
+
+=== notContainsIgnoreCase
+The following example prints the films that has a title that does *not* contain the string "CoN" ignoring case:
+[source, java]
+----
+jpaStreamer.stream(Film.class)
+    .filter(Film$.title.containsIgnoreCase("CoN"))
+    .forEachOrdered(System.out::println);
+----
+The code will produce the following output:
+[source, text]
+----
+Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...
+----

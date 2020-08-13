@@ -1,0 +1,25 @@
+= Primitive Predicates
+keywords: stream, jpastreamer, java, predicates
+author: Per Minborg
+:reftext: Primitive Predicates
+:navtitle: Primitive Predicates
+:source-highlighter: highlight.js
+
+For performance reasons, there are a number of primitive field types available in addition to the `ReferenceField` type. By using a primitive field, unnecessary boxing and auto-boxing can be avoided. Primitive fields also generate primitive predicates like `IntEqualPredicate` or `LongEqualPredicate`.
+
+The following primitive types and their corresponding field types are supported by JPAstreamer:
+
+[width="100%", cols="3", options="header"]
+|=============
+| Primitive Type | Primitive Field Type   | Example of Predicate implementations
+| `byte`         | `ByteField`            | `ByteEqualPredicate` and `ByteGreaterThanPredicate`
+| `short`        | `ShortField`           | `ShortEqualPredicate` and `ShortGreaterThanPredicate`
+| `int`          | `IntField`             | `IntEqualPredicate` and `IntGreaterThanPredicate`
+| `long`         | `LongField`            | `LongEqualPredicate` and `LongGreaterThanPredicate`
+| `float`        | `FloatField`           | `FloatEqualPredicate` and `FloatGreaterThanPredicate`
+| `double`       | `DoubleField`          | `DoubleEqualPredicate` and `DoubleGreaterThanPredicate`
+| `char`         | `CharField`            | `CharEqualPredicate` and `CharGreatersThanPredicate`
+| `boolean`      | `BooleanField`         | `BooleanPredicate`
+|=============
+
+This is something that is handled automatically by JPAstreamer under the hood and does not require any additional coding. The code will simply run faster with these specializations.

@@ -1,0 +1,1 @@
+* xref:quick-start.adoc[Quick-start with JPAstreamer]

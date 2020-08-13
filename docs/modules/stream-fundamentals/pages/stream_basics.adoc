@@ -6,7 +6,7 @@ author: Per Minborg
 :imagesdir: assets/images
 :source-highlighter: highlight.js
 
-JPAStreamer is all about Java 8 Streams that allow you to process data in a declarative manner similar to using SQL statements. If you are not yet familiar with the concept of `Streams`, you are encouraged to read this chapter carefully. Although, if you are comfortable with the use of `Stream`, feel free to skip directly to the xref:fetching-data:sql-equivalents.adoc[next chapter].
+JPAstreamer is all about Java 8 Streams that allow you to process data in a declarative manner similar to using SQL statements. If you are not yet familiar with the concept of `Streams`, you are encouraged to read this chapter carefully. Although, if you are comfortable with the use of `Stream`, feel free to skip directly to the xref:fetching-data:sql-equivalents.adoc[next chapter].
 
 == What is a Stream?
 
@@ -56,8 +56,8 @@ It shall be noted that elements in a `Stream` are pulled by the Terminal operati
 [caption=""]
 image::stream_basics_1.png[Stream Pipeline]
 
-== Streams with JpaStreamer
-With JPAStreamer, it is possible to use the same Stream semantics to operate on JPA Entities. In that case, database rows are streamed rather than Strings (as shown in the example above). This way, database tables can be viewed as pure Java Streams as shown hereunder:
+== Streams with JPAstreamer
+With JPAstreamer, it is possible to use the same Stream semantics to operate on JPA Entities. In that case, database rows are streamed rather than Strings (as shown in the example above). This way, database tables can be viewed as pure Java Streams as shown hereunder:
 
 [source, java]
 ----
@@ -73,4 +73,4 @@ jpaStreamer.stream(Film.class) #<1>
 <4> Sorts the remaining `Strings` in natural order
 <5> Collects the remaining sorted `Strings` in a `List`
 
-NOTE: Since `Stream` is an interface, JPAStreamer can select from a variety of different implementations of a `Stream` depending on the pipeline that is used and other factors. The Stream described above is rendered to a database query through JPA.
+NOTE: Since `Stream` is an interface, JPAstreamer can select from a variety of different implementations of a `Stream` depending on the pipeline that is used and other factors. The Stream described above is rendered to a database query through JPA.

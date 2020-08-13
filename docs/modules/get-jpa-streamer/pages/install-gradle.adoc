@@ -1,0 +1,25 @@
+= Install with Gradle
+keywords: stream, jpastreamer, java, gradle
+author: Per Minborg
+:reftext: Install with Gradle
+:navtitle: Install with Gradle
+:source-highlighter: highlight.js
+
+
+Since JPAStreamer acts merely as an API extension for any existing JPA provider it requires minimal installation and configuration efforts. You only need to specify that the JPAStreamer dependency is required to compile your source code.
+
+NOTE: JPAStreamer requires use of Java 8 or later.
+
+To install, add the following JPAStreamer dependency to the project's build.gradle-file:
+
+[source, text]
+----
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compile "com.speedment.jpastreamer:core:version"
+    annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
+}
+----

@@ -1,0 +1,144 @@
+= Quick-start with JPAstreamer
+keywords: stream, jpastreamer, java
+author: Julia Gustafsson
+:reftext: Quick-start with JPAstreamer
+:navtitle: Quick-start with JPAstreamer
+:source-highlighter: highlight.js
+This section helps you get started with JPAstreamer in a few minutes. The process can be summed up in four steps:
+
+. <<Installing JPAstreamer>>
+. <<Build your project to generate fields>>
+. <<Initiate JPAstreamer>>
+. <<Streaming a table>>
+
+The provided guide does not intend to be an exhaustive explanation of these steps but rather provide enough information to set you off streaming in no time. Hence, most of the topics are explained in greater depth throughout the JPAstreamer documentation.
+
+NOTE: Use of JPAstreamer requires Java 8 or later.
+
+NOTE: This guide assumes you are starting from an existing project that conveys to the standard JPA specification i.e. represent database tables as Entities etc.
+
+== Installing JPAstreamer
+The installation is performed by notifying your build tool that the JPAstreamer dependency is required to compile your source code. This is accomplished by using either of the following dependencies for Maven or Gradle.
+
+=== Maven
+Install JPAStreamer by adding the following dependency in the project's pom.xml-file:
+
+[source, xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>com.speedment.jpastreamer</groupId>
+        <artifactId>core</artifactId>
+        <version>${jpa-streamer-version}</version>
+    </dependency>
+</dependencies>
+----
+
+=== Gradle
+Install JPAStreamer by adding the following dependency in the project's build.gradle-file:
+
+[source, text]
+----
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compile "com.speedment.jpastreamer:core:version"
+    annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
+}
+----
+
+== Build your project to generate fields
+JPAstreamer relies on an annotation processor to generate the static metamodel classes required for the type-safe Stream parameters. This generation automatically takes place during compile time. Once you have added the JPAstreamer dependency, just go ahead and build your project. The metamodel is generated into the target folder in the same package as the corresponding `Entity`.
+
+NOTE: If you are running in an IDE, you may have to manually configure the output target folder as a source folder, or else the runtime compiler may not be aware of the generated classes.
+
+== Initiate JPAstreamer
+JPAstreamer does not need to be manually configured to recognize the underlying data source. Instead, it is using the existing description of the persistence unit. For example:
+
+[source, xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+     http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+
+    <persistence-unit name="sakila" transaction-type="RESOURCE_LOCAL">
+        <description>MySQL Sakila Example Database</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <!-- Configuring The Database Connection Details -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sakila" />
+
+            <!-- ... -->
+
+        </properties>
+    </persistence-unit>
+</persistence>
+----
+
+After installation, JPAstreamer is simply initialized with a builder that takes the name of the persistance unit as a parameter.
+
+[source, java]
+----
+JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") #<1>
+            .build();
+----
+<1> "sakila" is to be replaced with the name of *your* persistence unit
+
+== Streaming a table
+The persistence unit described in the example above is the https://dev.mysql.com/doc/sakila/en/[MySQL Sakila example database]. This models a traditional movie rental shop and contains tables such as Film.
+In this example, the entity-bean corresponding to the film-table looks like this:
+[source, java]
+----
+
+@Entity
+@Table(name = "film", schema = "sakila")
+public class Film {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "film_id", columnDefinition = "smallint(5)")
+    private Integer filmId;
+
+    @Column(name = "title", columnDefinition = "varchar(255)")
+    private String title;
+
+    // ... additional fields and corresponding getters and setters
+}
+----
+
+To stream the entries of this table, simply call `jpaStreamer.stream()` and provide the entity class:
+
+[source, java]
+----
+jpaStreamer.stream(Film.class) #<1>
+    .forEach(System.out::println);
+----
+<1> `Film.class` refers to the annotated `Entity` that models the table which is to be streamed
+
+This will yield the following output:
+[source, text]
+----
+Film {filmId=1, title='ACADEMY DINOSAUR', ...
+Film {filmId=2, title='ACE GOLDFINGER', ...
+Film {filmId=3, title='ADAPTATION HOLES', ...
+Film {filmId=4, title='AFFAIR PREJUDICE', ...
+Film {filmId=5, title='AFRICAN EGG', ...
+----
+
+NOTE: To release any resources potentially held by JPAstreamer, simply close the streamer using the command `jpaStreamer.close()`;
+
+== Next Steps
+Now that you have access to JPAstreamer it's time to put the expressiveness of Java Streams to work. If you are not yet familiar with the `Stream` API, you may find our guide on xref:stream-fundamentals:stream_basics.adoc[Stream Fundamentals] helpful.
+
+Otherwise, feel free to check out the xref:fetching-data:stream-examples.adoc[collection of examples] of JPAStreamer usage.
+
+[source, java]
+----
+jpaStreamer.close();
+----
