@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Transactions :: JPAStreamer</title>
-    <link rel="prev" href="../fetching-data/stream-examples.html">
+    <title>Primitive Predicates :: JPAStreamer</title>
+    <link rel="prev" href="string-predicates.html">
+    <link rel="next" href="negating-predicates.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
@@ -91,26 +92,26 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../predicates/predicates.html">Predicates</a>
+    <a class="nav-link" href="predicates.html">Predicates</a>
     <button class="nav-item-toggle"></button>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/reference-predicates.html">Reference Predicates</a>
+    <a class="nav-link" href="reference-predicates.html">Reference Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/comparable-predicates.html">Comparable Predicates</a>
+    <a class="nav-link" href="comparable-predicates.html">Comparable Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/string-predicates.html">String Predicates</a>
+    <a class="nav-link" href="string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="primitive-predicates.html">Primitive Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/primitive-predicates.html">Primitive Predicates</a>
+    <a class="nav-link" href="negating-predicates.html">Negating Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/negating-predicates.html">Negating Predicates</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/combining-predicates.html">Combining Predicates</a>
+    <a class="nav-link" href="combining-predicates.html">Combining Predicates</a>
   </li>
 </ul>
   </li>
@@ -156,8 +157,8 @@
   </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="transactions.html">Transactions</a>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
   </li>
 </ul>
   </li>
@@ -192,75 +193,79 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
-    <li><a href="transactions.html">Transactions</a></li>
+    <li><a href="predicates.html">Predicates</a></li>
+    <li><a href="primitive-predicates.html">Primitive Predicates</a></li>
   </ul>
 </nav>
-<h1 class="page">Transactions</h1>
+<h1 class="page">Primitive Predicates</h1>
 <div class="paragraph">
-<p>Transactions are an essential part of JPA that determines when modifications to the data is synchronised with the underlying database. JPAstreamer can assist with the modifications while the actual transactions are handled using standard JPA. Below is an example of a JPA transaction that updates a selection of entries in a table.</p>
-</div>
-<div class="paragraph">
-<p>The entity to operate on is called <code>Film</code> that, among others, declare the fields <code>rating</code> and <code>rentalRate</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
-@Table(name = "film", schema = "sakila")
-public class Film {
-
-    //...
-
-    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
-    private String rating;
-
-    @Column(name = "rental_rate", columnDefinition = "decimal(4,2)")
-    private Float rentalRate;
-
-    //...
-
-}</code></pre>
-</div>
+<p>For performance reasons, there are a number of primitive field types available in addition to the <code>ReferenceField</code> type. By using a primitive field, unnecessary boxing and auto-boxing can be avoided. Primitive fields also generate primitive predicates like <code>IntEqualPredicate</code> or <code>LongEqualPredicate</code>.</p>
 </div>
 <div class="paragraph">
-<p>The transaction below performs a one dollar increase of the rental rate of every R-rated film (for adults only) in a film-table:</p>
+<p>The following primitive types and their corresponding field types are supported by JPAstreamer:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">void method() {
-
-    EntityManager em = ...;
-
-    try {
-        em.getTransaction().begin();
-        jpaStreamer.stream(Film.class) <i class="conum" data-value="1"></i><b>(1)</b>
-            .filter(Film$.rating.equal("R")) <i class="conum" data-value="2"></i><b>(2)</b>
-            .forEach(f -&gt; f.setRentalRate(f.getRentalRate() + 1)); <i class="conum" data-value="3"></i><b>(3)</b>
-        em.getTransaction().commit(); <i class="conum" data-value="4"></i><b>(4)</b>
-    } catch(Exception e) {
-        em.getTransaction().rollback();
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
 <tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Selects the entries from the Film-table</td>
+<th class="tableblock halign-left valign-top">Primitive Type</th>
+<th class="tableblock halign-left valign-top">Primitive Field Type</th>
+<th class="tableblock halign-left valign-top">Example of Predicate implementations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>byte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ByteField</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ByteEqualPredicate</code> and <code>ByteGreaterThanPredicate</code></p></td>
 </tr>
 <tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Filters out only the R-rated films</td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>short</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ShortField</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ShortEqualPredicate</code> and <code>ShortGreaterThanPredicate</code></p></td>
 </tr>
 <tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Increases the current rental rate with 1 dollar</td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IntField</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IntEqualPredicate</code> and <code>IntGreaterThanPredicate</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LongField</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LongEqualPredicate</code> and <code>LongGreaterThanPredicate</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FloatField</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FloatEqualPredicate</code> and <code>FloatGreaterThanPredicate</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DoubleField</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DoubleEqualPredicate</code> and <code>DoubleGreaterThanPredicate</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>char</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CharField</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CharEqualPredicate</code> and <code>CharGreatersThanPredicate</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BooleanField</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BooleanPredicate</code></p></td>
+</tr>
+</tbody>
 </table>
+<div class="paragraph">
+<p>This is something that is handled automatically by JPAstreamer under the hood and does not require any additional coding. The code will simply run faster with these specializations.</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="../fetching-data/stream-examples.html">Stream Examples</a></span>
+  <span class="prev"><a href="string-predicates.html">String Predicates</a></span>
+  <span class="next"><a href="negating-predicates.html">Negating Predicates</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Transactions :: JPAStreamer</title>
-    <link rel="prev" href="../fetching-data/stream-examples.html">
+    <title>Spring Integration :: JPAStreamer</title>
+    <link rel="prev" href="install-gradle.html">
+    <link rel="next" href="../predicates/predicates.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
@@ -76,13 +77,13 @@
     <button class="nav-item-toggle"></button>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+    <a class="nav-link" href="install-maven.html">Install with Maven</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+    <a class="nav-link" href="install-gradle.html">Install with Gradle</a>
   </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="spring_integration.html">Spring Integration</a>
   </li>
 </ul>
   </li>
@@ -156,8 +157,8 @@
   </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="transactions.html">Transactions</a>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
   </li>
 </ul>
   </li>
@@ -192,75 +193,110 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
-    <li><a href="transactions.html">Transactions</a></li>
+    <li>Get JPAstreamer</li>
+    <li><a href="spring_integration.html">Spring Integration</a></li>
   </ul>
 </nav>
-<h1 class="page">Transactions</h1>
+<h1 class="page">Spring Integration</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Transactions are an essential part of JPA that determines when modifications to the data is synchronised with the underlying database. JPAstreamer can assist with the modifications while the actual transactions are handled using standard JPA. Below is an example of a JPA transaction that updates a selection of entries in a table.</p>
+<p>JPAstreamer comes with first-party support for projects built on top of Spring Boot. Dependency Injection is a fundamental feature of the Spring framework. With this in mind, a JPAstreamer autoconfiguration module can be used to quickly and easily integrate JPAstreamer into your Spring Boot projects.</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installing_the_autoconfiguration_module"><a class="anchor" href="#_installing_the_autoconfiguration_module"></a>Installing the autoconfiguration module</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>The entity to operate on is called <code>Film</code> that, among others, declare the fields <code>rating</code> and <code>rentalRate</code>.</p>
+<p>The installation process will differ depending on the build tool you&#8217;re using. In this guide, Maven and Gradle are covered.</p>
+</div>
+<div class="sect2">
+<h3 id="_maven"><a class="anchor" href="#_maven"></a>Maven</h3>
+<div class="paragraph">
+<p>For Maven projects, the following JPAstreamer dependency must be added to the project&#8217;s pom.xml file:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
-@Table(name = "film", schema = "sakila")
-public class Film {
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.speedment.jpastreamer.integration.spring&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-jpastreamer-autoconfigure&lt;/artifactId&gt;
+        &lt;version&gt;${jpa-streamer-version}&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gradle"><a class="anchor" href="#_gradle"></a>Gradle</h3>
+<div class="paragraph">
+<p>For Gradle projects, the following JPAstreamer dependency must be added to the project&#8217;s build.gradle file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">repositories {
+    mavenCentral()
+}
 
-    //...
+dependencies {
+    compile "com.speedment.jpastreamer.integration.spring:spring-boot-jpastreamer-autoconfigure:version"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_accessing_jpastreamer"><a class="anchor" href="#_accessing_jpastreamer"></a>Accessing JPAstreamer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once the required dependencies are installed, you can access JPAStreamer using Spring&#8217;s Dependency Injection system:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Service
+public class DummyService {
 
-    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
-    private String rating;
-
-    @Column(name = "rental_rate", columnDefinition = "decimal(4,2)")
-    private Float rentalRate;
-
-    //...
-
+    @Autowired
+    private final JPAStreamer jpaStreamer;
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The transaction below performs a one dollar increase of the rental rate of every R-rated film (for adults only) in a film-table:</p>
+<p>Direct field injection is usually not recommended, it&#8217;s preferable to inject your dependencies via a constructor:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">void method() {
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Service
+public class DummyService {
 
-    EntityManager em = ...;
+    private final JPAStreamer jpaStreamer;
 
-    try {
-        em.getTransaction().begin();
-        jpaStreamer.stream(Film.class) <i class="conum" data-value="1"></i><b>(1)</b>
-            .filter(Film$.rating.equal("R")) <i class="conum" data-value="2"></i><b>(2)</b>
-            .forEach(f -&gt; f.setRentalRate(f.getRentalRate() + 1)); <i class="conum" data-value="3"></i><b>(3)</b>
-        em.getTransaction().commit(); <i class="conum" data-value="4"></i><b>(4)</b>
-    } catch(Exception e) {
-        em.getTransaction().rollback();
+    @Autowired
+    public DummyService(final JPAStreamer jpaStreamer) {
+        this.jpaStreamer = jpaStreamer;
     }
-
 }</code></pre>
 </div>
 </div>
-<div class="colist arabic">
+<div class="admonitionblock warning">
 <table>
 <tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Selects the entries from the Film-table</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Filters out only the R-rated films</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Increases the current rental rate with 1 dollar</td>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+JPAstreamer&#8217;s autoconfiguration relies on a <code>EntityManagerFactory</code> bean being present. If you&#8217;re using Spring Data JPA, this is already handled for you.
+</td>
 </tr>
 </table>
 </div>
+</div>
+</div>
 <nav class="pagination">
-  <span class="prev"><a href="../fetching-data/stream-examples.html">Stream Examples</a></span>
+  <span class="prev"><a href="install-gradle.html">Install with Gradle</a></span>
+  <span class="next"><a href="../predicates/predicates.html">Predicates</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

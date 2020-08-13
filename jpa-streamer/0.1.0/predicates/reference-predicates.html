@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Transactions :: JPAStreamer</title>
-    <link rel="prev" href="../fetching-data/stream-examples.html">
+    <title>Reference Predicates :: JPAStreamer</title>
+    <link rel="prev" href="predicates.html">
+    <link rel="next" href="comparable-predicates.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
   </head>
@@ -91,26 +92,26 @@
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../predicates/predicates.html">Predicates</a>
+    <a class="nav-link" href="predicates.html">Predicates</a>
     <button class="nav-item-toggle"></button>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/reference-predicates.html">Reference Predicates</a>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="reference-predicates.html">Reference Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/comparable-predicates.html">Comparable Predicates</a>
+    <a class="nav-link" href="comparable-predicates.html">Comparable Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/string-predicates.html">String Predicates</a>
+    <a class="nav-link" href="string-predicates.html">String Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/primitive-predicates.html">Primitive Predicates</a>
+    <a class="nav-link" href="primitive-predicates.html">Primitive Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/negating-predicates.html">Negating Predicates</a>
+    <a class="nav-link" href="negating-predicates.html">Negating Predicates</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../predicates/combining-predicates.html">Combining Predicates</a>
+    <a class="nav-link" href="combining-predicates.html">Combining Predicates</a>
   </li>
 </ul>
   </li>
@@ -156,8 +157,8 @@
   </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="transactions.html">Transactions</a>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
   </li>
 </ul>
   </li>
@@ -192,75 +193,133 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
-    <li><a href="transactions.html">Transactions</a></li>
+    <li><a href="predicates.html">Predicates</a></li>
+    <li><a href="reference-predicates.html">Reference Predicates</a></li>
   </ul>
 </nav>
-<h1 class="page">Transactions</h1>
+<h1 class="page">Reference Predicates</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>Transactions are an essential part of JPA that determines when modifications to the data is synchronised with the underlying database. JPAstreamer can assist with the modifications while the actual transactions are handled using standard JPA. Below is an example of a JPA transaction that updates a selection of entries in a table.</p>
+<p>The following methods are available to all <code>ReferenceFields</code> (i.e. fields that are not primitive fields). The "Condition" in the table below is the condition for which the corresponding <code>Predicate</code> will hold <code>true</code>:</p>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Param Type</th>
+<th class="tableblock halign-left valign-top">Operation</th>
+<th class="tableblock halign-left valign-top">Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isNull</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field == null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is null</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isNotNull</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">N/A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field != null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is not null</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>The entity to operate on is called <code>Film</code> that, among others, declare the fields <code>rating</code> and <code>rentalRate</code>.</p>
+<p>A <code>ReferenceField</code> implements the interface trait <code>HasReferenceOperators</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Below are examples of how the reference predicates can be used. Both examples operate on the JPA entity Film which has a rating field like so:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
 @Table(name = "film", schema = "sakila")
-public class Film {
+public class Film  {
 
-    //...
+    // ...
 
-    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
+    @Column(name = "rating", nullable = true, columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
     private String rating;
 
-    @Column(name = "rental_rate", columnDefinition = "decimal(4,2)")
-    private Float rentalRate;
-
-    //...
-
+    // ...
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>The transaction below performs a one dollar increase of the rental rate of every R-rated film (for adults only) in a film-table:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">void method() {
-
-    EntityManager em = ...;
-
-    try {
-        em.getTransaction().begin();
-        jpaStreamer.stream(Film.class) <i class="conum" data-value="1"></i><b>(1)</b>
-            .filter(Film$.rating.equal("R")) <i class="conum" data-value="2"></i><b>(2)</b>
-            .forEach(f -&gt; f.setRentalRate(f.getRentalRate() + 1)); <i class="conum" data-value="3"></i><b>(3)</b>
-        em.getTransaction().commit(); <i class="conum" data-value="4"></i><b>(4)</b>
-    } catch(Exception e) {
-        em.getTransaction().rollback();
-    }
-
-}</code></pre>
-</div>
-</div>
-<div class="colist arabic">
+<div class="admonitionblock note">
 <table>
 <tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Selects the entries from the Film-table</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Filters out only the R-rated films</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Increases the current rental rate with 1 dollar</td>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The referenced table is present in the <a href="https://dev.mysql.com/doc/sakila/en/">MySQL example database Sakila</a>.
+</td>
 </tr>
 </table>
 </div>
+<div class="sect2">
+<h3 id="_isnull"><a class="anchor" href="#_isnull"></a>isNull</h3>
+<div class="paragraph">
+<p>All films with a rating that <strong>is null</strong> can be counted like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    long count = jpaStreamer.stream(Film.class)
+        .filter(Film$.rating.isNull())
+        .count();
+    System.out.format("There are %d films with a null rating %n", count);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">There are 0 films with a null rating</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_isnotnull"><a class="anchor" href="#_isnotnull"></a>isNotNull</h3>
+<div class="paragraph">
+<p>All films with a rating that <strong>is not null</strong> can be counted like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">long count = jpaStreamer.stream(Film.class)
+        .filter(Film$.rating.isNotNull())
+        .count();
+    System.out.format("There are %d films with a non-null rating %n", count);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">There are 1000 films with a non-null rating</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <nav class="pagination">
-  <span class="prev"><a href="../fetching-data/stream-examples.html">Stream Examples</a></span>
+  <span class="prev"><a href="predicates.html">Predicates</a></span>
+  <span class="next"><a href="comparable-predicates.html">Comparable Predicates</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
