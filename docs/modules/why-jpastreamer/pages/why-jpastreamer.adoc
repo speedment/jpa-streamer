@@ -14,7 +14,7 @@ Java Stream is a declarative interface that has won ground for its intuitive way
 
 
 === Leverage the Java stream ecosystem
-Beyond its powerful 
+Beyond its powerful
 The Stream interface is compatible with a large variety of Collectors that can be applied to reduce the results of the Stream into almost any Collection e.g. a `Map`, `List` or `Set`.
 
 A Stream can easily be reduced to a wide variety of collections and
