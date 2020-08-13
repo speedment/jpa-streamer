@@ -29,17 +29,17 @@ import javax.persistence.criteria.Root;
 public final class DefaultOrderMapper implements OrderMapper {
 
     @Override
-    public <T> Order mapOrder(
-        final Criteria<T> criteria,
-        final FieldComparator<? super T> fieldComparator
+    public <ENTITY> Order mapOrder(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldComparator<? super ENTITY> fieldComparator
     ) {
         requireNonNull(criteria);
         requireNonNull(fieldComparator);
 
-        final Field<? super T> field = fieldComparator.getField();
+        final Field<? super ENTITY> field = fieldComparator.getField();
 
         final CriteriaBuilder builder = criteria.getBuilder();
-        final Root<T> root = criteria.getRoot();
+        final Root<ENTITY> root = criteria.getRoot();
 
         if (fieldComparator.isReversed()) {
             return builder.desc(root.get(field.columnName()));

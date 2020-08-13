@@ -20,28 +20,26 @@ import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.merger.result.CriteriaMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 
-import javax.persistence.criteria.CriteriaQuery;
+public final class InternalCriteriaMergeResult<ENTITY> implements CriteriaMergeResult<ENTITY> {
 
-public final class InternalCriteriaMergeResult<T> implements CriteriaMergeResult<T> {
-
-    private final Pipeline<T> pipeline;
-    private final Criteria<T> criteria;
+    private final Pipeline<ENTITY> pipeline;
+    private final Criteria<ENTITY, ?> criteria;
 
     public InternalCriteriaMergeResult(
-        final Pipeline<T> pipeline,
-        final Criteria<T> criteria
+        final Pipeline<ENTITY> pipeline,
+        final Criteria<ENTITY, ?> criteria
     ) {
         this.pipeline = pipeline;
         this.criteria = criteria;
     }
 
     @Override
-    public Pipeline<T> getPipeline() {
+    public Pipeline<ENTITY> getPipeline() {
         return pipeline;
     }
 
     @Override
-    public Criteria<T> getCriteria() {
+    public Criteria<ENTITY, ?> getCriteria() {
         return criteria;
     }
 }

@@ -23,9 +23,9 @@ import javax.persistence.criteria.Predicate;
 
 public interface PredicateMapper {
 
-    <T> Predicate mapPredicate(
-        final Criteria<T> criteria,
-        final FieldPredicate<T> fieldPredicate
+    <ENTITY> Predicate mapPredicate(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate
     );
 
     static PredicateMapper createPredicateMapper() {

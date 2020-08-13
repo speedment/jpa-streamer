@@ -29,9 +29,9 @@ public final class StandardOrderFactory implements OrderFactory {
     private final OrderFactory delegate = new InternalOrderFactory();
 
     @Override
-    public <T> List<Order> createOrder(
-        final Criteria<T> criteria,
-        final Comparator<T> comparator
+    public <ENTITY> List<Order> createOrder(
+        final Criteria<ENTITY, ?> criteria,
+        final Comparator<ENTITY> comparator
     ) {
         return delegate.createOrder(criteria, comparator);
     }

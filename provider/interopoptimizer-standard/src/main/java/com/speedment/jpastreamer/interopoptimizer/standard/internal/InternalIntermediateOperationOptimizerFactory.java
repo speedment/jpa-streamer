@@ -16,6 +16,8 @@
 
 package com.speedment.jpastreamer.interopoptimizer.standard.internal;
 
+import static java.util.Objects.requireNonNull;
+
 import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizer;
 import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizerFactory;
 import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.RemoveOrderAffectingOperations;
@@ -32,7 +34,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
@@ -66,14 +67,14 @@ public final class InternalIntermediateOperationOptimizerFactory implements Inte
     }
 
     private void registerOptimizer(final IntermediateOperationOptimizer operationOptimizer) {
-        Objects.requireNonNull(operationOptimizer);
+        requireNonNull(operationOptimizer);
 
         intermediateOperationOptimizers.get(Priority.NORMAL).add(operationOptimizer);
     }
 
     private void registerOptimizer(final IntermediateOperationOptimizer operationOptimizer, final Priority priority) {
-        Objects.requireNonNull(operationOptimizer);
-        Objects.requireNonNull(priority);
+        requireNonNull(operationOptimizer);
+        requireNonNull(priority);
 
         intermediateOperationOptimizers.get(priority).add(operationOptimizer);
     }

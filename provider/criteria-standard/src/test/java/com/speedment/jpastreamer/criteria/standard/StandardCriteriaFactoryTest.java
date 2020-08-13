@@ -18,7 +18,6 @@ package com.speedment.jpastreamer.criteria.standard;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +36,7 @@ final class StandardCriteriaFactoryTest {
     @Test
     @SuppressWarnings("unchecked")
     void createCriteria() {
-        assertThrows(NullPointerException.class, () -> criteriaFactory.createCriteria(null, null, null));
+        assertThrows(NullPointerException.class, () -> criteriaFactory.createCriteria(null, null, String.class));
         assertThrows(NullPointerException.class, () -> criteriaFactory.createCriteria(null, null));
 
         final CriteriaBuilder criteriaBuilder = mock(CriteriaBuilder.class);

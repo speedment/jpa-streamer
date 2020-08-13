@@ -34,25 +34,25 @@ public final class InternalPredicateFactory implements PredicateFactory {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> Predicate createPredicate(
-        final Criteria<T> criteria,
-        final SpeedmentPredicate<T> speedmentPredicate
+    public <ENTITY> Predicate createPredicate(
+        final Criteria<ENTITY, ?> criteria,
+        final SpeedmentPredicate<ENTITY> speedmentPredicate
     ) {
         requireNonNull(criteria);
         requireNonNull(speedmentPredicate);
 
         if (speedmentPredicate instanceof FieldPredicate) {
-            final FieldPredicate<T> fieldPredicate = (FieldPredicate<T>) speedmentPredicate;
+            final FieldPredicate<ENTITY> fieldPredicate = (FieldPredicate<ENTITY>) speedmentPredicate;
 
             return predicateMapper.mapPredicate(criteria, fieldPredicate);
         }
 
         if (speedmentPredicate instanceof CombinedPredicate) {
-            final CombinedPredicate<T> combinedPredicate = (CombinedPredicate<T>) speedmentPredicate;
+            final CombinedPredicate<ENTITY> combinedPredicate = (CombinedPredicate<ENTITY>) speedmentPredicate;
 
             final Predicate[] predicates = combinedPredicate.stream().map(predicate -> {
                 if (predicate instanceof SpeedmentPredicate) {
-                    return createPredicate(criteria, (SpeedmentPredicate<T>) predicate);
+                    return createPredicate(criteria, (SpeedmentPredicate<ENTITY>) predicate);
                 }
                 throw new JPAStreamerException(
                     "Predicate type [" + predicate.getClass().getSimpleName() + "] is not supported"

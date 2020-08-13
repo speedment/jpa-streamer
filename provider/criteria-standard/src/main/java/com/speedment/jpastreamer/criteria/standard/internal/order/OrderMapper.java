@@ -23,9 +23,9 @@ import javax.persistence.criteria.Order;
 
 public interface OrderMapper {
 
-    <T> Order mapOrder(
-        final Criteria<T> criteria,
-        final FieldComparator<? super T> fieldComparator
+    <ENTITY> Order mapOrder(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldComparator<? super ENTITY> fieldComparator
     );
 
     static OrderMapper createOrderMapper() {

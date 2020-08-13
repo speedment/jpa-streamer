@@ -22,16 +22,16 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public final class InternalCriteria<T> implements Criteria<T> {
+public final class InternalCriteria<ENTITY, RETURN> implements Criteria<ENTITY, RETURN> {
 
     private final CriteriaBuilder builder;
-    private final CriteriaQuery<T> query;
-    private final Root<T> root;
+    private final CriteriaQuery<RETURN> query;
+    private final Root<ENTITY> root;
 
     public InternalCriteria(
         final CriteriaBuilder builder,
-        final CriteriaQuery<T> query,
-        final Root<T> root
+        final CriteriaQuery<RETURN> query,
+        final Root<ENTITY> root
     ) {
         this.builder = builder;
         this.query = query;
@@ -44,12 +44,12 @@ public final class InternalCriteria<T> implements Criteria<T> {
     }
 
     @Override
-    public CriteriaQuery<T> getQuery() {
+    public CriteriaQuery<RETURN> getQuery() {
         return query;
     }
 
     @Override
-    public Root<T> getRoot() {
+    public Root<ENTITY> getRoot() {
         return root;
     }
 }

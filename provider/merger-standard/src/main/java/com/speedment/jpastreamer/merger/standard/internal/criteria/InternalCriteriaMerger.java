@@ -51,9 +51,9 @@ public final class InternalCriteriaMerger implements CriteriaMerger {
     }
 
     @Override
-    public <T> CriteriaMergeResult<T> merge(
-        final Pipeline<T> pipeline,
-        final Criteria<T> criteria
+    public <ENTITY> CriteriaMergeResult<ENTITY> merge(
+        final Pipeline<ENTITY> pipeline,
+        final Criteria<ENTITY, ?> criteria
     ) {
         requireNonNull(pipeline);
         requireNonNull(criteria);

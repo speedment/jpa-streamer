@@ -43,9 +43,9 @@ public enum FilterCriteriaModifier implements CriteriaModifier {
     }
 
     @Override
-    public <T> void modifyCriteria(
+    public <ENTITY> void modifyCriteria(
         final IntermediateOperationReference operationReference,
-        final Criteria<T> criteria,
+        final Criteria<ENTITY, ?> criteria,
         final MergingTracker mergingTracker
     ) {
         requireNonNull(operationReference);
@@ -60,7 +60,7 @@ public enum FilterCriteriaModifier implements CriteriaModifier {
             return;
         }
 
-        this.<T>getPredicate(operation).ifPresent(speedmentPredicate -> {
+        this.<ENTITY>getPredicate(operation).ifPresent(speedmentPredicate -> {
             final Predicate predicate = predicateFactory.createPredicate(criteria, speedmentPredicate);
             criteria.getQuery().where(predicate);
 

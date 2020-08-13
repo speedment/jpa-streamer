@@ -33,7 +33,7 @@ final class StandardPredicateFactoryTest {
     void createPredicate() {
         assertThrows(NullPointerException.class, () -> predicateFactory.createPredicate(null, null));
 
-        final Criteria<String> criteria = new InternalCriteria<>(null, null, null);
+        final Criteria<String, String> criteria = new InternalCriteria<>(null, null, null);
         final FieldPredicate<String> stringEqual = new StringEqualPredicate("value");
 
         assertThrows(NullPointerException.class, () -> predicateFactory.createPredicate(criteria, null));

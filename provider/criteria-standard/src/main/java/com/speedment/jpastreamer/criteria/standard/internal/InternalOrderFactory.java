@@ -17,6 +17,7 @@
 package com.speedment.jpastreamer.criteria.standard.internal;
 
 import static java.util.Collections.singletonList;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.speedment.jpastreamer.criteria.Criteria;
@@ -29,28 +30,27 @@ import com.speedment.jpastreamer.field.comparator.FieldComparator;
 import javax.persistence.criteria.Order;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 public final class InternalOrderFactory implements OrderFactory {
 
     private final OrderMapper orderMapper = OrderMapper.createOrderMapper();
 
     @Override
-    public <T> List<Order> createOrder(
-        final Criteria<T> criteria,
-        final Comparator<T> comparator
+    public <ENTITY> List<Order> createOrder(
+        final Criteria<ENTITY, ?> criteria,
+        final Comparator<ENTITY> comparator
     ) {
-        Objects.requireNonNull(criteria);
-        Objects.requireNonNull(comparator);
+        requireNonNull(criteria);
+        requireNonNull(comparator);
 
         if (comparator instanceof FieldComparator) {
-            final FieldComparator<T> fieldComparator = (FieldComparator<T>) comparator;
+            final FieldComparator<ENTITY> fieldComparator = (FieldComparator<ENTITY>) comparator;
 
             return singletonList(orderMapper.mapOrder(criteria, fieldComparator));
         }
 
         if (comparator instanceof CombinedComparator) {
-            final CombinedComparator<T> combinedComparator = (CombinedComparator<T>) comparator;
+            final CombinedComparator<ENTITY> combinedComparator = (CombinedComparator<ENTITY>) comparator;
 
             return combinedComparator.stream()
                 .map(fieldComparator -> orderMapper.mapOrder(criteria, fieldComparator))

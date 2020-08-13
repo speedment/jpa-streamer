@@ -30,9 +30,9 @@ public enum DistinctCriteriaModifier implements CriteriaModifier {
     INSTANCE;
 
     @Override
-    public <T> void modifyCriteria(
+    public <ENTITY> void modifyCriteria(
         final IntermediateOperationReference operationReference,
-        final Criteria<T> criteria,
+        final Criteria<ENTITY, ?> criteria,
         final MergingTracker mergingTracker
     ) {
         requireNonNull(operationReference);

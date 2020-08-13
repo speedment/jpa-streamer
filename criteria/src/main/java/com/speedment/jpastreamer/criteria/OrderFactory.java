@@ -33,11 +33,11 @@ public interface OrderFactory {
      *
      * @param criteria used to create the JPA Predicate
      * @param comparator used as a model for the JPA Order that is being created
-     * @param <T> root entity
+     * @param <ENTITY> root entity
      * @return JPA Predicate
      */
-    <T> List<Order> createOrder(
-        final Criteria<T> criteria,
-        final Comparator<T> comparator
+    <ENTITY> List<Order> createOrder(
+        final Criteria<ENTITY, ?> criteria,
+        final Comparator<ENTITY> comparator
     );
 }
