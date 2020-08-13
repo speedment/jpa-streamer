@@ -6,6 +6,8 @@ import java.util.stream.Stream;
 
 public interface RenderResult<T> {
 
+    Class<T> root();
+
     Stream<T> stream();
 
     TerminalOperation<?, ?> terminalOperation();

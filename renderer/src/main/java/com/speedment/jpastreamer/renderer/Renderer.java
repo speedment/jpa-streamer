@@ -14,7 +14,7 @@ public interface Renderer {
      * @return a new RenderResult whereby the provided {@code Pipeline}
      *         is rendered to a stream using a {@code EntityManagerFactory}
      */
-    <T> RenderResult<T> render(final Pipeline<T> pipeline);
+    <T> RenderResult<?> render(final Pipeline<T> pipeline);
 
     /**
      * Used to release any dangling resources after the expiration period of the
