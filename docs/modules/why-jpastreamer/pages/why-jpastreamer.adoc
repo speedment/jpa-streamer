@@ -9,13 +9,11 @@ author: Julia Gustafsson
 === Use type-safe Streams instead of JPQL/Criteria Builder
 JPAstreamer provides a fully type-safe API for writing JPA queries. This helps to detect errors at compile time and allows you to utilize IntelliSense for increased efficiency when coding. By doing so, JPAstreamer aspires to streamline the process of querying.
 
-=== Get rid of repetitive and complex coding
-Java Stream is a declarative interface that has won ground for its intuitive way of declaring your intent, _what_ you want, rather than _how_ to obtain that result. Most of the Stream operators happens to map naturally to SQL constructs (see xref:fetching-data:sql-equivalents.adoc[SQL equivalents]), which is why you can easily reap the benefits of the Java Stream interface when querying. As a result, your queries can be more terse while remaining expressive and intuitive to read.
-
+=== Avoid repetitive and complex coding
+Java Stream is a declarative interface that has gained popularity for its intuitive way of declaring your intent, _what_ you want, rather than _how_ to obtain that result. Most of the Stream operators happens to map naturally to SQL constructs (see xref:fetching-data:sql-equivalents.adoc[SQL equivalents]), which is why you can easily reap the benefits of the Java Stream interface when querying. As a result, your queries can be more terse while remaining expressive and intuitive to read.
 
 === Leverage the Java stream ecosystem
-Beyond its powerful
-The Stream interface is compatible with a large variety of Collectors that can be applied to reduce the results of the Stream into almost any Collection e.g. a `Map`, `List` or `Set`.
+There is an ecosystem of libraries compatible with Streams which provide further assistance when handling data. As an example, the result of your query can easily be reduced to a wide variety of Java Collections i.e. a `Map`, `List` or a `Set`. You also have the option of parallelizing the workload of the Stream with a one-line command.
 
-A Stream can easily be reduced to a wide variety of collections and
-
+=== No disturbance of the existing codebase
+JPAstreamer is designed to extend the API of the underlying JPA provider. This means that there is no need to replace existing software components, and your current codebase remains unaffected. Although, going forward, you can use the Stream query interface whenever it suits your needs.

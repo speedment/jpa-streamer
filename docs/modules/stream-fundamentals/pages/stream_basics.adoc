@@ -1,8 +1,8 @@
-= Stream Basics
+= Stream Fundamentals
 keywords: stream, jpastreamer, java
 author: Per Minborg
-:reftext: Stream Basics
-:navtitle: Stream Basics
+:reftext: Stream Fundamentals
+:navtitle: Stream Fundamentals
 :imagesdir: assets/images
 :source-highlighter: highlight.js
 

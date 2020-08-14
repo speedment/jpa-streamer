@@ -1,5 +1,4 @@
-* Stream Fundamentals
-** xref:stream_basics.adoc[Stream Basics]
+* xref:stream_basics.adoc[Stream Fundamentals]
 ** xref:intermediate_operations.adoc[Intermediate Operations]
 ** xref:terminal_operations.adoc[Terminal Operations]
 ** xref:other_operations.adoc[Other Operations]

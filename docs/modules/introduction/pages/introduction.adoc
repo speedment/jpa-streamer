@@ -59,13 +59,12 @@ NOTE: Film$ is automatically generated from the Film-table entity at compile-tim
 
 TIP: More examples are available in the chapter xref:fetching-data:stream-examples.adoc[Stream Examples].
 
-== How JPA streamer fits into your application
+== How JPAstreamer fits into your application
 JPAstreamer is a library that is added to enrich the API of the underlying JPA provider. It does not impact the existing application code and there is no need to replace any software components. Below is an overview of a typical database application leveraging JPAstreamer.
 
-.JPAstreamer enriches the API of any JPA provider to include new means of expressing queries.
 [#img-architecture]
 [caption=""]
-image::jpa-streamer-architecture.png[JPAstreamer Architecture, 300, role="right"]
+image::jpa-streamer-architecture.png[JPAstreamer Architecture, width="300", role="right"]
 
 *Application Code*
 

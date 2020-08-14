@@ -7,8 +7,8 @@ author: Julia Gustafsson
 
 JPAstreamer is a library that enriches the API of an existing JPA provider to include Java Streams as a way to express queries. To do so, JPAstreamer consists of two key parts:
 
-. <<The annotation processor>> that generates a metamodel used to compose predicates that can be interpreted by the <<Stream renderer>>
-. <<The Stream renderer>> that inspects the Stream pipelines and renders optimized JPA queries
+. <<The annotation processor>> that generates a metamodel used to compose predicates that can be interpreted by <<The Stream renderer>>.
+. <<The Stream renderer>> that inspects the Stream pipelines and renders optimized JPA queries.
 
 This section describes how both of these components operate and why they are essential.
 
