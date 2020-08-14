@@ -10,6 +10,7 @@ import com.speedment.jpastreamer.merger.MergerFactory;
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
@@ -17,6 +18,7 @@ import com.speedment.jpastreamer.rootfactory.RootFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
@@ -37,7 +39,7 @@ public final class StandardRenderer implements Renderer {
     }
 
     @Override
-    public <T> RenderResult<T> render(final Pipeline<T> pipeline) {
+    public <T> RenderResult<?> render(final Pipeline<T> pipeline) {
         optimizePipeline(pipeline);
 
         final Class<T> entityClass = pipeline.root();
@@ -45,33 +47,61 @@ public final class StandardRenderer implements Renderer {
         final CriteriaMerger criteriaMerger = mergerFactory.createCriteriaMerger();
         final QueryMerger queryMerger = mergerFactory.createQueryMerger();
 
-        final Stream<T> baseStream = baseStream(pipeline, entityManager, entityClass, criteriaMerger, queryMerger);
+        final Criteria<T, T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
+        criteria.getRoot().alias(pipeline.root().getSimpleName());
+        criteria.getQuery().select(criteria.getRoot());
+
+        criteriaMerger.merge(pipeline, criteria);
+
+        if (pipeline.terminatingOperation().type() == TerminalOperationType.COUNT && pipeline.intermediateOperations().size() == 0) {
+            final Criteria<T, Long> countCriteria = createCountCriteria(criteria);
+
+            final TypedQuery<Long> typedQuery = entityManager.createQuery(countCriteria.getQuery());
+
+            return new StandardRenderResult<>(
+                Long.class,
+                typedQuery.getResultStream(),
+                pipeline.terminatingOperation()
+            );
+        }
+
+        final TypedQuery<T> typedQuery = entityManager.createQuery(criteria.getQuery());
+
+        queryMerger.merge(pipeline, typedQuery);
+
+        final Stream<T> baseStream = typedQuery.getResultStream();
         final Stream<T> replayed = replay(baseStream, pipeline);
 
         return new StandardRenderResult<>(
+            entityClass,
             replayed,
             pipeline.terminatingOperation()
         );
     }
 
-     private <T> Stream<T> baseStream(
-         final Pipeline<T> pipeline,
-         final EntityManager entityManager,
-         final Class<T> entityClass,
-         final CriteriaMerger criteriaMerger,
-         final QueryMerger queryMerger
-     ) {
-         final Criteria<T, T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
-         criteria.getQuery().select(criteria.getRoot());
+    private <T> Criteria<T, Long> createCountCriteria(final Criteria<T, T> criteria) {
+        final CriteriaQuery<T> criteriaQuery = criteria.getQuery();
 
-         criteriaMerger.merge(pipeline, criteria);
+        final Criteria<T, Long> countCriteria = criteriaFactory.createCriteria(
+            entityManager,
+            criteriaQuery.getResultType(),
+            Long.class
+        );
+        countCriteria.getRoot().alias(criteria.getRoot().getAlias());
 
-         final TypedQuery<T> typedQuery = entityManager.createQuery(criteria.getQuery());
+        final CriteriaQuery<Long> countQuery = countCriteria.getQuery();
 
-         queryMerger.merge(pipeline, typedQuery);
+        countQuery.select(countCriteria.getBuilder().count(countCriteria.getRoot()));
 
-         return typedQuery.getResultStream();
-     }
+        if (criteriaQuery.getRestriction() != null) {
+            countQuery.where(criteriaQuery.getRestriction());
+        }
+
+        countQuery.distinct(criteriaQuery.isDistinct());
+        countQuery.orderBy(criteria.getQuery().getOrderList());
+
+        return countCriteria;
+    }
 
      @SuppressWarnings({"rawtypes", "unchecked"})
     private <T> Stream<T> replay(final Stream<T> stream, final Pipeline<T> pipeline) {

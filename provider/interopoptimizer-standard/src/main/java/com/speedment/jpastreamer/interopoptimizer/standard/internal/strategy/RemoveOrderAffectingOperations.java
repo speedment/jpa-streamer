@@ -26,9 +26,12 @@ import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizer
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
+import com.speedment.jpastreamer.pipeline.intermediate.Statement;
 import com.speedment.jpastreamer.pipeline.terminal.OrderPreservation;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class RemoveOrderAffectingOperations implements IntermediateOperationOptimizer {
 
@@ -44,11 +47,16 @@ public final class RemoveOrderAffectingOperations implements IntermediateOperati
             for (int i = intermediateOperations.size() - 1; i >= 0; i--) {
                 final IntermediateOperationType intermediateOperationType = intermediateOperations.get(i).type();
 
-                final boolean canBeRemoved = intermediateOperationType.statements().stream()
+                final List<Statement> modifyingStatements = intermediateOperationType.statements().stream()
                     .filter(statement -> statement.verb() == MODIFIES)
-                    .allMatch(statement -> statement == MODIFIES_ORDER || statement == MODIFIES_SORTED);
+                    .collect(Collectors.toList());
 
-                if (!canBeRemoved) {
+                if (modifyingStatements.size() == 0) {
+                    break;
+                }
+
+                if (!modifyingStatements.stream()
+                    .allMatch(statement -> statement == MODIFIES_ORDER || statement == MODIFIES_SORTED)) {
                     break;
                 }
 

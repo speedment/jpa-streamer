@@ -24,7 +24,7 @@ public final class MockRendererFactory implements RendererFactory {
     private final class MockRenderer implements Renderer {
 
         @Override
-        public <T> RenderResult<T> render(final Pipeline<T> pipeline) {
+        public <T> RenderResult<?> render(Pipeline<T> pipeline) {
             final RenderResult<T> renderResult = null;
             MockRendererFactory.this.listener.accept(pipeline, renderResult);
             return null;

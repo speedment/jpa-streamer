@@ -1,5 +1,8 @@
 package com.speedment.jpastreamer.builder.standard.internal;
 
+import static com.speedment.jpastreamer.builder.standard.internal.StreamBuilderUtil.MSG_STREAM_LINKED_CONSUMED_OR_CLOSED;
+import static java.util.Objects.requireNonNull;
+
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
@@ -12,11 +15,22 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Spliterator;
-import java.util.function.*;
-import java.util.stream.*;
-
-import static com.speedment.jpastreamer.builder.standard.internal.StreamBuilderUtil.MSG_STREAM_LINKED_CONSUMED_OR_CLOSED;
-import static java.util.Objects.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+import java.util.stream.Collector;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 final class StreamBuilder<T> implements Stream<T> {
 
@@ -205,7 +219,7 @@ final class StreamBuilder<T> implements Stream<T> {
     @Override
     public long count() {
         set(tof().acquireCount());
-        return renderAndThenApplyAsLong();
+        return renderCount();
     }
 
     @Override
@@ -330,34 +344,47 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @SuppressWarnings("unchecked")
     private <R> R renderAndThenApply() {
-        final RenderResult<T> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline);
         return ((TerminalOperation<Stream<T>, R>) renderResult.terminalOperation())
                 .function()
-                .apply(renderResult.stream());
+                .apply((Stream<T>) renderResult.stream());
     }
 
     @SuppressWarnings("unchecked")
     private long renderAndThenApplyAsLong() {
-        final RenderResult<T> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline);
         return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
                 .toLongFunction()
-                .applyAsLong(renderResult.stream());
+                .applyAsLong((Stream<T>) renderResult.stream());
     }
 
     @SuppressWarnings("unchecked")
     private boolean renderAndThenTest() {
-        final RenderResult<T> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline);
         return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
                 .predicate()
-                .test(renderResult.stream());
+                .test((Stream<T>) renderResult.stream());
     }
 
     @SuppressWarnings("unchecked")
     private void renderAndThenAccept() {
-        final RenderResult<T> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline);
         ((TerminalOperation<Stream<T>, ?>) renderResult.terminalOperation())
                 .consumer()
-                .accept(renderResult.stream());
+                .accept((Stream<T>) renderResult.stream());
+    }
+
+    @SuppressWarnings("unchecked")
+    private long renderCount() {
+        final RenderResult<?> renderResult = renderer.render(pipeline);
+
+        if (renderResult.root().equals(Long.class)) {
+            return renderResult.stream().mapToLong(i -> (long) i).sum();
+        }
+
+        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
+                .toLongFunction()
+                .applyAsLong((Stream<T>) renderResult.stream());
     }
 
 

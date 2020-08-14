@@ -1,5 +1,7 @@
 package com.speedment.jpastreamer.builder.standard.internal;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
@@ -11,8 +13,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.BaseStream;
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class StreamBuilderTest {
 
@@ -76,8 +76,9 @@ class StreamBuilderTest {
             System.out.println(pipeline);
 
             return new MyRenderResult<>(
-                    (Stream<T>) replay(source.get(), (Pipeline<String>)pipeline),
-                    pipeline.terminatingOperation()
+                pipeline.root(),
+                (Stream<T>) replay(source.get(), (Pipeline<String>)pipeline),
+                pipeline.terminatingOperation()
             );
         }
 
@@ -97,14 +98,25 @@ class StreamBuilderTest {
 
     private static final class MyRenderResult<T> implements RenderResult<T> {
 
+        private final Class<T> returnType;
         private final Stream<T> stream;
         private final TerminalOperation<?, ?> terminalOperation;
 
-        public MyRenderResult(Stream<T> stream, TerminalOperation<?, ?> terminalOperation) {
+        public MyRenderResult(
+            final Class<T> returnType,
+            final Stream<T> stream,
+            final TerminalOperation<?, ?> terminalOperation
+        ) {
             this.stream = stream;
+            this.returnType = returnType;
             this.terminalOperation = terminalOperation;
         }
 
+
+        @Override
+        public Class<T> root() {
+            return returnType;
+        }
 
         @Override
         public Stream<T> stream() {
