@@ -1,9 +1,5 @@
 package com.speedment.jpastreamer.fieldgenerator.test;
 
-import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmRating;
-import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmTitle;
-import com.speedment.jpastreamer.fieldgenerator.standard.component.FilmTitleConverter;
-
 import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalDateTime;
@@ -23,17 +19,13 @@ public class Film
     private int filmId;
 
     @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
-    @Convert(converter = FilmTitleConverter.class)
-    private FilmTitle title;
+    private String title;
 
     @Column(name = "description", nullable = false, columnDefinition = "text")
     private String description;
 
     @Column(name = "audienceScore", nullable = true, columnDefinition = "decimal(4,2)")
     private Double audienceScore;
-
-    @Column(name = "random_map", nullable = false)
-    private Map<FilmTitle, Integer> randomMap;
 
     @Lob
     @Column(name = "cover", nullable = true)
@@ -68,12 +60,6 @@ public class Film
     @Column(name = "complex_column")
     private Map<Map<List<Set<Double>>,Integer>,Long> complexColumn;
 
-    @Column(name = "complex_film_rating")
-    private FilmRating[][][][][][][][] complexFilmRating;
-
-    @Column(name = "film_ratings")
-    private Set<FilmRating[]> filmRatings;
-
     @Column(name = "rental_duration", columnDefinition = "smallint(5)")
     private Integer rentalDuration;
 
@@ -85,10 +71,6 @@ public class Film
 
     @Column(name = "replacement_cost", columnDefinition = "decimal(5,2)")
     private Float replacementCost;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
-    private FilmRating rating;
 
     @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
     private Set<String> specialFeatures; // Should be Set<String>
@@ -105,11 +87,11 @@ public class Film
         this.filmId = filmId;
     }
 
-    public FilmTitle getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(FilmTitle title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -147,15 +129,12 @@ public class Film
     }
     */
 
-
-    public Integer getRentalDuration() {
-        Class<FilmTitleConverter> filmTitleConverterClass = FilmTitleConverter.class;
-        return rentalDuration;
-
-    }
-
     public void setRentalDuration(Integer rentalDuration) {
         this.rentalDuration = rentalDuration;
+    }
+
+    public Integer getRentalDuration() {
+        return rentalDuration;
     }
 
     public Float getRentalRate() {
@@ -180,14 +159,6 @@ public class Film
 
     public void setReplacementCost(Float replacementCost) {
         this.replacementCost = replacementCost;
-    }
-
-    public FilmRating getRating() {
-        return rating;
-    }
-
-    public void setRating(FilmRating rating) {
-        this.rating = rating;
     }
 
     public Set<String> getSpecialFeatures() {
@@ -223,14 +194,6 @@ public class Film
         this.complexColumn = complexColumn;
     }
 
-    public Map<FilmTitle, Integer> getRandomMap() {
-        return randomMap;
-    }
-
-    public void setRandomMap(Map<FilmTitle, Integer> randomMap) {
-        this.randomMap = randomMap;
-    }
-
     public byte[] getCover() {
         return cover;
     }
@@ -257,26 +220,9 @@ public class Film
                 ", rentalRate=" + rentalRate +
                 ", length=" + length +
                 ", replacementCost=" + replacementCost +
-                ", rating=" + rating +
                 ", specialFeatures='" + specialFeatures + '\'' +
                // ", lastUpdate=" + lastUpdate +
                 '}';
-    }
-
-    public FilmRating[][][][][][][][] getComplexFilmRating() {
-        return complexFilmRating;
-    }
-
-    public void setComplexFilmRating(FilmRating[][][][][][][][] complexFilmRating) {
-        this.complexFilmRating = complexFilmRating;
-    }
-
-    public Set<FilmRating[]> getFilmRatings() {
-        return filmRatings;
-    }
-
-    public void setFilmRatings(Set<FilmRating[]> filmRatings) {
-        this.filmRatings = filmRatings;
     }
 
     public java.util.Date getReleaseDate() {
