@@ -3,6 +3,7 @@ package com.speedment.jpastreamer.application.standard.internal;
 import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.analytics.AnalyticsReporter;
+import com.speedment.jpastreamer.analytics.AnalyticsReporterFactory;
 import com.speedment.jpastreamer.appinfo.ApplicationInformation;
 import com.speedment.jpastreamer.application.JPAStreamer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
@@ -22,10 +23,10 @@ final class StandardJPAStreamer implements JPAStreamer {
     StandardJPAStreamer(final EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = requireNonNull(entityManagerFactory);
         streamerCache = new ConcurrentHashMap<>();
-
-        analyticsReporter = RootFactory.getOrThrow(AnalyticsReporter.class, ServiceLoader::load);
         final ApplicationInformation applicationInformation = RootFactory.getOrThrow(ApplicationInformation.class, ServiceLoader::load);
-        analyticsReporter.start(applicationInformation.implementationVersion());
+        final AnalyticsReporterFactory analyticsReporterFactory = RootFactory.getOrThrow(AnalyticsReporterFactory.class, ServiceLoader::load);
+        analyticsReporter = analyticsReporterFactory.createAnalyticsReporter(applicationInformation.implementationVersion());
+        analyticsReporter.start();
         printGreeting(applicationInformation);
     }
 
@@ -40,8 +41,8 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     @Override
     public void close() {
-        analyticsReporter.stop();
         streamerCache.values().forEach(Streamer::close);
+        analyticsReporter.stop();
     }
 
     private void printGreeting(final ApplicationInformation info) {
