@@ -87,6 +87,18 @@
             <version>${jpa-streamer.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>analytics-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>appinfo-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
