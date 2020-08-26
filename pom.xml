@@ -64,6 +64,7 @@
         <module>core</module>
         <module>integration</module>
         <module>analytics</module>
+        <module>appinfo</module>
     </modules>
     
     <!-- Properties -->

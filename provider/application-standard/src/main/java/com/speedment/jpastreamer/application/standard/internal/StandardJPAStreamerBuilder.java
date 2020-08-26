@@ -19,7 +19,7 @@ public final class StandardJPAStreamerBuilder implements JPAStreamerBuilder {
     @Override
     public JPAStreamer build() {
 
-        // http://patorjk.com/software/taag/#p=display&f=Doom&t=JPAStreamer
+        // http://patorjk.com/software/taag/#p=display&f=Doom&t=JPAstreamer
 
         final String welcome = String.format(
                 "   _________  ___    _____ _                                      \n" +

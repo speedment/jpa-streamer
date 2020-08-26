@@ -26,6 +26,7 @@
         <module>termopmodifier-standard</module>
         <module>termopoptimizer-standard</module>
         <module>analytics-standard</module>
+        <module>appinfo-standard</module>
     </modules>
 
 </project>
