@@ -17,11 +17,11 @@ final class StandardStreamer<E> implements Streamer<E> {
     private final Renderer renderer;
     private final BuilderFactory builderFactory;
     private final AutoCloseFactory autoCloseFactory;
-
     private final Class<E> entityClass;
 
     StandardStreamer(final Class<E> entityClass, final EntityManagerFactory entityManagerFactory) {
         this.entityClass = requireNonNull(entityClass);
+        requireNonNull(entityManagerFactory);
         this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class, ServiceLoader::load);
         this.autoCloseFactory = RootFactory.getOrThrow(AutoCloseFactory.class, ServiceLoader::load);
         this.renderer = RootFactory.getOrThrow(RendererFactory.class, ServiceLoader::load)

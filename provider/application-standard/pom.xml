@@ -49,6 +49,16 @@
         </dependency>
 
         <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>analytics</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>appinfo</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>javax.persistence</groupId>
             <artifactId>javax.persistence-api</artifactId>
         </dependency>
