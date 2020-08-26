@@ -16,6 +16,7 @@
  */
 module jpastreamer.analytics.standard {
     requires transitive jpastreamer.analytics;
+    requires com.speedment.common.rest;
 
     exports com.speedment.jpastreamer.analytics.standard;
 

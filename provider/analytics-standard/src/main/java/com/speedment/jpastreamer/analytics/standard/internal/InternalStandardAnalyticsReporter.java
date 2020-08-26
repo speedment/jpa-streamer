@@ -12,7 +12,7 @@ import static java.util.Objects.requireNonNull;
 
 public final class InternalStandardAnalyticsReporter implements AnalyticsReporter {
 
-    private static final long ALIVE_INTERVAL_MS = TimeUnit.SECONDS.toMillis(1);
+    private static final long ALIVE_INTERVAL_MS = TimeUnit.HOURS.toMillis(1);
     private static final AtomicInteger THREAD_COUNT = new AtomicInteger();
 
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1, this::threadFactory);
