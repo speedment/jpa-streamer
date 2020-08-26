@@ -63,6 +63,7 @@
         <module>fieldgenerator</module>
         <module>core</module>
         <module>integration</module>
+        <module>analytics</module>
     </modules>
     
     <!-- Properties -->

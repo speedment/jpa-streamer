@@ -25,6 +25,7 @@
         <module>criteria-standard</module>
         <module>termopmodifier-standard</module>
         <module>termopoptimizer-standard</module>
+        <module>analytics-standard</module>
     </modules>
 
 </project>
