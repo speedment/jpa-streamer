@@ -70,6 +70,9 @@ final class StandardJPAStreamer implements JPAStreamer {
                 System.getProperty("java.runtime.name"), System.getProperty("java.runtime.version")
         );
         System.out.println(greeting);
+        if (!info.isProductionMode()) {
+            System.out.println("This version is NOT INTENDED FOR PRODUCTION USE!");
+        }
     }
 
 }
