@@ -32,8 +32,7 @@ public final class GoogleAnalyticsHandler implements Handler {
 
     private final String COOKIE_FILE_NAME = "JPAstreamer.clientid";
     private final String URL_STRING = "www.google-analytics.com";
-    //private final String TRACKING_ID = "UA-54384165-3";
-    private final String TRACKING_ID = "UA-174896648-2";
+    private final String TRACKING_ID = "UA-54384165-3";
 
     private final String version;
     private final String clientId;
