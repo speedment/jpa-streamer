@@ -85,4 +85,4 @@ Before we can accept your patches we need to establish a common legal ground to 
 JPAstreamer sends certain data back to Speedment's servers as described [here](https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD). If you wish to disable this feature, please contact us at info@jpastreamer.org.
 
 ## License
-JPAstreamer is released under the [LGPL2.1 License](https://github.com/speedment/jpa-streamer/blob/master/LICENSE). 
+JPAstreamer is released under the [LGPL 2.1 License](https://github.com/speedment/jpa-streamer/blob/master/LICENSE). 
