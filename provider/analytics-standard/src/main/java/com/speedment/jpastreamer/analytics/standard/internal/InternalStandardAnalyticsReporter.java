@@ -24,22 +24,25 @@ import static java.util.Objects.requireNonNull;
 
 public final class InternalStandardAnalyticsReporter implements AnalyticsReporter {
 
-    private static final long ALIVE_INTERVAL_MS = TimeUnit.HOURS.toMillis(1);
+    private static final long ALIVE_INTERVAL_MS = TimeUnit.MINUTES.toMillis(20);
     private static final AtomicInteger THREAD_COUNT = new AtomicInteger();
 
-    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1, this::threadFactory);
-    private final AtomicBoolean started = new AtomicBoolean();
-    private final AtomicBoolean stopped = new AtomicBoolean();
+    private final ScheduledExecutorService executorService;
+    private final AtomicBoolean started;
+    private final AtomicBoolean stopped;
     private final Handler handler;
 
     public InternalStandardAnalyticsReporter(final Handler handler) {
         this.handler = requireNonNull(handler);
+        executorService = Executors.newScheduledThreadPool(1, this::threadFactory);
+        started = new AtomicBoolean();
+        stopped = new AtomicBoolean();
     }
 
     @Override
     public void start() {
         if (!stopped.get() && started.compareAndSet(false, true)) {
-            executorService.schedule(handler::starting, 50, TimeUnit.MILLISECONDS);
+            executorService.schedule(handler::starting, 1, TimeUnit.MILLISECONDS);
             executorService.scheduleAtFixedRate(handler::running, ALIVE_INTERVAL_MS, ALIVE_INTERVAL_MS, TimeUnit.MILLISECONDS);
         }
     }
