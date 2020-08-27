@@ -1,3 +1,15 @@
+/*
+ * JPAstreamer - Express JPA queries with Java Streams
+ * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
+ *
+ * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
+ *
+ * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
+ */
 package com.speedment.jpastreamer.analytics.standard.internal.google;
 
 import com.speedment.common.rest.Rest;
@@ -20,8 +32,8 @@ public final class GoogleAnalyticsHandler implements Handler {
 
     private final String COOKIE_FILE_NAME = "JPAstreamer.clientid";
     private final String URL_STRING = "www.google-analytics.com";
-    private final String TRACKING_ID = "UA-54384165-3";
-    private final String REPORT_ID = "227453431";
+    //private final String TRACKING_ID = "UA-54384165-3";
+    private final String TRACKING_ID = "UA-174896648-2";
 
     private final String version;
     private final String clientId;
@@ -74,7 +86,7 @@ public final class GoogleAnalyticsHandler implements Handler {
                         .ifPresent(sc -> payload.add("sc=" + sc)); // Session control
 
 
-        System.out.println("Parameters: "+payload.toString());
+        // System.out.println("Parameters: "+payload.toString());
 
         analytics.post("collect", payload.toString(),
                 //header("User-Agent", event.getUserAgent()),
