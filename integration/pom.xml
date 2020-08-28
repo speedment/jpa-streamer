@@ -27,7 +27,7 @@
     <artifactId>integration-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Integration</name>
+    <name>Integration - Parent</name>
 
     <modules>
         <module>spring</module>
