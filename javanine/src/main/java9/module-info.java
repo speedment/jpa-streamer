@@ -11,6 +11,7 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.javanine {
+    requires jpastreamer.exception;
 
     exports com.speedment.jpastreamer.javanine;
 
