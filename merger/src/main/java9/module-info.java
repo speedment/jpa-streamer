@@ -12,8 +12,10 @@
  */
 module jpastreamer.merger {
     requires transitive java.persistence;
-    requires jpastreamer.pipeline;
+    requires transitive jpastreamer.pipeline;
+    requires transitive jpastreamer.criteria;
 
     exports com.speedment.jpastreamer.merger;
+    exports com.speedment.jpastreamer.merger.result;
 
 }
