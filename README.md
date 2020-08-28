@@ -1,6 +1,9 @@
 <img align="center" src="https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer.png?raw=true." alt="JPA Streamer Logo" title="JPA Streamer Logo" width="600px">
 
 # JPAstreamer
+
+[![Join the chat at https://gitter.im/speedment/jpa-streamer](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/speedment/jpa-streamer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 JPAstreamer is a lightweight extension for any JPA provider that allows creation of Java Streams from database content. With a single dependency, your application can immediately operate on database elements using standard Stream operators e.g. filter(), sort() and map().       
 
 The following example assumes there is an existing JPA Entity that represents a table containing films as follows: 
