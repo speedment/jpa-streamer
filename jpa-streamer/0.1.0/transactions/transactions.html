@@ -231,8 +231,11 @@ public class Film {
         em.getTransaction().begin();
         jpaStreamer.stream(Film.class) <i class="conum" data-value="1"></i><b>(1)</b>
             .filter(Film$.rating.equal("R")) <i class="conum" data-value="2"></i><b>(2)</b>
-            .forEach(f -&gt; f.setRentalRate(f.getRentalRate() + 1)); <i class="conum" data-value="3"></i><b>(3)</b>
-        em.getTransaction().commit(); <i class="conum" data-value="4"></i><b>(4)</b>
+            .forEach(f -&gt; {
+                f.setRentalRate(f.getRentalRate() + 1)); <i class="conum" data-value="3"></i><b>(3)</b>
+                em.merge(f); <i class="conum" data-value="4"></i><b>(4)</b>
+            }
+        em.getTransaction().commit();
     } catch(Exception e) {
         em.getTransaction().rollback();
     }
@@ -253,6 +256,22 @@ public class Film {
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>Increases the current rental rate with 1 dollar</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Notifies the transaction of the update</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The source code for this example can be found <a href="https://github.com/speedment/jpa-streamer-demo/blob/master/src/main/java/com/speedment/jpastreamer/demo/TransactionDemo.java">here</a>.
+</td>
 </tr>
 </table>
 </div>
