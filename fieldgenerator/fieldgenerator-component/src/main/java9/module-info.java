@@ -10,13 +10,8 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-module jpastreamer.fieldgenerator.test {
-
+module jpastreamer.fieldgenerator.component {
     requires jpastreamer.fieldgenerator.standard;
-    requires java.persistence;
-    requires transitive java.sql;
-    requires transitive jpastreamer.field;
 
-    exports com.speedment.jpastreamer.fieldgenerator.test;
-
+    exports com.speedment.jpastreamer.fieldgenerator.component;
 }

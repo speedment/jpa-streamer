@@ -108,6 +108,15 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <!--Disables javadocs under the module system. Todo: Examine why-->
+                    <additionalOptions combine.self="override"></additionalOptions>
+                    <source>8</source>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
