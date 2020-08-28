@@ -41,8 +41,11 @@ void method() {
         em.getTransaction().begin();
         jpaStreamer.stream(Film.class) #<1>
             .filter(Film$.rating.equal("R")) #<2>
-            .forEach(f -> f.setRentalRate(f.getRentalRate() + 1)); #<3>
-        em.getTransaction().commit(); #<4>
+            .forEach(f -> {
+                f.setRentalRate(f.getRentalRate() + 1)); #<3>
+                em.merge(f); #<4>
+            }
+        em.getTransaction().commit();
     } catch(Exception e) {
         em.getTransaction().rollback();
     }
@@ -52,4 +55,7 @@ void method() {
 <1> Selects the entries from the Film-table
 <2> Filters out only the R-rated films
 <3> Increases the current rental rate with 1 dollar
+<4> Notifies the transaction of the update
+
+TIP: The source code for this example can be found link:https://github.com/speedment/jpa-streamer-demo/blob/master/src/main/java/com/speedment/jpastreamer/demo/TransactionDemo.java[here].
 

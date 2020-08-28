@@ -76,6 +76,7 @@ In Gradle, the following JPAstreamer dependency is added to the project's build.
 ## Resources
 
 - **Documentation** - https://speedment.github.io/jpa-streamer
+- **JPAstreamer Demo Repository** - https://github.com/speedment/jpa-streamer-demo/
 - **Gitter Chat** - https://gitter.im/speedment/jpa-streamer
 - **Website** - www.jpastreamer.org
 
