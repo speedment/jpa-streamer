@@ -20,6 +20,13 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TypeParser that renders Type-objects from the qualified name of a type
+ *
+ * @author Julia Gustafsson
+ * @since 0.1.0
+ */
+
 public final class TypeParser {
 
     public TypeParser() {
@@ -56,10 +63,6 @@ public final class TypeParser {
             }
             return node;
         }
-    }
-
-    private long charCount(String s, char c) {
-        return s.chars().filter(ch -> ch == c).count();
     }
 
     private boolean hasBalancedBrackets(String s) {

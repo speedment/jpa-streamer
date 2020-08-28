@@ -25,7 +25,7 @@ import java.util.Set;
  * with {@code Entity}.
  *
  * @author Julia Gustafsson
- * @since 0.0.9
+ * @since 0.1.0
  */
 
 @SupportedAnnotationTypes("javax.persistence.Entity")

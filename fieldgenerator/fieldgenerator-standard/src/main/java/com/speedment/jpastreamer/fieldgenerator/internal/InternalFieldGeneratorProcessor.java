@@ -35,7 +35,6 @@ import javax.lang.model.util.Types;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.TemporalType;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
@@ -51,7 +50,7 @@ import static com.speedment.common.codegen.util.Formatting.*;
  * with {@code Entity}.
  *
  * @author Julia Gustafsson
- * @since 0.0.9
+ * @since 0.1.0
  */
 
 public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
@@ -197,7 +196,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         Type fieldType = fieldType(field);
         Type entityType = SimpleType.create(entityName);
         final Type type;
-        messager.printMessage(Diagnostic.Kind.NOTE, "Parsing RT from field with simpleName: " + field.getSimpleName() + " with field name: " + fieldType(field).getTypeName());
 
         TypeElement typeElement = elementUtils.getTypeElement(fieldType(field).getTypeName());
         TypeMirror enumType = elementUtils.getTypeElement("java.lang.Enum").asType();

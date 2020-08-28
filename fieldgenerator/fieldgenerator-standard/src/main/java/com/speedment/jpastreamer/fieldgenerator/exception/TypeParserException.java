@@ -16,7 +16,7 @@ package com.speedment.jpastreamer.fieldgenerator.exception;
  * A specialized {@code RuntimeException} used to signal errors during the type parsing process.
  *
  * @author Julia Gustafsson
- * @since 0.0.9
+ * @since 0.1.0
  */
 
 public class TypeParserException extends RuntimeException {

@@ -23,7 +23,7 @@ import java.util.Objects;
  * correspond to node children. A node without children does not have parameters.
  *
  * @author juliagustafsson
- * @since 0.0.9
+ * @since 0.1.0
  */
 public final class Node {
 
