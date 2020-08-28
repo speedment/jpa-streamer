@@ -12,6 +12,7 @@
  */
 module jpastreamer.autoclose.standard {
     requires transitive jpastreamer.autoclose;
+    requires jpastreamer.javanine;
 
     exports com.speedment.jpastreamer.autoclose.standard;
     // Todo: enable this
