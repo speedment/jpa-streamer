@@ -11,8 +11,10 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.merger.standard {
-    requires transitive jpastreamer.pipeline;
     requires transitive jpastreamer.merger;
+    requires jpastreamer.pipeline;
+    requires jpastreamer.rootfactory;
+    requires jpastreamer.exception;
 
     exports com.speedment.jpastreamer.merger.standard;
 }

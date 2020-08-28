@@ -35,12 +35,14 @@ public final class GoogleAnalyticsHandler implements Handler {
     private final String TRACKING_ID = "UA-54384165-3";
 
     private final String version;
+    private final boolean demoMode;
     private final String clientId;
     private final Random random;
     private final Rest analytics;
 
-    public GoogleAnalyticsHandler(final String version) {
+    public GoogleAnalyticsHandler(final String version, boolean demoMode) {
         this.version = requireNonNull(version);
+        this.demoMode = demoMode;
         clientId = acquireClientId();
         random = new SecureRandom();
         analytics = Rest.connectHttps(URL_STRING);
@@ -64,6 +66,8 @@ public final class GoogleAnalyticsHandler implements Handler {
     private void report(final EventType eventType) {
         requireNonNull(eventType);
 
+        final String eventName = eventType.eventName() + (demoMode ? "-demo" : "");
+
         final StringJoiner payload = new StringJoiner("&")
                 .add("v=" + encode("1")) // version. See https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#v
                 .add("ds=" + encode("speedment")) // data source. See https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#ds
@@ -73,16 +77,16 @@ public final class GoogleAnalyticsHandler implements Handler {
                 //.add("ua=" + encode(event.getUserAgent()))
                 .add("t=" + encode("screenview")) // Hit type
                 .add("ni=" + encode("1")) // None interactive flag
-                .add("cd=" + encode(eventType.eventName())) // Screen Name
+                .add("cd=" + encode(eventName)) // Screen Name
                 .add("an=" + encode("jpastreamer")) // Application Name
                 .add("av=" + encode(version)); // Application version
-                //.add("cd1=" + encode(event.getAppId().toString()))
-                //.add("cd2=" + encode(event.getDatabases()))
-                //.add("cd3=" + encode(event.getComputerName().orElse("no-host-specified")))
-                //.add("cd4=" + encode(event.getEmailAddress().orElse("no-mail-specified")))
+        //.add("cd1=" + encode(event.getAppId().toString()))
+        //.add("cd2=" + encode(event.getDatabases()))
+        //.add("cd3=" + encode(event.getComputerName().orElse("no-host-specified")))
+        //.add("cd4=" + encode(event.getEmailAddress().orElse("no-mail-specified")))
 
-                eventType.sessionControl()
-                        .ifPresent(sc -> payload.add("sc=" + sc)); // Session control
+        eventType.sessionControl()
+                .ifPresent(sc -> payload.add("sc=" + sc)); // Session control
 
 
         // System.out.println("Parameters: "+payload.toString());
@@ -123,7 +127,7 @@ public final class GoogleAnalyticsHandler implements Handler {
         try {
             final Path path = Paths.get(userHome, COOKIE_FILE_NAME);
             Files.write(path, clientId.getBytes(StandardCharsets.UTF_8));
-        } catch (IOException ignore){
+        } catch (IOException ignore) {
         }
         return clientId;
     }

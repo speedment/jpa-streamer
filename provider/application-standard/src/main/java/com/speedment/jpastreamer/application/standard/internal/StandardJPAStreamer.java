@@ -37,7 +37,10 @@ final class StandardJPAStreamer implements JPAStreamer {
         streamerCache = new ConcurrentHashMap<>();
         final ApplicationInformation applicationInformation = RootFactory.getOrThrow(ApplicationInformation.class, ServiceLoader::load);
         final AnalyticsReporterFactory analyticsReporterFactory = RootFactory.getOrThrow(AnalyticsReporterFactory.class, ServiceLoader::load);
-        analyticsReporter = analyticsReporterFactory.createAnalyticsReporter(applicationInformation.implementationVersion());
+
+        final boolean demoMode = "sakila".equals(this.entityManagerFactory.getProperties().getOrDefault("hibernate.ejb.persistenceUnitName", ""));
+
+        analyticsReporter = analyticsReporterFactory.createAnalyticsReporter(applicationInformation.implementationVersion(), demoMode);
         analyticsReporter.start();
         printGreeting(applicationInformation);
     }

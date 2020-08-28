@@ -23,7 +23,7 @@ import java.util.stream.*;
 
 import static java.util.Objects.requireNonNull;
 
-public class InternalIntermediateOperationFactory implements IntermediateOperationFactory {
+public final class InternalIntermediateOperationFactory implements IntermediateOperationFactory {
 
     private static final Function<Stream<Object>, Stream<Object>> SORTED_FUNCTION = Stream::sorted;
     private static final IntermediateOperation<Stream<Object>, Stream<Object>> SORTED = new StandardIntermediateOperation<>(

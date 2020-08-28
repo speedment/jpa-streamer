@@ -12,8 +12,11 @@
  */
 module jpastreamer.pipeline.standard {
     requires transitive jpastreamer.pipeline;
+    requires jpastreamer.javanine;
 
     exports com.speedment.jpastreamer.pipeline.standard;
+    exports com.speedment.jpastreamer.pipeline.standard.intermediate;
+    exports com.speedment.jpastreamer.pipeline.standard.terminal;
     // Todo: enable this
     // provides com.speedment.jpastreamer.pipeline.PipelineFactory with com.speedment.jpastreamer.pipeline.stadard.PipelineFactory;
 }

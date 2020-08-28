@@ -20,7 +20,7 @@ import com.speedment.jpastreamer.analytics.standard.internal.InternalStandardAna
 public final class StandardAnalyticsReporterFactory implements AnalyticsReporterFactory {
 
     @Override
-    public AnalyticsReporter createAnalyticsReporter(final String version) {
-        return new InternalStandardAnalyticsReporter(new GoogleAnalyticsHandler(version));
+    public AnalyticsReporter createAnalyticsReporter(final String version, final boolean demoMode) {
+        return new InternalStandardAnalyticsReporter(new GoogleAnalyticsHandler(version, demoMode));
     }
 }

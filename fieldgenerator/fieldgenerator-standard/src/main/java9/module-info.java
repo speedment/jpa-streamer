@@ -11,9 +11,13 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.fieldgenerator.standard {
+    requires transitive java.compiler;
+    requires transitive com.google.auto.service;
+
     requires com.speedment.common.codegen;
     requires java.persistence;
     requires jpastreamer.field;
 
     exports com.speedment.jpastreamer.fieldgenerator;
+    exports com.speedment.jpastreamer.fieldgenerator.exception;
 }

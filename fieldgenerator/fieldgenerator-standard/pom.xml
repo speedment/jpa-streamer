@@ -31,7 +31,7 @@
         <auto-service.version>1.0-rc7</auto-service.version>
     </properties>
 
-    <name>FieldGenerator</name>
+    <name>FieldGenerator - Standard</name>
     <description>
         Annotation processor which generates field representations for JPA entities.
     </description>
