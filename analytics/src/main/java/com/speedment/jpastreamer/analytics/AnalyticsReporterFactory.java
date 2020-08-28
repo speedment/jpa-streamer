@@ -14,6 +14,6 @@ package com.speedment.jpastreamer.analytics;
 
 public interface AnalyticsReporterFactory {
 
-    AnalyticsReporter createAnalyticsReporter(String version);
+    AnalyticsReporter createAnalyticsReporter(String version, boolean demoMode);
 
 }
