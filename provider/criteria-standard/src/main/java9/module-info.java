@@ -12,7 +12,8 @@
  */
 module jpastreamer.criteria.standard {
     requires transitive jpastreamer.criteria;
-    requires transitive com.speedment.common.tuple;
+    requires com.speedment.common.tuple; // Todo: remove
+    requires jpastreamer.exception;
 
     exports com.speedment.jpastreamer.criteria.standard;
 }
