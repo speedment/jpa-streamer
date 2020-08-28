@@ -11,7 +11,7 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.builder {
-    requires jpastreamer.renderer;
+    requires transitive jpastreamer.renderer;
 
     exports com.speedment.jpastreamer.builder;
 }
