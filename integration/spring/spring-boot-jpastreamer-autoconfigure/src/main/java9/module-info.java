@@ -13,5 +13,8 @@
 module jpastreamer.integration.spring.autoconfigure {
     requires transitive jpastreamer.application;
 
+    requires transitive spring.boot.autoconfigure;
+    requires transitive spring.context;
+
     exports com.speedment.jpastreamer.integration.spring.autoconfigure;
 }
