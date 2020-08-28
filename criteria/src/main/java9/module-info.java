@@ -11,6 +11,8 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.criteria {
+    requires transitive java.persistence;
+    requires transitive jpastreamer.field;
 
     exports com.speedment.jpastreamer.criteria;
 
