@@ -85,11 +85,14 @@ Since the JPA provider is responsible for the database connection (most often) v
 == Where to begin
 If this is your first time getting to know JPAstreamer, you may want to know xref:why-jpastreamer:why-jpastreamer.adoc[Why JPAstreamer] is a great addition to your database application and xref:how-it-works:how-it-works.adoc[How JPAstreamer Works]. After becoming familiar with the main concepts, you can follow the xref:quick-start:quick-start.adoc[Quick-start Guide] to get set up in minutes.
 
+In case you don't have an existing project at hand to use for testing, there is a pre-configured demo that can be located in the link:https://github.com/speedment/jpa-streamer-demo/[JPAstreamer Demo Repository].
+
 If you wish to learn more about the Java Stream API, start with the chapter xref:stream-fundamentals:stream_basics.adoc[Stream Fundamentals].
 
 == Resources
 
 - Gitter Chat - https://gitter.im/speedment/jpa-streamer
+- JPAstreamer Demo Repository - https://github.com/speedment/jpa-streamer-demo/
 - Website - https://www.jpastreamer.org
 - GitHub - https://github.com/speedment/jpa-streamer
 

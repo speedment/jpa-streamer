@@ -5,10 +5,12 @@ author: Per Minborg
 :navtitle: Stream Examples
 :source-highlighter: highlight.js
 
-The examples in this section make use of the MySQL example database link:https://dev.mysql.com/doc/sakila/en/[Sakila]. It models a classic movie rental store and contains tables such as Film, Actor, Language etc.
+The section presents several examples that combines the operations described in the previous chapter. All examples are part of the JPAstreamer Demo that can be located link:https://github.com/speedment/jpa-streamer-demo/[here] and tested locally on your computer.
+
+The examples use the MySQL example database link:https://dev.mysql.com/doc/sakila/en/[Sakila]. It models a classic movie rental store and contains tables such as Film, Actor, Language etc.
 
 == Paging
-The following example demonstrates how to serve request for pages from a GUI or similar applications. The page number (starting with page = 0) and ordering will be given as parameters:
+The following example demonstrates how to serve a request for pages from a GUI or a similar application. The page number (starting with page = 0) and ordering will be given as parameters:
 
 [source,java]
 ----
