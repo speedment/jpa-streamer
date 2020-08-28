@@ -11,8 +11,14 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.renderer.standard {
-    requires transitive jpastreamer.pipeline;
+
     requires transitive jpastreamer.renderer;
+
+    requires jpastreamer.pipeline;
+    requires jpastreamer.rootfactory;
+    requires jpastreamer.criteria;
+    requires jpastreamer.merger;
+    requires jpastreamer.interopoptimizer;
 
     exports com.speedment.jpastreamer.renderer.standard;
     // Todo: Enable this
