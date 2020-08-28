@@ -16,6 +16,8 @@ module jpastreamer.application.standard {
     requires jpastreamer.appinfo;
     requires jpastreamer.renderer;
     requires jpastreamer.builder;
+    requires jpastreamer.autoclose;
+    //requires jpastreamer.exception;
 
     exports com.speedment.jpastreamer.application.standard;
 
