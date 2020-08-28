@@ -89,7 +89,7 @@ public final class GoogleAnalyticsHandler implements Handler {
                 .ifPresent(sc -> payload.add("sc=" + sc)); // Session control
 
 
-        System.out.println("Parameters: "+payload.toString());
+        // System.out.println("Parameters: "+payload.toString());
 
         analytics.post("collect", payload.toString(),
                 //header("User-Agent", event.getUserAgent()),
