@@ -55,11 +55,11 @@
             <version>${jpa-streamer.version}</version>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>typeparser-standard</artifactId>
             <version>${jpa-streamer.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.google.auto.service</groupId>
