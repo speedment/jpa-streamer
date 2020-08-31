@@ -16,20 +16,28 @@ import com.speedment.jpastreamer.application.JPAStreamer;
 import com.speedment.jpastreamer.application.JPAStreamerBuilder;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import static java.util.Objects.requireNonNull;
 
 public final class StandardJPAStreamerBuilder implements JPAStreamerBuilder {
 
     private final EntityManagerFactory entityManagerFactory;
+    private final boolean closeEntityManager;
+
+    public StandardJPAStreamerBuilder(final String persistenceUnitName) {
+        this.closeEntityManager = true;
+        this.entityManagerFactory = Persistence.createEntityManagerFactory(requireNonNull(persistenceUnitName));
+    }
 
     public StandardJPAStreamerBuilder(final EntityManagerFactory entityManagerFactory) {
+        this.closeEntityManager = false;
         this.entityManagerFactory = requireNonNull(entityManagerFactory);
     }
 
     @Override
     public JPAStreamer build() {
-        return new StandardJPAStreamer(entityManagerFactory);
+        return new StandardJPAStreamer(entityManagerFactory, closeEntityManager);
     }
 
 }

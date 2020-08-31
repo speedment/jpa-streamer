@@ -25,7 +25,7 @@ public final class StandardJPAStreamerBuilderFactory implements JPAStreamerBuild
 
     @Override
     public JPAStreamerBuilder create(final String persistenceUnitName) {
-        return create(Persistence.createEntityManagerFactory(requireNonNull(persistenceUnitName)));
+        return new StandardJPAStreamerBuilder(requireNonNull(persistenceUnitName));
     }
 
     @Override

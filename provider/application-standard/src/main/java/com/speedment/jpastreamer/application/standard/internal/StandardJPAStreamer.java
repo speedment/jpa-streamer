@@ -29,10 +29,12 @@ import java.util.stream.Stream;
 final class StandardJPAStreamer implements JPAStreamer {
 
     private final EntityManagerFactory entityManagerFactory;
+    private final boolean closeEntityManager;
     private final Map<Class<?>, Streamer<?>> streamerCache;
     private final AnalyticsReporter analyticsReporter;
 
-    StandardJPAStreamer(final EntityManagerFactory entityManagerFactory) {
+    StandardJPAStreamer(final EntityManagerFactory entityManagerFactory, final boolean closeEntityManager) {
+        this.closeEntityManager = closeEntityManager;
         this.entityManagerFactory = requireNonNull(entityManagerFactory);
         streamerCache = new ConcurrentHashMap<>();
         final ApplicationInformation applicationInformation = RootFactory.getOrThrow(ApplicationInformation.class, ServiceLoader::load);
@@ -58,6 +60,9 @@ final class StandardJPAStreamer implements JPAStreamer {
     public void close() {
         streamerCache.values().forEach(Streamer::close);
         analyticsReporter.stop();
+        if (closeEntityManager) {
+            entityManagerFactory.close();
+        }
     }
 
     private void printGreeting(final ApplicationInformation info) {
