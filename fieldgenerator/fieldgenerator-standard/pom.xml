@@ -55,12 +55,6 @@
             <version>${jpa-streamer.version}</version>
         </dependency>
 
-<!--        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>typeparser-standard</artifactId>
-            <version>${jpa-streamer.version}</version>
-        </dependency>-->
-
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service-annotations</artifactId>
@@ -108,14 +102,14 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+<!--            <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <!--Disables javadocs under the module system. Todo: Examine why-->
+                    &lt;!&ndash;Disables javadocs under the module system. Todo: Examine why&ndash;&gt;
                     <additionalOptions combine.self="override"></additionalOptions>
                     <source>8</source>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
         </plugins>
     </build>
