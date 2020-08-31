@@ -23,6 +23,6 @@ fi
 VERSION=$1
 
 mvn versions:set -DnewVersion="$VERSION"
-# RETURN_BODY="return \"$VERSION\";"
-# sed -i tmp "s/getImplementationVersion.*\}/getImplementationVersion() \{ $RETURN_BODY \}/g" runtime-parent/runtime-core/src/main/java/com/speedment/runtime/core/internal/component/InfoComponentImpl.java
-#rm runtime-parent/runtime-core/src/main/java/com/speedment/runtime/core/internal/component/InfoComponentImpl.javatmp
+RETURN_BODY="version: $VERSION"
+sed -i tmp "s/version:.*\$/$RETURN_BODY/g" docs/antora.yml
+rm docs/antora.ymltmp
