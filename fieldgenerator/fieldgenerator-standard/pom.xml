@@ -19,7 +19,7 @@
     <parent>
         <artifactId>fieldgenerator</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -102,14 +102,14 @@
                 </configuration>
             </plugin>
 
-<!--            <plugin>
+            <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    &lt;!&ndash;Disables javadocs under the module system. Todo: Examine why&ndash;&gt;
+                    <!--Disables javadocs under the module system. Todo: Examine why-->
                     <additionalOptions combine.self="override"></additionalOptions>
                     <source>8</source>
                 </configuration>
-            </plugin>-->
+            </plugin>
 
         </plugins>
     </build>
