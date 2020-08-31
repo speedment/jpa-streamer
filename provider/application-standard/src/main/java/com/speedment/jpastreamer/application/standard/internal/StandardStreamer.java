@@ -47,7 +47,7 @@ final class StandardStreamer<E> implements Streamer<E> {
 
     @Override
     public void close() {
-        System.out.println("Closing Streamer<" + entityClass.getSimpleName() + ">");
+        //System.out.println("Closing Streamer<" + entityClass.getSimpleName() + ">");
         renderer.close();
     }
 }
