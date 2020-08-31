@@ -10,10 +10,12 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-module jpastreamer.core {
-    exports com.speedment.jpastreamer.core;
+package com.speedment.jpastreamer.core;
 
-    requires transitive java.persistence;
-    requires transitive jpastreamer.application;
-    requires transitive jpastreamer.field;
-}
+/**
+ * Dummy class to force JavaDoc generation.
+ * <p>
+ * This class may be removed at any release
+ */
+@Deprecated // For removal
+public final class Foo {}
