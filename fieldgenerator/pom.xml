@@ -19,7 +19,7 @@
     <parent>
         <artifactId>jpastreamer-parent</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
-        <version>0.1.1-SNAPSHOT</version>
+        <version>0.1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -30,13 +30,29 @@
 
     <properties>
         <module-name>jpastreamer.fieldgenerator</module-name>
-<!--        <maven.javadoc.skip>true</maven.javadoc.skip> Todo: remove this, see #48-->
     </properties>
 
-    <modules>
-        <module>fieldgenerator-standard</module>
-        <module>fieldgenerator-component</module>
-        <module>fieldgenerator-test</module>
-    </modules>
-    
+
+    <profiles>
+        <!-- DO NOT CHANGE THE *ORDER* IN WHICH THESE PROFILES ARE DEFINED! -->
+        <profile>
+            <id>release</id>
+            <modules>
+                <!--Only deploy this module-->
+                <module>fieldgenerator-standard</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>fieldgenerator-standard</module>
+                <module>fieldgenerator-component</module>
+                <module>fieldgenerator-test</module>
+            </modules>
+        </profile>
+    </profiles>
+
 </project>
