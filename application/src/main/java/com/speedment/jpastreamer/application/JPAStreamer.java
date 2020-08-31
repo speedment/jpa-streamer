@@ -101,36 +101,36 @@ public interface JPAStreamer {
      * Here are some examples of how the stream optimization might work:
      * <ul>
      * <li>
-     * <pre>{@code stream
-     *   .filter(Hare.NAME.equal("Henry")
+     * <pre>{@code stream(Film.class)
+     *   .filter(Film$.name.equal("Casablanca"))
      *   .collect(toList());}</pre>
-     * <pre>{@code -> select * from hares where name='Henry'}</pre>
+     * <pre>{@code -> select * from film where name='Casablanca'}</pre>
      * </li>
      * <li>
      * <pre>{@code stream.count();}</pre>
-     * <pre>{@code -> select count(*) from hares}</pre>
+     * <pre>{@code -> select count(*) from film}</pre>
      * </li>
      * <li>
-     * <pre>{@code stream
-     *   .filter(Hare.NAME.equal("Henry")
+     * <pre>{@code stream(Film.class)
+     *   .filter(Film$.name.startsWith("A"))
      *   .count();}</pre>
      * <pre>{@code -> select count(*) from hares where
-     *   name='Henry'}</pre>
+     *   name LIKE 'A%'}</pre>
      * <p>
      * </li>
      * <li>
-     * <pre>{@code stream
-     *   .filter(Hare.NAME.equal("Henry")
-     *   .filter(Hare.AGE.greaterThan(5)
+     * <pre>{@code stream.stream(Film.class)
+     *   .filter(Film$.rating.equal("G")
+     *   .filter(Film$.length.greaterThan(100)
      *   .count();}</pre>
      * <pre>{@code -> select count(*) from hares where
-     *          name ='Henry'
+     *          rating ='G'
      *        and
-     *          age > 5}</pre>
+     *          length > 100}</pre>
      * </li>
      * </ul>
      *
-     * @param <T> The element type (class token)
+     * @param <T> The element type (type of a class token)
      * @param entityClass a class token for an entity class (annotated with {@code @Entity})
      * @return a new stream over all entities in this table in unspecified order
      *
