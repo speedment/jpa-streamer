@@ -57,9 +57,9 @@ films.stream()
 
 but JPAstreamer would not be able to recognize and optimize such vanilla lambdas. This means JPAstreamer is forced to pull in the entire Film table and then apply the predicates in the JVM. Because of this, developers are *highly encouraged* to use the provided `Fields` when obtaining predicates because these predicates will always be recognizable by the JPAstreamer query optimizer.
 
-TIP: Do this: `filter(Film$.title.greaterOrEqual(\"He\"))`
+TIP: Do this: `filter(Film$.title.greaterOrEqual("He"))`
 
-WARNING: Don't do this: `filter(f -> \"He\".compareTo(f.getTitle()) <= 0)`
+WARNING: Don't do this: `filter(f -> "He".compareTo(f.getTitle()) <= 0)`
 
 == Field types
 JPAstreamer uses a variety of field types to represent the attributes of the entity-classes. This is partly due to the fact that different types are compatible with different operations, but also for performance reasons.
