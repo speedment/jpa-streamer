@@ -1,0 +1,22 @@
+site:
+  title: JPAStreamer
+  start_page: jpa-streamer:introduction:introduction.adoc
+content:
+  sources:
+    - url: https://github.com/speedment/jpa-streamer
+      branches: master, develop
+      start_path: docs
+      tags: [0.1*]
+ui:
+  bundle:
+    url: ui-bundle.zip
+  supplemental_files:
+    - path: ui.yml
+      contents: |
+        static_files: [ .nojekyll ]
+    - path: .nojekyll
+asciidoc:
+  attributes:
+    page-pagination: true
+output:
+  dir: ../../jpa-streamer-gh-pages/jpa-streamer
