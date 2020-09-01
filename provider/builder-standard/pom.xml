@@ -19,7 +19,7 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>provider</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -63,12 +63,6 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>autoclose</artifactId>
-            <version>${jpa-streamer.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>javanine</artifactId>
             <version>${jpa-streamer.version}</version>
         </dependency>
 

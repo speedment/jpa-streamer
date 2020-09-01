@@ -28,7 +28,7 @@ import javax.persistence.EntityManagerFactory;
  */
 @Configuration
 @ConditionalOnClass({JPAStreamer.class, EntityManagerFactory.class})
-class JPAStreamerAutoConfiguration {
+public class JPAStreamerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean

@@ -1,4 +1,4 @@
-#
+#!/bin/bash
 #
 # JPAstreamer - Express JPA queries with Java Streams
 # Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
@@ -12,18 +12,17 @@
 # See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
 #
 
-name: jpa-streamer
-title: JPAStreamer Docs
-version: 0.1.1
-start_page: introduction:introduction.adoc
-nav:
-  - modules/ROOT/nav.adoc
-  - modules/introduction/nav.adoc
-  - modules/why-jpastreamer/nav.adoc
-  - modules/how-it-works/nav.adoc
-  - modules/quick-start/nav.adoc
-  - modules/get-jpa-streamer/nav.adoc
-  - modules/predicates/nav.adoc
-  - modules/stream-fundamentals/nav.adoc
-  - modules/fetching-data/nav.adoc
-  - modules/transactions/nav.adoc
+#Fail on any error
+set -e
+
+if [ $# -eq 0 ]
+  then
+    echo "Usage $0: version"
+    exit 1
+fi
+VERSION=$1
+
+mvn versions:set -DnewVersion="$VERSION"
+# RETURN_BODY="return \"$VERSION\";"
+# sed -i tmp "s/getImplementationVersion.*\}/getImplementationVersion() \{ $RETURN_BODY \}/g" runtime-parent/runtime-core/src/main/java/com/speedment/runtime/core/internal/component/InfoComponentImpl.java
+#rm runtime-parent/runtime-core/src/main/java/com/speedment/runtime/core/internal/component/InfoComponentImpl.javatmp

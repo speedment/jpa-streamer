@@ -19,7 +19,7 @@
     <parent>
         <artifactId>fieldgenerator</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -52,12 +52,6 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>field</artifactId>
-            <version>${jpa-streamer.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>typeparser-standard</artifactId>
             <version>${jpa-streamer.version}</version>
         </dependency>
 
@@ -108,8 +102,58 @@
                 </configuration>
             </plugin>
 
+<!--            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    &lt;!&ndash;Disables javadocs under the module system. Todo: Examine why&ndash;&gt;
+                    <additionalOptions combine.self="override"></additionalOptions>
+                    <source>8</source>
+                    <detectJavaApiLink>false</detectJavaApiLink>
+&lt;!&ndash;                    <excludePackageNames>com.speedment.jpastreamer.fieldgenerator.*</excludePackageNames>&ndash;&gt;
+                </configuration>
+            </plugin>-->
+
         </plugins>
     </build>
+
+    <!--Makes JavaDoc work on deploy -->
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <detectJavaApiLink>false</detectJavaApiLink>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+
+    <!--    <profiles>
+            <profile>
+                <id>release</id>
+                <build>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <configuration>
+                                &lt;!&ndash;Disables javadocs under the module system. Todo: Examine why&ndash;&gt;
+                                <additionalOptions combine.self="override"></additionalOptions>
+                                <source>8</source>
+                                <detectJavaApiLink>false</detectJavaApiLink>
+                                &lt;!&ndash;<excludePackageNames>com.speedment.jpastreamer.fieldgenerator.*</excludePackageNames>&ndash;&gt;
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+            </profile>
+        </profiles>-->
 
 
 </project>

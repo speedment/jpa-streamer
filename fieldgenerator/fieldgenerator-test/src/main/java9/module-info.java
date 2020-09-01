@@ -14,7 +14,9 @@ module jpastreamer.fieldgenerator.test {
 
     requires jpastreamer.fieldgenerator.standard;
     requires java.persistence;
+    requires transitive java.sql;
+    requires transitive jpastreamer.field;
 
-    // Todo: Enable this
-    // provides com.speedment.jpastreamer.application.JPAStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJPAStreamBuilderFactory;
+    exports com.speedment.jpastreamer.fieldgenerator.test;
+
 }

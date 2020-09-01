@@ -10,11 +10,12 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-module jpastreamer.integration.spring.autoconfigure {
-    requires transitive jpastreamer.application;
+package com.speedment.jpastreamer.core;
 
-    requires transitive spring.boot.autoconfigure;
-    requires transitive spring.context;
-
-    exports com.speedment.jpastreamer.integration.spring.autoconfigure;
-}
+/**
+ * Dummy class to force JavaDoc generation.
+ * <p>
+ * This class may be removed at any release
+ */
+@Deprecated // For removal
+public final class Foo {}

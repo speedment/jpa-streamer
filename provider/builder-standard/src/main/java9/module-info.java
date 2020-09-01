@@ -12,6 +12,8 @@
  */
 module jpastreamer.builder.standard {
     requires transitive jpastreamer.builder;
+    requires jpastreamer.rootfactory;
+    requires jpastreamer.autoclose;
 
     exports com.speedment.jpastreamer.builder.standard;
 

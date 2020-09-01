@@ -10,11 +10,8 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-module jpastreamer.integration.spring.autoconfigure {
-    requires transitive jpastreamer.application;
+module jpastreamer.fieldgenerator.component {
+    requires java.persistence;
 
-    requires transitive spring.boot.autoconfigure;
-    requires transitive spring.context;
-
-    exports com.speedment.jpastreamer.integration.spring.autoconfigure;
+    exports com.speedment.jpastreamer.fieldgenerator.component;
 }
