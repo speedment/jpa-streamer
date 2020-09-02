@@ -29,9 +29,9 @@
         <module-name>jpastreamer.core</module-name>
     </properties>
 
-    <name>Core</name>
+    <name>JPAstreamer Core</name>
     <description>
-        The core libraries of JPA Streamer
+        JPAstreamer - a lightweight extension for existing JPA providers that allows creation of Java Streams from database content.
     </description>
 
     <dependencies>
@@ -114,5 +114,38 @@
         </dependency>
 
     </dependencies>
+
+    <organization>
+        <name>Speedment, Inc.</name>
+        <url>http://www.speedment.com/</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>LGPL 2.1</name>
+            <url>https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>Minborg</id>
+            <name>Per Minborg</name>
+            <url>https://github.com/minborg</url>
+            <timezone>America/Los_Angeles</timezone>
+        </developer>
+        <developer>
+            <id>julgus</id>
+            <name>Julia Gustafsson (GitHub:julgus)</name>
+            <timezone>Europe/Stockholm</timezone>
+        </developer>
+        <developer>
+            <id>dekmm</id>
+            <name>Mislav Miličević (GitHub:dekmm)</name>
+            <timezone>Europe/Zagreb</timezone>
+        </developer>
+    </developers>
+
 
 </project>
