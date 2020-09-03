@@ -21,7 +21,7 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
 
     @Override
     public Class<T> entityClass() {
-        return entityClass();
+        return entityClass;
     }
 
     @Override
