@@ -282,6 +282,7 @@ public interface JPAStreamer {
      */
     default <T> Stream<T> streamJoining(final Class<T> entityClass, final Field<T>... joinFields) {
         requireNonNull(entityClass);
+        requireNonNull(joinFields);
         final StreamConfiguration<T> streamConfiguration = Stream.of(joinFields)
                 .reduce(StreamConfiguration.builder(entityClass), StreamConfigurationBuilder::joining, (a, b) -> a)
                 .build();
