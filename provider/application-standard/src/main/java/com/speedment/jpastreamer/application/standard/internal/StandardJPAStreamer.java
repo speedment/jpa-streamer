@@ -18,6 +18,8 @@ import com.speedment.jpastreamer.analytics.AnalyticsReporter;
 import com.speedment.jpastreamer.analytics.AnalyticsReporterFactory;
 import com.speedment.jpastreamer.appinfo.ApplicationInformation;
 import com.speedment.jpastreamer.application.JPAStreamer;
+import com.speedment.jpastreamer.application.StreamConfiguration;
+import com.speedment.jpastreamer.application.StreamConfigurationBuilder;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 
 import javax.persistence.EntityManagerFactory;
@@ -45,6 +47,12 @@ final class StandardJPAStreamer implements JPAStreamer {
         analyticsReporter = analyticsReporterFactory.createAnalyticsReporter(applicationInformation.implementationVersion(), demoMode);
         analyticsReporter.start();
         printGreeting(applicationInformation);
+    }
+
+
+    @Override
+    public <T> Stream<T> stream(StreamConfiguration<T> streamConfiguration) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

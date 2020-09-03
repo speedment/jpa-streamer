@@ -24,14 +24,14 @@ import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
-final class StandardStreamer<E> implements Streamer<E> {
+final class StandardStreamer<T> implements Streamer<T> {
 
     private final Renderer renderer;
     private final BuilderFactory builderFactory;
     private final AutoCloseFactory autoCloseFactory;
-    private final Class<E> entityClass;
+    private final Class<T> entityClass;
 
-    StandardStreamer(final Class<E> entityClass, final EntityManagerFactory entityManagerFactory) {
+    StandardStreamer(final Class<T> entityClass, final EntityManagerFactory entityManagerFactory) {
         this.entityClass = requireNonNull(entityClass);
         requireNonNull(entityManagerFactory);
         this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class, ServiceLoader::load);
@@ -41,7 +41,7 @@ final class StandardStreamer<E> implements Streamer<E> {
     }
 
     @Override
-    public Stream<E> stream() {
+    public Stream<T> stream() {
         return autoCloseFactory.createAutoCloseStream(builderFactory.createBuilder(entityClass, renderer));
     }
 
