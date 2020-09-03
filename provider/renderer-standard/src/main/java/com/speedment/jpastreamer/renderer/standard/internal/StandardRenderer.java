@@ -26,11 +26,13 @@ import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
@@ -51,7 +53,7 @@ public final class StandardRenderer implements Renderer {
     }
 
     @Override
-    public <T> RenderResult<?> render(final Pipeline<T> pipeline) {
+    public <T> RenderResult<?> render(final Pipeline<T> pipeline, final StreamConfiguration<T> streamConfiguration) {
         optimizePipeline(pipeline);
 
         final Class<T> entityClass = pipeline.root();
@@ -62,6 +64,8 @@ public final class StandardRenderer implements Renderer {
         final Criteria<T, T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
         criteria.getRoot().alias(pipeline.root().getSimpleName());
         criteria.getQuery().select(criteria.getRoot());
+
+        streamConfiguration.joins().forEach(field -> criteria.getRoot().fetch(field.columnName(), JoinType.INNER));
 
         criteriaMerger.merge(pipeline, criteria);
 

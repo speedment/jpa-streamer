@@ -19,6 +19,7 @@ import com.speedment.jpastreamer.builder.BuilderFactory;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.renderer.RendererFactory;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
@@ -29,10 +30,10 @@ final class StandardStreamer<T> implements Streamer<T> {
     private final Renderer renderer;
     private final BuilderFactory builderFactory;
     private final AutoCloseFactory autoCloseFactory;
-    private final Class<T> entityClass;
+    private final StreamConfiguration<T> streamConfiguration;
 
-    StandardStreamer(final Class<T> entityClass, final EntityManagerFactory entityManagerFactory) {
-        this.entityClass = requireNonNull(entityClass);
+    StandardStreamer(final StreamConfiguration<T> streamConfiguration, final EntityManagerFactory entityManagerFactory) {
+        this.streamConfiguration = requireNonNull(streamConfiguration);
         requireNonNull(entityManagerFactory);
         this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class, ServiceLoader::load);
         this.autoCloseFactory = RootFactory.getOrThrow(AutoCloseFactory.class, ServiceLoader::load);
@@ -42,7 +43,7 @@ final class StandardStreamer<T> implements Streamer<T> {
 
     @Override
     public Stream<T> stream() {
-        return autoCloseFactory.createAutoCloseStream(builderFactory.createBuilder(entityClass, renderer));
+        return autoCloseFactory.createAutoCloseStream(builderFactory.createBuilder(streamConfiguration, renderer));
     }
 
     @Override

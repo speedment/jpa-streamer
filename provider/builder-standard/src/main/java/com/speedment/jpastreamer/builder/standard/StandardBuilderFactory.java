@@ -15,6 +15,7 @@ package com.speedment.jpastreamer.builder.standard;
 import com.speedment.jpastreamer.builder.BuilderFactory;
 import com.speedment.jpastreamer.builder.standard.internal.InternalBuilderFactory;
 import com.speedment.jpastreamer.renderer.Renderer;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import java.util.stream.Stream;
 
@@ -27,7 +28,7 @@ public final class StandardBuilderFactory implements BuilderFactory {
     }
 
     @Override
-    public <T> Stream<T> createBuilder(final Class<T> root, Renderer renderer) {
-        return delegate.createBuilder(root, renderer);
+    public <T> Stream<T> createBuilder(final StreamConfiguration<T> streamConfiguration, final Renderer renderer) {
+        return delegate.createBuilder(streamConfiguration, renderer);
     }
 }

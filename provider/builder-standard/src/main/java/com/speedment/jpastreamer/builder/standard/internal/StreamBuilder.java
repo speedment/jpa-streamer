@@ -22,6 +22,7 @@ import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -49,18 +50,19 @@ final class StreamBuilder<T> implements Stream<T> {
     private final Factories factories;
     private final Renderer renderer;
     private final Pipeline<T> pipeline;
+    private final StreamConfiguration<T> streamConfiguration;
     private final BaseStreamSupport support;
 
     // Used to prevent improper reuse of builder
     private boolean linkedConsumedOrClosed;
 
     StreamBuilder(final Factories factories,
-                  final Class<T> root,
+                  final StreamConfiguration<T> streamConfiguration,
                   final Renderer renderer) {
-
         this.factories = requireNonNull(factories);
         this.renderer = requireNonNull(renderer);
-        this.pipeline = factories.pipeline().createPipeline(requireNonNull(root));
+        this.streamConfiguration = requireNonNull(streamConfiguration);
+        this.pipeline = factories.pipeline().createPipeline(streamConfiguration.entityClass());
         support = new BaseStreamSupport(pipeline);
     }
 
@@ -356,7 +358,7 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @SuppressWarnings("unchecked")
     private <R> R renderAndThenApply() {
-        final RenderResult<?> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
         return ((TerminalOperation<Stream<T>, R>) renderResult.terminalOperation())
                 .function()
                 .apply((Stream<T>) renderResult.stream());
@@ -364,7 +366,7 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @SuppressWarnings("unchecked")
     private long renderAndThenApplyAsLong() {
-        final RenderResult<?> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
         return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
                 .toLongFunction()
                 .applyAsLong((Stream<T>) renderResult.stream());
@@ -372,7 +374,7 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @SuppressWarnings("unchecked")
     private boolean renderAndThenTest() {
-        final RenderResult<?> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
         return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
                 .predicate()
                 .test((Stream<T>) renderResult.stream());
@@ -380,7 +382,7 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @SuppressWarnings("unchecked")
     private void renderAndThenAccept() {
-        final RenderResult<?> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
         ((TerminalOperation<Stream<T>, ?>) renderResult.terminalOperation())
                 .consumer()
                 .accept((Stream<T>) renderResult.stream());
@@ -388,7 +390,7 @@ final class StreamBuilder<T> implements Stream<T> {
 
     @SuppressWarnings("unchecked")
     private long renderCount() {
-        final RenderResult<?> renderResult = renderer.render(pipeline);
+        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
 
         if (renderResult.root().equals(Long.class)) {
             return renderResult.stream().mapToLong(i -> (long) i).sum();

@@ -31,7 +31,7 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     private final EntityManagerFactory entityManagerFactory;
     private final boolean closeEntityManager;
-    private final Map<Class<?>, Streamer<?>> streamerCache;
+    private final Map<StreamConfiguration<?>, Streamer<?>> streamerCache;
     private final AnalyticsReporter analyticsReporter;
 
     StandardJPAStreamer(final EntityManagerFactory entityManagerFactory, final boolean closeEntityManager) {
@@ -50,16 +50,10 @@ final class StandardJPAStreamer implements JPAStreamer {
 
 
     @Override
-    public <T> Stream<T> stream(StreamConfiguration<T> streamConfiguration) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    public <T> Stream<T> stream(Class<T> entityClass) {
-        requireNonNull(entityClass);
+    public <T> Stream<T> stream(StreamConfiguration<T> streamConfiguration) {
         return (Stream<T>) streamerCache
-                .computeIfAbsent(entityClass, ec -> new StandardStreamer<>(entityClass, entityManagerFactory))
+                .computeIfAbsent(streamConfiguration, ec -> new StandardStreamer<>(streamConfiguration, entityManagerFactory))
                 .stream();
     }
 

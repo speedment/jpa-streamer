@@ -14,14 +14,18 @@ package com.speedment.jpastreamer.builder.standard.internal;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.BaseStream;
 import java.util.stream.Stream;
@@ -33,7 +37,8 @@ class StreamBuilderTest {
     @Test
     void filter() {
         final Renderer renderer = new MockRenderer();
-        Stream<String> builder = new StreamBuilder<>(FACTORIES, String.class, renderer);
+        final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
+        Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
 
         final long count = builder
                 .skip(1)
@@ -47,7 +52,8 @@ class StreamBuilderTest {
     @Test
     void first() {
         final Renderer renderer = new MockRenderer();
-        Stream<String> builder = new StreamBuilder<>(FACTORIES, String.class, renderer);
+        final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
+        Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
 
         final Optional<String> first = builder
                 .filter(s -> s.length() > 0)
@@ -62,7 +68,8 @@ class StreamBuilderTest {
     void consumed() {
         assertThrows(IllegalStateException.class, () -> {
             final Renderer renderer = new MockRenderer();
-            Stream<String> builder = new StreamBuilder<>(FACTORIES, String.class, renderer);
+            final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
+            Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
 
             final Optional<String> first = builder
                     .filter(s -> s.length() > 0)
@@ -83,7 +90,7 @@ class StreamBuilderTest {
         // Only works for Stream and not IntStream, etc.
 
         @Override
-        public <T> RenderResult<T> render(Pipeline<T> pipeline) {
+        public <T> RenderResult<T> render(Pipeline<T> pipeline, StreamConfiguration<T> streamConfiguration) {
 
             System.out.println(pipeline);
 
@@ -138,6 +145,25 @@ class StreamBuilderTest {
         @Override
         public TerminalOperation<?, ?> terminalOperation() {
             return terminalOperation;
+        }
+    }
+
+    private static final class MockStreamConfiguration<T> implements StreamConfiguration<T> {
+
+        private final Class<T> entityClass;
+
+        private MockStreamConfiguration(Class<T> entityClass) {
+            this.entityClass = entityClass;
+        }
+
+        @Override
+        public Class<T> entityClass() {
+            return entityClass;
+        }
+
+        @Override
+        public Set<Field<T>> joins() {
+            return new HashSet<>();
         }
     }
 

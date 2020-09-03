@@ -16,6 +16,7 @@ import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.renderer.RendererFactory;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.function.BiConsumer;
@@ -36,7 +37,7 @@ public final class MockRendererFactory implements RendererFactory {
     private final class MockRenderer implements Renderer {
 
         @Override
-        public <T> RenderResult<?> render(Pipeline<T> pipeline) {
+        public <T> RenderResult<?> render(Pipeline<T> pipeline, StreamConfiguration<T> streamConfiguration) {
             final RenderResult<T> renderResult = null;
             MockRendererFactory.this.listener.accept(pipeline, renderResult);
             return null;
