@@ -29,7 +29,7 @@
         <module-name>jpastreamer.appinfo</module-name>
     </properties>
 
-    <name>Application Information</name>
+    <name>ApplicationInformation</name>
     <description>
         Application information about vendor, version etc.
     </description>
