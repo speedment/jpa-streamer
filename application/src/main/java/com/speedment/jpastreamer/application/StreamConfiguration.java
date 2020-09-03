@@ -8,8 +8,26 @@ import java.util.Set;
 
 public interface StreamConfiguration<T> {
 
+    /**
+     * Returns the entity class that is to appear in
+     * a future Stream.
+     *
+     * @return the entity class that is to appear in
+     *         a future Stream
+     */
     Class<T> entityClass();
 
+    /**
+     * Returns the fields that shall be joined in
+     * a future stream.
+     * <p>
+     * Joining fields <em></em>prevents N + 1 select problems</em>
+     * in cases fields in the Set are to be used
+     * by stream consumers.
+     *
+     * @return the fields that shall be joined in
+     *         a future stream
+     */
     Set<Field<T>> joins();
 
     /**

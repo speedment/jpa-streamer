@@ -23,5 +23,4 @@ public interface StreamConfigurationBuilder<T> {
      *         instance
      */
     StreamConfiguration<T> build();
-
 }
