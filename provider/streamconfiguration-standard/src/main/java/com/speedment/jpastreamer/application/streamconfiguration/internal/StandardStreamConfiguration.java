@@ -1,7 +1,7 @@
-package com.speedment.jpastreamer.application.standard.internal;
+package com.speedment.jpastreamer.application.streamconfiguration.internal;
 
-import com.speedment.jpastreamer.application.StreamConfiguration;
 import com.speedment.jpastreamer.field.Field;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import java.util.Collections;
 import java.util.HashSet;

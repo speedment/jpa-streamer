@@ -10,14 +10,7 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-module jpastreamer.application {
-    requires transitive java.persistence;
+module jpastreamer.streamconfiguration {
     requires transitive jpastreamer.field;
-    requires transitive jpastreamer.streamconfiguration;
     requires jpastreamer.rootfactory;
-
-    exports com.speedment.jpastreamer.application;
-
-    uses com.speedment.jpastreamer.application.JPAStreamerBuilderFactory;
-
 }

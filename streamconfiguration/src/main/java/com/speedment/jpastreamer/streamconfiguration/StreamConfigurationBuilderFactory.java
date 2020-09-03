@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.application;
+package com.speedment.jpastreamer.streamconfiguration;
 
 public interface StreamConfigurationBuilderFactory {
 

@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.application;
+package com.speedment.jpastreamer.streamconfiguration;
 
 import com.speedment.jpastreamer.field.Field;
 

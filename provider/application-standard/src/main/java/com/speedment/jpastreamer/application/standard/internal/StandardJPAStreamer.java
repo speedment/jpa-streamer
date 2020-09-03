@@ -18,9 +18,8 @@ import com.speedment.jpastreamer.analytics.AnalyticsReporter;
 import com.speedment.jpastreamer.analytics.AnalyticsReporterFactory;
 import com.speedment.jpastreamer.appinfo.ApplicationInformation;
 import com.speedment.jpastreamer.application.JPAStreamer;
-import com.speedment.jpastreamer.application.StreamConfiguration;
-import com.speedment.jpastreamer.application.StreamConfigurationBuilder;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Map;

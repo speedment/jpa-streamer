@@ -14,6 +14,8 @@ package com.speedment.jpastreamer.application;
 
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfigurationBuilder;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;

@@ -61,6 +61,7 @@
         <module>integration</module>
         <module>analytics</module>
         <module>appinfo</module>
+        <module>streamconfiguration</module>
     </modules>
     
     <!-- Properties -->
@@ -980,6 +981,18 @@
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>analytics-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>streamconfiguration</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>streamconfiguration-standard</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 

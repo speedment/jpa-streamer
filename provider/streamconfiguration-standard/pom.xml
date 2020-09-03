@@ -18,30 +18,30 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
-        <artifactId>jpastreamer-parent</artifactId>
+        <artifactId>provider</artifactId>
         <version>0.1.2-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>provider</artifactId>
-    <packaging>pom</packaging>
 
-    <name>Provider</name>
+    <artifactId>streamconfiguration-standard</artifactId>
 
-    <modules>
-        <module>application-standard</module>
-        <module>autoclose-standard</module>
-        <module>builder-standard</module>
-        <module>pipeline-standard</module>
-        <module>renderer-standard</module>
-        <module>interopoptimizer-standard</module>
-        <module>merger-standard</module>
-        <module>criteria-standard</module>
-        <module>termopmodifier-standard</module>
-        <module>termopoptimizer-standard</module>
-        <module>analytics-standard</module>
-        <module>appinfo-standard</module>
-        <module>streamconfiguration-standard</module>
-    </modules>
+    <properties>
+        <module-name>jpastreamer.streamconfiguration.standard</module-name>
+    </properties>
+
+    <name>StreamConfiguration - Standard</name>
+    <description>
+        Standard provider of the StreamConfiguration
+    </description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>streamconfiguration</artifactId>
+        </dependency>
+
+    </dependencies>
+
 
 </project>
