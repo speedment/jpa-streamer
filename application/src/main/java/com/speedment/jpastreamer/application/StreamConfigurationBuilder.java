@@ -1,34 +1,22 @@
-/*
- * JPAstreamer - Express JPA queries with Java Streams
- * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
- *
- * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Lesser General Public License for more details.
- *
- * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
- */
 package com.speedment.jpastreamer.application;
 
-import com.speedment.jpastreamer.rootfactory.RootFactory;
+import com.speedment.jpastreamer.field.Field;
 
-import javax.persistence.EntityManagerFactory;
-import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
-/**
- * A JPAStreamer is responsible for creating Streams from data sources
- * Entity sources can be RDBMSes, files or other data sources.
- *
- * A JPAStreamer must be thread safe and be able to handle several reading and
- * writing threads at the same time.
- *
- * @author Per Minborg
- * @since 0.1.0
- */
-public interface JPAStreamer {
+public interface StreamConfigurationBuilder<T> {
+
+    /**
+     * Configures the the provided {@code field} so that it will be
+     * eagerly joined when producing the elements in the future Stream.
+     * <p>
+     * This prevents the N+1 problem if the field is accessed in
+     * elements in the future Stream.
+     * </p>
+     * @param field to join
+     * @return this StreamConfigurationBuilder
+     */
+    StreamConfigurationBuilder<T> joining(Field<T> field);
 
     /**
      * Creates and returns a new {@link Stream} over all entities in the
@@ -130,8 +118,6 @@ public interface JPAStreamer {
      * </li>
      * </ul>
      *
-     * @param <T> The element type (type of a class token)
-     * @param entityClass a class token for an entity class (annotated with {@code @Entity})
      * @return a new stream over all entities in this table in unspecified order
      *
      * @throws RuntimeException if an error occurs during a Terminal Operation
@@ -140,67 +126,5 @@ public interface JPAStreamer {
      * @see java.util.stream
      * @see Stream
      */
-    <T> Stream<T> stream(Class<T> entityClass);
-
-    /**
-     * Creates and returns a new {@link StreamConfigurationBuilder} that can
-     * be used to tailor the behavior of a future Stream.
-     * <p>
-     * The StreamConfigurationBuilder can, for example, be used to specify
-     * which columns should be directly joined into entities in the future Stream.
-     *
-     * @param <T> The element type (type of a class token)
-     * @param entityClass a class token for an entity class (annotated with {@code @Entity})
-     * @return a new {@link StreamConfigurationBuilder} that can
-     *         be used to tailor the behavior of a future Stream
-     *
-     * @see StreamConfigurationBuilder
-     */
-    <T> StreamConfigurationBuilder<T> of(Class<T> entityClass);
-
-    /**
-     * Closes this JPAStreamer and releases any resources potentially held.
-     * <p>
-     * If and only if this JPAStreamer was created using a {@code persistenceUnitName},
-     * the underlying EntityManagerFactory will be closed.
-     */
-    void close();
-
-    /**
-     * Creates and returns a new JPAStreamerBuilder that will create a new
-     * {@link EntityManagerFactory} using the provided {@code persistenceUnitName}.
-     * <p>
-     *  Call the JPAStreamerBuilder::build method to create a new JPAStreamer instance.
-     * <p>
-     * The newly created EntityManagerFactory will be closed whenever a built
-     * JPAStreamer instance is closed.
-     *
-     * @param persistenceUnitName of the persistence unit as per the persistence.xml file
-     * @return a new JPAStreamerBuilder
-     */
-    static JPAStreamerBuilder createJPAStreamerBuilder(final String persistenceUnitName) {
-        return RootFactory
-            .getOrThrow(JPAStreamerBuilderFactory.class, ServiceLoader::load)
-            .create(persistenceUnitName);
-    }
-
-    /**
-     * Creates and returns a new JPAStreamerBuilder that will use the provided
-     * {@code entityManagerFactory}.
-     * <p>
-     *  Call the JPAStreamerBuilder::build method to create a new JPAStreamer instance.
-     * <p>
-     * The provided {@code entityManagerFactory} will <em>not</em> be closed whenever a built
-     * JPAStreamer instance is closed.
-     *
-     * @param entityManagerFactory to be used by the JPAStreamer
-     * @return a new JPAStreamerBuilder
-     */
-
-    static JPAStreamerBuilder createJPAStreamerBuilder(final EntityManagerFactory entityManagerFactory) {
-        return RootFactory
-            .getOrThrow(JPAStreamerBuilderFactory.class, ServiceLoader::load)
-            .create(entityManagerFactory);
-    }
-
+    Stream<T> stream();
 }
