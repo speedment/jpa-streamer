@@ -12,11 +12,14 @@
  */
 package com.speedment.jpastreamer.application;
 
+import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A JPAStreamer is responsible for creating Streams from data sources
@@ -253,6 +256,37 @@ public interface JPAStreamer {
      * @see Stream
      */
     <T> Stream<T> stream(StreamConfiguration<T> streamConfiguration);
+
+    /**
+     * Creates and returns a new {@link Stream} over all entities in the
+     * underlying data source (e.g database) of the provided type
+     * {@code entityClass} whereby the provided {@code joinFields} are
+     * joined eagerly in the instances appearing in the Stream.
+     * <p>
+     * This method is a convenience method equivalent to:
+     * <pre>{@code stream(Stream.of(joinFields)
+     *                 .reduce(StreamConfiguration.builder(entityClass),
+     *                         StreamConfigurationBuilder::joining,
+     *                         (a, b) -> a)
+     *                 .build())}</pre>
+     *
+     * @param <T> The element type (type of a class token)
+     * @param entityClass to use
+     * @param joinFields to join
+     * @return a new {@link Stream} over all entities in the
+     *         underlying data source (e.g database) of the provided type
+     *         {@code entityClass} whereby the provided {@code joinFields} are
+     *         joined eagerly in the instances appearing in the Stream
+
+     * @see JPAStreamer#stream(Class) for furhter details
+     */
+    default <T> Stream<T> streamJoining(final Class<T> entityClass, final Field<T>... joinFields) {
+        requireNonNull(entityClass);
+        final StreamConfiguration<T> streamConfiguration = Stream.of(joinFields)
+                .reduce(StreamConfiguration.builder(entityClass), StreamConfigurationBuilder::joining, (a, b) -> a)
+                .build();
+        return stream(streamConfiguration);
+    }
 
     /**
      * Closes this JPAStreamer and releases any resources potentially held.

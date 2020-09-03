@@ -28,4 +28,30 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     public Set<Field<T>> joins() {
         return Collections.unmodifiableSet(joins);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final StandardStreamConfiguration<?> that = (StandardStreamConfiguration<?>) o;
+
+        if (!entityClass.equals(that.entityClass)) return false;
+        return joins.equals(that.joins);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = entityClass.hashCode();
+        result = 31 * result + joins.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "StandardStreamConfiguration{" +
+                "entityClass=" + entityClass +
+                ", joins=" + joins +
+                '}';
+    }
 }
