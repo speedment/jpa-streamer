@@ -14,7 +14,7 @@
 
 name: jpa-streamer
 title: JPAStreamer Docs
-version: latest
+version: 0.1.2
 start_page: introduction:introduction.adoc
 nav:
   - modules/ROOT/nav.adoc
