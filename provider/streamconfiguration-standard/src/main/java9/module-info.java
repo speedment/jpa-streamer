@@ -13,6 +13,8 @@
 module jpastreamer.streamconfiguration.standard {
     requires transitive jpastreamer.streamconfiguration;
 
+    exports com.speedment.jpastreamer.streamconfiguration.standard;
+
     // Todo: Enable this
     // provides com.speedment.jpastreamer.application.JPAStreamBuilderFactory with com.speedment.jpastreamer.application.standard.StandardJPAStreamBuilderFactory;
 }

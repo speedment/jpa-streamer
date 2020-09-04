@@ -42,7 +42,7 @@ public interface StreamConfiguration<T> {
      * Returns the fields that shall be joined in
      * a future stream.
      * <p>
-     * Joining fields <em></em>prevents N + 1 select problems</em>
+     * Joining fields <em>prevents N + 1 select problems</em>
      * in cases fields in the Set are to be used
      * by stream consumers.
      *

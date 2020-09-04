@@ -12,7 +12,8 @@
  */
 module jpastreamer.renderer {
     requires transitive java.persistence;
-    requires jpastreamer.pipeline;
+    requires transitive jpastreamer.streamconfiguration;
+    requires transitive jpastreamer.pipeline;
 
     exports com.speedment.jpastreamer.renderer;
 }
