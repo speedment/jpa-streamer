@@ -14,8 +14,6 @@ package com.speedment.jpastreamer.criteria.standard.internal.predicate;
 
 import static java.util.Objects.requireNonNull;
 
-import com.speedment.common.tuple.Tuple3;
-import com.speedment.common.tuple.Tuples;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.standard.internal.util.Cast;
 import com.speedment.jpastreamer.exception.JPAStreamerException;
@@ -143,10 +141,10 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                 final CriteriaBuilder builder = criteria.getBuilder();
                 final Path<S> columnPath = criteria.getRoot().get(column);
 
-                final S first = (S) value.get0();
-                final S second = (S) value.get1();
+                final S first = (S) value.getLowerBound();
+                final S second = (S) value.getUpperBound();
 
-                final Inclusion inclusion = value.get2();
+                final Inclusion inclusion = value.getInclusion();
 
                 switch (inclusion) {
                     case START_EXCLUSIVE_END_EXCLUSIVE:
@@ -208,10 +206,10 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                 final CriteriaBuilder builder = criteria.getBuilder();
                 final Path<S> columnPath = criteria.getRoot().get(column);
 
-                final S first = (S) value.get0();
-                final S second = (S) value.get1();
+                final S first = (S) value.getLowerBound();
+                final S second = (S) value.getUpperBound();
 
-                final Inclusion inclusion = value.get2();
+                final Inclusion inclusion = value.getInclusion();
 
                 switch (inclusion) {
                     case START_EXCLUSIVE_END_EXCLUSIVE:
@@ -554,7 +552,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     @SuppressWarnings("unchecked")
     private <ENTITY, S extends Comparable<? super S>> Predicate doubleBoundRangeComparisonMapping(
             final FieldPredicate<ENTITY> fieldPredicate,
-            final BiFunction<String, Tuple3<S, S, Inclusion>, Predicate> callback
+            final BiFunction<String, RangeInformation<S>, Predicate> callback
     ) {
         final String column = fieldPredicate.getField().columnName();
         final Object arg0 = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
@@ -565,13 +563,10 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             .orElse(Inclusion.START_INCLUSIVE_END_INCLUSIVE);
 
         if (arg0 instanceof Comparable && arg1 instanceof Comparable) {
-            final Tuple3<S, S, Inclusion> tuple3 = Tuples.of(
-                (S) arg0,
-                (S) arg1,
-                inclusion
-            );
+            final RangeInformation<S> rangeInformation = new RangeInformation<>((S) arg0, (S) arg1,
+                    inclusion);
 
-            return callback.apply(column, tuple3);
+            return callback.apply(column, rangeInformation);
         }
 
         throw new JPAStreamerException("Illegal comparison values [" + arg0 + "," + arg1 + "]");
@@ -651,6 +646,35 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                     "Predicate type [" + fieldPredicate.getPredicateType()
                         + "] is not supported"
                 );
+        }
+    }
+
+    private static final class RangeInformation<S extends Comparable<? super S>> {
+
+        private final S lowerBound;
+        private final S upperBound;
+        private final Inclusion inclusion;
+
+        private RangeInformation(
+            final S lowerBound,
+            final S upperBound,
+            final Inclusion inclusion
+        ) {
+            this.lowerBound = requireNonNull(lowerBound);
+            this.upperBound = requireNonNull(upperBound);
+            this.inclusion = requireNonNull(inclusion);
+        }
+
+        public S getLowerBound() {
+            return lowerBound;
+        }
+
+        public S getUpperBound() {
+            return upperBound;
+        }
+
+        public Inclusion getInclusion() {
+            return inclusion;
         }
     }
 }
