@@ -27,7 +27,6 @@
 
     <properties>
         <module-name>jpastreamer.fieldgenerator.standard</module-name>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <auto-service.version>1.0-rc7</auto-service.version>
     </properties>
 
@@ -87,7 +86,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>8</source>
                     <target>8</target>
