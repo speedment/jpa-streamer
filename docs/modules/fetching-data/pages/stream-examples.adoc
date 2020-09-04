@@ -16,21 +16,20 @@ The following example demonstrates how to serve a request for pages from a GUI o
 ----
 private static final int PAGE_SIZE = 20;
 
-private List<Film> getPage(int page, Comparator<Film> comparator) {
-    log("getPage(" + page + ", " + comparator + ")");
+private static List<Film> filmPage(JPAStreamer jpaStreamer, int page, Comparator<Film> comparator) {
     return jpaStreamer.stream(Film.class)
         .sorted(comparator)
         .skip(page * PAGE_SIZE)
         .limit(PAGE_SIZE)
         .collect(Collectors.toList());
-}
+    }
 ----
 
 This method can e.g. be used to fetch the second page of films sorted by title in descending order:
 
 [source,java]
 ----
-    getPage(1, Film$.title.reversed());
+    filmPage(1, Film$.title.reversed());
 ----
 
 == Partition By
@@ -123,6 +122,28 @@ public class Actor {
 ----
 <1> An actor can starr in many films
 
+=== Specifying Stream Joining
+So far, we have talked about the relations for joining in entities in other entities (e.g. how an Actor relates to a Film).
+
+It is also important when and how that relation is applied. This can be specified using a `StreamConfiguration` as shown hereunder:
+
+[source, java]
+----
+import static com.speedment.jpastreamer.streamconfiguration.StreamConfiguration.*;
+...
+jpaStreamer.stream(of(Film.class).joining(Film$.actors).joining(Film$.language))
+    .filter(Film$.length.between(100, 120))
+    .forEach(System.out::println);
+----
+
+This will create a stream where the film actors and the film language is (JoinType.LEFT) joined into the query, thereby avoiding potential "select N + 1" performance problems.
+
+More generally, it is possible to specify the join type (`JoinType.INNER, JoinType.LEFT or JoinType.RIGHT`) using the method:
+[source, java]
+----
+StreamConfiguration<T> joining(Field<T> field, JoinType joinType);
+----
+
 === One-to-Many relations
 A One-to-Many relationship is defined as a relationship between two tables where a row from a first table can have multiple matching rows in a second table. For example, many films can be in the same language.
 
@@ -130,12 +151,15 @@ The following example maps the languages to a list of all films that are spoken 
 
 [source, java]
 ----
-    Map<Language, List<Film>> languageFilmMap = jpaStreamer.stream(Language.class)
-        .collect(
-            toMap(Function.identity(),
-                Language::getFilms)
-        );
+Map<Language, Set<Film>> languageFilmMap = jpaStreamer.stream(of(Language.class).joining(Language$.films))
+    .collect(toMap(
+        Function.identity(),
+        Language::getFilms
+         )
+    );
 ----
+
+NOTE: In this example, we are joining the `Language.films` thereby preventing an extra query each time `Language::getFilms` is invoked.
 
 === Many-to-One relations
 A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
@@ -144,7 +168,7 @@ The following example maps every film with rating PG-13 to its spoken language:
 
 [source, java]
 ----
-Map<Film, Language> languageMap = jpaStreamer.stream(Film.class) #<1>
+Map<Film, Language> languageMap = jpaStreamer.stream(of(Film.class).joining(Film$.language)) #<1>
     .filter(Film$.rating.equal("PG-13"))
     .collect(
             Collectors.toMap(Function.identity(), #<2>
@@ -152,7 +176,7 @@ Map<Film, Language> languageMap = jpaStreamer.stream(Film.class) #<1>
             )
     );
 ----
-<1> Stream over the Film-table
+<1> Stream over the Film-table (joining in the field language)
 <2> The identity function assigns the current Film as the key
 <3> Enters the spoken language as the value
 
@@ -173,14 +197,14 @@ Given the entities above, we can create a filmography that maps every actor to a
 
 [source, java]
 ----
-Map<Actor, List<Film>> filmography = jpaStreamer.stream(Actor.class) #<1>
+Map<Actor, List<Film>> filmography = jpaStreamer.stream(of(Actor.class).joining(Actor$.films)) #<1>
     .collect(
             Collectors.toMap(Function.identity(), #<2>
                 Actor::getFilms #<3>
             )
     );
 ----
-<1> Stream over the Actor-table
+<1> Stream over the Actor-table (joining the field films)
 <2> The identity function assigns the current Actor as the key
 <3> Enters the List of films as the value
 
@@ -199,7 +223,7 @@ The following example shows a pivot table of all the actors and the number of fi
 
 [source, java]
 ----
-    Map<Actor, Map<String, Long>> pivot = jpaStreamer.stream(Actor.class) #<1>
+    Map<Actor, Map<String, Long>> pivot = jpaStreamer.stream(of(Actor.class).joining(Actor$.films)) #<1>
         .collect(
             groupingBy(Function.identity(), #<2>
                 Collectors.flatMapping(a -> a.getFilms().stream(), #<3>
@@ -210,7 +234,7 @@ The following example shows a pivot table of all the actors and the number of fi
 ----
 As this is a more advanced example it requires some thinking to understand.
 
-<1> Streams the Actor table
+<1> Streams the Actor table (joining the field films)
 <2> Assigns Actor as the key
 <3> Applies a downstream collector which flatmaps all the films which the actor starr in
 <4> The films are grouped according to rating, and the number of films of each rating is counted
@@ -226,4 +250,3 @@ LAURA BRODY  {PG-13=8, R=3, NC-17=6, PG=6, G=3}
 CAMERON ZELLWEGER  {PG-13=8, R=2, NC-17=3, PG=15, G=5}
 ...
 ----
-
