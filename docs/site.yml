@@ -17,7 +17,7 @@ site:
 content:
   sources:
     - url: https://github.com/speedment/jpa-streamer
-      branches: master, develop
+      branches: master
       start_path: docs
       tags: [0.1*]
 ui:
