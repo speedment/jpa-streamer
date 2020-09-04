@@ -39,7 +39,6 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>analytics</artifactId>
-            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>

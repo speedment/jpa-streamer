@@ -59,7 +59,6 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>interopoptimizer</artifactId>
-            <version>0.1.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>

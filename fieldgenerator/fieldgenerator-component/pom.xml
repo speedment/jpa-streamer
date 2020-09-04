@@ -45,7 +45,6 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>fieldgenerator-standard</artifactId>
-            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>

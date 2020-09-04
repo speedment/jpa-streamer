@@ -39,31 +39,26 @@
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>rootfactory</artifactId>
-            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>builder</artifactId>
-            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>pipeline</artifactId>
-            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>renderer</artifactId>
-            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>autoclose</artifactId>
-            <version>${jpa-streamer.version}</version>
         </dependency>
 
         <!--TEST-->
