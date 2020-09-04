@@ -48,7 +48,6 @@ final class StandardJPAStreamer implements JPAStreamer {
         printGreeting(applicationInformation);
     }
 
-
     @Override
     @SuppressWarnings("unchecked")
     public <T> Stream<T> stream(StreamConfiguration<T> streamConfiguration) {

@@ -1,19 +1,15 @@
 /*
- * Copyright (c) 2006-2020, Speedment, Inc. All Rights Reserved.
+ * JPAstreamer - Express JPA queries with Java Streams
+ * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); You may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at:
+ * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-
 package com.speedment.jpastreamer.streamconfiguration.standard.internal;
 
 import com.speedment.jpastreamer.field.Field;
@@ -22,6 +18,7 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -30,9 +27,14 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     private final Class<T> entityClass;
     private final Set<Field<T>> joins;
 
-    public StandardStreamConfiguration(final Class<T> entityClass, final Set<Field<T>> joins) {
+    public StandardStreamConfiguration(final Class<T> entityClass) {
         this.entityClass = requireNonNull(entityClass);
-        this.joins = new HashSet<>(requireNonNull(joins));
+        this.joins = Collections.emptySet();
+    }
+
+    private StandardStreamConfiguration(final Class<T> entityClass, final Set<Field<T>> joins) {
+        this.entityClass = entityClass;
+        this.joins = new HashSet<>(joins);
     }
 
     @Override
@@ -43,6 +45,13 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     @Override
     public Set<Field<T>> joins() {
         return Collections.unmodifiableSet(joins);
+    }
+
+    @Override
+    public StreamConfiguration<T> joining(Field<T> field) {
+        final Set<Field<T>> newjoins = new HashSet<>(joins);
+        newjoins.add(field);
+        return new StandardStreamConfiguration<>(entityClass, newjoins);
     }
 
     @Override
@@ -66,8 +75,8 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     @Override
     public String toString() {
         return "StandardStreamConfiguration{" +
-                "entityClass=" + entityClass +
-                ", joins=" + joins +
+                "of " + entityClass.getSimpleName() +
+                " joining " + joins.stream().map(Field::columnName).sorted().collect(Collectors.joining(", ")) +
                 '}';
     }
 }

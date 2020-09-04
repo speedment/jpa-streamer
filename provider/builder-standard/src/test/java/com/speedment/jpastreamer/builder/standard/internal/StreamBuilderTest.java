@@ -165,7 +165,11 @@ class StreamBuilderTest {
         public Set<Field<T>> joins() {
             return new HashSet<>();
         }
-    }
 
+        @Override
+        public StreamConfiguration<T> joining(Field<T> field) {
+            throw new UnsupportedOperationException();
+        }
+    }
 
 }

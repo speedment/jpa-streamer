@@ -12,10 +12,8 @@
  */
 package com.speedment.jpastreamer.application;
 
-import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
-import com.speedment.jpastreamer.streamconfiguration.StreamConfigurationBuilder;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
@@ -153,7 +151,7 @@ public interface JPAStreamer {
      * {@code entityClass}.
      * <p>
      * This method is a convenience method equivalent to:
-     * <pre>{@code stream(StreamConfiguration.builder(entityClass).build))}</pre>
+     * <pre>{@code stream(StreamConfiguration.of(entityClass))}</pre>
      *
      * @param <T> The element type (type of a class token)
      * @param entityClass to use
@@ -165,41 +163,7 @@ public interface JPAStreamer {
      */
     default <T> Stream<T> stream(final Class<T> entityClass) {
         requireNonNull(entityClass);
-        final StreamConfiguration<T> streamConfiguration = StreamConfiguration.builder(entityClass)
-                .build();
-        return stream(streamConfiguration);
-    }
-
-    /**
-     * Creates and returns a new {@link Stream} over all entities in the
-     * underlying data source (e.g database) of the provided type
-     * {@code entityClass} whereby the provided {@code joinFields} are
-     * joined eagerly in the instances appearing in the Stream.
-     * <p>
-     * This method is a convenience method equivalent to:
-     * <pre>{@code stream(Stream.of(joinFields)
-     *                 .reduce(StreamConfiguration.builder(entityClass),
-     *                         StreamConfigurationBuilder::joining,
-     *                         (a, b) -> a)
-     *                 .build())}</pre>
-     *
-     * @param <T> The element type (type of a class token)
-     * @param entityClass to use
-     * @param joinFields to join
-     * @return a new {@link Stream} over all entities in the
-     *         underlying data source (e.g database) of the provided type
-     *         {@code entityClass} whereby the provided {@code joinFields} are
-     *         joined eagerly in the instances appearing in the Stream
-
-     * @see JPAStreamer#stream(StreamConfiguration) for furhter details
-     */
-    default <T> Stream<T> streamJoining(final Class<T> entityClass, final Field<T>... joinFields) {
-        requireNonNull(entityClass);
-        requireNonNull(joinFields);
-        final StreamConfiguration<T> streamConfiguration = Stream.of(joinFields)
-                .reduce(StreamConfiguration.builder(entityClass), StreamConfigurationBuilder::joining, (a, b) -> a)
-                .build();
-        return stream(streamConfiguration);
+        return stream(StreamConfiguration.of(entityClass));
     }
 
     /**
