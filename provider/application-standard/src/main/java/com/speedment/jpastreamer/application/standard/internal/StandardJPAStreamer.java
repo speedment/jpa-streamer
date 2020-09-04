@@ -50,10 +50,19 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> Stream<T> stream(StreamConfiguration<T> streamConfiguration) {
-        return (Stream<T>) streamerCache
-                .computeIfAbsent(streamConfiguration, ec -> new StandardStreamer<>(streamConfiguration, entityManagerFactory))
-                .stream();
+    public <T> Stream<T> stream(final StreamConfiguration<T> streamConfiguration) {
+        requireNonNull(streamConfiguration);
+        if (streamConfiguration.joins().isEmpty()) {
+            // Only cache simple configurations to limit the number of objects held
+            // See https://github.com/speedment/jpa-streamer/issues/56
+            return (Stream<T>) streamerCache
+                    .computeIfAbsent(streamConfiguration, ec -> new StandardStreamer<>(streamConfiguration, entityManagerFactory))
+                    .stream();
+        } else {
+            final Streamer<T> streamer = new StandardStreamer<>(streamConfiguration, entityManagerFactory);
+            return streamer.stream()
+                    .onClose(streamer::close);
+        }
     }
 
     @Override
