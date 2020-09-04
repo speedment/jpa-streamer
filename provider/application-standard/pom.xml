@@ -49,6 +49,11 @@
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>streamconfiguration</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>renderer</artifactId>
         </dependency>
 

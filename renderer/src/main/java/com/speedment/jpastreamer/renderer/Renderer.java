@@ -13,6 +13,7 @@
 package com.speedment.jpastreamer.renderer;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 public interface Renderer {
 
@@ -22,11 +23,12 @@ public interface Renderer {
      * provided via the {@code RendererFactory}.
      *
      * @param pipeline describing the intended Stream
+     * @param streamConfiguration containing additional information, such as joins
      * @param <T> type of the elements in the returned Stream
      * @return a new RenderResult whereby the provided {@code Pipeline}
      *         is rendered to a stream using a {@code EntityManagerFactory}
      */
-    <T> RenderResult<?> render(final Pipeline<T> pipeline);
+    <T> RenderResult<?> render(final Pipeline<T> pipeline, final StreamConfiguration<T> streamConfiguration);
 
     /**
      * Used to release any dangling resources after the expiration period of the

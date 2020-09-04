@@ -14,5 +14,10 @@ package com.speedment.jpastreamer.application;
 
 public interface JPAStreamerBuilder {
 
+    /**
+     * Creates and returns a new JPAStreamer instance.
+     *
+     * @return a new JPAStreamer instance
+     */
     JPAStreamer build();
 }

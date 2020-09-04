@@ -41,6 +41,7 @@
         <module>termopoptimizer-standard</module>
         <module>analytics-standard</module>
         <module>appinfo-standard</module>
+        <module>streamconfiguration-standard</module>
     </modules>
 
 </project>

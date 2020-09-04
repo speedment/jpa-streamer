@@ -55,6 +55,12 @@
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>streamconfiguration-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>pipeline-standard</artifactId>
             <version>${jpa-streamer.version}</version>
         </dependency>

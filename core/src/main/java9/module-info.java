@@ -29,6 +29,6 @@ module jpastreamer.core {
     requires jpastreamer.analytics.standard;
     requires jpastreamer.appinfo.standard;
     requires jpastreamer.fieldgenerator.standard;
-
+    requires jpastreamer.streamconfiguration.standard;
 
 }

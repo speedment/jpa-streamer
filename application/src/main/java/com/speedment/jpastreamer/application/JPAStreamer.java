@@ -13,10 +13,13 @@
 package com.speedment.jpastreamer.application;
 
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A JPAStreamer is responsible for creating Streams from data sources
@@ -32,7 +35,7 @@ public interface JPAStreamer {
 
     /**
      * Creates and returns a new {@link Stream} over all entities in the
-     * underlying data source (e.g database) of the provided type {@code entityClass}.
+     * underlying data source (e.g database) according to the provided {@code streamConfiguration}.
      * This is the main query API for JPAstreamer.
      * <p>
      * The order in which elements are returned when the stream is eventually
@@ -131,7 +134,7 @@ public interface JPAStreamer {
      * </ul>
      *
      * @param <T> The element type (type of a class token)
-     * @param entityClass a class token for an entity class (annotated with {@code @Entity})
+     * @param streamConfiguration a configuration including an entity class (annotated with {@code @Entity})
      * @return a new stream over all entities in this table in unspecified order
      *
      * @throws RuntimeException if an error occurs during a Terminal Operation
@@ -140,7 +143,28 @@ public interface JPAStreamer {
      * @see java.util.stream
      * @see Stream
      */
-    <T> Stream<T> stream(Class<T> entityClass);
+    <T> Stream<T> stream(StreamConfiguration<T> streamConfiguration);
+
+    /**
+     * Creates and returns a new {@link Stream} over all entities in the
+     * underlying data source (e.g database) of the provided type
+     * {@code entityClass}.
+     * <p>
+     * This method is a convenience method equivalent to:
+     * <pre>{@code stream(StreamConfiguration.of(entityClass))}</pre>
+     *
+     * @param <T> The element type (type of a class token)
+     * @param entityClass to use
+     * @return a new {@link Stream} over all entities in the
+     *         underlying data source (e.g database) of the provided type
+     *         {@code entityClass}
+     *
+     * @see JPAStreamer#stream(StreamConfiguration) for furhter details
+     */
+    default <T> Stream<T> stream(final Class<T> entityClass) {
+        requireNonNull(entityClass);
+        return stream(StreamConfiguration.of(entityClass));
+    }
 
     /**
      * Closes this JPAStreamer and releases any resources potentially held.
@@ -180,7 +204,6 @@ public interface JPAStreamer {
      * @param entityManagerFactory to be used by the JPAStreamer
      * @return a new JPAStreamerBuilder
      */
-
     static JPAStreamerBuilder createJPAStreamerBuilder(final EntityManagerFactory entityManagerFactory) {
         return RootFactory
             .getOrThrow(JPAStreamerBuilderFactory.class, ServiceLoader::load)

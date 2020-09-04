@@ -19,6 +19,7 @@ import com.speedment.jpastreamer.analytics.AnalyticsReporterFactory;
 import com.speedment.jpastreamer.appinfo.ApplicationInformation;
 import com.speedment.jpastreamer.application.JPAStreamer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Map;
@@ -30,7 +31,7 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     private final EntityManagerFactory entityManagerFactory;
     private final boolean closeEntityManager;
-    private final Map<Class<?>, Streamer<?>> streamerCache;
+    private final Map<StreamConfiguration<?>, Streamer<?>> streamerCache;
     private final AnalyticsReporter analyticsReporter;
 
     StandardJPAStreamer(final EntityManagerFactory entityManagerFactory, final boolean closeEntityManager) {
@@ -49,11 +50,19 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> Stream<T> stream(Class<T> entityClass) {
-        requireNonNull(entityClass);
-        return (Stream<T>) streamerCache
-                .computeIfAbsent(entityClass, ec -> new StandardStreamer<>(entityClass, entityManagerFactory))
-                .stream();
+    public <T> Stream<T> stream(final StreamConfiguration<T> streamConfiguration) {
+        requireNonNull(streamConfiguration);
+        if (streamConfiguration.joins().isEmpty()) {
+            // Only cache simple configurations to limit the number of objects held
+            // See https://github.com/speedment/jpa-streamer/issues/56
+            return (Stream<T>) streamerCache
+                    .computeIfAbsent(streamConfiguration, ec -> new StandardStreamer<>(streamConfiguration, entityManagerFactory))
+                    .stream();
+        } else {
+            final Streamer<T> streamer = new StandardStreamer<>(streamConfiguration, entityManagerFactory);
+            return streamer.stream()
+                    .onClose(streamer::close);
+        }
     }
 
     @Override

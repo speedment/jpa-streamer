@@ -12,6 +12,8 @@
  */
 module jpastreamer.application {
     requires transitive java.persistence;
+    requires transitive jpastreamer.field;
+    requires transitive jpastreamer.streamconfiguration;
     requires jpastreamer.rootfactory;
 
     exports com.speedment.jpastreamer.application;

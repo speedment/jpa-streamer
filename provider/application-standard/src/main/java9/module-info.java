@@ -12,6 +12,7 @@
  */
 module jpastreamer.application.standard {
     requires transitive jpastreamer.application;
+    requires transitive jpastreamer.streamconfiguration;
     requires jpastreamer.analytics;
     requires jpastreamer.appinfo;
     requires jpastreamer.renderer;

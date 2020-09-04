@@ -29,7 +29,7 @@
         <module-name>jpastreamer.appinfo.standard</module-name>
     </properties>
 
-    <name>Application Information - Standard</name>
+    <name>ApplicationInformation - Standard</name>
     <description>
         Standard provider of the appinfo module
     </description>

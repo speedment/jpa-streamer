@@ -13,6 +13,7 @@
 package com.speedment.jpastreamer.builder;
 
 import com.speedment.jpastreamer.renderer.Renderer;
+import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import java.util.stream.Stream;
 
@@ -24,10 +25,10 @@ public interface BuilderFactory {
       * into the stream source (e.g. SQL or a JPA Query).
       *
       * @param <T>  Stream type
-      * @param root class to use as stream source
+      * @param streamConfiguration used to configure the stream source
       * @param renderer to use
       * @author     Per Minborg
       */
-     <T> Stream<T> createBuilder(Class<T> root, Renderer renderer);
+     <T> Stream<T> createBuilder(StreamConfiguration<T> streamConfiguration, Renderer renderer);
 
 }
