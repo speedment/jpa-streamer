@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>How JPAstreamer Works :: JPAStreamer</title>
+    <link rel="prev" href="../why-jpastreamer/why-jpastreamer.html">
+    <link rel="next" href="../quick-start/quick-start.html">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../.."></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="0.1.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../predicates/predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../fetching-data/fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">0.1.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../introduction/introduction.html">master</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3-SNAPSHOT/introduction/introduction.html">0.1.3-SNAPSHOT</a>
+        </li>
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="how-it-works.html">How JPAstreamer Works</a></li>
+  </ul>
+</nav>
+<h1 class="page">How JPAstreamer Works</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>JPAstreamer is a library that enriches the API of an existing JPA provider to include Java Streams as a way to express queries. To do so, JPAstreamer consists of two key parts:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="#_the_annotation_processor">The annotation processor</a> that generates a metamodel used to compose predicates that can be interpreted by <a href="#_the_stream_renderer">The Stream renderer</a>.</p>
+</li>
+<li>
+<p><a href="#_the_stream_renderer">The Stream renderer</a> that inspects the Stream pipelines and renders optimized JPA queries.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>This section describes how both of these components operate and why they are essential.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_annotation_processor"><a class="anchor" href="#_the_annotation_processor"></a>The annotation processor</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>JPAstreamer requires its own metamodel of the JPA entity beans to render the Java Streams to JPA queries. The metamodel is automatically generated by an annotation processor that operates at compile time as soon as JPAstreamer has been installed. The annotation processor inspects all classes annotated with <code>@Entity</code>, e.g. Foo.class and generates an equivalent <code>Foo$</code> that represents every column as a <code>Field</code> which can be used to obtain predicates. Let&#8217;s have a closer look at the metamodel.</p>
+</div>
+<div class="sect2">
+<h3 id="_jpastreamers_metamodel"><a class="anchor" href="#_jpastreamers_metamodel"></a>JPAstreamer's metamodel</h3>
+<div class="paragraph">
+<p>The metamodel contains a representation of all <code>@Entity</code>-beans in the application. This means, an <code>@Entity</code>-bean named <code>Film</code> will have a corresponding generated class named <code>Film$</code> as below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
+@Table(name = "film", schema = "sakila")
+public class Film {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
+    private Integer filmId;
+
+    @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
+    private String title;
+
+    // ...
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Will be represented in the metamodel as:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class Film$ {
+
+    public static final ComparableField&lt;Film, Integer&gt; filmId = ComparableField.create(
+        Film.class, <i class="conum" data-value="1"></i><b>(1)</b>
+        "filmId", <i class="conum" data-value="2"></i><b>(2)</b>
+        Film::getFilmId, <i class="conum" data-value="3"></i><b>(3)</b>
+        false <i class="conum" data-value="4"></i><b>(4)</b>
+    );
+
+    public static final StringField&lt;Film&gt; title = StringField.create(
+        Film.class,
+        "title",
+        Film::getTitle,
+        false
+    );
+
+    // ...
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Declares which table the <code>Field</code> belongs to</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The name of the field</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>A reference to the associated getter</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>A boolean that describes if the <code>Field</code> is nullable</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Having access to these fields, operators can be applied which returns a <code>Predicate&lt;T&gt;</code> that can be evaluated by <a href="#_the_stream_renderer">The Stream renderer</a>. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">long nrOfFilmsStartingWithA = jpaStreamer.stream(Film.class)
+    .filter(Film$.title.startsWith("A")) "<i class="conum" data-value="1"></i><b>(1)</b>
+    .count();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>#&lt;1&gt; As <code>title</code> is of type <code>StringField</code> we get access to operators such as <code>startsWith</code> that returns a <code>Predicate&lt;T&gt;</code> that evaluates to <code>true</code> or <code>false</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can read more about the use of fields and predicates <a href="../predicates/predicates.html" class="page">here</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The metamodel is stored in the projects target-folder and does not need to be checked-in with your source code, nor needs testing.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_stream_renderer"><a class="anchor" href="#_the_stream_renderer"></a>The Stream renderer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Most JPA providers, by default, has the ability to provide the query result as a <code>Stream</code>. That makes it possible to e.g. select all rows of a table and then use Stream operators to narrow the results. Although, that process requires every object of the table to be materialized by the JVM, which is not desired as it impedes the performance.</p>
+</div>
+<div class="paragraph">
+<p>As <code>Stream</code> is merely a Java interface, JPAstreamer if free to use a complete custom implementation of that interface. By doing so, JPAstreamer can render what seems like ordinary Streams to optimized JPA queries. The renderer inspects the Stream pipeline and translates the Stream operators to JPA constructs as shown below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.equal("G").and(Film$.length.greaterThan(100)))
+    .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator()))
+    .skip(10)
+    .limit(5)
+    .forEach(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This Stream is rendered to the following JPA query when executed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">select
+            film0_.film_id as film_id1_0_,
+            film0_.description as descript2_0_,
+            film0_.last_update as last_upd3_0_,
+            film0_.length as length4_0_,
+            film0_.rating as rating5_0_,
+            film0_.rental_duration as rental_d6_0_,
+            film0_.rental_rate as rental_r7_0_,
+            film0_.replacement_cost as replacem8_0_,
+            film0_.special_features as special_9_0_,
+            film0_.title as title10_0_
+        from <i class="conum" data-value="1"></i><b>(1)</b>
+            film film0_
+        where <i class="conum" data-value="2"></i><b>(2)</b>
+            film0_.rating=?
+            and film0_.length&gt;100
+        order by <i class="conum" data-value="3"></i><b>(3)</b>
+            film0_.length desc,
+            film0_.title asc limit ?,
+            ?</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Corresponds to <code>stream(Film.class)</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Corresponds to <code>filter()</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Corresponds to <code>sort()</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This way we obtain the expressiveness of the Stream API without compromising the performance of the queries.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+For JPAstreamer to render optimized queries you <strong>must use</strong> the generated fields shown in <a href="#_jpastreamers_metamodel">JPAstreamer's metamodel</a>. Read more about this in the chapter <a href="../predicates/predicates.html" class="page">JPAstreamer Predicates</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a></span>
+  <span class="next"><a href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
