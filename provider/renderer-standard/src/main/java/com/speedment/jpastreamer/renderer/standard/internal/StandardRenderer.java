@@ -65,7 +65,8 @@ public final class StandardRenderer implements Renderer {
         criteria.getRoot().alias(pipeline.root().getSimpleName());
         criteria.getQuery().select(criteria.getRoot());
 
-        streamConfiguration.joins().forEach(field -> criteria.getRoot().fetch(field.columnName(), JoinType.LEFT));
+        streamConfiguration.joins()
+                .forEach(joinConfiguration -> criteria.getRoot().fetch(joinConfiguration.field().columnName(), joinConfiguration.joinType()));
 
         criteriaMerger.merge(pipeline, criteria);
 

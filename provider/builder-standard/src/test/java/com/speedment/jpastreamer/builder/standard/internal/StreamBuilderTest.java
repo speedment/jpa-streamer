@@ -23,6 +23,7 @@ import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.criteria.JoinType;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -162,12 +163,12 @@ class StreamBuilderTest {
         }
 
         @Override
-        public Set<Field<T>> joins() {
+        public Set<JoinConfiguration<T>> joins() {
             return new HashSet<>();
         }
 
         @Override
-        public StreamConfiguration<T> joining(Field<T> field) {
+        public StreamConfiguration<T> joining(Field<T> field, JoinType joinType) {
             throw new UnsupportedOperationException();
         }
     }

@@ -12,12 +12,14 @@
  */
 package com.speedment.jpastreamer.streamconfiguration.standard.internal;
 
+import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import javax.persistence.criteria.JoinType;
 import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,9 +42,13 @@ final class StandardStreamConfigurationTest {
     @Test
     void joins() {
         final StreamConfiguration<Film> j1 = initial.joining(Film$.title);
-        assertEquals(Collections.singleton(Film$.title), j1.joins());
+        assertEquals(Collections.singleton(new StandardJoinConfiguration<>(Film$.title, JoinType.LEFT)), j1.joins());
         final StreamConfiguration<Film> j2 = j1.joining(Film$.length);
-        assertEquals(Stream.of(Film$.title, Film$.length).collect(Collectors.toSet()), j2.joins());
+        final Set<StreamConfiguration.JoinConfiguration<Film>> excpected =  Stream.<Field<Film>>of(Film$.title, Film$.length)
+                .map(f -> new StandardJoinConfiguration<>(f, JoinType.LEFT))
+                .collect(Collectors.toSet());
+
+        assertEquals(excpected, j2.joins());
         assertNotSame(j1, j2);
     }
 
@@ -67,5 +73,6 @@ final class StandardStreamConfigurationTest {
         assertTrue(toString.contains(Film.class.getSimpleName()));
         assertTrue(toString.contains(Film$.title.columnName()));
         assertTrue(toString.contains(Film$.length.columnName()));
+        System.out.println(toString);
     }
 }

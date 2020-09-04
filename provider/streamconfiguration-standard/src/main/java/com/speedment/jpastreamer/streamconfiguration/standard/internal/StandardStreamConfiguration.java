@@ -15,6 +15,7 @@ package com.speedment.jpastreamer.streamconfiguration.standard.internal;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
+import javax.persistence.criteria.JoinType;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,16 +26,16 @@ import static java.util.Objects.requireNonNull;
 public final class StandardStreamConfiguration<T> implements StreamConfiguration<T> {
 
     private final Class<T> entityClass;
-    private final Set<Field<T>> joins;
+    private final Set<JoinConfiguration<T>> joinConfigurations;
 
     public StandardStreamConfiguration(final Class<T> entityClass) {
         this.entityClass = requireNonNull(entityClass);
-        this.joins = Collections.emptySet();
+        this.joinConfigurations = Collections.emptySet();
     }
 
-    private StandardStreamConfiguration(final Class<T> entityClass, final Set<Field<T>> joins) {
+    private StandardStreamConfiguration(final Class<T> entityClass, final Set<JoinConfiguration<T>> joinConfigurations) {
         this.entityClass = entityClass;
-        this.joins = new HashSet<>(joins);
+        this.joinConfigurations = new HashSet<>(joinConfigurations);
     }
 
     @Override
@@ -43,14 +44,16 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     }
 
     @Override
-    public Set<Field<T>> joins() {
-        return Collections.unmodifiableSet(joins);
+    public Set<JoinConfiguration<T>> joins() {
+        return Collections.unmodifiableSet(joinConfigurations);
     }
 
     @Override
-    public StreamConfiguration<T> joining(Field<T> field) {
-        final Set<Field<T>> newjoins = new HashSet<>(joins);
-        newjoins.add(field);
+    public StreamConfiguration<T> joining(final Field<T> field, final JoinType joinType) {
+        requireNonNull(field);
+        requireNonNull(joinType);
+        final Set<JoinConfiguration<T>> newjoins = new HashSet<>(joinConfigurations);
+        newjoins.add(new StandardJoinConfiguration<>(field, joinType));
         return new StandardStreamConfiguration<>(entityClass, newjoins);
     }
 
@@ -62,21 +65,29 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
         final StandardStreamConfiguration<?> that = (StandardStreamConfiguration<?>) o;
 
         if (!entityClass.equals(that.entityClass)) return false;
-        return joins.equals(that.joins);
+        return joinConfigurations.equals(that.joinConfigurations);
     }
 
     @Override
     public int hashCode() {
         int result = entityClass.hashCode();
-        result = 31 * result + joins.hashCode();
+        result = 31 * result + joinConfigurations.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
+
+        final String joinText = joinConfigurations.isEmpty()
+                ? ""
+                : " joining " + joinConfigurations.stream()
+                .map(Object::toString)
+                .sorted()
+                .collect(Collectors.joining(", "));
+
         return "StandardStreamConfiguration{" +
                 "of " + entityClass.getSimpleName() +
-                " joining " + joins.stream().map(Field::columnName).sorted().collect(Collectors.joining(", ")) +
+                joinText +
                 '}';
     }
 }
