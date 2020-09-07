@@ -193,7 +193,10 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         // Add getter method reference
         fieldParams.add(Value.ofReference(
-                entityName + "::" + prefix + ucfirst(fieldName)));
+                //entityName + "::" + prefix + ucfirst(fieldName)
+                entityName + "::" + prefix + javaNameFromExternal(fieldName)
+                )
+        );
 
         final TypeElement typeElement = elementUtils.getTypeElement(fieldType(field).getTypeName());
         final TypeMirror enumType = elementUtils.getTypeElement("java.lang.Enum").asType();
