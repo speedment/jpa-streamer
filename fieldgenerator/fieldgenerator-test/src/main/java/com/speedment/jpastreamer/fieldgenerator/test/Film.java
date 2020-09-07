@@ -27,7 +27,8 @@ public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "film_id", nullable = false, unique = true, updatable = false, columnDefinition = "smallint(5)")
-    private int filmId;
+    // Make this field package private just for good measure...
+    int filmId;
 
     @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
     private String title;
@@ -215,11 +216,14 @@ public class Film {
         this.cover = cover;
     }
 
-    public String getLong_description() {
+    // This getter is using another format
+    // where underscores are removed and
+    // camelized
+    public String getLongDescription() {
         return long_description;
     }
 
-    public void setLong_description(String long_description) {
+    public void setLongDescription(String long_description) {
         this.long_description = long_description;
     }
 
@@ -229,12 +233,22 @@ public class Film {
                 "filmId=" + filmId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", audienceScore=" + audienceScore +
+                ", cover=" + Arrays.toString(cover) +
+                ", long_description='" + long_description + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", releaseTimestamp=" + releaseTimestamp +
+                ", releaseTime=" + releaseTime +
+                ", language=" + language +
+                ", originalLanguage=" + originalLanguage +
+                ", complexColumn=" + complexColumn +
                 ", rentalDuration=" + rentalDuration +
                 ", rentalRate=" + rentalRate +
                 ", length=" + length +
                 ", replacementCost=" + replacementCost +
-                ", specialFeatures='" + specialFeatures + '\'' +
-                // ", lastUpdate=" + lastUpdate +
+                ", rating='" + rating + '\'' +
+                ", specialFeatures=" + specialFeatures +
+                ", lastUpdate=" + lastUpdate +
                 '}';
     }
 
@@ -266,7 +280,18 @@ public class Film {
         return rating;
     }
 
+    public int getSomeOtherPropertyThatIsNotAField() {
+        return 0;
+    }
+
     public void setRating(String rating) {
         this.rating = rating;
     }
+
+    // This method could be added via an annotation
+    // processor if the field is private.
+    String long_descriptionHelper() {
+        return  long_description;
+    }
+
 }

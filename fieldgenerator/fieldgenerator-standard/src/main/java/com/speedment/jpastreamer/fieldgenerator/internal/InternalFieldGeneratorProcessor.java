@@ -21,6 +21,7 @@ import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Field;
 import com.speedment.common.codegen.model.*;
 import com.speedment.common.codegen.util.Formatting;
+import com.speedment.jpastreamer.field.exception.IllegalJavaBeanException;
 import com.speedment.jpastreamer.fieldgenerator.exception.FieldGeneratorProcessorException;
 import com.speedment.jpastreamer.fieldgenerator.internal.typeparser.TypeParser;
 import com.speedment.jpastreamer.field.*;
@@ -107,12 +108,20 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return true;
     }
 
-    void generateFields(Element annotatedElement, Writer writer) throws IOException {
+    void generateFields(final Element annotatedElement, final Writer writer) throws IOException {
 
-        final Set<String> isGetters = annotatedElement.getEnclosedElements().stream()
+        final String entityName = shortName(annotatedElement.asType().toString());
+        final String genEntityName = entityName + "$";
+
+        final Map<String, Element> getters = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind() == ElementKind.METHOD)
                 // Only consider methods with no parameters
                 .filter(ee -> ee.getEnclosedElements().stream().noneMatch(eee -> eee.getKind() == ElementKind.PARAMETER))
+                // Todo: Filter out methods that returns void or Void
+                .collect(toMap(e -> e.getSimpleName().toString(), Function.identity()));
+
+        final Set<String> isGetters = getters.values().stream()
+                // todo: Filter out methods only returning boolean or Boolean
                 .map(Element::getSimpleName)
                 .map(Object::toString)
                 .filter(n -> n.startsWith(IS_PREFIX))
@@ -128,7 +137,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .collect(
                         toMap(
                                 Function.identity(),
-                                ee -> isGetters.contains(ee.getSimpleName().toString()) ? IS_PREFIX : GET_PREFIX)
+                                ee -> findGetter(ee, getters, isGetters, entityName))
                 );
 
 /*        if (annotatedElement.getSimpleName().toString().contains("User")) {
@@ -141,26 +150,60 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         //messager.printMessage(Diagnostic.Kind.NOTE, annotatedElement.getSimpleName().toString() + " " +isGetters.size());
 
-        String entityName = shortName(annotatedElement.asType().toString());
-        String genEntityName = entityName + "$";
 
-        PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(annotatedElement);
+        final PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(annotatedElement);
         String packageName;
         if (packageElement.isUnnamed()) {
-            messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + "has an unnamed package.");
+            messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + " has an unnamed package.");
             packageName = "";
         } else {
             packageName = packageElement.getQualifiedName().toString();
         }
 
-        File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);
+        final File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);
         writer.write(generator.on(file).get());
+    }
+
+    private String findGetter(final Element field,
+                              final Map<String, Element> getters,
+                              final Set<String> isGetters,
+                              final String entityName) {
+        final String fieldName = field.getSimpleName().toString();
+        final String getterPrefix = isGetters.contains(fieldName)
+                ? IS_PREFIX
+                : GET_PREFIX;
+        final String standardJavaName = javaNameFromExternal(fieldName);
+
+        final String standardGetterName = getterPrefix + standardJavaName;
+
+        final Element standardGetter = getters.get(standardGetterName);
+
+        if (standardGetter != null) {
+            // We got lucky because the user elected to conform
+            // to the standard JavaBean notation.
+            return entityName + "::" + standardGetterName;
+        }
+
+        final String lambdaName = lcfirst(entityName);
+
+        if (!field.getModifiers().contains(Modifier.PROTECTED) && !field.getModifiers().contains(Modifier.PRIVATE)) {
+            // We can use a lambda. Great escape hatch!
+            return lambdaName + " -> " + lambdaName + "." + fieldName;
+        }
+
+        // default to thrower
+
+        // Todo: This should be an error in the future
+        messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + " is not a proper JavaBean because "+field.getSimpleName().toString()+" has no standard getter. Fix the issue to ensure stability.");
+        return lambdaName + " -> {throw new "+IllegalJavaBeanException.class.getSimpleName()+"("+entityName + ".class, \"" + fieldName + "\");}";
+
     }
 
     private File generatedEntity(Map<? extends Element, String> enclosedFields, String entityName, String genEntityName, String packageName) {
         final File file = packageName.isEmpty() ?
                 File.of(genEntityName + ".java") :
                 File.of(packageName + "/" + genEntityName + ".java");
+
         final Class clazz = Class.of(genEntityName)
                 .public_()
                 .final_()
@@ -171,14 +214,23 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 ).author("JPAStreamer"));
 
         enclosedFields
-                .forEach((field, prefix) -> addFieldToClass(field, prefix, clazz, entityName));
+                .forEach((field, getter) -> {
+                    addFieldToClass(field, getter, clazz, entityName);
+                    // Name magic...
+                    if (getter.contains(IllegalJavaBeanException.class.getSimpleName())) {
+                        file.add(Import.of(IllegalJavaBeanException.class));
+                    }
+                });
 
         file.add(clazz);
         file.call(new AutoImports(generator.getDependencyMgr())).call(new AlignTabs<>());
         return file;
     }
 
-    private void addFieldToClass(final Element field, final String prefix, final Class clazz, final String entityName) {
+    private void addFieldToClass(final Element field,
+                                 final String getter,
+                                 final Class clazz,
+                                 final String entityName) {
         final String fieldName = field.getSimpleName().toString();
         final Type referenceType = referenceType(field, entityName);
 
@@ -192,11 +244,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         fieldParams.add(Value.ofText(fieldName));
 
         // Add getter method reference
-        fieldParams.add(Value.ofReference(
-                //entityName + "::" + prefix + ucfirst(fieldName)
-                entityName + "::" + prefix + javaNameFromExternal(fieldName)
-                )
-        );
+        fieldParams.add(Value.ofReference(getter));
 
         final TypeElement typeElement = elementUtils.getTypeElement(fieldType(field).getTypeName());
         final TypeMirror enumType = elementUtils.getTypeElement("java.lang.Enum").asType();
