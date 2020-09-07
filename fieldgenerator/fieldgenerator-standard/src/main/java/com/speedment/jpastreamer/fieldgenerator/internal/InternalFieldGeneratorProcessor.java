@@ -20,6 +20,7 @@ import com.speedment.common.codegen.controller.AutoImports;
 import com.speedment.common.codegen.model.Class;
 import com.speedment.common.codegen.model.Field;
 import com.speedment.common.codegen.model.*;
+import com.speedment.common.codegen.util.Formatting;
 import com.speedment.jpastreamer.fieldgenerator.exception.FieldGeneratorProcessorException;
 import com.speedment.jpastreamer.fieldgenerator.internal.typeparser.TypeParser;
 import com.speedment.jpastreamer.field.*;
@@ -38,12 +39,15 @@ import javax.persistence.Lob;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 import static com.speedment.common.codegen.util.Formatting.*;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * JPAStreamer standard annotation processor that generates fields for classes annotated
@@ -55,7 +59,8 @@ import static com.speedment.common.codegen.util.Formatting.*;
 
 public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
-    protected static final String GETTER_METHOD_PREFIX = "get";
+    protected static final String GET_PREFIX = "get";
+    protected static final String IS_PREFIX = "is";
 
     private static final Generator generator = Generator.forJava();
 
@@ -80,7 +85,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-        if(annotations.size() == 0 || roundEnv.processingOver()) {
+        if (annotations.size() == 0 || roundEnv.processingOver()) {
             // Allow other processors to run
             return false;
         }
@@ -94,7 +99,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         Writer writer = builderFile.openWriter();
                         generateFields(ae, writer);
                         writer.close();
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
@@ -104,12 +109,37 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     void generateFields(Element annotatedElement, Writer writer) throws IOException {
 
+        final Set<String> isGetters = annotatedElement.getEnclosedElements().stream()
+                .filter(ee -> ee.getKind() == ElementKind.METHOD)
+                // Only consider methods with no parameters
+                .filter(ee -> ee.getEnclosedElements().stream().noneMatch(eee -> eee.getKind() == ElementKind.PARAMETER))
+                .map(Element::getSimpleName)
+                .map(Object::toString)
+                .filter(n -> n.startsWith(IS_PREFIX))
+                .map(n -> n.substring(2))
+                .map(Formatting::lcfirst)
+                .collect(toSet());
+
         // Retrieve all declared non-final instance fields of the annotated class
-        Set<? extends Element> enclosedFields = annotatedElement.getEnclosedElements().stream()
+        Map<? extends Element, String> enclosedFields = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind().isField()
                         && !ee.getModifiers().contains(Modifier.STATIC) // Ignore static fields
                         && !ee.getModifiers().contains(Modifier.FINAL)) // Ignore final fields
-                .collect(Collectors.toSet());
+                .collect(
+                        toMap(
+                                Function.identity(),
+                                ee -> isGetters.contains(ee.getSimpleName().toString()) ? IS_PREFIX : GET_PREFIX)
+                );
+
+/*        if (annotatedElement.getSimpleName().toString().contains("User")) {
+            messager.printMessage(Diagnostic.Kind.NOTE, " "+ isGetters.size());
+            messager.printMessage(Diagnostic.Kind.NOTE, " "+ isGetters.iterator().next());
+            messager.printMessage(Diagnostic.Kind.NOTE, enclosedFields.toString());
+            throw new UnsupportedEncodingException(isGetters.toString());
+        }*/
+
+
+        //messager.printMessage(Diagnostic.Kind.NOTE, annotatedElement.getSimpleName().toString() + " " +isGetters.size());
 
         String entityName = shortName(annotatedElement.asType().toString());
         String genEntityName = entityName + "$";
@@ -127,11 +157,11 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         writer.write(generator.on(file).get());
     }
 
-    private File generatedEntity(Set<? extends Element> enclosedFields, String entityName, String genEntityName, String packageName) {
-        File file = packageName.isEmpty() ?
+    private File generatedEntity(Map<? extends Element, String> enclosedFields, String entityName, String genEntityName, String packageName) {
+        final File file = packageName.isEmpty() ?
                 File.of(genEntityName + ".java") :
                 File.of(packageName + "/" + genEntityName + ".java");
-        Class clazz = Class.of(genEntityName).public_()
+        final Class clazz = Class.of(genEntityName).public_()
                 .set(Javadoc.of(
                         "The generated base for entity {@link " + entityName + "} representing entities of the"
                                 + " {@code " + lcfirst(entityName) + "}-table in the database." +
@@ -139,19 +169,16 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 ).author("JPAStreamer"));
 
         enclosedFields
-                .forEach(field -> {
-                    addFieldToClass(field, clazz, entityName);
-                });
+                .forEach((field, prefix) -> addFieldToClass(field, prefix, clazz, entityName));
 
         file.add(clazz);
         file.call(new AutoImports(generator.getDependencyMgr())).call(new AlignTabs<>());
         return file;
     }
 
-    private void addFieldToClass(Element field, Class clazz, String entityName) {
-        String fieldName = field.getSimpleName().toString();
-
-        Type referenceType = referenceType(field, entityName);
+    private void addFieldToClass(final Element field, final String prefix, final Class clazz, final String entityName) {
+        final String fieldName = field.getSimpleName().toString();
+        final Type referenceType = referenceType(field, entityName);
 
         // Begin building the field value parameters
         final List<Value<?>> fieldParams = new ArrayList<>();
@@ -164,19 +191,19 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         // Add getter method reference
         fieldParams.add(Value.ofReference(
-                entityName + "::" + GETTER_METHOD_PREFIX + ucfirst(fieldName)));
+                entityName + "::" + prefix + ucfirst(fieldName)));
 
-        TypeElement typeElement = elementUtils.getTypeElement(fieldType(field).getTypeName());
-        TypeMirror enumType = elementUtils.getTypeElement("java.lang.Enum").asType();
+        final TypeElement typeElement = elementUtils.getTypeElement(fieldType(field).getTypeName());
+        final TypeMirror enumType = elementUtils.getTypeElement("java.lang.Enum").asType();
 
         if (typeElement != null && typeUtils.isAssignable(typeElement.asType(), enumType)) {
-            String fieldTypeName = shortName(fieldType(field).getTypeName());
+            final String fieldTypeName = shortName(fieldType(field).getTypeName());
 
             // Add enum class
             fieldParams.add(Value.ofReference(fieldTypeName + ".class"));
         } else {
             // Add the 'unique' boolean to the end for all field but enum
-            Column col = field.getAnnotation(Column.class);
+            final Column col = field.getAnnotation(Column.class);
             fieldParams.add(Value.ofBoolean(col != null && col.unique()));
         }
 
@@ -264,9 +291,10 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             case "boolean":
                 primitiveFieldType = BooleanField.class;
                 break;
-            default : throw new UnsupportedOperationException(
-                    "Unknown primitive type: '" + fieldType.getTypeName() + "'."
-            );
+            default:
+                throw new UnsupportedOperationException(
+                        "Unknown primitive type: '" + fieldType.getTypeName() + "'."
+                );
         }
         return SimpleParameterizedType.create(
                 primitiveFieldType,
