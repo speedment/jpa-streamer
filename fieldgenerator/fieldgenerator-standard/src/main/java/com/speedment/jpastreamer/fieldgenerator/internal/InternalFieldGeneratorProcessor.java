@@ -104,10 +104,11 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     void generateFields(Element annotatedElement, Writer writer) throws IOException {
 
-        // Retrieve all declared fields of the annotated class
+        // Retrieve all declared non-final instance fields of the annotated class
         Set<? extends Element> enclosedFields = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind().isField()
-                        && !ee.getModifiers().contains(Modifier.FINAL)) // Ignore immutable fields
+                        && !ee.getModifiers().contains(Modifier.STATIC) // Ignore static fields
+                        && !ee.getModifiers().contains(Modifier.FINAL)) // Ignore final fields
                 .collect(Collectors.toSet());
 
         String entityName = shortName(annotatedElement.asType().toString());
