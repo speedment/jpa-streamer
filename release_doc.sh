@@ -25,7 +25,7 @@ VERSION=$1
 echo "** Bumping to version $VERSION"
 
 echo "** Checking if we are on the 'develop' branch"
-DEVELOP_BRANCH=`git branch | grep "* master" | wc -l`
+DEVELOP_BRANCH=`git branch | grep "* develop" | wc -l`
 if [ "$DEVELOP_BRANCH" -ne 1 ]
   then
     echo "Not on the 'develop' branch"
