@@ -19,7 +19,7 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>jpastreamer-parent</artifactId>
-        <version>0.1.2</version>
+        <version>0.1.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -31,7 +31,7 @@
 
     <name>JPAstreamer Core</name>
     <description>
-        JPAstreamer - a lightweight extension for existing JPA providers that allows creation of Java Streams from database content.
+        JPAstreamer - a lightweight library for expressing JPA queries as Java Streams
     </description>
 
     <dependencies>
@@ -143,13 +143,15 @@
         </developer>
         <developer>
             <id>julgus</id>
-            <name>Julia Gustafsson (GitHub:julgus)</name>
+            <name>Julia Gustafsson</name>
+            <url>https://github.com/julgus</url>
             <timezone>Europe/Stockholm</timezone>
         </developer>
         <developer>
             <id>dekmm</id>
-            <name>Mislav Miličević (GitHub:dekmm)</name>
-            <timezone>Europe/Zagreb</timezone>
+            <name>Mislav Miličević</name>
+            <url>https://github.com/dekmm</url>
+            <timezone>Europe/Stockholm</timezone>
         </developer>
     </developers>
 
