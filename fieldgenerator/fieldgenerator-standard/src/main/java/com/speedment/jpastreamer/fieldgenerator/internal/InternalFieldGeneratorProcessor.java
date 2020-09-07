@@ -161,7 +161,9 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         final File file = packageName.isEmpty() ?
                 File.of(genEntityName + ".java") :
                 File.of(packageName + "/" + genEntityName + ".java");
-        final Class clazz = Class.of(genEntityName).public_()
+        final Class clazz = Class.of(genEntityName)
+                .public_()
+                .final_()
                 .set(Javadoc.of(
                         "The generated base for entity {@link " + entityName + "} representing entities of the"
                                 + " {@code " + lcfirst(entityName) + "}-table in the database." +
