@@ -28,12 +28,12 @@ public class Main {
         spindel.setTitle("Den Disorienterade Spindeln");
         spindel.setDescription("Spindeln klättrar upp för sin tråd men allt går åt helvete och spindeln faller ned. Han ger dock ej upp utan försöker ånyo ad infinitum!");
         spindel.setLength(110);
-        /*
+
         Stream.of(olle, spindel)
                 .filter(Film$.length.between(100, 150))
                 .filter(Film$.rating.in("G", "PG"))
                 .sorted(Film$.title)
                 .forEachOrdered(System.out::println);
-                */
+        
     }
 }

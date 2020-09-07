@@ -15,15 +15,14 @@ package com.speedment.jpastreamer.fieldgenerator.test;
 import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "film", schema = "sakila")
-public class Film
-{
+public class Film {
+
+    // Reproduce #58
+    private static Map<Class<? extends Film>, List<String>> A = new HashMap<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +46,9 @@ public class Film
     @Column(name = "long_description", nullable = true)
     private String long_description;
 
-    /** DATE AND TIME */
+    /**
+     * DATE AND TIME
+     */
     @Column(name = "release_date", nullable = false, columnDefinition = "DATE")
     @Temporal(TemporalType.DATE)
     private java.util.Date releaseDate;
@@ -59,18 +60,16 @@ public class Film
     @Column(name = "release_time", nullable = false, columnDefinition = "TIME")
     private Time releaseTime;
 
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
 
-    /*@ManyToOne
-     @JoinColumn(name = "language_id")
-     private Language language;*/
-/*
-     @ManyToOne
-     @JoinColumn(name = "original_language_id")
-     private Language originalLanguage;
-*/
+    @ManyToOne
+    @JoinColumn(name = "original_language_id")
+    private Language originalLanguage;
 
     @Column(name = "complex_column")
-    private Map<Map<List<Set<Double>>,Integer>,Long> complexColumn;
+    private Map<Map<List<Set<Double>>, Integer>, Long> complexColumn;
 
     @Column(name = "rental_duration", columnDefinition = "smallint(5)")
     private Integer rentalDuration;
@@ -83,6 +82,9 @@ public class Film
 
     @Column(name = "replacement_cost", columnDefinition = "decimal(5,2)")
     private Float replacementCost;
+
+    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
+    private String rating;
 
     @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
     private Set<String> specialFeatures; // Should be Set<String>
@@ -123,7 +125,7 @@ public class Film
         this.releaseYear = releaseYear;
     }*/
 
-    /*
+
     public Language getLanguage() {
         return language;
     }
@@ -139,7 +141,6 @@ public class Film
     public void setOriginalLanguage(Language originalLanguage) {
         this.originalLanguage = originalLanguage;
     }
-    */
 
     public void setRentalDuration(Integer rentalDuration) {
         this.rentalDuration = rentalDuration;
@@ -233,7 +234,7 @@ public class Film
                 ", length=" + length +
                 ", replacementCost=" + replacementCost +
                 ", specialFeatures='" + specialFeatures + '\'' +
-               // ", lastUpdate=" + lastUpdate +
+                // ", lastUpdate=" + lastUpdate +
                 '}';
     }
 
@@ -259,5 +260,13 @@ public class Film
 
     public void setReleaseTime(Time releaseTime) {
         this.releaseTime = releaseTime;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 }
