@@ -33,29 +33,32 @@ The transaction below performs a one dollar increase of the rental rate of every
 
 [source, java]
 ----
-void method() {
 
-    EntityManager em = ...;
+final EntityManagerFactory emf = Persistence.createEntityManagerFactory("sakila"); #<1>
+final EntityManager em = emf.createEntityManager();
+final JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder(emf) #<2>
+    .build();
 
     try {
         em.getTransaction().begin();
-        jpaStreamer.stream(Film.class) #<1>
-            .filter(Film$.rating.equal("R")) #<2>
+        jpaStreamer.stream(Film.class) #<3>
+            .filter(Film$.rating.equal("R")) #<4>
             .forEach(f -> {
-                f.setRentalRate(f.getRentalRate() + 1)); #<3>
-                em.merge(f); #<4>
+                f.setRentalRate(f.getRentalRate() + 1)); #<5>
+                em.merge(f); #<6>
             }
         em.getTransaction().commit();
     } catch(Exception e) {
         em.getTransaction().rollback();
     }
 
-}
 ----
-<1> Selects the entries from the Film-table
-<2> Filters out only the R-rated films
-<3> Increases the current rental rate with 1 dollar
-<4> Notifies the transaction of the update
+<1> "sakila" refers to the name of the persistence unit
+<2> The `EntityManagerFactory` can be provided to the JPAStreamer builder
+<3> Selects the entries from the Film-table
+<4> Filters out only the R-rated films
+<5> Increases the current rental rate with 1 dollar
+<6> Notifies the transaction of the update
 
 TIP: The source code for this example can be found link:https://github.com/speedment/jpa-streamer-demo/blob/master/src/main/java/com/speedment/jpastreamer/demo/TransactionDemo.java[here].
 
