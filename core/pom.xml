@@ -23,7 +23,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>core</artifactId>
+    <artifactId>jpastreamer-core</artifactId>
 
     <properties>
         <module-name>jpastreamer.core</module-name>
