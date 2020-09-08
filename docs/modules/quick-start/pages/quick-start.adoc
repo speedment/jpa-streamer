@@ -28,7 +28,7 @@ Install JPAStreamer by adding the following dependency in the project's pom.xml-
 <dependencies>
     <dependency>
         <groupId>com.speedment.jpastreamer</groupId>
-        <artifactId>core</artifactId>
+        <artifactId>jpastreamer-core</artifactId>
         <version>${jpa-streamer-version}</version>
     </dependency>
 </dependencies>
@@ -44,7 +44,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.speedment.jpastreamer:core:version"
+    compile "com.speedment.jpastreamer:jpastreamer-core:version"
     annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
 }
 ----
@@ -52,7 +52,7 @@ dependencies {
 == Build your project to generate fields
 JPAstreamer relies on an annotation processor to generate the static metamodel classes required for the type-safe Stream parameters. This generation automatically takes place during compile time. Once you have added the JPAstreamer dependency, just go ahead and build your project. The metamodel is generated into the target folder in the same package as the corresponding `Entity`.
 
-NOTE: If you are running in an IDE, you may have to manually configure the output target folder as a source folder, or else the runtime compiler may not be aware of the generated classes.
+WARNING: You may have to manually configure the output target folder as a source folder, or else the runtime compiler may not be aware of the generated classes. See xref:get-jpa-streamer:install-maven.adoc[Install with Maven] or xref:get-jpa-streamer:install-gradle.adoc[Install with Gradle] for instructions on how to perform this configuration with Maven and Gradle respectively.
 
 == Initiate JPAstreamer
 JPAstreamer does not need to be manually configured to recognize the underlying data source. Instead, it is using the existing description of the persistence unit. For example:

@@ -33,12 +33,11 @@ public class Film implements Serializable {
     private String rating;
 }
 ----
-To operate on the elements of the table, JPAStreamer is first initialized with a simple builder (in this case using a persistence unit named "sakila"):
+To operate on the elements of the table, JPAStreamer is first initialized as following (in this case using a persistence unit named "sakila"):
 
 [source, java]
 ----
-JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila")
-    .build();
+JPAStreamer jpaStreamer = JPAStreamer.of("sakila");
 ----
 
 The obtained streamer is then used to create Streams that are rendered to database queries through JPA. For example:

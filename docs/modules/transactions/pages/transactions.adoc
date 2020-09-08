@@ -36,8 +36,7 @@ The transaction below performs a one dollar increase of the rental rate of every
 
 final EntityManagerFactory emf = Persistence.createEntityManagerFactory("sakila"); #<1>
 final EntityManager em = emf.createEntityManager();
-final JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder(emf) #<2>
-    .build();
+final JPAStreamer jpaStreamer = JPAStreamer.of(emf); #<2>
 
     try {
         em.getTransaction().begin();

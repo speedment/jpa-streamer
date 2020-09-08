@@ -31,8 +31,7 @@ The table below gives an overview of how SQL operators map to the Java Stream AP
 
 [source,java]
 ----
-JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") #<1>
-    build();
+JPAStreamer jpaStreamer = JPAStreamer.of("sakila"); #<1>
 ----
 <1> "sakila" is to be replaced with the name of the relevant persistence unit
 
