@@ -4,16 +4,19 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 
+import javax.persistence.Access;
 import javax.persistence.Entity;
 
 @Entity
 public class Lombok2Bean {
 
-    @Getter
+    @Getter(value = AccessLevel.PACKAGE)
     private int id;
-    @Getter
+
+    @Getter(value = AccessLevel.PRIVATE)
     String name;
-    @Getter(AccessLevel.NONE)
+
+    @Getter(value = AccessLevel.NONE)
     String petName;
 
 }

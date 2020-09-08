@@ -118,8 +118,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         final String entityName = shortName(annotatedElement.asType().toString());
         final String genEntityName = entityName + "$";
 
-        messager.printMessage(Diagnostic.Kind.WARNING, "Generating " + genEntityName);
-
         final Map<String, Element> getters = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind() == ElementKind.METHOD)
                 // Only consider methods with no parameters
@@ -175,7 +173,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                               final Map<String, Element> getters,
                               final Set<String> isGetters,
                               final String entityName,
-                              boolean lombokDataAnnotated) {
+                              boolean lombokGetterAvailable) {
         final String fieldName = field.getSimpleName().toString();
         final String getterPrefix = isGetters.contains(fieldName)
                 ? IS_PREFIX
@@ -187,9 +185,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         final Element standardGetter = getters.get(standardGetterName);
 
-        final boolean lombokGetterAnnotated = isLombokAnnotated(field, "Getter");
-
-        if (standardGetter != null || lombokDataAnnotated || lombokGetterAnnotated) {
+        if (standardGetter != null || lombokGetterAvailable) {
             // We got lucky because the user elected to conform
             // to the standard JavaBean notation.
             return entityName + "::" + standardGetterName;
@@ -373,8 +369,9 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     private boolean lombokGetterAvailable(Element classElement, Element fieldElement) {
         final boolean globalEnable = isLombokAnnotated(classElement, "Data") || isLombokAnnotated(classElement, "Getter");
-        final boolean localDisable = getterAccessLevel(fieldElement).filter(DISALLOWED_ACCESS_LEVELS::contains).isPresent();
-        return globalEnable && !localDisable;
+        final boolean localEnable = isLombokAnnotated(fieldElement, "Getter");
+        final boolean disallowedAccessLevel = DISALLOWED_ACCESS_LEVELS.contains(getterAccessLevel(fieldElement).orElse("No access level defined"));
+        return !disallowedAccessLevel && (globalEnable || localEnable);
     }
 
     private boolean isLombokAnnotated(final Element annotatedElement, final String lombokSimpleClassName) {
@@ -388,40 +385,20 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     }
 
     private Optional<String> getterAccessLevel(final Element fieldElement) {
-        /*        try {*/
-/*            final String className = "lombok.Getter";
-            final java.lang.Class<java.lang.annotation.Annotation> clazz = (java.lang.Class<java.lang.annotation.Annotation>) java.lang.Class.forName(className);
-            messager.printMessage(Diagnostic.Kind.WARNING, "@Getter: " + clazz.toString());*/
 
         final List<? extends AnnotationMirror> mirrors = fieldElement.getAnnotationMirrors();
 
-        messager.printMessage(Diagnostic.Kind.WARNING, "field:" + fieldElement + new Random().nextInt() + mirrors);
-
-        Map map = mirrors.stream()
-                //.filter(am -> "lombok.Getter".equals(am.toString()))
+        Map<? extends ExecutableElement, ? extends AnnotationValue> map = mirrors.stream()
+                .filter(am -> "lombok.Getter".equals(am.getAnnotationType().toString()))
                 .findFirst()
-                .map(am -> am.getElementValues())
+                .map(AnnotationMirror::getElementValues)
                 .orElse(Collections.emptyMap());
 
-        messager.printMessage(Diagnostic.Kind.WARNING, "" + map);
-
-
-        for (AnnotationMirror annotationMirror : mirrors) {
-            messager.printMessage(Diagnostic.Kind.WARNING, annotationMirror.getAnnotationType().toString() + new Random().nextInt());
-        }
-
-        return Optional.empty();
-/*
-            try {
-                final java.lang.reflect.Method method = clazz.getMethod("value");
-                final Object val = method.invoke(null *//*annotation*//*);
-                return Optional.ofNullable(val)
-                        .map(Object::toString);
-            } catch (ReflectiveOperationException ignore) {
-            }*/
-/*        } catch (ClassNotFoundException ignored) {
-        }*/
-        /*        return Optional.empty();*/
+        return map.values().stream()
+                .map(AnnotationValue::toString)
+                .filter(v -> v.contains("AccessLevel"))
+                .map(v -> v.substring(v.lastIndexOf(".") + 1)) // Format as simple name
+                .findFirst();
     }
 
 }
