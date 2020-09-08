@@ -29,7 +29,7 @@
         <module-name>jpastreamer.core</module-name>
     </properties>
 
-    <name>JPAstreamer Core</name>
+    <name>JPAstreamer - Core</name>
     <description>
         JPAstreamer - a lightweight library for expressing JPA queries as Java Streams
     </description>
