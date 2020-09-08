@@ -315,11 +315,17 @@ This creates a stream of `Tuples` with two elements: title (of type `String`) an
 The following example creates a resulting `Stream` with all `Films` that are of length greater than 120 minutes and then all films that are of rating "PG-13":
 [source, java]
 ----
-StreamComposition.concatAndAutoClose(
-    jpaStreamer.stream(Film.class).filter(Film$.length.greaterThan(120)),
-    jpaStreamer.stream(Film.class).filter(Film$.rating.equal("PG-13"))
+StreamConfiguration<Film> configuration = StreamConfiguration.of(Film.class)
+        .joining(Film$.actors)
+        .joining(Film$.language);
+
+Stream.of(
+        jpaStreamer.stream(configuration).filter(Film$.length.greaterThan(120)),
+        jpaStreamer.stream(configuration).filter(Film$.rating.equal("PG-13"))
 )
-    .forEachOrdered(System.out::println);
+        .flatMap(Function.identity())
+        .distinct()
+        .forEachOrdered(System.out::println);
 ----
 The resulting `Stream` will contain duplicates with films that have a length both greater than 120 minutes and have a rating "PG-13".
 
@@ -330,12 +336,17 @@ The following example creates a `Stream` with all `Films` that are of length gre
 
 [source, java]
 ----
-StreamComposition.concatAndAutoClose(
-    jpaStreamer.stream(Film.class).filter(Film$.length.greaterThan(120)),
-    jpaStreamer.stream(Film.class).filter(Film$.rating.equal("PG-13"))
+StreamConfiguration<Film> configuration = StreamConfiguration.of(Film.class)
+        .joining(Film$.actors)
+        .joining(Film$.language);
+
+Stream.of(
+        jpaStreamer.stream(configuration).filter(Film$.length.greaterThan(120)),
+        jpaStreamer.stream(configuration).filter(Film$.rating.equal("PG-13"))
 )
-    .distinct()
-    .forEachOrdered(System.out::println);
+        .flatMap(Function.identity())
+        .distinct()
+        .forEachOrdered(System.out::println);
 ----
 The resulting `Stream` will *not* contain duplicates because of the `.distinct()` operator.
 
