@@ -210,4 +210,35 @@ public interface JPAStreamer {
             .create(entityManagerFactory);
     }
 
+    /**
+     * Creates and returns a new JPAStreamer that will create a new
+     * {@link EntityManagerFactory} using the provided {@code persistenceUnitName}.
+     * <p>
+     * The newly created EntityManagerFactory will be closed whenever the returned
+     * JPAStreamer instance is closed.
+     *
+     * @param persistenceUnitName of the persistence unit as per the persistence.xml file
+     * @return a new JPAStreamer
+     * @see JPAStreamer#createJPAStreamerBuilder(String)
+     */
+    static JPAStreamer of(final String persistenceUnitName) {
+        requireNonNull(persistenceUnitName);
+        return createJPAStreamerBuilder(persistenceUnitName).build();
+    }
+
+    /**
+     * Creates and returns a new JPAStreamer that will use the provided
+     * {@code entityManagerFactory}.
+     * <p>
+     * The provided {@code entityManagerFactory} will <em>not</em> be closed whenever
+     * the returned JPAStreamer instance is closed.
+     *
+     * @param entityManagerFactory to be used by the JPAStreamer
+     * @return a new JPAStreamerBuilder
+     */
+    static JPAStreamer of(final EntityManagerFactory entityManagerFactory) {
+        requireNonNull(entityManagerFactory);
+        return createJPAStreamerBuilder(entityManagerFactory).build();
+    }
+
 }
