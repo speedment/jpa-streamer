@@ -30,7 +30,7 @@
     
     <groupId>com.speedment.jpastreamer</groupId>
     <artifactId>jpastreamer-parent</artifactId>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>0.1.5</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
@@ -81,9 +81,9 @@
         <!-- later maven-javadoc-plugin versions does not support aggregate? -->
         <jpa.version>2.2</jpa.version>
         <maven-javadoc-plugin-version>3.2.0</maven-javadoc-plugin-version>
-        <maven-source-plugin-version>3.2.0</maven-source-plugin-version>
+        <maven-source-plugin-version>3.2.1</maven-source-plugin-version>
         <maven-dependency-plugin-version>3.1.1</maven-dependency-plugin-version>
-        <maven-shade-plugin-version>3.2.1</maven-shade-plugin-version>
+        <maven-shade-plugin-version>3.2.4</maven-shade-plugin-version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     </properties>
     
@@ -209,7 +209,7 @@
 
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.7.1</version>
+                    <version>3.9.1</version>
                 </plugin>
 
                 <plugin>
