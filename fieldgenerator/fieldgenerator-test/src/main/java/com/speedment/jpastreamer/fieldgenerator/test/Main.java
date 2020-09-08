@@ -34,6 +34,11 @@ public class Main {
                 .filter(Film$.rating.in("G", "PG"))
                 .sorted(Film$.title)
                 .forEachOrdered(System.out::println);
+
+
+        LombokBean lb = null;
+
+
         
     }
 }

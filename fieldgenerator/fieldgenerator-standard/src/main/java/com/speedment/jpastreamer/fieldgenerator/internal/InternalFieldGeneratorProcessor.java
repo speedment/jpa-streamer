@@ -40,11 +40,13 @@ import javax.persistence.Lob;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.speedment.common.codegen.util.Formatting.*;
 import static java.util.stream.Collectors.toMap;
@@ -110,8 +112,13 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     void generateFields(final Element annotatedElement, final Writer writer) throws IOException {
 
+
+
+
         final String entityName = shortName(annotatedElement.asType().toString());
         final String genEntityName = entityName + "$";
+
+        messager.printMessage(Diagnostic.Kind.WARNING, "Generating " + genEntityName);
 
         final Map<String, Element> getters = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind() == ElementKind.METHOD)
@@ -137,7 +144,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .collect(
                         toMap(
                                 Function.identity(),
-                                ee -> findGetter(ee, getters, isGetters, entityName))
+                                ee -> findGetter(ee, getters, isGetters, entityName, lombokGetterAvailable(annotatedElement, ee)))
                 );
 
 /*        if (annotatedElement.getSimpleName().toString().contains("User")) {
@@ -167,18 +174,22 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     private String findGetter(final Element field,
                               final Map<String, Element> getters,
                               final Set<String> isGetters,
-                              final String entityName) {
+                              final String entityName,
+                              boolean lombokDataAnnotated) {
         final String fieldName = field.getSimpleName().toString();
         final String getterPrefix = isGetters.contains(fieldName)
                 ? IS_PREFIX
                 : GET_PREFIX;
+
         final String standardJavaName = javaNameFromExternal(fieldName);
 
         final String standardGetterName = getterPrefix + standardJavaName;
 
         final Element standardGetter = getters.get(standardGetterName);
 
-        if (standardGetter != null) {
+        final boolean lombokGetterAnnotated = isLombokAnnotated(field, "Getter");
+
+        if (standardGetter != null || lombokDataAnnotated || lombokGetterAnnotated) {
             // We got lucky because the user elected to conform
             // to the standard JavaBean notation.
             return entityName + "::" + standardGetterName;
@@ -194,8 +205,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         // default to thrower
 
         // Todo: This should be an error in the future
-        messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + " is not a proper JavaBean because "+field.getSimpleName().toString()+" has no standard getter. Fix the issue to ensure stability.");
-        return lambdaName + " -> {throw new "+IllegalJavaBeanException.class.getSimpleName()+"("+entityName + ".class, \"" + fieldName + "\");}";
+        messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + " is not a proper JavaBean because " + field.getSimpleName().toString() + " has no standard getter. Fix the issue to ensure stability.");
+        return lambdaName + " -> {throw new " + IllegalJavaBeanException.class.getSimpleName() + "(" + entityName + ".class, \"" + fieldName + "\");}";
 
     }
 
@@ -353,6 +364,64 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 primitiveFieldType,
                 entityType
         );
+    }
+
+    private static final Map<String, java.lang.Class<?>> CLASS_CACHE = new ConcurrentHashMap<>();
+
+    private static final Set<String> DISALLOWED_ACCESS_LEVELS = Stream.of("PROTECTED", "PRIVATE", "NONE")
+            .collect(Collectors.collectingAndThen(toSet(), Collections::unmodifiableSet));
+
+    private boolean lombokGetterAvailable(Element classElement, Element fieldElement) {
+        final boolean globalEnable = isLombokAnnotated(classElement, "Data") || isLombokAnnotated(classElement, "Getter");
+        final boolean localDisable = getterAccessLevel(fieldElement).filter(DISALLOWED_ACCESS_LEVELS::contains).isPresent();
+        return globalEnable && !localDisable;
+    }
+
+    private boolean isLombokAnnotated(final Element annotatedElement, final String lombokSimpleClassName) {
+        try {
+            final String className = "lombok." + lombokSimpleClassName;
+            final java.lang.Class<java.lang.annotation.Annotation> clazz = (java.lang.Class<java.lang.annotation.Annotation>) java.lang.Class.forName(className);
+            return annotatedElement.getAnnotation(clazz) != null;
+        } catch (ClassNotFoundException ignored) {
+        }
+        return false;
+    }
+
+    private Optional<String> getterAccessLevel(final Element fieldElement) {
+        /*        try {*/
+/*            final String className = "lombok.Getter";
+            final java.lang.Class<java.lang.annotation.Annotation> clazz = (java.lang.Class<java.lang.annotation.Annotation>) java.lang.Class.forName(className);
+            messager.printMessage(Diagnostic.Kind.WARNING, "@Getter: " + clazz.toString());*/
+
+        final List<? extends AnnotationMirror> mirrors = fieldElement.getAnnotationMirrors();
+
+        messager.printMessage(Diagnostic.Kind.WARNING, "field:" + fieldElement + new Random().nextInt() + mirrors);
+
+        Map map = mirrors.stream()
+                //.filter(am -> "lombok.Getter".equals(am.toString()))
+                .findFirst()
+                .map(am -> am.getElementValues())
+                .orElse(Collections.emptyMap());
+
+        messager.printMessage(Diagnostic.Kind.WARNING, "" + map);
+
+
+        for (AnnotationMirror annotationMirror : mirrors) {
+            messager.printMessage(Diagnostic.Kind.WARNING, annotationMirror.getAnnotationType().toString() + new Random().nextInt());
+        }
+
+        return Optional.empty();
+/*
+            try {
+                final java.lang.reflect.Method method = clazz.getMethod("value");
+                final Object val = method.invoke(null *//*annotation*//*);
+                return Optional.ofNullable(val)
+                        .map(Object::toString);
+            } catch (ReflectiveOperationException ignore) {
+            }*/
+/*        } catch (ClassNotFoundException ignored) {
+        }*/
+        /*        return Optional.empty();*/
     }
 
 }
