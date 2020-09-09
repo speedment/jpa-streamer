@@ -89,6 +89,7 @@ final class StandardJPAStreamer implements JPAStreamer {
         System.out.println(greeting);
         if (!info.isProductionMode()) {
             System.out.println("This version is NOT INTENDED FOR PRODUCTION USE!");
+            System.out.println("View known bugs at https://github.com/speedment/jpa-streamer/issues?q=is%3Aissue+is%3Aopen+label%3Abug");
         }
     }
 

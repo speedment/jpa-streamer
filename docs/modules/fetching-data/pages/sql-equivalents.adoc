@@ -68,6 +68,20 @@ Film { filmId = 3, title = ADAPTATION HOLES, ...
 ...
 ----
 
+NOTE: The Film entities above and below will have its `List<Actor>` and `Language` fields lazily initialized. This is undesirable in many cases where we know we are going to use these fields. Read more hereunder on how to use a `StreamConfiguration` to read these fields eagerly using a join statement.
+
+== StreamConfiguration
+Anywhere below where `stream(Film.class)` is used, we might as well also use a StreamConfiguration<Film> that can be created like this:
+
+[source, java]
+----
+StreamConfiguration<Film> configuration = StreamConfiguration.of(Film.class)
+        .joining(Film$.actors)
+        .joining(Film$.language);
+----
+This creates a `StremaConfiguration` where both the `actors` and `language` is (left) joined. Thus, avoiding a potential N + 1 SELECT problem.
+
+
 == WHERE
 `WHERE` can be expressed using `.filter()`.
 
@@ -299,41 +313,72 @@ final IntStream ids = jpaStreamer.stream(Film.class)
 
 This creates an `IntStream` consisting of the ID:s of all `Films` by applying the `Film$.filmId` getter for each `Film` in the original stream.
 
-To select several fields, you can create a custom class that holds only the fields in question or use a Tuple to dynamically create a type-safe holder.
+To select several fields, you can create a custom class that holds only the fields in question or use a class to dcreate a type-safe holder.
 [source, java]
 ----
-Stream<Tuple2<String, Integer>> items = jpaStreamer.stream(Film.class)
-    .map(Tuples.toTuple(Film$.title, Film$.length.getter()));
-----
-This creates a stream of `Tuples` with two elements: title (of type `String`) and length (of type `Integer`).
+public static final class TitleLength {
 
-//NOTE:
-//Currently, JPAStreamer will read all the columns regardless of subsequent mappings. Future versions might cut down on the columns actually being read following `.map()`, `mapToInt()`, `mapToLong()` and `mapToDouble()` operations.
+        private final String title;
+        private final int length;
+
+        public TitleLength(Film film) {
+            this.title = film.getTitle();
+            this.length= film.getLength();
+        }
+
+        public String title() {
+            return title;
+        }
+
+        public int length() {
+            return length;
+        }
+
+        @Override
+        public String toString() {
+            return "TitleLength{" +
+                    "title='" + title + '\'' +
+                    ", length=" + length +
+                    '}';
+        }
+    }
+
+jpaStreamer.stream(Film.class)
+    .map(TitleLength::new)
+    .forEach(System.out::println);
+----
+This creates a stream of `TitleLength` with two elements: title (of type `String`) and length (of type `int`).
+
+NOTE:
+Currently, JPAStreamer will read all the columns regardless of subsequent mappings. Future versions might cut down on the columns actually being read following `.map()`, `mapToInt()`, `mapToLong()` and `mapToDouble()` operations.
 
 == UNION ALL
-`UNION ALL` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)`.
+`UNION ALL` can be expressed using a Stream of Streams followed by a `flatMap(Function.identity())` operator.
 The following example creates a resulting `Stream` with all `Films` that are of length greater than 120 minutes and then all films that are of rating "PG-13":
 [source, java]
 ----
-StreamComposition.concatAndAutoClose(
+Stream.of(
     jpaStreamer.stream(Film.class).filter(Film$.length.greaterThan(120)),
     jpaStreamer.stream(Film.class).filter(Film$.rating.equal("PG-13"))
 )
+    .flatMap(Function.identity())
+    .distinct()
     .forEachOrdered(System.out::println);
 ----
 The resulting `Stream` will contain duplicates with films that have a length both greater than 120 minutes and have a rating "PG-13".
 
 
 == UNION
-`UNION` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)` followed by `.distinct()`.
+`UNION` can be expressed using a Stream of Streams followed by a `flatMap(Function.identity())` operator and then followed by `.distinct()`.
 The following example creates a `Stream` with all `Films` that are of length greater than 120 minutes and then all `Films` that are of rating "PG-13":
 
 [source, java]
 ----
-StreamComposition.concatAndAutoClose(
+Stream.of(
     jpaStreamer.stream(Film.class).filter(Film$.length.greaterThan(120)),
     jpaStreamer.stream(Film.class).filter(Film$.rating.equal("PG-13"))
 )
+    .flatMap(Function.identity())
     .distinct()
     .forEachOrdered(System.out::println);
 ----
@@ -350,4 +395,4 @@ jpaStreamer.stream(Film.class)
 
 == JOIN
 
-TBW
+Joins are expressed directly in the JPA entities. Additional join support is future work.
