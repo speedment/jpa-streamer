@@ -275,8 +275,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         fieldParams.toArray(new Value<?>[0])
                 ))
                 .set(Javadoc.of(
-                        "This Field corresponds to the {@link " + entityName + "} field that can be obtained using the "
-                                + "{@link " + entityName + "#get" + ucfirst(fieldName) + "()} method."
+                        "This Field corresponds to the {@link " + entityName + "} field " + fieldName + "."
                 )));
     }
 
