@@ -21,21 +21,45 @@ NOTE: This guide assumes you are starting from an existing project that conveys 
 The installation is performed by notifying your build tool that the JPAstreamer dependency is required to compile your source code. This is accomplished by using either of the following dependencies for Maven or Gradle.
 
 === Maven
-Install JPAStreamer by adding the following dependency in the project's pom.xml-file:
+Install JPAStreamer by adding the following code in the project's pom.xml-file:
 
 [source, xml]
 ----
 <dependencies>
-    <dependency>
+    <dependency> #<1>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>jpastreamer-core</artifactId>
         <version>${jpa-streamer-version}</version>
     </dependency>
 </dependencies>
+
+<plugins>
+    <plugin> #<2>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+            <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>add-source</goal>
+                </goals>
+                <configuration>
+                    <sources>
+                        <source>target/generated-sources/annotations</source>#<3>
+                    </sources>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+</plugins>
 ----
+<1> The JPAstreamer core dependency
+<2> Picks up the generated metamodel as an additional source directory
+<3> Path to the generated sources
 
 === Gradle
-Install JPAStreamer by adding the following dependency in the project's build.gradle-file:
+Install JPAStreamer by adding the following code in the project's build.gradle-file:
 
 [source, text]
 ----
@@ -43,11 +67,23 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
+dependencies { #<1>
     compile "com.speedment.jpastreamer:jpastreamer-core:version"
     annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
 }
+
+sourceSets { #<2>
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'target/generated-sources/annotations'#<3>
+        }
+    }
+}
 ----
+<1> The required JPAstreamer dependencies
+<2> Picks up the generated metamodel as an additional source directory
+<3> Path to the generated sources
 
 == Build your project to generate fields
 JPAstreamer relies on an annotation processor to generate the static metamodel classes required for the type-safe Stream parameters. This generation automatically takes place during compile time. Once you have added the JPAstreamer dependency, just go ahead and build your project. The metamodel is generated into the target folder in the same package as the corresponding `Entity`.
