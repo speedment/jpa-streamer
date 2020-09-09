@@ -81,12 +81,11 @@ JPAstreamer does not need to be manually configured to recognize the underlying 
 </persistence>
 ----
 
-After installation, JPAstreamer is simply initialized with a builder that takes the name of the persistance unit as a parameter.
+After installation, JPAstreamer is initialized with the name of the persistance unit:
 
 [source, java]
 ----
-JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") #<1>
-            .build();
+JPAStreamer jpaStreamer = JPAStreamer.of("sakila"); #<1>
 ----
 <1> "sakila" is to be replaced with the name of *your* persistence unit
 
