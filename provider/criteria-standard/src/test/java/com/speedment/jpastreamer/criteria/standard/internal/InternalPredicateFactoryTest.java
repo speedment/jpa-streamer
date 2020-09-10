@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.PredicateFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.predicate.PredicateMapper;
+import com.speedment.jpastreamer.criteria.standard.internal.util.ReflectionUtil;
 import com.speedment.jpastreamer.criteria.standard.support.CombinedStringPredicate;
 import com.speedment.jpastreamer.criteria.standard.support.StringEqualPredicate;
 import com.speedment.jpastreamer.exception.JPAStreamerException;
@@ -29,7 +30,6 @@ import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.util.reflection.FieldSetter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
@@ -43,7 +43,7 @@ final class InternalPredicateFactoryTest {
 
     @BeforeEach
     public void setup() throws NoSuchFieldException {
-        FieldSetter.setField(predicateFactory, predicateFactory.getClass().getDeclaredField("predicateMapper"), predicateMapper);
+        ReflectionUtil.setField(predicateFactory, predicateFactory.getClass().getDeclaredField("predicateMapper"), predicateMapper);
     }
 
     @Test
