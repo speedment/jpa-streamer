@@ -5,9 +5,7 @@ Google will use this information for the purpose of evaluating your use of the p
 Google may also transfer this information to third parties where required to do so by law, or where such third parties process the information on Google's behalf. 
 Google will not associate your IP address with any other data held by Google.
 
-This product stores a small file with a random client id in the user's home directory. 
-
-This product might also ask for, collect and send your email address to Speedment's servers. 
+This product stores a small file with a random client id in the user's home directory. Because it is random, it does not contain any personal information. 
 
 ## Consent
 By using this product, you consent to the processing of data about you by Google and Speedment in the manner and for the purposes set out above.
