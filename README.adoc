@@ -114,7 +114,7 @@ In Gradle, the following JPAstreamer dependency is added to the project's build.
 	    mavenCentral()
     }
     dependencies {
-        compile "com.speedment.jpastreamer:core:version"
+        compile "com.speedment.jpastreamer:jpastreamer-core:version"
         annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
     }
 ----
