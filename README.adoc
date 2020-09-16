@@ -173,5 +173,10 @@ JPAstreamer sends certain data back to servers as described link:https://github.
 == License
 JPAstreamer is released under the link:https://github.com/speedment/jpa-streamer/blob/master/LICENSE[LGPL 2.1 License].
 
+== Short Video
+Here is a short 1-minute video describing JPAstreamer:
+
+video::nfskjG4bvAg[youtube]
+
 == Contents
 toc::[]
