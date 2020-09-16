@@ -1,4 +1,4 @@
-<img align="center" src="https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer-beta.png?raw=true." alt="JPA Streamer Logo" title="JPA Streamer Logo" width="600px">
+image::https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer-beta.png[alt="JPAstreamer Logo",width=600px, align=center]
 
 == JPAstreamer
 
@@ -100,7 +100,7 @@ We gladly welcome any form of contributions, whether it is comments and question
 Before we can accept your patches we need to establish a common legal ground to protect your rights to your contributions and the users of JPAstreamer. This is done by signing a Contributor License Agreement (CLA) with Speedment, Inc. The details of this process is laid out [here]().
 
 == Phone Home
-JPAstreamer sends certain data back to servers as described [here](https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD). If you wish to disable this feature, please contact us at info@jpastreamer.org.
+JPAstreamer sends certain data back to servers as described link:https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD[here]. If you wish to disable this feature, please contact us at info@jpastreamer.org.
 
 == License
-JPAstreamer is released under the [LGPL 2.1 License](https://github.com/speedment/jpa-streamer/blob/master/LICENSE). 
+JPAstreamer is released under the link:https://github.com/speedment/jpa-streamer/blob/master/LICENSE[LGPL 2.1 License].
