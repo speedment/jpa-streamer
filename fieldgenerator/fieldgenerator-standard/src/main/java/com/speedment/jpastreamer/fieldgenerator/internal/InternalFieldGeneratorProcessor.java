@@ -112,9 +112,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     void generateFields(final Element annotatedElement, final Writer writer) throws IOException {
 
-
-
-
         final String entityName = shortName(annotatedElement.asType().toString());
         final String genEntityName = entityName + "$";
 
@@ -174,6 +171,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                               final Set<String> isGetters,
                               final String entityName,
                               boolean lombokGetterAvailable) {
+        
         final String fieldName = field.getSimpleName().toString();
         final String getterPrefix = isGetters.contains(fieldName)
                 ? IS_PREFIX
@@ -395,9 +393,15 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         return map.values().stream()
                 .map(AnnotationValue::toString)
-                .filter(v -> v.contains("AccessLevel"))
                 .map(v -> v.substring(v.lastIndexOf(".") + 1)) // Format as simple name
+                .filter(this::isAccessLevel)
                 .findFirst();
+    }
+
+    private boolean isAccessLevel(String s) {
+        Set<String> validAccessLevels = Stream.of("PACKAGE", "NONE", "PRIVATE", "MODULE", "PROTECTED", "PUBLIC")
+                .collect(Collectors.collectingAndThen(toSet(), Collections::unmodifiableSet));
+        return validAccessLevels.contains(s);
     }
 
 }

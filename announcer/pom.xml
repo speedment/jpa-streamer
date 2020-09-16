@@ -23,15 +23,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>analytics</artifactId>
+    <artifactId>announcer</artifactId>
 
     <properties>
-        <module-name>jpastreamer.analytics</module-name>
+        <module-name>jpastreamer.announcer</module-name>
     </properties>
 
-    <name>Analytics</name>
+    <name>Announcer</name>
     <description>
-        Analytics module
+        JPAStreamer Announcer
     </description>
 
 </project>

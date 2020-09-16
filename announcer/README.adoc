@@ -1,0 +1,45 @@
+= Announcer
+Per Minborg
+:toc: macro
+
+Start-up messages for features.
+
+== Info
+[%header,cols=2*]
+|===
+|Property
+|Value
+
+|JPMS Module
+|jpastreamer.announcer
+
+|artifactId
+|jpastreamer.announcer
+|===
+
+== Summary
+Announcer allows feature libraries to announce themselves upon start-up. A provided just provides an implementation of the following class:
+
+[source, java]
+----
+public interface Announcer {
+
+    /**
+     * Returns a greeting that is to be output upon
+     * system start-up.
+     * <p>
+     * Returning an empty String prevents output.
+     *
+     * @return a greeting that is to be output upon
+     *         system start-up
+     */
+    String greeting();
+
+}
+----
+
+== Details
+None
+
+== Contents
+toc::[]

@@ -30,7 +30,7 @@
     
     <groupId>com.speedment.jpastreamer</groupId>
     <artifactId>jpastreamer-parent</artifactId>
-    <version>0.1.7</version>
+    <version>0.1.8-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
@@ -62,6 +62,7 @@
         <module>analytics</module>
         <module>appinfo</module>
         <module>streamconfiguration</module>
+        <module>announcer</module>
     </modules>
     
     <!-- Properties -->
@@ -1007,6 +1008,12 @@
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>fieldgenerator-standard</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>announcer</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
