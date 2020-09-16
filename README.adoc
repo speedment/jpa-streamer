@@ -99,7 +99,7 @@ In Maven, the following JPAstreamer dependency is added to the project's pom.xml
     <dependencies>
 	    <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>jpastreamer-core</artifactId>
             <version>${jpa-streamer-version}</version>
         </dependency>
     </dependencies>
