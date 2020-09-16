@@ -1,3 +1,7 @@
+= JPAstreamer
+Per Minborg, Julia Gustafsson
+:toc: macro
+
 image::https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer-beta.png[alt="JPAstreamer Logo",width=600px, align=center]
 
 == JPAstreamer
@@ -170,3 +174,6 @@ JPAstreamer sends certain data back to servers as described link:https://github.
 
 == License
 JPAstreamer is released under the link:https://github.com/speedment/jpa-streamer/blob/master/LICENSE[LGPL 2.1 License].
+
+== Contents
+toc::[]
