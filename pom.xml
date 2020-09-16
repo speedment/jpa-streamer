@@ -62,6 +62,7 @@
         <module>analytics</module>
         <module>appinfo</module>
         <module>streamconfiguration</module>
+        <module>announcer</module>
     </modules>
     
     <!-- Properties -->
