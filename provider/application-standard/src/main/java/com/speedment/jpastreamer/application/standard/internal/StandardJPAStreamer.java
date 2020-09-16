@@ -16,6 +16,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.analytics.AnalyticsReporter;
 import com.speedment.jpastreamer.analytics.AnalyticsReporterFactory;
+import com.speedment.jpastreamer.announcer.Announcer;
 import com.speedment.jpastreamer.appinfo.ApplicationInformation;
 import com.speedment.jpastreamer.application.JPAStreamer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
@@ -87,6 +88,12 @@ final class StandardJPAStreamer implements JPAStreamer {
                 System.getProperty("java.runtime.name"), System.getProperty("java.runtime.version")
         );
         System.out.println(greeting);
+
+        // Announce other features
+        RootFactory.stream(Announcer.class, ServiceLoader::load)
+                .map(Announcer::greeting)
+                .forEach(System.out::println);
+
         if (!info.isProductionMode()) {
             System.out.println("This version is NOT INTENDED FOR PRODUCTION USE!");
             System.out.println("View known bugs at https://github.com/speedment/jpa-streamer/issues?q=is%3Aissue+is%3Aopen+label%3Abug");
