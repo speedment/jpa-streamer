@@ -24,6 +24,7 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -92,6 +93,7 @@ final class StandardJPAStreamer implements JPAStreamer {
         // Announce other features
         RootFactory.stream(Announcer.class, ServiceLoader::load)
                 .map(Announcer::greeting)
+                .filter(Objects::nonNull)
                 .filter(s -> !s.isEmpty())
                 .forEach(System.out::println);
 
