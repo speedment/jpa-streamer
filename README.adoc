@@ -96,27 +96,60 @@ In Maven, the following JPAstreamer dependency is added to the project's pom.xml
 
 [source, xml]
 ----
-    <dependencies>
-	    <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>jpastreamer-core</artifactId>
-            <version>${jpa-streamer-version}</version>
-        </dependency>
-    </dependencies>
+<dependencies>
+    <dependency>
+        <groupId>com.speedment.jpastreamer</groupId>
+        <artifactId>jpastreamer-core</artifactId>
+        <version>${jpa-streamer-version}</version>
+    </dependency>
+</dependencies>
+
+
+<plugins>
+    <!--Needed by some IDEs-->
+    <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+            <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>add-source</goal>
+                </goals>
+                <configuration>
+                    <sources>
+                        <source>target/generated-sources/annotations</source>
+                    </sources>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+</plugins>
 ----
 
 === Gradle
-In Gradle, the following JPAstreamer dependency is added to the project's build.gradle-file:
+In Gradle, the following JPAstreamer dependency is added to the project's build.gradle-file (replace "version" with the latest JPAstremer version):
 
 [source, groovy]
 ----
-    repositories {
-	    mavenCentral()
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile "com.speedment.jpastreamer:jpastreamer-core:version"
+    annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
+}
+
+/*Needed by some IDEs*/
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'target/generated-sources/annotations'
+        }
     }
-    dependencies {
-        compile "com.speedment.jpastreamer:jpastreamer-core:version"
-        annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
-    }
+}
 ----
 
 === Resources
