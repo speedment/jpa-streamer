@@ -13,25 +13,25 @@ The following example assumes there is an existing JPA Entity that represents a 
 
 [source, Java]
 ----
-    @Entity
-    @Table(name = "film", schema = "sakila")
-    public class Film implements Serializable {
+@Entity
+@Table(name = "film", schema = "sakila")
+public class Film implements Serializable {
 
-   	    @Id
-   	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   	    @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
-   	    private Integer filmId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "film_id", nullable = false, updatable = false, columnDefinition = "smallint(5)")
+    private Integer filmId;
 
-  	    @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
-        private String title;
+    @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
+    private String title;
 
-        @Column(name = "length", columnDefinition = "smallint(5)")
-        private Integer length;
+    @Column(name = "length", columnDefinition = "smallint(5)")
+    private Integer length;
 
-        @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
-        private String rating;
+    @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
+    private String rating;
 
-    }
+}
 ----
 
 To operate on the elements of the table, JPAstreamer is first initialized with a simple builder (in this case using a persistence unit named "sakila"):
@@ -43,12 +43,12 @@ The obtained streamer is then used to create Streams that are rendered to databa
 
 [source, java]
 ----
-    jpaStreamer.stream(Film.class) // Film.class is the @Entity representing the film-table
-        .filter(Film$.rating.equal("G"))    
-        .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator()))
-        .skip(10)
-        .limit(5)
-        .forEach(System.out::println);
+jpaStreamer.stream(Film.class) // Film.class is the @Entity representing the film-table
+    .filter(Film$.rating.equal("G"))
+    .sorted(Film$.length.reversed().thenComparing(Film$.title.comparator()))
+    .skip(10)
+    .limit(5)
+    .forEach(System.out::println);
 ----
 This will print films rated G in reversed length order (where films of equal length will be in title order) but skipping the first ten and then printing only the following five films.(Film$ is automatically generated from the Film-table Entity at compile-time by JPAstreamer).
 
@@ -97,7 +97,7 @@ In Gradle, the following JPAstreamer dependency is added to the project's build.
 == Contributing
 We gladly welcome any form of contributions, whether it is comments and questions, filed issues or pull requests. 
 
-Before we can accept your patches we need to establish a common legal ground to protect your rights to your contributions and the users of JPAstreamer. This is done by signing a Contributor License Agreement (CLA) with Speedment, Inc. The details of this process is laid out [here]().
+Before we can accept your patches we need to establish a common legal ground to protect your rights to your contributions and the users of JPAstreamer. This is done by signing a Contributor License Agreement (link:https://github.com/speedment/jpa-streamer/blob/master/CONTRIBUTOR_LICENSE_AGREEMENT.MD[CLA]) with Speedment, Inc. The details of this process is laid out link:https://github.com/speedment/jpa-streamer/blob/master/CONTRIBUTING.md[here].
 
 == Phone Home
 JPAstreamer sends certain data back to servers as described link:https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD[here]. If you wish to disable this feature, please contact us at info@jpastreamer.org.
