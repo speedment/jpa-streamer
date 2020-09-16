@@ -92,6 +92,7 @@ final class StandardJPAStreamer implements JPAStreamer {
         // Announce other features
         RootFactory.stream(Announcer.class, ServiceLoader::load)
                 .map(Announcer::greeting)
+                .filter(s -> !s.isEmpty())
                 .forEach(System.out::println);
 
         if (!info.isProductionMode()) {

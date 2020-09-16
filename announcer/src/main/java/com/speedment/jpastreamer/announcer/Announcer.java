@@ -28,6 +28,8 @@ public interface Announcer {
     /**
      * Returns a greeting that is to be output upon
      * system start-up.
+     * <p>
+     * Returning an empty String prevents output.
      *
      * @return a greeting that is to be output upon
      *         system start-up

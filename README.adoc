@@ -4,8 +4,6 @@ Per Minborg, Julia Gustafsson
 
 image::https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer-beta.png[alt="JPAstreamer Logo",width=600px, align=center]
 
-== JPAstreamer
-
 image:https://maven-badges.herokuapp.com/maven-central/com.speedment.jpastreamer/jpastreamer-core/badge.svg[link="https://maven-badges.herokuapp.com/maven-central/com.speedment.jpastreamer/jpastreamer-core"]
 image:https://github.com/speedment/jpa-streamer/workflows/Java%20CI%20with%20Maven/badge.svg[link="https://github.com/speedment/jpa-streamer/actions"]
 image:https://img.shields.io/badge/License-LGPL%20v2.1-blue.svg[link="https://www.gnu.org/licenses/lgpl-2.1"]
