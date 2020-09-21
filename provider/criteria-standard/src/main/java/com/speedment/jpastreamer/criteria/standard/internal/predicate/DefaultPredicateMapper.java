@@ -148,10 +148,15 @@ public final class DefaultPredicateMapper implements PredicateMapper {
 
                 switch (inclusion) {
                     case START_EXCLUSIVE_END_EXCLUSIVE:
-                        return builder.between(
-                            columnPath,
-                            first,
-                            second
+                        return builder.and(
+                            builder.greaterThan(
+                                columnPath,
+                                first
+                            ),
+                            builder.lessThan(
+                                columnPath,
+                                second
+                            )
                         );
                     case START_INCLUSIVE_END_EXCLUSIVE:
                         return builder.and(
@@ -176,15 +181,10 @@ public final class DefaultPredicateMapper implements PredicateMapper {
                             )
                         );
                     case START_INCLUSIVE_END_INCLUSIVE:
-                        return builder.and(
-                            builder.greaterThanOrEqualTo(
-                                columnPath,
-                                first
-                            ),
-                            builder.lessThanOrEqualTo(
-                                columnPath,
-                                second
-                            )
+                        return builder.between(
+                            columnPath,
+                            first,
+                            second
                         );
                     default:
                         throw new JPAStreamerException(
