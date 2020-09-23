@@ -22,9 +22,8 @@ import java.util.Objects;
 /**
  *
  * @param <ENTITY>  the entity type
- * @param <D>       the database type
  * @param <V>       the value type
- * 
+ *
  * @author  Per Minborg
  * @since   2.2.0
  */
