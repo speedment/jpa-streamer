@@ -176,7 +176,7 @@ JPAstreamer is released under the link:https://github.com/speedment/jpa-streamer
 == Short Video
 Here is a short 1-minute video describing JPAstreamer:
 
-image::https://github.com/speedment/jpa-streamer/blob/develop/images/video-tn.png[link="https://youtu.be/nfskjG4bvAg"]
+image::https://github.com/speedment/jpa-streamer/blob/develop/images/video-tn.png[width=50%,link="https://youtu.be/nfskjG4bvAg"]
 
 == Contents
 toc::[]
