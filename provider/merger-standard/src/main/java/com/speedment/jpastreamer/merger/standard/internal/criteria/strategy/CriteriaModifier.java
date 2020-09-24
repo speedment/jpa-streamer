@@ -31,7 +31,7 @@ public interface CriteriaModifier {
      * @param operationReference that provides modification information
      * @param criteria to modify
      * @param mergingTracker to store information about the side effects of the modification
-     * @param <ENTITY>> entity type
+     * @param <ENTITY> entity type
      */
     <ENTITY> void modifyCriteria(
         final IntermediateOperationReference operationReference,

@@ -171,7 +171,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                               final Set<String> isGetters,
                               final String entityName,
                               boolean lombokGetterAvailable) {
-        
+
         final String fieldName = field.getSimpleName().toString();
         final String getterPrefix = isGetters.contains(fieldName)
                 ? IS_PREFIX

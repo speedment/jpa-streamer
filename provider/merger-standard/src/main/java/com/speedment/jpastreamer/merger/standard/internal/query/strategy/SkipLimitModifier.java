@@ -66,6 +66,8 @@ public enum SkipLimitModifier implements QueryModifier {
                     mergingTracker.markAsMerged(next.type());
                     mergingTracker.markForRemoval(nextReference.index());
                 }
+            } else {
+                query.setMaxResults(Integer.MAX_VALUE);
             }
         } else {
             query.setMaxResults((int) getArgument(operation));
