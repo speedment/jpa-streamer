@@ -23,44 +23,26 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>application</artifactId>
+    <artifactId>projection</artifactId>
 
     <properties>
-        <module-name>jpastreamer.application</module-name>
+        <module-name>jpastreamer.projection</module-name>
     </properties>
 
-    <name>Application</name>
+    <name>Projection</name>
     <description>
-        The entry API of JPAStreamer
+        Provides Stream Projections
     </description>
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>rootfactory</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>streamconfiguration</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>projection</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>javax.persistence-api</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>field</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

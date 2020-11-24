@@ -63,6 +63,7 @@
         <module>appinfo</module>
         <module>streamconfiguration</module>
         <module>announcer</module>
+        <module>projection</module>
     </modules>
     
     <!-- Properties -->
@@ -1014,6 +1015,12 @@
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>announcer</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>projection</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 

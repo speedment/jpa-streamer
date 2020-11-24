@@ -23,6 +23,7 @@ import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
+import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
@@ -31,7 +32,9 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CompoundSelection;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
@@ -62,7 +65,16 @@ public final class StandardRenderer implements Renderer {
 
         final Criteria<T, T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
         criteria.getRoot().alias(pipeline.root().getSimpleName());
-        criteria.getQuery().select(criteria.getRoot());
+
+        if (streamConfiguration.select().isPresent()) {
+            final Projection<T> projection = streamConfiguration.select().get();
+            final Path<?>[] columns = projection.fields().stream().map(field -> criteria.getRoot().get(field.columnName())).toArray(Path[]::new);
+            final CompoundSelection<T> selection =  criteria.getBuilder().construct(projection.entityClass(), columns);
+
+            criteria.getQuery().select(selection);
+        } else {
+            criteria.getQuery().select(criteria.getRoot());
+        }
 
         streamConfiguration.joins()
                 .forEach(joinConfiguration -> criteria.getRoot().fetch(joinConfiguration.field().columnName(), joinConfiguration.joinType()));
@@ -103,6 +115,7 @@ public final class StandardRenderer implements Renderer {
             criteriaQuery.getResultType(),
             Long.class
         );
+
         countCriteria.getRoot().alias(criteria.getRoot().getAlias());
 
         final CriteriaQuery<Long> countQuery = countCriteria.getQuery();

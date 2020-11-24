@@ -12,29 +12,34 @@
  */
 package com.speedment.jpastreamer.streamconfiguration.standard.internal;
 
+import static java.util.Objects.requireNonNull;
+
 import com.speedment.jpastreamer.field.Field;
+import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.criteria.JoinType;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.util.Objects.requireNonNull;
 
 public final class StandardStreamConfiguration<T> implements StreamConfiguration<T> {
 
     private final Class<T> entityClass;
+    private final Projection<T> projection;
     private final Set<JoinConfiguration<T>> joinConfigurations;
 
     public StandardStreamConfiguration(final Class<T> entityClass) {
         this.entityClass = requireNonNull(entityClass);
+        this.projection = null;
         this.joinConfigurations = Collections.emptySet();
     }
 
-    private StandardStreamConfiguration(final Class<T> entityClass, final Set<JoinConfiguration<T>> joinConfigurations) {
+    private StandardStreamConfiguration(final Class<T> entityClass, Projection<T> projection, final Set<JoinConfiguration<T>> joinConfigurations) {
         this.entityClass = entityClass;
+        this.projection = projection;
         this.joinConfigurations = new HashSet<>(joinConfigurations);
     }
 
@@ -54,7 +59,18 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
         requireNonNull(joinType);
         final Set<JoinConfiguration<T>> newjoins = new HashSet<>(joinConfigurations);
         newjoins.add(new StandardJoinConfiguration<>(field, joinType));
-        return new StandardStreamConfiguration<>(entityClass, newjoins);
+        return new StandardStreamConfiguration<>(entityClass, projection, newjoins);
+    }
+
+    @Override
+    public Optional<Projection<T>> select() {
+        return Optional.ofNullable(projection);
+    }
+
+    @Override
+    public StreamConfiguration<T> select(Projection<T> projection) {
+        requireNonNull(projection);
+        return new StandardStreamConfiguration<>(entityClass, projection, joinConfigurations);
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
@@ -152,9 +153,11 @@ class StreamBuilderTest {
     private static final class MockStreamConfiguration<T> implements StreamConfiguration<T> {
 
         private final Class<T> entityClass;
+        private final Projection<T> projection;
 
         private MockStreamConfiguration(Class<T> entityClass) {
             this.entityClass = entityClass;
+            this.projection = null;
         }
 
         @Override
@@ -169,6 +172,16 @@ class StreamBuilderTest {
 
         @Override
         public StreamConfiguration<T> joining(Field<T> field, JoinType joinType) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Optional<Projection<T>> select() {
+            return Optional.ofNullable(projection);
+        }
+
+        @Override
+        public StreamConfiguration<T> select(Projection<T> projection) {
             throw new UnsupportedOperationException();
         }
     }

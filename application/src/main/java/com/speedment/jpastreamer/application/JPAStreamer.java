@@ -12,14 +12,15 @@
  */
 package com.speedment.jpastreamer.application;
 
+import static java.util.Objects.requireNonNull;
+
+import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * A JPAStreamer is responsible for creating Streams from data sources
@@ -164,6 +165,27 @@ public interface JPAStreamer {
     default <T> Stream<T> stream(final Class<T> entityClass) {
         requireNonNull(entityClass);
         return stream(StreamConfiguration.of(entityClass));
+    }
+
+    /**
+     * Creates and returns a new {@link Stream} over all entities in the
+     * underlying data source (e.g database) of the {@code entity} specified
+     * by the provided {@code projection}.
+     * <p>
+     * This method is a convenience method equivalent to:
+     * <pre>{@code stream(StreamConfiguration.of(projection.entityClass()).select(projection))}</pre>
+     *
+     * @param <T> The element type (type of a class token)
+     * @param projection to use
+     * @return a new {@link Stream} over all entities in the
+     *         underlying data source (e.g database) of the {@code entity}
+     *         specified by the provided {@code projection}.
+     *
+     * @see JPAStreamer#stream(StreamConfiguration) for further details
+     */
+    default <T> Stream<T> stream(final Projection<T> projection) {
+        requireNonNull(projection);
+        return stream(StreamConfiguration.of(projection.entityClass()).select(projection));
     }
 
     /**

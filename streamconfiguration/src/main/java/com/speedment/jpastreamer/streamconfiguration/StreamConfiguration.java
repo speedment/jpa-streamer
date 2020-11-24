@@ -13,9 +13,11 @@
 package com.speedment.jpastreamer.streamconfiguration;
 
 import com.speedment.jpastreamer.field.Field;
+import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 
 import javax.persistence.criteria.JoinType;
+import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.Set;
 
@@ -67,7 +69,7 @@ public interface StreamConfiguration<T> {
      *         eagerly joined when producing elements in the future Stream
      *         using {@link JoinType#LEFT}
      */
-    default StreamConfiguration<T> joining(Field<T> field) {
+    default StreamConfiguration<T> joining(final Field<T> field) {
         return joining(field, JoinType.LEFT);
     }
 
@@ -86,7 +88,15 @@ public interface StreamConfiguration<T> {
      *         eagerly joined when producing elements in the future Stream
      *         using the provided {@code joinType}
      */
-    StreamConfiguration<T> joining(Field<T> field, JoinType joinType);
+    StreamConfiguration<T> joining(final Field<T> field, final JoinType joinType);
+
+    Optional<Projection<T>> select();
+
+    default StreamConfiguration<T> select(final Field<T> first, final Field<T>... other) {
+        return select(Projection.select(first, other));
+    }
+
+    StreamConfiguration<T> select(final Projection<T> projection);
 
     /**
      * Creates and returns a new StreamConfiguration that can be used
