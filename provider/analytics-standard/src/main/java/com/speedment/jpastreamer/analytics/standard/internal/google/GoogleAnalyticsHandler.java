@@ -30,9 +30,9 @@ import static java.util.Objects.requireNonNull;
 
 public final class GoogleAnalyticsHandler implements Handler {
 
-    private final String COOKIE_FILE_NAME = "JPAstreamer.clientid";
-    private final String URL_STRING = "www.google-analytics.com";
-    private final String TRACKING_ID = "UA-54384165-3";
+    private static final String COOKIE_FILE_NAME = "JPAstreamer.clientid";
+    private static final String URL_STRING = "www.google-analytics.com";
+    private static final String TRACKING_ID = "UA-54384165-3";
 
     private final String version;
     private final boolean demoMode;
