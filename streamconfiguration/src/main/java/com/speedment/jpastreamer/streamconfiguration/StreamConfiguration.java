@@ -92,9 +92,7 @@ public interface StreamConfiguration<T> {
 
     Optional<Projection<T>> select();
 
-    default StreamConfiguration<T> select(final Field<T> first, final Field<T>... other) {
-        return select(Projection.select(first, other));
-    }
+    StreamConfiguration<T> select(final Field<T> first, final Field<T>... other);
 
     StreamConfiguration<T> select(final Projection<T> projection);
 

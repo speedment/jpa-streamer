@@ -176,6 +176,11 @@ class StreamBuilderTest {
         }
 
         @Override
+        public StreamConfiguration<T> select(Field<T> first, Field<T>... other) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public Optional<Projection<T>> select() {
             return Optional.ofNullable(projection);
         }

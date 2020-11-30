@@ -67,6 +67,13 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
         return Optional.ofNullable(projection);
     }
 
+    @SuppressWarnings("varargs")
+    @SafeVarargs
+    @Override
+    public final StreamConfiguration<T> select(Field<T> first, Field<T>... other) {
+        return select(Projection.select(first, other));
+    }
+
     @Override
     public StreamConfiguration<T> select(Projection<T> projection) {
         requireNonNull(projection);
