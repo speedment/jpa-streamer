@@ -11,5 +11,7 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.projection {
+    requires transitive jpastreamer.field;
+
     exports com.speedment.jpastreamer.projection;
 }
