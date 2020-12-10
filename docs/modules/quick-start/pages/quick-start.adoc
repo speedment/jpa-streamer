@@ -46,7 +46,7 @@ Install JPAStreamer by adding the following code in the project's pom.xml-file:
                 </goals>
                 <configuration>
                     <sources>
-                        <source>target/generated-sources/annotations</source>#<3>
+                        <source>${project.build.directory}/generated-sources/annotations</source>#<3>
                     </sources>
                 </configuration>
             </execution>
