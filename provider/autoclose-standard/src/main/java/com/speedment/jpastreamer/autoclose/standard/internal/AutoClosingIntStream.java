@@ -23,6 +23,13 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
+ * An IntStream that will call its {@link #close()} method automatically after
+ * a terminating operation has been called.
+ * <p>
+ * N.B. The {@link #iterator()} {@link #spliterator()} methods will throw
+ * an {@link UnsupportedOperationException} because otherwise the AutoClose
+ * property cannot be guaranteed. This can be unlocked by setting the
+ * allowStreamIteratorAndSpliterator flag
  *
  * @author     Per Minborg
  */
