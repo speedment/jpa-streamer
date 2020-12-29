@@ -27,18 +27,17 @@ enum StreamBuilderUtil {;
             try {
                 r.run();
             } catch (Exception e) {
-                exception = e;
+                if (exception == null)
+                    exception = e;
             }
         }
         if (exception != null)
             if (exception instanceof RuntimeException) {
-                RuntimeException runtimeException = (RuntimeException) exception;
+                final RuntimeException runtimeException = (RuntimeException) exception;
                 throw runtimeException;
             } else {
                 throw new RuntimeException(exception);
             }
-
     }
-
 
 }
