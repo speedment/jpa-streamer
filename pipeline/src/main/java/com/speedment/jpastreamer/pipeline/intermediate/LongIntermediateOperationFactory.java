@@ -33,10 +33,10 @@ public interface LongIntermediateOperationFactory {
     IntermediateOperation<LongStream, LongStream> createFlatMap(LongFunction<? extends LongStream> mapper);
 
 
-    IntermediateOperation<LongStream, LongStream> createDistinct();
+    IntermediateOperation<LongStream, LongStream> acquireDistinct();
 
 
-    IntermediateOperation<LongStream, LongStream> createSorted();
+    IntermediateOperation<LongStream, LongStream> acquireSorted();
 
     IntermediateOperation<LongStream, LongStream> createPeek(LongConsumer IntermediateOperator);
 

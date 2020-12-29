@@ -12,8 +12,6 @@
  */
 package com.speedment.jpastreamer.pipeline.terminal;
 
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFunctionalType;
-
 import static com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFunctionalType.*;
 import static java.util.Objects.requireNonNull;
 

@@ -34,10 +34,9 @@ public interface IntIntermediateOperationFactory {
     IntermediateOperation<IntStream, IntStream> createFlatMap(IntFunction<? extends IntStream> mapper);
 
 
-    IntermediateOperation<IntStream, IntStream> createDistinct();
+    IntermediateOperation<IntStream, IntStream> acquireDistinct();
 
-
-    IntermediateOperation<IntStream, IntStream> createSorted();
+    IntermediateOperation<IntStream, IntStream> acquireSorted();
 
     IntermediateOperation<IntStream, IntStream> createPeek(IntConsumer IntermediateOperator);
 

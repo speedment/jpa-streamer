@@ -33,10 +33,10 @@ public interface DoubleIntermediateOperationFactory {
     IntermediateOperation<DoubleStream, DoubleStream> createFlatMap(DoubleFunction<? extends DoubleStream> mapper);
 
 
-    IntermediateOperation<DoubleStream, DoubleStream> createDistinct();
+    IntermediateOperation<DoubleStream, DoubleStream> acquireDistinct();
 
 
-    IntermediateOperation<DoubleStream, DoubleStream> createSorted();
+    IntermediateOperation<DoubleStream, DoubleStream> acquireSorted();
 
     IntermediateOperation<DoubleStream, DoubleStream> createPeek(DoubleConsumer IntermediateOperator);
 
