@@ -314,7 +314,6 @@ final class StreamBuilder<T> implements Stream<T> {
         //
         // The stream has never been started so
         // we just run the close handlers.
-        // Todo: Make it Exception tolerant
         closed();
         StreamBuilderUtil.runAll(pipeline.closeHandlers());
         pipeline.closeHandlers().clear(); // Only run once
