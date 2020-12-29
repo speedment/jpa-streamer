@@ -15,6 +15,9 @@ package com.speedment.jpastreamer.autoclose.standard;
 import com.speedment.jpastreamer.autoclose.AutoCloseFactory;
 import com.speedment.jpastreamer.autoclose.standard.internal.InternalAutoCloseFactory;
 
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public final class StandardAutoCloseFactory implements AutoCloseFactory {
@@ -28,5 +31,20 @@ public final class StandardAutoCloseFactory implements AutoCloseFactory {
     @Override
     public <T> Stream<T> createAutoCloseStream(final Stream<T> stream) {
         return delegate.createAutoCloseStream(stream);
+    }
+
+    @Override
+    public IntStream createAutoCloseIntStream(IntStream intStream) {
+        return delegate.createAutoCloseIntStream(intStream);
+    }
+
+    @Override
+    public LongStream createAutoCloseLongStream(LongStream longStream) {
+        return delegate.createAutoCloseLongStream(longStream);
+    }
+
+    @Override
+    public DoubleStream createAutoCloseDoubleStream(DoubleStream doubleStream) {
+        return delegate.createAutoCloseDoubleStream(doubleStream);
     }
 }

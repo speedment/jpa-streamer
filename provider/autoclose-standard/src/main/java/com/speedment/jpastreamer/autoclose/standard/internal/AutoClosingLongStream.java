@@ -37,6 +37,10 @@ final class AutoClosingLongStream
     extends AbstractAutoClosingBaseStream<Long, LongStream>
     implements LongStream, Java9LongStreamAdditions {
 
+    AutoClosingLongStream(final LongStream stream) {
+        this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
+    }
+
     AutoClosingLongStream(
         final LongStream stream,
         final boolean allowStreamIteratorAndSpliterator

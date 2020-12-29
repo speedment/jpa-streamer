@@ -37,6 +37,10 @@ final class AutoClosingIntStream
     extends AbstractAutoClosingBaseStream<Integer, IntStream>
     implements IntStream, Java9IntStreamAdditions {
 
+    AutoClosingIntStream(final IntStream stream) {
+        this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
+    }
+
     AutoClosingIntStream(
         final IntStream stream,
         final boolean allowStreamIteratorAndSpliterator

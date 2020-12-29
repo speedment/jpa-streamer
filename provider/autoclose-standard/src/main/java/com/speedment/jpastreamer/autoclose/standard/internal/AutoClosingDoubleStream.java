@@ -40,6 +40,10 @@ final class AutoClosingDoubleStream
     extends AbstractAutoClosingBaseStream<Double, DoubleStream>
     implements DoubleStream, Java9DoubleStreamAdditions {
 
+    AutoClosingDoubleStream(final DoubleStream stream) {
+        this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
+    }
+
     AutoClosingDoubleStream(
         final DoubleStream stream,
         final boolean allowStreamIteratorAndSpliterator
