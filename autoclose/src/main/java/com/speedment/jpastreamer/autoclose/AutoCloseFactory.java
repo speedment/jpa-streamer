@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public interface AutoCloseFactory {
 
      /**
-      * creates and returns a new wrapped Stream that will call its {@link Stream#close()} method
+      * Creates and returns a new wrapped Stream that will call its {@link Stream#close()} method
       * automatically after a terminating operation has been called.
       * <p>
       * N.B. The {@link Stream#iterator()} {@link Stream#spliterator()} methods will throw
