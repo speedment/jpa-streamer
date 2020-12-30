@@ -53,4 +53,6 @@ public interface LongIntermediateOperationFactory {
 
     IntermediateOperation<LongStream, Stream<Long>> acquireBoxed();
 
+    IntermediateOperation<LongStream, DoubleStream> acquireAsDoubleStream();
+
 }

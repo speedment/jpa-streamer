@@ -45,6 +45,20 @@ public final class InternalIntIntermediateOperationFactory implements IntInterme
             Stream.class,
             BOXED_FUNCTION);
 
+    private static final Function<IntStream, LongStream> AS_LONG_STREAM_FUNCTION = IntStream::asLongStream;
+    private static final IntermediateOperation<IntStream, LongStream> AS_LONG_STREAM = new StandardIntermediateOperation<>(
+            IntermediateOperationType.AS,
+            IntStream.class,
+            LongStream.class,
+            AS_LONG_STREAM_FUNCTION);
+
+    private static final Function<IntStream, DoubleStream> AS_DOUBLE_STREAM_FUNCTION = IntStream::asDoubleStream;
+    private static final IntermediateOperation<IntStream, DoubleStream> AS_DOUBLE_STREAM = new StandardIntermediateOperation<>(
+            IntermediateOperationType.AS,
+            IntStream.class,
+            DoubleStream.class,
+            AS_DOUBLE_STREAM_FUNCTION);
+
 
     @Override
     public IntermediateOperation<IntStream, IntStream> createFilter(IntPredicate predicate) {
@@ -197,5 +211,15 @@ public final class InternalIntIntermediateOperationFactory implements IntInterme
     @Override
     public IntermediateOperation<IntStream, Stream<Integer>> acquireBoxed() {
         return BOXED;
+    }
+
+    @Override
+    public IntermediateOperation<IntStream, LongStream> acquireAsLongStream() {
+        return AS_LONG_STREAM;
+    }
+
+    @Override
+    public IntermediateOperation<IntStream, DoubleStream> acquireAsDoubleStream() {
+        return AS_DOUBLE_STREAM;
     }
 }

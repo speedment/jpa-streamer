@@ -98,4 +98,14 @@ public final class StandardIntIntermediateOperationFactory implements IntInterme
     public IntermediateOperation<IntStream, Stream<Integer>> acquireBoxed() {
         return delegate.acquireBoxed();
     }
+
+    @Override
+    public IntermediateOperation<IntStream, LongStream> acquireAsLongStream() {
+        return delegate.acquireAsLongStream();
+    }
+
+    @Override
+    public IntermediateOperation<IntStream, DoubleStream> acquireAsDoubleStream() {
+        return delegate.acquireAsDoubleStream();
+    }
 }

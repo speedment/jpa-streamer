@@ -48,6 +48,13 @@ public final class InternalLongIntermediateOperationFactory implements LongInter
             Stream.class,
             BOXED_FUNCTION);
 
+    private static final Function<LongStream, DoubleStream> AS_DOUBLE_STREAM_FUNCTION = LongStream::asDoubleStream;
+    private static final IntermediateOperation<LongStream, DoubleStream> AS_DOUBLE_STREAM = new StandardIntermediateOperation<>(
+            IntermediateOperationType.AS,
+            LongStream.class,
+            DoubleStream.class,
+            AS_DOUBLE_STREAM_FUNCTION);
+
 
     @Override
     public IntermediateOperation<LongStream, LongStream> createFilter(LongPredicate predicate) {
@@ -199,5 +206,10 @@ public final class InternalLongIntermediateOperationFactory implements LongInter
     @Override
     public IntermediateOperation<LongStream, Stream<Long>> acquireBoxed() {
         return BOXED;
+    }
+
+    @Override
+    public IntermediateOperation<LongStream, DoubleStream> acquireAsDoubleStream() {
+        return AS_DOUBLE_STREAM;
     }
 }

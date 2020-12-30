@@ -52,4 +52,8 @@ public interface IntIntermediateOperationFactory {
 
     IntermediateOperation<IntStream, Stream<Integer>> acquireBoxed();
 
+    IntermediateOperation<IntStream, LongStream> acquireAsLongStream();
+
+    IntermediateOperation<IntStream, DoubleStream> acquireAsDoubleStream();
+
 }

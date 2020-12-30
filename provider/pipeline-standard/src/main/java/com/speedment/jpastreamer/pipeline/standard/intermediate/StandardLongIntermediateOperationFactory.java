@@ -95,4 +95,9 @@ public final class StandardLongIntermediateOperationFactory implements LongInter
     public IntermediateOperation<LongStream, Stream<Long>> acquireBoxed() {
         return delegate.acquireBoxed();
     }
+
+    @Override
+    public IntermediateOperation<LongStream, DoubleStream> acquireAsDoubleStream() {
+        return delegate.acquireAsDoubleStream();
+    }
 }
