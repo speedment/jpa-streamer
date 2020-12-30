@@ -38,7 +38,7 @@ public interface IntIntermediateOperationFactory {
 
     IntermediateOperation<IntStream, IntStream> acquireSorted();
 
-    IntermediateOperation<IntStream, IntStream> createPeek(IntConsumer IntermediateOperator);
+    IntermediateOperation<IntStream, IntStream> createPeek(IntConsumer action);
 
 
     IntermediateOperation<IntStream, IntStream> createLimit(long maxSize);
