@@ -140,7 +140,7 @@ final class AutoClosingDoubleStreamTest extends AbstractAutoClosingStreamTest<Do
 
     @Test
     void collect() {
-        testTerminal(s -> s.collect(AtomicLong::new, (al, d) -> al.addAndGet((long) d), (a, b) -> a.addAndGet((long) b.get())), (a, b) -> a.get() == b.get());
+        testTerminal(s -> s.collect(AtomicLong::new, (al, d) -> al.addAndGet((long) d), (a, b) -> a.addAndGet(b.get())), (a, b) -> a.get() == b.get());
     }
 
     @Test

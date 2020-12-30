@@ -22,7 +22,7 @@ final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer,
 
     @Override
     protected Stream<Integer> autoClosingStream(Stream<Integer> stream, boolean allowStreamIteratorAndSpliterator) {
-        return new AutoClosingStream(stream, allowStreamIteratorAndSpliterator);
+        return new AutoClosingStream<>(stream, allowStreamIteratorAndSpliterator);
     }
 
     @Override
