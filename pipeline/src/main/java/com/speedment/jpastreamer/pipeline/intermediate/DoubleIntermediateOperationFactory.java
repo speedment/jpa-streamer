@@ -51,4 +51,6 @@ public interface DoubleIntermediateOperationFactory {
 
     IntermediateOperation<DoubleStream, DoubleStream> createDropWhile(DoublePredicate predicate);
 
+    IntermediateOperation<DoubleStream, Stream<Double>> acquireBoxed();
+
 }

@@ -90,4 +90,9 @@ public final class StandardLongIntermediateOperationFactory implements LongInter
     public IntermediateOperation<LongStream, LongStream> createDropWhile(LongPredicate predicate) {
         return delegate.createDropWhile(predicate);
     }
+
+    @Override
+    public IntermediateOperation<LongStream, Stream<Long>> acquireBoxed() {
+        return delegate.acquireBoxed();
+    }
 }

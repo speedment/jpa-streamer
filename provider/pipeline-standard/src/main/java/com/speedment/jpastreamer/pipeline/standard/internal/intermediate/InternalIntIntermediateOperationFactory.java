@@ -15,14 +15,11 @@ package com.speedment.jpastreamer.pipeline.standard.internal.intermediate;
 import com.speedment.jpastreamer.javanine.Java9StreamUtil;
 import com.speedment.jpastreamer.pipeline.intermediate.IntIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 
-import java.util.Comparator;
 import java.util.function.*;
 import java.util.stream.*;
 
-import static com.speedment.jpastreamer.pipeline.standard.internal.intermediate.TypeUtil.typed;
 import static java.util.Objects.requireNonNull;
 
 public final class InternalIntIntermediateOperationFactory implements IntIntermediateOperationFactory {
@@ -40,6 +37,13 @@ public final class InternalIntIntermediateOperationFactory implements IntInterme
             IntStream.class,
             IntStream.class,
             DISTINCT_FUNCTION);
+
+    private static final Function<IntStream, Stream<Integer>> BOXED_FUNCTION = IntStream::boxed;
+    private static final IntermediateOperation<IntStream, Stream<Integer>> BOXED = new StandardIntermediateOperation<>(
+            IntermediateOperationType.BOXED,
+            IntStream.class,
+            Stream.class,
+            BOXED_FUNCTION);
 
 
     @Override
@@ -116,12 +120,12 @@ public final class InternalIntIntermediateOperationFactory implements IntInterme
 
     @Override
     public IntermediateOperation<IntStream, IntStream> acquireDistinct() {
-        return typed(DISTINCT);
+        return DISTINCT;
     }
 
     @Override
     public IntermediateOperation<IntStream, IntStream> acquireSorted() {
-        return typed(SORTED);
+        return SORTED;
     }
 
     @Override
@@ -190,4 +194,8 @@ public final class InternalIntIntermediateOperationFactory implements IntInterme
                 predicate);
     }
 
+    @Override
+    public IntermediateOperation<IntStream, Stream<Integer>> acquireBoxed() {
+        return BOXED;
+    }
 }

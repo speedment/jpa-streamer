@@ -93,4 +93,9 @@ public final class StandardIntIntermediateOperationFactory implements IntInterme
     public IntermediateOperation<IntStream, IntStream> createDropWhile(IntPredicate predicate) {
         return delegate.createDropWhile(predicate);
     }
+
+    @Override
+    public IntermediateOperation<IntStream, Stream<Integer>> acquireBoxed() {
+        return delegate.acquireBoxed();
+    }
 }

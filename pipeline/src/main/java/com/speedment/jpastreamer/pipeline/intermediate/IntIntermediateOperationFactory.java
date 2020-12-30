@@ -50,4 +50,6 @@ public interface IntIntermediateOperationFactory {
 
     IntermediateOperation<IntStream, IntStream> createDropWhile(IntPredicate predicate);
 
+    IntermediateOperation<IntStream, Stream<Integer>> acquireBoxed();
+
 }

@@ -92,4 +92,9 @@ public final class StandardDoubleIntermediateOperationFactory implements DoubleI
     public IntermediateOperation<DoubleStream, DoubleStream> createDropWhile(DoublePredicate predicate) {
         return delegate.createDropWhile(predicate);
     }
+
+    @Override
+    public IntermediateOperation<DoubleStream, Stream<Double>> acquireBoxed() {
+        return delegate.acquireBoxed();
+    }
 }

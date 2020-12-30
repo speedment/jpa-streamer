@@ -43,6 +43,13 @@ public final class InternalDoubleIntermediateOperationFactory implements DoubleI
             DISTINCT_FUNCTION);
 
 
+    private static final Function<DoubleStream, Stream<Double>> BOXED_FUNCTION = DoubleStream::boxed;
+    private static final IntermediateOperation<DoubleStream, Stream<Double>> BOXED = new StandardIntermediateOperation<>(
+            IntermediateOperationType.BOXED,
+            DoubleStream.class,
+            Stream.class,
+            BOXED_FUNCTION);
+
     @Override
     public IntermediateOperation<DoubleStream, DoubleStream> createFilter(DoublePredicate predicate) {
         requireNonNull(predicate);
@@ -191,4 +198,8 @@ public final class InternalDoubleIntermediateOperationFactory implements DoubleI
                 predicate);
     }
 
+    @Override
+    public IntermediateOperation<DoubleStream, Stream<Double>> acquireBoxed() {
+        return BOXED;
+    }
 }

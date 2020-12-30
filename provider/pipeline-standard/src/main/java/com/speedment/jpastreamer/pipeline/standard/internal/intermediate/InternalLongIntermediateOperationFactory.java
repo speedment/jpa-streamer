@@ -23,7 +23,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import static com.speedment.jpastreamer.pipeline.standard.internal.intermediate.TypeUtil.typed;
 import static java.util.Objects.requireNonNull;
 
 public final class InternalLongIntermediateOperationFactory implements LongIntermediateOperationFactory {
@@ -41,6 +40,13 @@ public final class InternalLongIntermediateOperationFactory implements LongInter
             LongStream.class,
             LongStream.class,
             DISTINCT_FUNCTION);
+
+    private static final Function<LongStream, Stream<Long>> BOXED_FUNCTION = LongStream::boxed;
+    private static final IntermediateOperation<LongStream, Stream<Long>> BOXED = new StandardIntermediateOperation<>(
+            IntermediateOperationType.BOXED,
+            LongStream.class,
+            Stream.class,
+            BOXED_FUNCTION);
 
 
     @Override
@@ -117,12 +123,12 @@ public final class InternalLongIntermediateOperationFactory implements LongInter
 
     @Override
     public IntermediateOperation<LongStream, LongStream> acquireDistinct() {
-        return typed(DISTINCT);
+        return DISTINCT;
     }
 
     @Override
     public IntermediateOperation<LongStream, LongStream> acquireSorted() {
-        return typed(SORTED);
+        return SORTED;
     }
 
     @Override
@@ -190,4 +196,8 @@ public final class InternalLongIntermediateOperationFactory implements LongInter
                 predicate);
     }
 
+    @Override
+    public IntermediateOperation<LongStream, Stream<Long>> acquireBoxed() {
+        return BOXED;
+    }
 }

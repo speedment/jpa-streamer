@@ -51,4 +51,6 @@ public interface LongIntermediateOperationFactory {
 
     IntermediateOperation<LongStream, LongStream> createDropWhile(LongPredicate predicate);
 
+    IntermediateOperation<LongStream, Stream<Long>> acquireBoxed();
+
 }
