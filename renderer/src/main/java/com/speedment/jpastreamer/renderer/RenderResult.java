@@ -14,14 +14,13 @@ package com.speedment.jpastreamer.renderer;
 
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 
-import java.util.stream.Stream;
+import java.util.stream.BaseStream;
 
-public interface RenderResult<T> {
+public interface RenderResult<E, T,  S extends BaseStream<T, S>> {
 
-    Class<T> root();
+    Class<E> root();
 
-    Stream<T> stream();
+    S stream();
 
     TerminalOperation<?, ?> terminalOperation();
-
 }

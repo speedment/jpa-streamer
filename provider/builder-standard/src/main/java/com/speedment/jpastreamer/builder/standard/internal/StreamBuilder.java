@@ -64,14 +64,14 @@ final class StreamBuilder<E, T>
     public LongStream mapToLong(ToLongFunction<? super T> mapper) {
         add(iof().createMapToLong(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new LongStreamBuilder<>(baseState());
     }
 
     @Override
     public DoubleStream mapToDouble(ToDoubleFunction<? super T> mapper) {
         add(iof().createMapToDouble(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new DoubleStreamBuilder<>(baseState());
     }
 
     @SuppressWarnings("unchecked")
@@ -85,21 +85,21 @@ final class StreamBuilder<E, T>
     public IntStream flatMapToInt(Function<? super T, ? extends IntStream> mapper) {
         add(iof().createFlatMapToInt(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new IntStreamBuilder<>(baseState());
     }
 
     @Override
     public LongStream flatMapToLong(Function<? super T, ? extends LongStream> mapper) {
         add(iof().createFlatMapToLong(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new LongStreamBuilder<>(baseState());
     }
 
     @Override
     public DoubleStream flatMapToDouble(Function<? super T, ? extends DoubleStream> mapper) {
         add(iof().createFlatMapToDouble(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new DoubleStreamBuilder<>(baseState());
     }
 
     @Override

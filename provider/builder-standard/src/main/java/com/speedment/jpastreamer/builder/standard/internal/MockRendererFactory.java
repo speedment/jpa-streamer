@@ -23,9 +23,9 @@ import java.util.function.BiConsumer;
 
 public final class MockRendererFactory implements RendererFactory {
 
-    private final BiConsumer<Pipeline<?>, RenderResult<?>> listener;
+    private final BiConsumer<Pipeline<?>, RenderResult<?, ?, ?>> listener;
 
-    public MockRendererFactory(BiConsumer<Pipeline<?>, RenderResult<?>> listener) {
+    public MockRendererFactory(BiConsumer<Pipeline<?>, RenderResult<?, ?, ?>> listener) {
         this.listener = listener;
     }
 
@@ -37,8 +37,8 @@ public final class MockRendererFactory implements RendererFactory {
     private final class MockRenderer implements Renderer {
 
         @Override
-        public <T> RenderResult<?> render(Pipeline<T> pipeline, StreamConfiguration<T> streamConfiguration) {
-            final RenderResult<T> renderResult = null;
+        public <E> RenderResult<E, ?, ?> render(Pipeline<E> pipeline, StreamConfiguration<E> streamConfiguration) {
+            final RenderResult<E, ?, ?> renderResult = null;
             MockRendererFactory.this.listener.accept(pipeline, renderResult);
             return null;
         }

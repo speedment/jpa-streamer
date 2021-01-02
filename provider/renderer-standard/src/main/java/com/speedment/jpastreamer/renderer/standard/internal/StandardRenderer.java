@@ -38,7 +38,7 @@ import javax.persistence.criteria.Path;
 import java.util.ServiceLoader;
 import java.util.stream.Stream;
 
-public final class StandardRenderer implements Renderer {
+final class StandardRenderer implements Renderer {
 
     private final EntityManager entityManager;
     private final CriteriaFactory criteriaFactory;
@@ -55,21 +55,21 @@ public final class StandardRenderer implements Renderer {
     }
 
     @Override
-    public <T> RenderResult<?> render(final Pipeline<T> pipeline, final StreamConfiguration<T> streamConfiguration) {
+    public <E> RenderResult<E, ?, ?> render(final Pipeline<E> pipeline, final StreamConfiguration<E> streamConfiguration) {
         optimizePipeline(pipeline);
 
-        final Class<T> entityClass = pipeline.root();
+        final Class<E> entityClass = pipeline.root();
 
         final CriteriaMerger criteriaMerger = mergerFactory.createCriteriaMerger();
         final QueryMerger queryMerger = mergerFactory.createQueryMerger();
 
-        final Criteria<T, T> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
+        final Criteria<E, E> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
         criteria.getRoot().alias(pipeline.root().getSimpleName());
 
         if (streamConfiguration.select().isPresent()) {
-            final Projection<T> projection = streamConfiguration.select().get();
+            final Projection<E> projection = streamConfiguration.select().get();
             final Path<?>[] columns = projection.fields().stream().map(field -> criteria.getRoot().get(field.columnName())).toArray(Path[]::new);
-            final CompoundSelection<T> selection =  criteria.getBuilder().construct(projection.entityClass(), columns);
+            final CompoundSelection<E> selection =  criteria.getBuilder().construct(projection.entityClass(), columns);
 
             criteria.getQuery().select(selection);
         } else {
@@ -82,23 +82,23 @@ public final class StandardRenderer implements Renderer {
         criteriaMerger.merge(pipeline, criteria);
 
         if (pipeline.terminatingOperation().type() == TerminalOperationType.COUNT && pipeline.intermediateOperations().size() == 0) {
-            final Criteria<T, Long> countCriteria = createCountCriteria(criteria);
+            final Criteria<E, Long> countCriteria = createCountCriteria(criteria);
 
             final TypedQuery<Long> typedQuery = entityManager.createQuery(countCriteria.getQuery());
 
             return new StandardRenderResult<>(
-                Long.class,
+                entityClass,
                 typedQuery.getResultStream(),
                 pipeline.terminatingOperation()
             );
         }
 
-        final TypedQuery<T> typedQuery = entityManager.createQuery(criteria.getQuery());
+        final TypedQuery<E> typedQuery = entityManager.createQuery(criteria.getQuery());
 
         queryMerger.merge(pipeline, typedQuery);
 
-        final Stream<T> baseStream = typedQuery.getResultStream();
-        final Stream<T> replayed = replay(baseStream, pipeline);
+        final Stream<E> baseStream = typedQuery.getResultStream();
+        final Stream<E> replayed = replay(baseStream, pipeline);
 
         return new StandardRenderResult<>(
             entityClass,

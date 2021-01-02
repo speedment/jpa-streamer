@@ -15,31 +15,34 @@ package com.speedment.jpastreamer.renderer.standard.internal;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.renderer.RenderResult;
 
+import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 
-public class StandardRenderResult<T> implements RenderResult<T> {
+import static java.util.Objects.requireNonNull;
 
-    private final Class<T> returnType;
-    private final Stream<T> stream;
+final class StandardRenderResult<E, T,  S extends BaseStream<T, S>> implements RenderResult<E, T, S> {
+
+    private final Class<E> root;
+    private final S stream;
     private final TerminalOperation<?, ?> terminalOperation;
 
-    public StandardRenderResult(
-        final Class<T> returnType,
-        final Stream<T> stream,
+    StandardRenderResult(
+        final Class<E> root,
+        final S stream,
         final TerminalOperation<?, ?> terminalOperation
     ) {
-        this.stream = stream;
-        this.returnType = returnType;
-        this.terminalOperation = terminalOperation;
+        this.root = requireNonNull(root);
+        this.stream = requireNonNull(stream);
+        this.terminalOperation = requireNonNull(terminalOperation);
     }
 
     @Override
-    public Class<T> root() {
-        return returnType;
+    public Class<E> root() {
+        return root;
     }
 
     @Override
-    public Stream<T> stream() {
+    public S stream() {
         return stream;
     }
 

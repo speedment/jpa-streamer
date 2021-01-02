@@ -119,7 +119,7 @@ abstract class BaseStreamBuilder<E, T, S extends BaseStream<T, S>> implements Ba
 
     @SuppressWarnings("unchecked")
     protected <R> R renderAndThenApply() {
-        final RenderResult<?> renderResult = renderResult();
+        final RenderResult<E, ?, ?> renderResult = renderResult();
         return ((TerminalOperation<S, R>) renderResult.terminalOperation())
                 .function()
                 .apply((S) renderResult.stream());
@@ -127,7 +127,7 @@ abstract class BaseStreamBuilder<E, T, S extends BaseStream<T, S>> implements Ba
 
     @SuppressWarnings("unchecked")
     protected long renderAndThenApplyAsLong() {
-        final RenderResult<?> renderResult = renderResult();
+        final RenderResult<E, ?, ?> renderResult = renderResult();
         return ((TerminalOperation<S, Long>) renderResult.terminalOperation())
                 .toLongFunction()
                 .applyAsLong((S) renderResult.stream());
@@ -135,7 +135,7 @@ abstract class BaseStreamBuilder<E, T, S extends BaseStream<T, S>> implements Ba
 
     @SuppressWarnings("unchecked")
     protected int renderAndThenApplyAsInt() {
-        final RenderResult<?> renderResult = renderResult();
+        final RenderResult<E, ?, ?> renderResult = renderResult();
         return ((TerminalOperation<S, Long>) renderResult.terminalOperation())
                 .toIntFunction()
                 .applyAsInt((S) renderResult.stream());
@@ -143,7 +143,7 @@ abstract class BaseStreamBuilder<E, T, S extends BaseStream<T, S>> implements Ba
 
     @SuppressWarnings("unchecked")
     protected double renderAndThenApplyAsDouble() {
-        final RenderResult<?> renderResult = renderResult();
+        final RenderResult<E, ?, ?> renderResult = renderResult();
         return ((TerminalOperation<S, Long>) renderResult.terminalOperation())
                 .toDoubleFunction()
                 .applyAsDouble((S) renderResult.stream());
@@ -151,7 +151,7 @@ abstract class BaseStreamBuilder<E, T, S extends BaseStream<T, S>> implements Ba
 
     @SuppressWarnings("unchecked")
     protected boolean renderAndThenTest() {
-        final RenderResult<?> renderResult = renderResult();
+        final RenderResult<E, ?, ?> renderResult = renderResult();
         return ((TerminalOperation<S, Long>) renderResult.terminalOperation())
                 .predicate()
                 .test((S) renderResult.stream());
@@ -159,7 +159,7 @@ abstract class BaseStreamBuilder<E, T, S extends BaseStream<T, S>> implements Ba
 
     @SuppressWarnings("unchecked")
     protected void renderAndThenAccept() {
-        final RenderResult<?> renderResult = renderResult();
+        final RenderResult<E, ?, ?> renderResult = renderResult();
         ((TerminalOperation<S, ?>) renderResult.terminalOperation())
                 .consumer()
                 .accept((S) renderResult.stream());
@@ -167,18 +167,19 @@ abstract class BaseStreamBuilder<E, T, S extends BaseStream<T, S>> implements Ba
 
     @SuppressWarnings("unchecked")
     protected long renderCount() {
-        final RenderResult<?> renderResult = renderResult();
+        final RenderResult<E, ?, ?> renderResult = renderResult();
 
         if (renderResult.root().equals(Long.class)) {
-            return renderResult.stream().mapToLong(i -> (long) i).sum();
+            final Stream<Number> stream = (Stream<Number>) renderResult.stream();
+            return stream.mapToLong(Number::longValue).sum();
         }
 
-        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
+        return ((TerminalOperation<S, Long>) renderResult.terminalOperation())
                 .toLongFunction()
-                .applyAsLong((Stream<T>) renderResult.stream());
+                .applyAsLong((S) renderResult.stream());
     }
 
-    private RenderResult<?> renderResult() {
+    private RenderResult<E, ?, ?> renderResult() {
         return baseState.renderer().render(baseState.pipeline(), baseState.streamConfiguration());
     }
 
