@@ -15,6 +15,8 @@ package com.speedment.jpastreamer.renderer;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
+import java.util.stream.BaseStream;
+
 public interface Renderer {
 
     /**
@@ -28,7 +30,7 @@ public interface Renderer {
      * @return a new RenderResult whereby the provided {@code Pipeline}
      *         is rendered to a stream using a {@code EntityManagerFactory}
      */
-    <E> RenderResult<E, ?, ?> render(final Pipeline<E> pipeline, final StreamConfiguration<E> streamConfiguration);
+    <E, T,  S extends BaseStream<T, S>> RenderResult<E, T, S> render(final Pipeline<E> pipeline, final StreamConfiguration<E> streamConfiguration);
 
     /**
      * Used to release any dangling resources after the expiration period of the

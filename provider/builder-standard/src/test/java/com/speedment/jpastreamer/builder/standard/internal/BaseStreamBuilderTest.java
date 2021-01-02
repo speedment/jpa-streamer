@@ -138,7 +138,7 @@ abstract class BaseStreamBuilderTest<T, S extends BaseStream<T, S>> {
     private static final class MockRenderer implements Renderer {
 
         @Override
-        public <T> RenderResult<T, ?, ?> render(Pipeline<T> pipeline, StreamConfiguration<T> streamConfiguration) {
+        public <E, T,  S extends BaseStream<T, S>> RenderResult<E, T, S> render(Pipeline<E> pipeline, StreamConfiguration<E> streamConfiguration) {
 
             // System.out.println(pipeline);
 

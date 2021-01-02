@@ -20,6 +20,7 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.function.BiConsumer;
+import java.util.stream.BaseStream;
 
 public final class MockRendererFactory implements RendererFactory {
 
@@ -37,7 +38,7 @@ public final class MockRendererFactory implements RendererFactory {
     private final class MockRenderer implements Renderer {
 
         @Override
-        public <E> RenderResult<E, ?, ?> render(Pipeline<E> pipeline, StreamConfiguration<E> streamConfiguration) {
+        public <E, T,  S extends BaseStream<T, S>> RenderResult<E, T, S> render(Pipeline<E> pipeline, StreamConfiguration<E> streamConfiguration) {
             final RenderResult<E, ?, ?> renderResult = null;
             MockRendererFactory.this.listener.accept(pipeline, renderResult);
             return null;

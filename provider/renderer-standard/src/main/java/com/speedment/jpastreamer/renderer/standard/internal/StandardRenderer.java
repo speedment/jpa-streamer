@@ -12,8 +12,6 @@
  */
 package com.speedment.jpastreamer.renderer.standard.internal;
 
-import static java.util.Objects.requireNonNull;
-
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.CriteriaFactory;
 import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizerFactory;
@@ -36,7 +34,10 @@ import javax.persistence.criteria.CompoundSelection;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import java.util.ServiceLoader;
+import java.util.stream.BaseStream;
 import java.util.stream.Stream;
+
+import static java.util.Objects.requireNonNull;
 
 final class StandardRenderer implements Renderer {
 
@@ -55,7 +56,7 @@ final class StandardRenderer implements Renderer {
     }
 
     @Override
-    public <E> RenderResult<E, ?, ?> render(final Pipeline<E> pipeline, final StreamConfiguration<E> streamConfiguration) {
+    public <E, T, S extends BaseStream<T, S>> RenderResult<E, T, S> render(final Pipeline<E> pipeline, final StreamConfiguration<E> streamConfiguration) {
         optimizePipeline(pipeline);
 
         final Class<E> entityClass = pipeline.root();
@@ -69,7 +70,7 @@ final class StandardRenderer implements Renderer {
         if (streamConfiguration.select().isPresent()) {
             final Projection<E> projection = streamConfiguration.select().get();
             final Path<?>[] columns = projection.fields().stream().map(field -> criteria.getRoot().get(field.columnName())).toArray(Path[]::new);
-            final CompoundSelection<E> selection =  criteria.getBuilder().construct(projection.entityClass(), columns);
+            final CompoundSelection<E> selection = criteria.getBuilder().construct(projection.entityClass(), columns);
 
             criteria.getQuery().select(selection);
         } else {
@@ -86,10 +87,10 @@ final class StandardRenderer implements Renderer {
 
             final TypedQuery<Long> typedQuery = entityManager.createQuery(countCriteria.getQuery());
 
-            return new StandardRenderResult<>(
-                entityClass,
-                typedQuery.getResultStream(),
-                pipeline.terminatingOperation()
+            return (RenderResult<E, T, S>) new StandardRenderResult<>(
+                    entityClass,
+                    typedQuery.getResultStream(),
+                    pipeline.terminatingOperation()
             );
         }
 
@@ -98,12 +99,12 @@ final class StandardRenderer implements Renderer {
         queryMerger.merge(pipeline, typedQuery);
 
         final Stream<E> baseStream = typedQuery.getResultStream();
-        final Stream<E> replayed = replay(baseStream, pipeline);
+        final S replayed = replay(baseStream, pipeline);
 
         return new StandardRenderResult<>(
-            entityClass,
-            replayed,
-            pipeline.terminatingOperation()
+                entityClass,
+                replayed,
+                pipeline.terminatingOperation()
         );
     }
 
@@ -111,9 +112,9 @@ final class StandardRenderer implements Renderer {
         final CriteriaQuery<T> criteriaQuery = criteria.getQuery();
 
         final Criteria<T, Long> countCriteria = criteriaFactory.createCriteria(
-            entityManager,
-            criteriaQuery.getResultType(),
-            Long.class
+                entityManager,
+                criteriaQuery.getResultType(),
+                Long.class
         );
 
         countCriteria.getRoot().alias(criteria.getRoot().getAlias());
@@ -132,15 +133,23 @@ final class StandardRenderer implements Renderer {
         return countCriteria;
     }
 
-     @SuppressWarnings({"rawtypes", "unchecked"})
-    private <T> Stream<T> replay(final Stream<T> stream, final Pipeline<T> pipeline) {
-        Stream<T> decorated = stream;
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private <E, T, S extends BaseStream<T, S>> S replay(final Stream<E> stream, final Pipeline<E> pipeline) {
+        return pipeline.intermediateOperations().stream()
+                .sequential()
+                .reduce(
+                        (S) stream,
+                        (S s, IntermediateOperation io) -> (S) io.function().apply(s),
+                        (a, b) -> a
+                );
 
+        /*
+        S decorated = (S) stream;
         for (IntermediateOperation intermediateOperation : pipeline.intermediateOperations()) {
-            decorated = (Stream<T>) intermediateOperation.function().apply(decorated);
+            decorated = (S) intermediateOperation.function().apply(decorated);
         }
-
         return decorated;
+        */
     }
 
     private <T> void optimizePipeline(final Pipeline<T> pipeline) {
