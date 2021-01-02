@@ -13,34 +13,31 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFunctionalType;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
-import java.util.function.Function;
-import java.util.function.ToLongFunction;
+import java.util.function.ToIntFunction;
 import java.util.stream.BaseStream;
 
 import static java.util.Objects.requireNonNull;
 
-final class ApplyAsLongTerminalOperation<S extends BaseStream<?, S>, R, F extends ToLongFunction<S>>
+final class ApplyAsIntTerminalOperation<S extends BaseStream<?, S>, R, F extends ToIntFunction<S>>
         extends AbstractTerminalOperation<S, R>
         implements TerminalOperation<S, R> {
 
-    private final F toLongFunction;
+    private final F toIntFunction;
 
-    ApplyAsLongTerminalOperation(final TerminalOperationType type,
-                                 final Class<? super S> streamType,
-                                 final Class<? super R> returnType,
-                                 final F toLongFunction,
-                                 final Object... arguments) {
+    ApplyAsIntTerminalOperation(final TerminalOperationType type,
+                                final Class<? super S> streamType,
+                                final Class<? super R> returnType,
+                                final F toIntFunction,
+                                final Object... arguments) {
         super(type, streamType, returnType, arguments);
-        //assert type.functionalType() == TerminalOperationFunctionalType.APPLY_AS_LONG;
-        assert returnType == long.class;
-        this.toLongFunction = requireNonNull(toLongFunction);
+        assert returnType == int.class;
+        this.toIntFunction = requireNonNull(toIntFunction);
     }
 
     @Override
-    public ToLongFunction<S> toLongFunction() {
-        return toLongFunction;
+    public ToIntFunction<S> toIntFunction() {
+        return toIntFunction;
     }
 }

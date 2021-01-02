@@ -17,17 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
+import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.criteria.JoinType;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.BaseStream;
 import java.util.stream.Stream;
@@ -40,7 +42,8 @@ class StreamBuilderTest {
     void filter() {
         final Renderer renderer = new MockRenderer();
         final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
-        Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
+        final BaseBuilderState<String> baseState = new BaseBuilderState<>(InjectedFactories.INSTANCE, streamConfiguration, renderer);
+        final Stream<String> builder = new StreamBuilder<>(baseState);
 
         final long count = builder
                 .skip(1)
@@ -55,7 +58,8 @@ class StreamBuilderTest {
     void first() {
         final Renderer renderer = new MockRenderer();
         final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
-        Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
+        final BaseBuilderState<String> baseState = new BaseBuilderState<>(InjectedFactories.INSTANCE, streamConfiguration, renderer);
+        final Stream<String> builder = new StreamBuilder<>(baseState);
 
         final Optional<String> first = builder
                 .filter(s -> s.length() > 0)
@@ -71,7 +75,8 @@ class StreamBuilderTest {
         assertThrows(IllegalStateException.class, () -> {
             final Renderer renderer = new MockRenderer();
             final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
-            Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
+            final BaseBuilderState<String> baseState = new BaseBuilderState<>(InjectedFactories.INSTANCE, streamConfiguration, renderer);
+            final Stream<String> builder = new StreamBuilder<>(baseState);
 
             final Optional<String> first = builder
                     .filter(s -> s.length() > 0)
@@ -84,6 +89,25 @@ class StreamBuilderTest {
 
         });
     }
+
+    @Test
+    @Disabled
+    void mapToInt() {
+        final Renderer renderer = new MockRenderer();
+        final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
+        final BaseBuilderState<String> baseState = new BaseBuilderState<>(InjectedFactories.INSTANCE, streamConfiguration, renderer);
+        final Stream<String> builder = new StreamBuilder<>(baseState);
+
+        final OptionalInt first = builder
+                .filter(s -> s.length() > 0)
+                .limit(1)
+                .mapToInt(s -> s.charAt(0))
+                .findFirst();
+
+        System.out.println("`first` = " + first);
+
+    }
+
 
     private static final class MockRenderer implements Renderer {
 

@@ -61,6 +61,11 @@
             <artifactId>autoclose</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>javanine</artifactId>
+        </dependency>
+
         <!--TEST-->
 
         <dependency>

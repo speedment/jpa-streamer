@@ -21,12 +21,10 @@ import com.speedment.jpastreamer.pipeline.terminal.DoubleTerminalOperationFactor
 import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.LongTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
-import com.speedment.jpastreamer.rootfactory.RootFactory;
 
-import java.util.ServiceLoader;
+import static java.util.Objects.requireNonNull;
 
-enum InjectedFactories implements Factories {
-    INSTANCE;
+final class TestFactories implements Factories {
 
     private final PipelineFactory pipeline;
     private final IntermediateOperationFactory intermediate;
@@ -37,20 +35,25 @@ enum InjectedFactories implements Factories {
     private final IntTerminalOperationFactory intTerminal;
     private final LongTerminalOperationFactory longTerminal;
     private final DoubleTerminalOperationFactory doubleTerminal;
-    // private final AutoCloseFactory autoClose;
 
-    InjectedFactories() {
-        pipeline = RootFactory.getOrThrow(PipelineFactory.class, ServiceLoader::load);
-        intermediate = RootFactory.getOrThrow(IntermediateOperationFactory.class, ServiceLoader::load);
-        intIntermediate = RootFactory.getOrThrow(IntIntermediateOperationFactory.class, ServiceLoader::load);
-        longIntermediate = RootFactory.getOrThrow(LongIntermediateOperationFactory.class, ServiceLoader::load);
-        doubleIntermediate = RootFactory.getOrThrow(DoubleIntermediateOperationFactory.class, ServiceLoader::load);
-
-        terminal = RootFactory.getOrThrow(TerminalOperationFactory.class, ServiceLoader::load);
-        intTerminal = RootFactory.getOrThrow(IntTerminalOperationFactory.class, ServiceLoader::load);
-        longTerminal = RootFactory.getOrThrow(LongTerminalOperationFactory.class, ServiceLoader::load);
-        doubleTerminal = RootFactory.getOrThrow(DoubleTerminalOperationFactory.class, ServiceLoader::load);
-        //autoClose = RootFactory.getOrThrow(AutoCloseFactory.class, ServiceLoader::load);
+    public TestFactories(final PipelineFactory pipeline,
+                         final IntermediateOperationFactory intermediate,
+                         final IntIntermediateOperationFactory intIntermediate,
+                         final LongIntermediateOperationFactory longIntermediate,
+                         final DoubleIntermediateOperationFactory doubleIntermediate,
+                         final TerminalOperationFactory terminal,
+                         final IntTerminalOperationFactory intTerminal,
+                         final LongTerminalOperationFactory longTerminal,
+                         final DoubleTerminalOperationFactory doubleTerminal) {
+        this.pipeline = requireNonNull(pipeline);
+        this.intermediate = requireNonNull(intermediate);
+        this.intIntermediate = requireNonNull(intIntermediate);
+        this.longIntermediate = requireNonNull(longIntermediate);
+        this.doubleIntermediate = requireNonNull(doubleIntermediate);
+        this.terminal = requireNonNull(terminal);
+        this.intTerminal = requireNonNull(intTerminal);
+        this.longTerminal = requireNonNull(longTerminal);
+        this.doubleTerminal = requireNonNull(doubleTerminal);
     }
 
     @Override
@@ -63,17 +66,14 @@ enum InjectedFactories implements Factories {
         return intermediate;
     }
 
-    @Override
     public IntIntermediateOperationFactory intIntermediate() {
         return intIntermediate;
     }
 
-    @Override
     public LongIntermediateOperationFactory longIntermediate() {
         return longIntermediate;
     }
 
-    @Override
     public DoubleIntermediateOperationFactory doubleIntermediate() {
         return doubleIntermediate;
     }
@@ -97,10 +97,5 @@ enum InjectedFactories implements Factories {
     public DoubleTerminalOperationFactory doubleTerminal() {
         return doubleTerminal;
     }
-
-    /*@Override
-    public AutoCloseFactory autoClose() {
-        return autoClose;
-    }*/
 
 }

@@ -12,14 +12,12 @@
  */
 package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
-import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.LongTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 import static java.util.Objects.requireNonNull;
@@ -32,7 +30,7 @@ public class InternalLongTerminalOperationFactory implements LongTerminalOperati
             long[].class,
             LongStream::toArray);
 
-    private static final TerminalOperation<LongStream, Long> SUM = new ApplyTerminalOperation<>(
+    private static final TerminalOperation<LongStream, Long> SUM = new ApplyAsLongTerminalOperation<>(
             TerminalOperationType.SUM_LONG,
             LongStream.class,
             long.class,
@@ -123,7 +121,7 @@ public class InternalLongTerminalOperationFactory implements LongTerminalOperati
     @Override
     public TerminalOperation<LongStream, Long> createReduce(long identity, LongBinaryOperator op) {
         requireNonNull(op);
-        return new ApplyTerminalOperation<>(
+        return new ApplyAsLongTerminalOperation<>(
                 TerminalOperationType.REDUCE,
                 LongStream.class,
                 long.class,

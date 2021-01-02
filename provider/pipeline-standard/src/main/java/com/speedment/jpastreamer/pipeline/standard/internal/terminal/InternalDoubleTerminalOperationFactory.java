@@ -31,7 +31,7 @@ public class InternalDoubleTerminalOperationFactory implements DoubleTerminalOpe
             double[].class,
             DoubleStream::toArray);
 
-    private static final TerminalOperation<DoubleStream, Double> SUM = new ApplyTerminalOperation<>(
+    private static final TerminalOperation<DoubleStream, Double> SUM = new ApplyAsDoubleTerminalOperation<>(
             TerminalOperationType.SUM_DOUBLE,
             DoubleStream.class,
             double.class,
@@ -122,7 +122,7 @@ public class InternalDoubleTerminalOperationFactory implements DoubleTerminalOpe
     @Override
     public TerminalOperation<DoubleStream, Double> createReduce(double identity, DoubleBinaryOperator op) {
         requireNonNull(op);
-        return new ApplyTerminalOperation<>(
+        return new ApplyAsDoubleTerminalOperation<>(
                 TerminalOperationType.REDUCE,
                 DoubleStream.class,
                 double.class,

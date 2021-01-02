@@ -12,9 +12,14 @@
  */
 package com.speedment.jpastreamer.builder.standard.internal;
 
-import com.speedment.jpastreamer.autoclose.AutoCloseFactory;
 import com.speedment.jpastreamer.pipeline.PipelineFactory;
+import com.speedment.jpastreamer.pipeline.intermediate.DoubleIntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.intermediate.IntIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.intermediate.LongIntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.DoubleTerminalOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.LongTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 
 interface Factories {
@@ -23,10 +28,22 @@ interface Factories {
 
     IntermediateOperationFactory intermediate();
 
+    IntIntermediateOperationFactory intIntermediate();
+
+    LongIntermediateOperationFactory longIntermediate();
+
+    DoubleIntermediateOperationFactory doubleIntermediate();
+
     TerminalOperationFactory terminal();
+
+    IntTerminalOperationFactory intTerminal();
+
+    LongTerminalOperationFactory longTerminal();
+
+    DoubleTerminalOperationFactory doubleTerminal();
 
     //RendererFactory renderer();
 
-    AutoCloseFactory autoClose();
+    // AutoCloseFactory autoClose();
 
 }

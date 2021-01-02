@@ -34,7 +34,7 @@ public class InternalIntTerminalOperationFactory implements IntTerminalOperation
             int[].class,
             IntStream::toArray);
 
-    private static final TerminalOperation<IntStream, Integer> SUM = new ApplyTerminalOperation<>(
+    private static final TerminalOperation<IntStream, Integer> SUM = new ApplyAsIntTerminalOperation<>(
             TerminalOperationType.SUM_INT,
             IntStream.class,
             int.class,
@@ -125,7 +125,7 @@ public class InternalIntTerminalOperationFactory implements IntTerminalOperation
     @Override
     public TerminalOperation<IntStream, Integer> createReduce(int identity, IntBinaryOperator op) {
         requireNonNull(op);
-        return new ApplyTerminalOperation<>(
+        return new ApplyAsIntTerminalOperation<>(
                 TerminalOperationType.REDUCE,
                 IntStream.class,
                 int.class,
