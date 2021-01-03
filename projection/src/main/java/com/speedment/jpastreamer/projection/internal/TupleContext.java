@@ -69,7 +69,7 @@ final class TupleContext<ENTITY> {
         public <X> X get(TupleElement<X> tupleElement) {
             final Integer index = elementToIndex.get(tupleElement);
             if (index != null)
-                return uncheckedCast(tuple[index]);
+                return checkedCast(tuple[index], tupleElement.getJavaType());
 
             throw newIllegalArgumentException("The provided tupleElement %s is not known. Known are %s", tupleElement, elements);
         }
@@ -87,7 +87,7 @@ final class TupleContext<ENTITY> {
         public <X> X get(String alias, Class<X> type) {
             final Object value = get(alias);
             if (value == null || type.isInstance(value))
-                return uncheckedCast(value);
+                return checkedCast(value, type);
 
             throw newIllegalArgumentException("The provided alias %s with value %s cannot be cast to %s", alias, value, type.getName());
         }
@@ -97,7 +97,7 @@ final class TupleContext<ENTITY> {
         public <X> X get(int i, Class<X> type) {
             final Object value = get(i);
             if (value == null || type.isInstance(value))
-                return uncheckedCast(value);
+                return checkedCast(value, type);
 
             throw newIllegalArgumentException("The provided index %d with value %s cannot be cast to %s", i, value, type.getName());
         }
@@ -128,6 +128,10 @@ final class TupleContext<ENTITY> {
         @SuppressWarnings("unchecked")
         private <X> X uncheckedCast(Object o) {
             return (X) o;
+        }
+
+        private <X> X checkedCast(Object o, Class<X> clazz) {
+            return clazz.cast(o);
         }
 
         private IllegalArgumentException newIllegalArgumentException(String format, Object... args) {
