@@ -50,6 +50,7 @@ public interface Projection<ENTITY> {
     Set<Field<ENTITY>> fields();
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     static <ENTITY> Projection<ENTITY> select(final Field<ENTITY> first, final Field<ENTITY>... other) {
         requireNonNull(first);
 

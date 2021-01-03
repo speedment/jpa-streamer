@@ -24,7 +24,7 @@ import com.speedment.jpastreamer.projection.Projection;
 import java.util.Collections;
 import java.util.Set;
 
-public class InternalProjection<ENTITY> implements Projection<ENTITY> {
+public final class InternalProjection<ENTITY> implements Projection<ENTITY> {
 
     private final Class<ENTITY> entityClass;
     private final Set<Field<ENTITY>> fields;
