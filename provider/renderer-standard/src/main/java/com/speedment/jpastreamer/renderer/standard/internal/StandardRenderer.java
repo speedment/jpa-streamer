@@ -67,8 +67,8 @@ final class StandardRenderer implements Renderer {
         final Criteria<E, E> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
         criteria.getRoot().alias(pipeline.root().getSimpleName());
 
-        if (streamConfiguration.select().isPresent()) {
-            final Projection<E> projection = streamConfiguration.select().get();
+        if (streamConfiguration.selections().isPresent()) {
+            final Projection<E> projection = streamConfiguration.selections().get();
             final Path<?>[] columns = projection.fields().stream().map(field -> criteria.getRoot().get(field.columnName())).toArray(Path[]::new);
             final CompoundSelection<E> selection = criteria.getBuilder().construct(projection.entityClass(), columns);
 

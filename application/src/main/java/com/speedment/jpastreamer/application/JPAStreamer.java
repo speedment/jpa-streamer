@@ -185,7 +185,7 @@ public interface JPAStreamer {
      */
     default <T> Stream<T> stream(final Projection<T> projection) {
         requireNonNull(projection);
-        return stream(StreamConfiguration.of(projection.entityClass()).select(projection));
+        return stream(StreamConfiguration.of(projection.entityClass()).selecting(projection));
     }
 
     /**

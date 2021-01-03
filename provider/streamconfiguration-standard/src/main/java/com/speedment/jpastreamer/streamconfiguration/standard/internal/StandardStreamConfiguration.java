@@ -57,25 +57,18 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     public StreamConfiguration<T> joining(final Field<T> field, final JoinType joinType) {
         requireNonNull(field);
         requireNonNull(joinType);
-        final Set<JoinConfiguration<T>> newjoins = new HashSet<>(joinConfigurations);
-        newjoins.add(new StandardJoinConfiguration<>(field, joinType));
-        return new StandardStreamConfiguration<>(entityClass, projection, newjoins);
+        final Set<JoinConfiguration<T>> newJoins = new HashSet<>(joinConfigurations);
+        newJoins.add(new StandardJoinConfiguration<>(field, joinType));
+        return new StandardStreamConfiguration<>(entityClass, projection, newJoins);
     }
 
     @Override
-    public Optional<Projection<T>> select() {
+    public Optional<Projection<T>> selections() {
         return Optional.ofNullable(projection);
     }
 
-    @SuppressWarnings("varargs")
-    @SafeVarargs
     @Override
-    public final StreamConfiguration<T> select(Field<T> first, Field<T>... other) {
-        return select(Projection.select(first, other));
-    }
-
-    @Override
-    public StreamConfiguration<T> select(Projection<T> projection) {
+    public StreamConfiguration<T> selecting(Projection<T> projection) {
         requireNonNull(projection);
         return new StandardStreamConfiguration<>(entityClass, projection, joinConfigurations);
     }

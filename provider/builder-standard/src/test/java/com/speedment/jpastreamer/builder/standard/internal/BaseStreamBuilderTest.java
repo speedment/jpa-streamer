@@ -221,17 +221,12 @@ abstract class BaseStreamBuilderTest<T, S extends BaseStream<T, S>> {
         }
 
         @Override
-        public StreamConfiguration<T> select(Field<T> first, Field<T>... other) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Optional<Projection<T>> select() {
+        public Optional<Projection<T>> selections() {
             return Optional.ofNullable(projection);
         }
 
         @Override
-        public StreamConfiguration<T> select(Projection<T> projection) {
+        public StreamConfiguration<T> selecting(Projection<T> projection) {
             throw new UnsupportedOperationException();
         }
     }
