@@ -21,9 +21,11 @@ import static java.util.Objects.requireNonNull;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.projection.internal.InternalProjection;
 
+import javax.persistence.Tuple;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 /**
  * The {@code Projection} class represents a SQL projection.
@@ -33,7 +35,7 @@ import java.util.Set;
  *
  * @author Mislav Milicevic
  */
-public interface Projection<ENTITY> {
+public interface Projection<ENTITY> extends Function<ENTITY, Tuple> {
 
     /**
      * Returns the entity class that the projection is applied to.

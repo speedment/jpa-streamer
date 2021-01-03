@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.projection.Projection;
 
+import javax.persistence.Tuple;
 import java.util.Collections;
 import java.util.Set;
 
@@ -28,10 +29,12 @@ public final class InternalProjection<ENTITY> implements Projection<ENTITY> {
 
     private final Class<ENTITY> entityClass;
     private final Set<Field<ENTITY>> fields;
+    private final TupleContext<ENTITY> tupleContext;
 
     public InternalProjection(final Class<ENTITY> entityClass, final Set<Field<ENTITY>> fields) {
         this.entityClass = requireNonNull(entityClass);
         this.fields = Collections.unmodifiableSet(fields);
+        this.tupleContext = new TupleContext<>(entityClass, fields);
     }
 
     @Override
@@ -42,5 +45,10 @@ public final class InternalProjection<ENTITY> implements Projection<ENTITY> {
     @Override
     public Set<Field<ENTITY>> fields() {
         return fields;
+    }
+
+    @Override
+    public Tuple apply(ENTITY entity) {
+        return tupleContext.create(entity);
     }
 }
