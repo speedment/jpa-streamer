@@ -29,9 +29,6 @@ import java.util.List;
 
 public final class TypeParser {
 
-    public TypeParser() {
-    }
-
     public Type render(String s) throws TypeParserException {
         if (!hasBalancedBrackets(s)) {
             throw new TypeParserException("String " + s + " has imbalanced brackets, hence is not a valid type expression");
@@ -57,7 +54,7 @@ public final class TypeParser {
             return new Node(SimpleType.create(s));
         } else {
             Node node = new Node(SimpleType.create(s.substring(0, s.indexOf("<"))));
-            List<String> params = parameters(s.substring(s.indexOf("<") + 1, s.lastIndexOf(">")));
+            List<String> params = parameters(s.substring(s.indexOf('<') + 1, s.lastIndexOf('>')));
             for (String param : params) { // Iterate to retain order of elements
                 node.addChild(parseNode(param));
             }
@@ -96,7 +93,7 @@ public final class TypeParser {
         int pos = 0;
         String str = s;
         while (str.substring(pos).contains(",")) {
-            pos = str.indexOf(",", pos);
+            pos = str.indexOf(',', pos);
             if (hasBalancedBracketsAtPos(str, pos)) {
                 children.add(str.substring(0, pos).trim());
                 str = str.substring(pos + 1);

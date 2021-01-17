@@ -12,19 +12,18 @@
  */
 package com.speedment.jpastreamer.field.internal;
 
-import com.speedment.jpastreamer.field.internal.comparator.ReferenceFieldComparatorImpl;
-import com.speedment.jpastreamer.field.internal.predicate.reference.*;
-import com.speedment.jpastreamer.field.internal.util.CollectionUtil;
-import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.ComparableField;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.comparator.FieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
+import com.speedment.jpastreamer.field.internal.comparator.ReferenceFieldComparatorImpl;
+import com.speedment.jpastreamer.field.internal.predicate.reference.*;
+import com.speedment.jpastreamer.field.internal.util.CollectionUtil;
 import com.speedment.jpastreamer.field.method.ReferenceGetter;
+import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 
-import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static java.util.Objects.requireNonNull;

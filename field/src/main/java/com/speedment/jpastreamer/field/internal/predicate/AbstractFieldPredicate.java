@@ -12,9 +12,8 @@
  */
 package com.speedment.jpastreamer.field.internal.predicate;
 
-import com.speedment.jpastreamer.field.internal.util.Cast;
-import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.Field;
+import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.PredicateType;
 
 import java.util.function.Predicate;

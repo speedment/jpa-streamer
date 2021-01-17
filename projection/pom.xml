@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    JPAstreamer - Express JPA queries with Java Streams
+    Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
+
+    License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU Lesser General Public License for more details.
+
+    See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.speedment.jpastreamer</groupId>
+        <artifactId>jpastreamer-parent</artifactId>
+        <version>0.1.9-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>projection</artifactId>
+
+    <properties>
+        <module-name>jpastreamer.projection</module-name>
+    </properties>
+
+    <name>Projection</name>
+    <description>
+        Provides Stream Projections
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

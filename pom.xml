@@ -30,7 +30,7 @@
     
     <groupId>com.speedment.jpastreamer</groupId>
     <artifactId>jpastreamer-parent</artifactId>
-    <version>0.1.8</version>
+    <version>0.1.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
@@ -63,6 +63,7 @@
         <module>appinfo</module>
         <module>streamconfiguration</module>
         <module>announcer</module>
+        <module>projection</module>
     </modules>
     
     <!-- Properties -->
@@ -75,7 +76,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <junit.jupiter.version>5.7.0</junit.jupiter.version>
         <junit.platform.provider.version>1.7.0</junit.platform.provider.version>
-        <mockito.version>3.5.11</mockito.version>
+        <mockito.version>3.7.0</mockito.version>
         <jpa-streamer.version>${project.version}</jpa-streamer.version>
         <speedment-version>3.2.10</speedment-version>
 
@@ -607,7 +608,7 @@
                     <plugin>
                         <groupId>org.sonarsource.scanner.maven</groupId>
                         <artifactId>sonar-maven-plugin</artifactId>
-                        <version>3.7.0.1746</version>
+                        <version>3.8.0.2131</version>
                     </plugin>
                     
                     <!--The license-maven-plugin plugin MUST BE COMMENTED OUT DURING DEPLOYMENT, otherwise nexus-staging-maven-plugin will fail (sic!)-->
@@ -1018,6 +1019,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.speedment.jpastreamer</groupId>
+                <artifactId>projection</artifactId>
+                <version>${jpa-streamer.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>javax.persistence</groupId>
                 <artifactId>javax.persistence-api</artifactId>
                 <version>${jpa.version}</version>
@@ -1035,7 +1042,7 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
-                <version>4.0.0-alpha-6</version>
+                <version>4.0.0-alpha-7</version>
                 <scope>test</scope>
             </dependency>
 

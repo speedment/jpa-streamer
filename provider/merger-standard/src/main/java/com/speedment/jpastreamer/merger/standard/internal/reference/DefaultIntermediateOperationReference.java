@@ -25,7 +25,7 @@ public final class DefaultIntermediateOperationReference implements Intermediate
     private final IntermediateOperation<?, ?> intermediateOperation;
     private final int index;
 
-    private final transient List<IntermediateOperation<?, ?>> intermediateOperations;
+    private final List<IntermediateOperation<?, ?>> intermediateOperations;
 
     public DefaultIntermediateOperationReference(
         final IntermediateOperation<?, ?> intermediateOperation,

@@ -34,7 +34,8 @@ final class ApplyAsLongTerminalOperation<S extends BaseStream<?, S>, R, F extend
                                  final F toLongFunction,
                                  final Object... arguments) {
         super(type, streamType, returnType, arguments);
-        assert type.functionalType() == TerminalOperationFunctionalType.APPLY_AS_LONG;
+        //assert type.functionalType() == TerminalOperationFunctionalType.APPLY_AS_LONG;
+        assert returnType == long.class;
         this.toLongFunction = requireNonNull(toLongFunction);
     }
 

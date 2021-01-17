@@ -13,10 +13,8 @@
 package com.speedment.jpastreamer.fieldgenerator.test;
 
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 
-import javax.persistence.Access;
 import javax.persistence.Entity;
 
 @Entity

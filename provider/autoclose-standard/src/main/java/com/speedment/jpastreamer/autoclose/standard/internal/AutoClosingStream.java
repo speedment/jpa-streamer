@@ -38,7 +38,7 @@ final class AutoClosingStream<T>
     extends AbstractAutoClosingBaseStream<T, Stream<T>>
     implements Stream<T>, Java9StreamAdditions<T> {
 
-    AutoClosingStream(Stream<T> stream) {
+    AutoClosingStream(final Stream<T> stream) {
         this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
     }
 

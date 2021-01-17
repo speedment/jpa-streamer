@@ -34,12 +34,11 @@ public interface IntIntermediateOperationFactory {
     IntermediateOperation<IntStream, IntStream> createFlatMap(IntFunction<? extends IntStream> mapper);
 
 
-    IntermediateOperation<IntStream, IntStream> createDistinct();
+    IntermediateOperation<IntStream, IntStream> acquireDistinct();
 
+    IntermediateOperation<IntStream, IntStream> acquireSorted();
 
-    IntermediateOperation<IntStream, IntStream> createSorted();
-
-    IntermediateOperation<IntStream, IntStream> createPeek(IntConsumer IntermediateOperator);
+    IntermediateOperation<IntStream, IntStream> createPeek(IntConsumer action);
 
 
     IntermediateOperation<IntStream, IntStream> createLimit(long maxSize);
@@ -50,5 +49,11 @@ public interface IntIntermediateOperationFactory {
     IntermediateOperation<IntStream, IntStream> createTakeWhile(IntPredicate predicate);
 
     IntermediateOperation<IntStream, IntStream> createDropWhile(IntPredicate predicate);
+
+    IntermediateOperation<IntStream, Stream<Integer>> acquireBoxed();
+
+    IntermediateOperation<IntStream, LongStream> acquireAsLongStream();
+
+    IntermediateOperation<IntStream, DoubleStream> acquireAsDoubleStream();
 
 }

@@ -12,58 +12,32 @@
  */
 package com.speedment.jpastreamer.builder.standard.internal;
 
-import static com.speedment.jpastreamer.builder.standard.internal.StreamBuilderUtil.MSG_STREAM_LINKED_CONSUMED_OR_CLOSED;
-import static java.util.Objects.requireNonNull;
-
-import com.speedment.jpastreamer.pipeline.Pipeline;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
-import com.speedment.jpastreamer.renderer.RenderResult;
-import com.speedment.jpastreamer.renderer.Renderer;
-import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Spliterator;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
-import java.util.stream.Collector;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import java.util.function.*;
+import java.util.stream.*;
 
-final class StreamBuilder<T> implements Stream<T> {
+/**
+ * A StreamBuilder that will accumulate intermediate and terminal operations
+ * and, upon a terminal operation, will invoke a renderer to actually create a
+ * Stream.
+ *
+ * @param <E> Entity type which is the same as T for the initial stream but
+ *            might be different after map operations.
+ * @param <T> Type of the Stream to create
+ *
+ */
+final class StreamBuilder<E, T>
+        extends BaseStreamBuilder<E, T, Stream<T>>
+        implements Stream<T> {
 
-    private final Factories factories;
-    private final Renderer renderer;
-    private final Pipeline<T> pipeline;
-    private final StreamConfiguration<T> streamConfiguration;
-    private final BaseStreamSupport support;
-
-    // Used to prevent improper reuse of builder
-    private boolean linkedConsumedOrClosed;
-
-    StreamBuilder(final Factories factories,
-                  final StreamConfiguration<T> streamConfiguration,
-                  final Renderer renderer) {
-        this.factories = requireNonNull(factories);
-        this.renderer = requireNonNull(renderer);
-        this.streamConfiguration = requireNonNull(streamConfiguration);
-        this.pipeline = factories.pipeline().createPipeline(streamConfiguration.entityClass());
-        support = new BaseStreamSupport(pipeline);
+    StreamBuilder(final BaseBuilderState<E> baseState) {
+        super(baseState);
     }
 
     @Override
@@ -83,21 +57,21 @@ final class StreamBuilder<T> implements Stream<T> {
     public IntStream mapToInt(ToIntFunction<? super T> mapper) {
         add(iof().createMapToInt(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new IntStreamBuilder<>(baseState());
     }
 
     @Override
     public LongStream mapToLong(ToLongFunction<? super T> mapper) {
         add(iof().createMapToLong(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new LongStreamBuilder<>(baseState());
     }
 
     @Override
     public DoubleStream mapToDouble(ToDoubleFunction<? super T> mapper) {
         add(iof().createMapToDouble(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new DoubleStreamBuilder<>(baseState());
     }
 
     @SuppressWarnings("unchecked")
@@ -111,21 +85,21 @@ final class StreamBuilder<T> implements Stream<T> {
     public IntStream flatMapToInt(Function<? super T, ? extends IntStream> mapper) {
         add(iof().createFlatMapToInt(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new IntStreamBuilder<>(baseState());
     }
 
     @Override
     public LongStream flatMapToLong(Function<? super T, ? extends LongStream> mapper) {
         add(iof().createFlatMapToLong(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new LongStreamBuilder<>(baseState());
     }
 
     @Override
     public DoubleStream flatMapToDouble(Function<? super T, ? extends DoubleStream> mapper) {
         add(iof().createFlatMapToDouble(mapper));
         linked();
-        throw new UnsupportedOperationException();
+        return new DoubleStreamBuilder<>(baseState());
     }
 
     @Override
@@ -278,128 +252,12 @@ final class StreamBuilder<T> implements Stream<T> {
         return renderAndThenApply();
     }
 
-    @Override
-    public boolean isParallel() {
-        return pipeline.isParallel();
-    }
-
-    @Override
-    public Stream<T> sequential() {
-        pipeline.parallel();
-        return this;
-    }
-
-    @Override
-    public Stream<T> parallel() {
-        pipeline.parallel();
-        return this;
-    }
-
-    @Override
-    public Stream<T> unordered() {
-        pipeline.ordered(false);
-        return this;
-    }
-
-    @Override
-    public Stream<T> onClose(Runnable closeHandler) {
-        pipeline.closeHandlers().add(closeHandler);
-        return this;
-    }
-
-    @Override
-    public void close() {
-        // Close can be called even though the
-        // stream is consumed.
-        //
-        // The stream has never been started so
-        // we just run the close handlers.
-        // Todo: Make it Exception tolerant
-        closed();
-        StreamBuilderUtil.runAll(pipeline.closeHandlers());
-        pipeline.closeHandlers().clear(); // Only run once
-    }
-
-    private void linked() {
-        linkedConsumedOrClosed = true;
-    }
-
-    private void consumed() {
-        linkedConsumedOrClosed = true;
-    }
-
-    private void closed() {
-        linkedConsumedOrClosed = true;
-    }
-
-    private void assertNotLikedConsumedOrClosed() {
-        if (linkedConsumedOrClosed)
-            throw new IllegalStateException(MSG_STREAM_LINKED_CONSUMED_OR_CLOSED);
-    }
-
     private IntermediateOperationFactory iof() {
-        return factories.intermediate();
+        return baseState().factories().intermediate();
     }
 
     private TerminalOperationFactory tof() {
-        return factories.terminal();
+        return baseState().factories().terminal();
     }
-
-    private void add(final IntermediateOperation<Stream<T>, ?> intermediateOperation) {
-        assertNotLikedConsumedOrClosed();
-        pipeline.intermediateOperations().add(intermediateOperation);
-    }
-
-    private void set(final TerminalOperation<Stream<T>, ?> terminalOperation) {
-        assertNotLikedConsumedOrClosed();
-        consumed();
-        pipeline.terminatingOperation(terminalOperation);
-    }
-
-    @SuppressWarnings("unchecked")
-    private <R> R renderAndThenApply() {
-        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
-        return ((TerminalOperation<Stream<T>, R>) renderResult.terminalOperation())
-                .function()
-                .apply((Stream<T>) renderResult.stream());
-    }
-
-    @SuppressWarnings("unchecked")
-    private long renderAndThenApplyAsLong() {
-        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
-        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
-                .toLongFunction()
-                .applyAsLong((Stream<T>) renderResult.stream());
-    }
-
-    @SuppressWarnings("unchecked")
-    private boolean renderAndThenTest() {
-        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
-        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
-                .predicate()
-                .test((Stream<T>) renderResult.stream());
-    }
-
-    @SuppressWarnings("unchecked")
-    private void renderAndThenAccept() {
-        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
-        ((TerminalOperation<Stream<T>, ?>) renderResult.terminalOperation())
-                .consumer()
-                .accept((Stream<T>) renderResult.stream());
-    }
-
-    @SuppressWarnings("unchecked")
-    private long renderCount() {
-        final RenderResult<?> renderResult = renderer.render(pipeline, streamConfiguration);
-
-        if (renderResult.root().equals(Long.class)) {
-            return renderResult.stream().mapToLong(i -> (long) i).sum();
-        }
-
-        return ((TerminalOperation<Stream<T>, Long>) renderResult.terminalOperation())
-                .toLongFunction()
-                .applyAsLong((Stream<T>) renderResult.stream());
-    }
-
 
 }

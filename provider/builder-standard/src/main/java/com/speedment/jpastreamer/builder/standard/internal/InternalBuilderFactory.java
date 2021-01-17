@@ -22,6 +22,7 @@ public final class InternalBuilderFactory implements BuilderFactory {
 
     @Override
     public <T> Stream<T> createBuilder(final StreamConfiguration<T> streamConfiguration, final Renderer renderer) {
-        return new StreamBuilder<>(InjectedFactories.INSTANCE, streamConfiguration, renderer);
+        final BaseBuilderState<T> baseState = new BaseBuilderState<>(InjectedFactories.INSTANCE, streamConfiguration, renderer);
+        return new StreamBuilder<>(baseState);
     }
 }

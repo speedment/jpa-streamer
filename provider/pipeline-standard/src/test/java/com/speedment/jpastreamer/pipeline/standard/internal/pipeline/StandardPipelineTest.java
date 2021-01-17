@@ -22,6 +22,8 @@ import org.junit.jupiter.api.Test;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class StandardPipelineTest {
 
     final IntermediateOperationFactory iof = new InternalIntermediateOperationFactory();
@@ -37,8 +39,14 @@ class StandardPipelineTest {
         pipeline.intermediateOperations().add(iof.createLimit(10));
         pipeline.terminatingOperation(tof.createCollect(Collectors.joining()));
 
-        System.out.println(pipeline);
+        final String toString = pipeline.toString();
+        final String s = toString.toLowerCase();
 
+        assertTrue(s.contains("filter("));
+        assertTrue(s.contains("distinct()"));
+        assertTrue(s.contains("skip(1)"));
+        assertTrue(s.contains("limit(10)"));
+        assertTrue(s.contains("collect("));
     }
 
     private static final class StringLengthGreaterThanThree implements Predicate<String> {
@@ -47,6 +55,5 @@ class StandardPipelineTest {
             return s.length() > 3;
         }
     }
-
 
 }

@@ -14,6 +14,7 @@ package com.speedment.jpastreamer.pipeline.intermediate;
 
 import java.util.function.*;
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -25,7 +26,7 @@ public interface LongIntermediateOperationFactory {
 
     <U> IntermediateOperation<LongStream, Stream<U>> createMapToObj(LongFunction<? extends U> mapper);
 
-    IntermediateOperation<LongStream, LongStream> createMapToInt(LongToIntFunction mapper);
+    IntermediateOperation<LongStream, IntStream> createMapToInt(LongToIntFunction mapper);
 
     IntermediateOperation<LongStream, DoubleStream> createMapToDouble(LongToDoubleFunction mapper);
 
@@ -33,12 +34,12 @@ public interface LongIntermediateOperationFactory {
     IntermediateOperation<LongStream, LongStream> createFlatMap(LongFunction<? extends LongStream> mapper);
 
 
-    IntermediateOperation<LongStream, LongStream> createDistinct();
+    IntermediateOperation<LongStream, LongStream> acquireDistinct();
 
 
-    IntermediateOperation<LongStream, LongStream> createSorted();
+    IntermediateOperation<LongStream, LongStream> acquireSorted();
 
-    IntermediateOperation<LongStream, LongStream> createPeek(LongConsumer IntermediateOperator);
+    IntermediateOperation<LongStream, LongStream> createPeek(LongConsumer action);
 
 
     IntermediateOperation<LongStream, LongStream> createLimit(long maxSize);
@@ -49,5 +50,9 @@ public interface LongIntermediateOperationFactory {
     IntermediateOperation<LongStream, LongStream> createTakeWhile(LongPredicate predicate);
 
     IntermediateOperation<LongStream, LongStream> createDropWhile(LongPredicate predicate);
+
+    IntermediateOperation<LongStream, Stream<Long>> acquireBoxed();
+
+    IntermediateOperation<LongStream, DoubleStream> acquireAsDoubleStream();
 
 }

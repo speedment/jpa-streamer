@@ -19,11 +19,11 @@
     <parent>
         <groupId>com.speedment.jpastreamer.integration</groupId>
         <artifactId>integration-parent</artifactId>
-        <version>0.1.8</version>
+        <version>0.1.9-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <spring.boot.version>2.3.4.RELEASE</spring.boot.version>
+        <spring.boot.version>2.4.2</spring.boot.version>
     </properties>
 
     <modelVersion>4.0.0</modelVersion>

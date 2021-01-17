@@ -14,6 +14,7 @@ package com.speedment.jpastreamer.pipeline.intermediate;
 
 import java.util.function.*;
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -27,18 +28,18 @@ public interface DoubleIntermediateOperationFactory {
 
     IntermediateOperation<DoubleStream, LongStream> createMapToLong(DoubleToLongFunction mapper);
 
-    IntermediateOperation<DoubleStream, DoubleStream> createMapToInt(DoubleToIntFunction mapper);
+    IntermediateOperation<DoubleStream, IntStream> createMapToInt(DoubleToIntFunction mapper);
 
 
     IntermediateOperation<DoubleStream, DoubleStream> createFlatMap(DoubleFunction<? extends DoubleStream> mapper);
 
 
-    IntermediateOperation<DoubleStream, DoubleStream> createDistinct();
+    IntermediateOperation<DoubleStream, DoubleStream> acquireDistinct();
 
 
-    IntermediateOperation<DoubleStream, DoubleStream> createSorted();
+    IntermediateOperation<DoubleStream, DoubleStream> acquireSorted();
 
-    IntermediateOperation<DoubleStream, DoubleStream> createPeek(DoubleConsumer IntermediateOperator);
+    IntermediateOperation<DoubleStream, DoubleStream> createPeek(DoubleConsumer action);
 
 
     IntermediateOperation<DoubleStream, DoubleStream> createLimit(long maxSize);
@@ -49,5 +50,7 @@ public interface DoubleIntermediateOperationFactory {
     IntermediateOperation<DoubleStream, DoubleStream> createTakeWhile(DoublePredicate predicate);
 
     IntermediateOperation<DoubleStream, DoubleStream> createDropWhile(DoublePredicate predicate);
+
+    IntermediateOperation<DoubleStream, Stream<Double>> acquireBoxed();
 
 }

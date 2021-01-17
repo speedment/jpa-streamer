@@ -22,7 +22,7 @@ import java.util.*;
 public class Film {
 
     // Reproduce #58
-    private static Map<Class<? extends Film>, List<String>> A = new HashMap<>();
+    private static final Map<Class<? extends Film>, List<String>> A = new HashMap<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

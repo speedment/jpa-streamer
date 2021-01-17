@@ -13,9 +13,6 @@
 package com.speedment.jpastreamer.fieldgenerator.test;
 
 import javax.persistence.*;
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.util.*;
 
 @Entity
 @Table(name = "non_java_bean")

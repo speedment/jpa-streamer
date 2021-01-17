@@ -12,165 +12,222 @@
  */
 package com.speedment.jpastreamer.builder.standard.internal;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import com.speedment.jpastreamer.field.Field;
-import com.speedment.jpastreamer.pipeline.Pipeline;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
-import com.speedment.jpastreamer.renderer.RenderResult;
-import com.speedment.jpastreamer.renderer.Renderer;
-import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.criteria.JoinType;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Supplier;
-import java.util.stream.BaseStream;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.*;
 
-class StreamBuilderTest {
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-    private static final Factories FACTORIES = InjectedFactories.INSTANCE;
+final class StreamBuilderTest extends BaseStreamBuilderTest<String, Stream<String>> {
+
+    @Override
+    protected Stream<String> unboxed(Stream<String> stream) {
+        return stream;
+    }
+
+    @Override
+    protected long count(Stream<String> stream) {
+        return stream.count();
+    }
+
+    // Intermediate operators
 
     @Test
     void filter() {
-        final Renderer renderer = new MockRenderer();
-        final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
-        Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
-
-        final long count = builder
-                .skip(1)
-                .limit(1)
-                .count();
-
-        System.out.println("count = " + count);
-
+        testIntermediate(s -> s.filter(v -> v.compareTo("1") > 0));
     }
 
     @Test
-    void first() {
-        final Renderer renderer = new MockRenderer();
-        final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
-        Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
+    void map() {
+        testIntermediate(s -> s.map(v -> "A" + v));
+    }
 
+    @Test
+    void mapToInt() {
+        testIntermediate(s -> s.mapToInt(v -> (int) v.charAt(0)));
+    }
+
+    @Test
+    void mapToLong() {
+        testIntermediate(s -> s.mapToLong(v -> (long) v.charAt(0)));
+    }
+
+    @Test
+    void mapToDouble() {
+        testIntermediate(s -> s.mapToDouble(v -> (double) v.charAt(0)));
+    }
+
+    @Test
+    void flatMap() {
+        testIntermediate(s -> s.flatMap(v -> Stream.iterate("A", i -> i + "A").limit(v.charAt(0))));
+    }
+
+    @Test
+    void flatMapToInt() {
+        testIntermediate(s -> s.flatMapToInt(v -> IntStream.iterate(0, i -> i + 1).limit(v.charAt(0))));
+    }
+
+    @Test
+    void flatMapToLong() {
+        testIntermediate(s -> s.flatMapToLong(v -> LongStream.iterate(0, i -> i + 1).limit(v.charAt(0))));
+    }
+
+    @Test
+    void flatMapToDouble() {
+        testIntermediate(s -> s.flatMapToDouble(v -> DoubleStream.iterate(0, i -> i + 1).limit(v.charAt(0))));
+    }
+
+    @Test
+    void distinct() {
+        testIntermediate(Stream::distinct);
+    }
+
+    @Test
+    void sorted() {
+        testIntermediate(Stream::sorted);
+    }
+
+    @Test
+    void sortedComparator() {
+        testIntermediate(s -> s.sorted(Comparator.reverseOrder()));
+    }
+
+    @Test
+    void peek() {
+        final AtomicInteger cnt = new AtomicInteger();
+        testIntermediate(s -> s.peek(v -> cnt.incrementAndGet()));
+        // The peek operation is called twice, once for the ref stream
+        // once for the tested stream.
+        assertEquals(SOURCE.get().count() * 2, cnt.get());
+    }
+
+    @Test
+    void limit() {
+        testIntermediate(s -> s.limit(3));
+    }
+
+    @Test
+    void skip() {
+        testIntermediate(s -> s.skip(2));
+    }
+
+    // Todo: TakeWhile, DropWhile
+
+
+    // Terminal operators
+
+    @Test
+    void forEach() {
+        final List<String> expected = Stream.concat(SOURCE.get(), SOURCE.get()).collect(toList());
+        final List<String> actual = new ArrayList<>();
+        testTerminal(s -> {s.forEach(actual::add); return 1;});
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void forEachOrdered() {
+        final List<String> expected = Stream.concat(SOURCE.get(), SOURCE.get()).collect(toList());
+        final List<String> actual = new ArrayList<>();
+        testTerminal(s -> {s.forEachOrdered(actual::add); return 1;});
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void toArray() {
+        testTerminal(Stream::toArray, Arrays::equals);
+    }
+
+    @Test
+    void toArrayGenerator() {
+        testTerminal(s -> s.toArray(String[]::new), Arrays::equals);
+    }
+
+    @Test
+    void reduce1Arg() {
+        testTerminal(s -> s.reduce(String::concat));
+    }
+
+    @Test
+    void reduce2Arg() {
+        testTerminal(s -> s.reduce("-", String::concat));
+    }
+
+    @Test
+    void reduce3Arg() {
+        testTerminal(s -> s.reduce(0, (i, v) -> i + v.charAt(0), Integer::sum));
+    }
+
+    @Test
+    void collect3Arg() {
+        testTerminal(s -> s.collect(HashSet::new, Set::add, Set::addAll));
+    }
+
+    @Test
+    void collect1Arg() {
+        testTerminal(s -> s.collect(toCollection(LinkedHashSet::new)));
+    }
+
+    @Test
+    void min() {
+        testTerminal(s -> s.min(comparing(v -> v.charAt(0))));
+    }
+
+    @Test
+    void max() {
+        testTerminal(s -> s.max(comparing(v -> v.charAt(0))));
+    }
+
+    @Test
+    void count() {
+        testTerminal(Stream::count);
+    }
+
+    @Test
+    void anyMatch() {
+        testTerminal(s -> s.anyMatch("2"::equals));
+    }
+
+    @Test
+    void allMatch() {
+        testTerminal(s -> s.allMatch("2"::equals));
+    }
+
+    @Test
+    void noneMatch() {
+        testTerminal(s -> s.noneMatch("2"::equals));
+    }
+
+    @Test
+    void findFirst() {
+        testTerminal(Stream::findFirst);
+    }
+
+    @Test
+    void findAny() {
+        testTerminal(Stream::findAny);
+    }
+
+    /// Various
+
+    @Test
+    void consumed() {
         final Optional<String> first = builder
                 .filter(s -> s.length() > 0)
                 .limit(1)
                 .findFirst();
 
-        System.out.println("`first` = " + first);
-
-    }
-
-    @Test
-    void consumed() {
         assertThrows(IllegalStateException.class, () -> {
-            final Renderer renderer = new MockRenderer();
-            final StreamConfiguration<String> streamConfiguration = new MockStreamConfiguration<>(String.class);
-            Stream<String> builder = new StreamBuilder<>(FACTORIES, streamConfiguration, renderer);
-
-            final Optional<String> first = builder
-                    .filter(s -> s.length() > 0)
-                    .limit(1)
-                    .findFirst();
-
             // We have already consumed the Stream so
             // this should not work.
             final Stream<Integer> illegal = builder.map(String::length);
-
         });
     }
 
-    private static final class MockRenderer implements Renderer {
-
-        private final Supplier<Stream<String>> source = () -> Stream.of("A", "B", "C");
-
-        // Only works for Stream and not IntStream, etc.
-
-        @Override
-        public <T> RenderResult<T> render(Pipeline<T> pipeline, StreamConfiguration<T> streamConfiguration) {
-
-            System.out.println(pipeline);
-
-            return new MyRenderResult<>(
-                pipeline.root(),
-                (Stream<T>) replay(source.get(), (Pipeline<String>)pipeline),
-                pipeline.terminatingOperation()
-            );
-        }
-
-        @Override
-        public void close() {
-        }
-
-        <T> BaseStream<?, ?> replay(Stream<T> initialStream, Pipeline<T> pipeLine) {
-            BaseStream<?, ?> result = initialStream;
-            for (IntermediateOperation intermediateOperation:pipeLine.intermediateOperations()) {
-                result = (BaseStream<?,?>)intermediateOperation.function().apply(result);
-            }
-            return result;
-        }
-
-    }
-
-    private static final class MyRenderResult<T> implements RenderResult<T> {
-
-        private final Class<T> returnType;
-        private final Stream<T> stream;
-        private final TerminalOperation<?, ?> terminalOperation;
-
-        public MyRenderResult(
-            final Class<T> returnType,
-            final Stream<T> stream,
-            final TerminalOperation<?, ?> terminalOperation
-        ) {
-            this.stream = stream;
-            this.returnType = returnType;
-            this.terminalOperation = terminalOperation;
-        }
-
-
-        @Override
-        public Class<T> root() {
-            return returnType;
-        }
-
-        @Override
-        public Stream<T> stream() {
-            return stream;
-        }
-
-        @Override
-        public TerminalOperation<?, ?> terminalOperation() {
-            return terminalOperation;
-        }
-    }
-
-    private static final class MockStreamConfiguration<T> implements StreamConfiguration<T> {
-
-        private final Class<T> entityClass;
-
-        private MockStreamConfiguration(Class<T> entityClass) {
-            this.entityClass = entityClass;
-        }
-
-        @Override
-        public Class<T> entityClass() {
-            return entityClass;
-        }
-
-        @Override
-        public Set<JoinConfiguration<T>> joins() {
-            return new HashSet<>();
-        }
-
-        @Override
-        public StreamConfiguration<T> joining(Field<T> field, JoinType joinType) {
-            throw new UnsupportedOperationException();
-        }
-    }
 
 }

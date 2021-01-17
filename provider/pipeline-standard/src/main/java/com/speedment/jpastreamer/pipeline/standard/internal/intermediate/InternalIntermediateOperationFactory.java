@@ -19,8 +19,12 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType
 
 import java.util.Comparator;
 import java.util.function.*;
-import java.util.stream.*;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
+import static com.speedment.jpastreamer.pipeline.standard.internal.intermediate.TypeUtil.typed;
 import static java.util.Objects.requireNonNull;
 
 public final class InternalIntermediateOperationFactory implements IntermediateOperationFactory {
@@ -238,11 +242,6 @@ public final class InternalIntermediateOperationFactory implements IntermediateO
                 Stream.class,
                 function,
                 predicate);
-    }
-
-    @SuppressWarnings("unchecked")
-    private <S extends BaseStream<?, S>, R extends BaseStream<?, R>> IntermediateOperation<S, R> typed(final IntermediateOperation<?, ?> terminalOperation) {
-        return (IntermediateOperation<S, R>) terminalOperation;
     }
 
 }

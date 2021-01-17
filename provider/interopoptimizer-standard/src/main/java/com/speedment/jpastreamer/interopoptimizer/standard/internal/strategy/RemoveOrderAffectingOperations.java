@@ -47,7 +47,7 @@ public final class RemoveOrderAffectingOperations implements IntermediateOperati
                     .filter(statement -> statement.verb() == MODIFIES)
                     .collect(Collectors.toList());
 
-                if (modifyingStatements.size() == 0) {
+                if (modifyingStatements.isEmpty()) {
                     break;
                 }
 

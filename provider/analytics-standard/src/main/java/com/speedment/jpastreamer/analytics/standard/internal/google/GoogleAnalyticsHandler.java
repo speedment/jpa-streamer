@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static com.speedment.common.rest.Param.param;
 import static com.speedment.common.rest.Rest.encode;
@@ -30,9 +31,9 @@ import static java.util.Objects.requireNonNull;
 
 public final class GoogleAnalyticsHandler implements Handler {
 
-    private final String COOKIE_FILE_NAME = "JPAstreamer.clientid";
-    private final String URL_STRING = "www.google-analytics.com";
-    private final String TRACKING_ID = "UA-54384165-3";
+    private static final String COOKIE_FILE_NAME = "JPAstreamer.clientid";
+    private static final String URL_STRING = "www.google-analytics.com";
+    private static final String TRACKING_ID = "UA-54384165-3";
 
     private final String version;
     private final boolean demoMode;
@@ -116,11 +117,13 @@ public final class GoogleAnalyticsHandler implements Handler {
         final String userHome = System.getProperty("user.home");
         try {
             final Path path = Paths.get(userHome, COOKIE_FILE_NAME);
-            return Files.lines(path, StandardCharsets.UTF_8)
-                    .findFirst()
-                    .map(UUID::fromString)
-                    .orElseThrow(NoSuchElementException::new)
-                    .toString();
+            try (Stream<String> lines = Files.lines(path, StandardCharsets.UTF_8)) {
+                return lines
+                        .findFirst()
+                        .map(UUID::fromString)
+                        .orElseThrow(NoSuchElementException::new)
+                        .toString();
+            }
         } catch (Exception ignore) {
         }
         final String clientId = UUID.randomUUID().toString();

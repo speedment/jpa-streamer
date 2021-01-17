@@ -31,14 +31,11 @@ import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class InternalCriteriaMerger implements CriteriaMerger {
 
-    private final Map<IntermediateOperationType, CriteriaModifier> mergingStrategies = new HashMap<>();
+    private final Map<IntermediateOperationType, CriteriaModifier> mergingStrategies = new EnumMap<>(IntermediateOperationType.class);
 
     public InternalCriteriaMerger() {
         registerMergingStrategy(FILTER, FilterCriteriaModifier.INSTANCE);

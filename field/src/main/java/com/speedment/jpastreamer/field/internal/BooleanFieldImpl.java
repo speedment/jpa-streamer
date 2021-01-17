@@ -13,18 +13,16 @@
 package com.speedment.jpastreamer.field.internal;
 
 import com.speedment.jpastreamer.field.BooleanField;
-import com.speedment.jpastreamer.field.internal.comparator.BooleanFieldComparatorImpl;
-import com.speedment.jpastreamer.field.internal.method.GetBooleanImpl;
-import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.comparator.BooleanFieldComparator;
 import com.speedment.jpastreamer.field.comparator.NullOrder;
+import com.speedment.jpastreamer.field.internal.comparator.BooleanFieldComparatorImpl;
+import com.speedment.jpastreamer.field.internal.method.GetBooleanImpl;
 import com.speedment.jpastreamer.field.internal.predicate.booleans.BooleanEqualPredicate;
 import com.speedment.jpastreamer.field.internal.predicate.booleans.BooleanNotEqualPredicate;
 import com.speedment.jpastreamer.field.method.BooleanGetter;
 import com.speedment.jpastreamer.field.method.GetBoolean;
+import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
-
-import javax.persistence.AttributeConverter;
 
 import static java.util.Objects.requireNonNull;
 
