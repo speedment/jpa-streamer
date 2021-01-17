@@ -135,6 +135,7 @@ abstract class BaseStreamBuilderTest<T, S extends BaseStream<T, S>> {
     }
 
 
+    @SuppressWarnings("unchecked")
     private static final class MockRenderer implements Renderer {
 
         @Override

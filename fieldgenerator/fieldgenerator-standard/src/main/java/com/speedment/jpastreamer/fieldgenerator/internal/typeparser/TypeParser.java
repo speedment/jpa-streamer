@@ -29,9 +29,6 @@ import java.util.List;
 
 public final class TypeParser {
 
-    public TypeParser() {
-    }
-
     public Type render(String s) throws TypeParserException {
         if (!hasBalancedBrackets(s)) {
             throw new TypeParserException("String " + s + " has imbalanced brackets, hence is not a valid type expression");

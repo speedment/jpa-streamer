@@ -33,6 +33,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CompoundSelection;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
+import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.stream.BaseStream;
 import java.util.stream.Stream;
@@ -67,8 +68,10 @@ final class StandardRenderer implements Renderer {
         final Criteria<E, E> criteria = criteriaFactory.createCriteria(entityManager, entityClass);
         criteria.getRoot().alias(pipeline.root().getSimpleName());
 
-        if (streamConfiguration.selections().isPresent()) {
-            final Projection<E> projection = streamConfiguration.selections().get();
+        // Makes SonarType happy:
+        final Optional<Projection<E>> oSelections = streamConfiguration.selections();
+        if (oSelections.isPresent()) {
+            final Projection<E> projection = oSelections.get();
             final Path<?>[] columns = projection.fields().stream().map(field -> criteria.getRoot().get(field.columnName())).toArray(Path[]::new);
             final CompoundSelection<E> selection = criteria.getBuilder().construct(projection.entityClass(), columns);
 

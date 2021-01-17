@@ -45,7 +45,9 @@ public final class MockRendererFactory implements RendererFactory {
         }
 
         @Override
-        public void close() {}
+        public void close() {
+            // Do nothing
+        }
     }
 
 }

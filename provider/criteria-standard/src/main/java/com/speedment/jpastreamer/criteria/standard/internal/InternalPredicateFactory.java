@@ -31,8 +31,8 @@ public final class InternalPredicateFactory implements PredicateFactory {
     @Override
     @SuppressWarnings("unchecked")
     public <ENTITY> Predicate createPredicate(
-        final Criteria<ENTITY, ?> criteria,
-        final SpeedmentPredicate<ENTITY> speedmentPredicate
+            final Criteria<ENTITY, ?> criteria,
+            final SpeedmentPredicate<ENTITY> speedmentPredicate
     ) {
         requireNonNull(criteria);
         requireNonNull(speedmentPredicate);
@@ -50,9 +50,8 @@ public final class InternalPredicateFactory implements PredicateFactory {
                 if (predicate instanceof SpeedmentPredicate) {
                     return createPredicate(criteria, (SpeedmentPredicate<ENTITY>) predicate);
                 }
-                throw new JPAStreamerException(
-                    "Predicate type [" + predicate.getClass().getSimpleName() + "] is not supported"
-                );
+                throw newJPAStreamerException("type", predicate.getClass().getSimpleName());
+
             }).toArray(Predicate[]::new);
 
             switch (combinedPredicate.getType()) {
@@ -61,14 +60,16 @@ public final class InternalPredicateFactory implements PredicateFactory {
                 case OR:
                     return criteria.getBuilder().or(predicates);
                 default:
-                    throw new JPAStreamerException(
-                        "Predicate logical operator [" + combinedPredicate.getType() + "] is not supported"
-                    );
+                    throw newJPAStreamerException("logical operator", combinedPredicate.getType().toString());
             }
         }
+        throw newJPAStreamerException("logical type", speedmentPredicate.getClass().getSimpleName());
+    }
 
-        throw new JPAStreamerException(
-            "Predicate type [" + speedmentPredicate.getClass().getSimpleName() + "] is not supported"
+    private JPAStreamerException newJPAStreamerException(String item, String typeName) {
+        return new JPAStreamerException(
+                "Predicate " + item + " [" + typeName + "] is not supported"
         );
     }
+
 }

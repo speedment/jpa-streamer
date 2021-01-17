@@ -1,5 +1,6 @@
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
+import com.speedment.jpastreamer.javanine.Java9StreamUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -98,12 +99,12 @@ final class AutoClosingLongStreamTest extends AbstractAutoClosingStreamTest<Long
 
     @Test
     void takeWhile() {
-        //test(s -> s.takeWhile(i -> i < 3));
+        testIntermediate(s -> Java9StreamUtil.takeWhile(s, i -> i < 3));
     }
 
     @Test
     void dropWhile() {
-        //test(s -> s.dropWhile(i -> i < 3));
+        testIntermediate(s -> Java9StreamUtil.dropWhile(s, i -> i < 3));
     }
 
     @Test
