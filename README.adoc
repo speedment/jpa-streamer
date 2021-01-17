@@ -2,7 +2,7 @@
 Per Minborg, Julia Gustafsson
 :toc: macro
 
-image::https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer-beta.png[alt="JPAstreamer Logo",width=600px, align=center]
+image::https://github.com/speedment/speedment-resources/blob/master/src/main/resources/logo/JPAstreamer.png[alt="JPAstreamer Logo",width=600px, align=center]
 
 image:https://maven-badges.herokuapp.com/maven-central/com.speedment.jpastreamer/jpastreamer-core/badge.svg[link="https://maven-badges.herokuapp.com/maven-central/com.speedment.jpastreamer/jpastreamer-core"]
 image:https://github.com/speedment/jpa-streamer/workflows/Java%20CI%20with%20Maven/badge.svg[link="https://github.com/speedment/jpa-streamer/actions"]
