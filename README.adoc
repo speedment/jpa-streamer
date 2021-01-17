@@ -121,7 +121,7 @@ In Maven, the following JPAstreamer dependency is added to the project's pom.xml
                 </goals>
                 <configuration>
                     <sources>
-                        <source>target/generated-sources/annotations</source>
+                        <source>${project.build.directory}/generated-sources/annotations</source>
                     </sources>
                 </configuration>
             </execution>

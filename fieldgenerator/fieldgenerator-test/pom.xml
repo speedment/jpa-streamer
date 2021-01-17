@@ -19,7 +19,7 @@
     <parent>
         <artifactId>fieldgenerator</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
-        <version>0.1.9-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
