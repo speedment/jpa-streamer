@@ -44,7 +44,7 @@ public class User {
 
     // Use "is" rather than "get"
     public boolean isLarge() {
-        return member;
+        return large;
     }
 
 }

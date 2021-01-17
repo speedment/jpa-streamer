@@ -13,13 +13,13 @@
 package com.speedment.jpastreamer.builder.standard.internal;
 
 import com.speedment.jpastreamer.javanine.Java9DoubleStreamAdditions;
-import com.speedment.jpastreamer.javanine.Java9IntStreamAdditions;
 import com.speedment.jpastreamer.pipeline.intermediate.DoubleIntermediateOperationFactory;
-import com.speedment.jpastreamer.pipeline.intermediate.IntIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.DoubleTerminalOperationFactory;
-import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
 
-import java.util.*;
+import java.util.DoubleSummaryStatistics;
+import java.util.OptionalDouble;
+import java.util.PrimitiveIterator;
+import java.util.Spliterator;
 import java.util.function.*;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;

@@ -13,11 +13,9 @@
 package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFunctionalType;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
 import java.util.stream.BaseStream;
 
 import static java.util.Objects.requireNonNull;

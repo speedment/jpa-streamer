@@ -82,7 +82,7 @@ final class StandardRenderer implements Renderer {
 
         criteriaMerger.merge(pipeline, criteria);
 
-        if (pipeline.terminatingOperation().type() == TerminalOperationType.COUNT && pipeline.intermediateOperations().size() == 0) {
+        if (pipeline.terminatingOperation().type() == TerminalOperationType.COUNT && pipeline.intermediateOperations().isEmpty()) {
             final Criteria<E, Long> countCriteria = createCountCriteria(criteria);
 
             final TypedQuery<Long> typedQuery = entityManager.createQuery(countCriteria.getQuery());

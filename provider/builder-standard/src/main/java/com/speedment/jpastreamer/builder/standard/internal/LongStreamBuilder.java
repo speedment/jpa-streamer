@@ -12,11 +12,8 @@
  */
 package com.speedment.jpastreamer.builder.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9IntStreamAdditions;
 import com.speedment.jpastreamer.javanine.Java9LongStreamAdditions;
-import com.speedment.jpastreamer.pipeline.intermediate.IntIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.LongIntermediateOperationFactory;
-import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.LongTerminalOperationFactory;
 
 import java.util.*;

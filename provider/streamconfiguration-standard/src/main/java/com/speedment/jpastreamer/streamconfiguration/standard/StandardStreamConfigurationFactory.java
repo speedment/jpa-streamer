@@ -16,8 +16,6 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfigurationFactory;
 import com.speedment.jpastreamer.streamconfiguration.standard.internal.StandardStreamConfiguration;
 
-import java.util.Collections;
-
 import static java.util.Objects.requireNonNull;
 
 public final class StandardStreamConfigurationFactory implements StreamConfigurationFactory {

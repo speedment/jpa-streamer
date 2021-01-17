@@ -15,7 +15,7 @@ package com.speedment.jpastreamer.core;
 /**
  * Dummy class to force JavaDoc generation.
  * <p>
- * This class may be removed at any release
+ * @deprecated This class may be removed at any release for any reason
  */
 @Deprecated // For removal
 public final class Foo {}

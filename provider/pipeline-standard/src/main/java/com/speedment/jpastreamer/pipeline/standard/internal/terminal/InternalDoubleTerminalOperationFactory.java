@@ -16,10 +16,12 @@ import com.speedment.jpastreamer.pipeline.terminal.DoubleTerminalOperationFactor
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
-import java.util.*;
+import java.util.DoubleSummaryStatistics;
+import java.util.OptionalDouble;
+import java.util.PrimitiveIterator;
+import java.util.Spliterator;
 import java.util.function.*;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 import static java.util.Objects.requireNonNull;
 

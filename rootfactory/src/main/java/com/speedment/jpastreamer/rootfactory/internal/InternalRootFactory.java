@@ -21,6 +21,8 @@ import static java.util.Objects.requireNonNull;
 
 public final class InternalRootFactory {
 
+    public static final String PROVIDER = "Provider ";
+
     private InternalRootFactory() {
     }
 
@@ -75,19 +77,19 @@ public final class InternalRootFactory {
         try {
             clazz = Class.forName(standardServiceName);
         } catch (ClassNotFoundException x) {
-            fail(service, "Provider " + standardServiceName + " not found");
+            fail(service, PROVIDER + standardServiceName + " not found");
         }
         if (!service.isAssignableFrom(clazz)) {
-            fail(service, "Provider " + standardServiceName + " not a subtype");
+            fail(service, PROVIDER + standardServiceName + " not a subtype");
         }
         try {
-            final Object instance = clazz.newInstance();
+            final Object instance = clazz.getDeclaredConstructor().newInstance();
             final S p = service.cast(instance);
             System.out.println("Warning: " + service + " implementation guessed to be " + instance.getClass().getName() + ". " +
                     "This should be fixed to ensure performance and stability.");
             return p;
-        } catch (Throwable x) {
-            fail(service, "Provider " + standardServiceName + " could not be instantiated", x);
+        } catch (Exception x) {
+            fail(service, PROVIDER + standardServiceName + " could not be instantiated", x);
         }
         throw new NoSuchElementException("Error"); // we should never end up here
     }

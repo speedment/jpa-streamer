@@ -88,7 +88,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-        if (annotations.size() == 0 || roundEnv.processingOver()) {
+        if (annotations.isEmpty() || roundEnv.processingOver()) {
             // Allow other processors to run
             return false;
         }
@@ -163,7 +163,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         }
 
         final File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);
-        writer.write(generator.on(file).get());
+        writer.write(generator.on(file).orElseThrow(NoSuchElementException::new));
     }
 
     private String findGetter(final Element field,
@@ -277,7 +277,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 )));
     }
 
-    private Type referenceType(Element field, String entityName) throws FieldGeneratorProcessorException {
+    private Type referenceType(Element field, String entityName) {
         Type fieldType = fieldType(field);
         Type entityType = SimpleType.create(entityName);
         final Type type;
@@ -321,7 +321,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return typeParser.render(field.asType().toString());
     }
 
-    private Type primitiveFieldType(Type fieldType, Type entityType) throws UnsupportedOperationException {
+    private Type primitiveFieldType(Type fieldType, Type entityType) {
         Type primitiveFieldType;
         switch (fieldType.getTypeName()) {
             case "int":
@@ -359,7 +359,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         );
     }
 
-    private static final Map<String, java.lang.Class<?>> CLASS_CACHE = new ConcurrentHashMap<>();
+    // private static final Map<String, java.lang.Class<?>> CLASS_CACHE = new ConcurrentHashMap<>();
 
     private static final Set<String> DISALLOWED_ACCESS_LEVELS = Stream.of("PROTECTED", "PRIVATE", "NONE")
             .collect(Collectors.collectingAndThen(toSet(), Collections::unmodifiableSet));
@@ -374,9 +374,11 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     private boolean isLombokAnnotated(final Element annotatedElement, final String lombokSimpleClassName) {
         try {
             final String className = "lombok." + lombokSimpleClassName;
+            @SuppressWarnings("unchecked")
             final java.lang.Class<java.lang.annotation.Annotation> clazz = (java.lang.Class<java.lang.annotation.Annotation>) java.lang.Class.forName(className);
             return annotatedElement.getAnnotation(clazz) != null;
         } catch (ClassNotFoundException ignored) {
+            // ignore
         }
         return false;
     }
@@ -393,7 +395,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         return map.values().stream()
                 .map(AnnotationValue::toString)
-                .map(v -> v.substring(v.lastIndexOf(".") + 1)) // Format as simple name
+                .map(v -> v.substring(v.lastIndexOf('.') + 1)) // Format as simple name
                 .filter(this::isAccessLevel)
                 .findFirst();
     }

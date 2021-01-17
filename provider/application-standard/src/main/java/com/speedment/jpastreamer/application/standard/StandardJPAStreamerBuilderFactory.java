@@ -12,14 +12,13 @@
  */
 package com.speedment.jpastreamer.application.standard;
 
-import static java.util.Objects.requireNonNull;
-
 import com.speedment.jpastreamer.application.JPAStreamerBuilder;
 import com.speedment.jpastreamer.application.JPAStreamerBuilderFactory;
 import com.speedment.jpastreamer.application.standard.internal.StandardJPAStreamerBuilder;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
+import static java.util.Objects.requireNonNull;
 
 public final class StandardJPAStreamerBuilderFactory implements JPAStreamerBuilderFactory {
 

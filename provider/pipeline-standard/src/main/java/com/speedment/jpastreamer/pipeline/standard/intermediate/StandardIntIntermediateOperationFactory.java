@@ -14,11 +14,8 @@ package com.speedment.jpastreamer.pipeline.standard.intermediate;
 
 import com.speedment.jpastreamer.pipeline.intermediate.IntIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
-import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.standard.internal.intermediate.InternalIntIntermediateOperationFactory;
-import com.speedment.jpastreamer.pipeline.standard.internal.intermediate.InternalIntermediateOperationFactory;
 
-import java.util.Comparator;
 import java.util.function.*;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;

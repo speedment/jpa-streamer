@@ -12,10 +12,6 @@
  */
 package com.speedment.jpastreamer.merger.standard.internal.query;
 
-import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.LIMIT;
-import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.SKIP;
-import static java.util.Objects.requireNonNull;
-
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.merger.result.QueryMergeResult;
 import com.speedment.jpastreamer.merger.standard.internal.query.result.InternalQueryMergeResult;
@@ -29,13 +25,17 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType
 
 import javax.persistence.Query;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.LIMIT;
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.SKIP;
+import static java.util.Objects.requireNonNull;
+
 public final class InternalQueryMerger implements QueryMerger {
 
-    private final Map<IntermediateOperationType, QueryModifier> mergingStrategies = new HashMap<>();
+    private final Map<IntermediateOperationType, QueryModifier> mergingStrategies = new EnumMap<>(IntermediateOperationType.class);
 
     public InternalQueryMerger() {
         registerMergingStrategy(SKIP, SkipLimitModifier.INSTANCE);

@@ -14,15 +14,11 @@ package com.speedment.jpastreamer.pipeline.standard.internal.terminal;
 
 import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
-import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.BaseStream;
-import java.util.stream.Collector;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 

@@ -12,15 +12,12 @@
  */
 package com.speedment.jpastreamer.field;
 
+import com.speedment.jpastreamer.field.comparator.IntFieldComparator;
 import com.speedment.jpastreamer.field.internal.IntFieldImpl;
 import com.speedment.jpastreamer.field.method.IntGetter;
-import com.speedment.jpastreamer.field.trait.HasAttributeConverterClass;
 import com.speedment.jpastreamer.field.trait.HasComparableOperators;
-import com.speedment.runtime.compute.ToInt;
-import com.speedment.jpastreamer.field.comparator.IntFieldComparator;
 import com.speedment.jpastreamer.field.trait.HasIntValue;
-
-import javax.persistence.AttributeConverter;
+import com.speedment.runtime.compute.ToInt;
 
 /**
  * A field that represents a primitive {@code int} value.

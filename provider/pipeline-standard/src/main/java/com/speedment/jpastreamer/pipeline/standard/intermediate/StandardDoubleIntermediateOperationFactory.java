@@ -13,10 +13,8 @@
 package com.speedment.jpastreamer.pipeline.standard.intermediate;
 
 import com.speedment.jpastreamer.pipeline.intermediate.DoubleIntermediateOperationFactory;
-import com.speedment.jpastreamer.pipeline.intermediate.IntIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.standard.internal.intermediate.InternalDoubleIntermediateOperationFactory;
-import com.speedment.jpastreamer.pipeline.standard.internal.intermediate.InternalIntIntermediateOperationFactory;
 
 import java.util.function.*;
 import java.util.stream.DoubleStream;

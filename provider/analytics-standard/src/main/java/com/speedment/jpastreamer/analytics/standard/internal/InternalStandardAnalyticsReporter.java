@@ -57,7 +57,9 @@ public final class InternalStandardAnalyticsReporter implements AnalyticsReporte
                 if (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {
                     System.out.println("Warning: Unable to shutdown analytics reporter.");
                 }
-            } catch (InterruptedException ignore) {}
+            } catch (InterruptedException ignore) {
+                // Todo: re-interrupt or re-throw
+            }
             executorService.shutdownNow();
         }
     }

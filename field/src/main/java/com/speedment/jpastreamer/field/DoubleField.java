@@ -19,8 +19,6 @@ import com.speedment.jpastreamer.field.trait.HasComparableOperators;
 import com.speedment.jpastreamer.field.trait.HasDoubleValue;
 import com.speedment.runtime.compute.ToDouble;
 
-import javax.persistence.AttributeConverter;
-
 /**
  * A field that represents a primitive {@code double} value.
  * <p>

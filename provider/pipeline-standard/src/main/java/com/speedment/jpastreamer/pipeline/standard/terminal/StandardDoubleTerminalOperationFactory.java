@@ -13,15 +13,15 @@
 package com.speedment.jpastreamer.pipeline.standard.terminal;
 
 import com.speedment.jpastreamer.pipeline.standard.internal.terminal.InternalDoubleTerminalOperationFactory;
-import com.speedment.jpastreamer.pipeline.standard.internal.terminal.InternalIntTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.DoubleTerminalOperationFactory;
-import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 
-import java.util.*;
+import java.util.DoubleSummaryStatistics;
+import java.util.OptionalDouble;
+import java.util.PrimitiveIterator;
+import java.util.Spliterator;
 import java.util.function.*;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 public class StandardDoubleTerminalOperationFactory implements DoubleTerminalOperationFactory {
 

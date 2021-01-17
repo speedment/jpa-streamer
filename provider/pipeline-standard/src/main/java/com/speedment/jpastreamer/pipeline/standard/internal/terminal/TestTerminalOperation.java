@@ -17,7 +17,6 @@ import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFunctionalTy
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 
 import java.util.function.Predicate;
-import java.util.function.ToLongFunction;
 import java.util.stream.BaseStream;
 
 import static java.util.Objects.requireNonNull;

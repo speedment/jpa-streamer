@@ -14,7 +14,6 @@ package com.speedment.jpastreamer.pipeline.terminal;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.BaseStream;
 import java.util.stream.IntStream;
 
 public interface IntTerminalOperationFactory extends BaseStreamTerminalOperationFactory {

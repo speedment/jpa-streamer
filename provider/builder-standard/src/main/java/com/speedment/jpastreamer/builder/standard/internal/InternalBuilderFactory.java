@@ -13,7 +13,6 @@
 package com.speedment.jpastreamer.builder.standard.internal;
 
 import com.speedment.jpastreamer.builder.BuilderFactory;
-import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
@@ -23,7 +22,7 @@ public final class InternalBuilderFactory implements BuilderFactory {
 
     @Override
     public <T> Stream<T> createBuilder(final StreamConfiguration<T> streamConfiguration, final Renderer renderer) {
-        final BaseBuilderState<T> baseState = new BaseBuilderState<T>(InjectedFactories.INSTANCE, streamConfiguration, renderer);
+        final BaseBuilderState<T> baseState = new BaseBuilderState<>(InjectedFactories.INSTANCE, streamConfiguration, renderer);
         return new StreamBuilder<>(baseState);
     }
 }

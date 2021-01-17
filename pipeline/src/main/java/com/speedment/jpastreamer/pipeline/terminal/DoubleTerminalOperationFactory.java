@@ -12,10 +12,12 @@
  */
 package com.speedment.jpastreamer.pipeline.terminal;
 
-import java.util.*;
+import java.util.DoubleSummaryStatistics;
+import java.util.OptionalDouble;
+import java.util.PrimitiveIterator;
+import java.util.Spliterator;
 import java.util.function.*;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 public interface DoubleTerminalOperationFactory extends BaseStreamTerminalOperationFactory {
 
