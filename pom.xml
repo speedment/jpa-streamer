@@ -730,6 +730,12 @@
                             <keyname>${gpg.keyname}</keyname>
                             <passphrase>${gpg.passphrase}</passphrase>
                             <executable>${gpg.executable}</executable>
+
+                            <!-- https://github.com/samuelmeuli/action-maven-publish/issues/3-->
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
                         </configuration>
                     </plugin>
                     
