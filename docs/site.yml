@@ -20,7 +20,7 @@ content:
       # only generate from git tags (and not branches)
       branches: []
       start_path: docs
-      tags: [0.1*]
+      tags: [0.1*, 1.0*]
 ui:
   bundle:
     url: ui-bundle.zip
