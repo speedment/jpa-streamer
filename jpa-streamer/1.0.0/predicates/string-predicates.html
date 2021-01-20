@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>String Predicates :: JPAStreamer</title>
+    <link rel="prev" href="comparable-predicates.html">
+    <link rel="next" href="primitive-predicates.html">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../.."></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../fetching-data/fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../1.0.1/introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.5/introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="predicates.html">Predicates</a></li>
+    <li><a href="string-predicates.html">String Predicates</a></li>
+  </ul>
+</nav>
+<h1 class="page">String Predicates</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following additional methods (over <code>ReferenceField</code>) are available to a <code>StringField</code>. The "Condition" in the table below is the condition for which the corresponding <code>Predicate</code> will hold <code>true</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Param Type</th>
+<th class="tableblock halign-left valign-top">Operation</th>
+<th class="tableblock halign-left valign-top">Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isEmpty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String::isEmpty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is empty (i.e. field.length() == 0)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">isNotEmpty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!String::isEmpty</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is not empty (i.e. field.length() !=0)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">equalIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String::equalsIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is equal to the given parameter ignoring case</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notEqualIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!String::equalsIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is not equal to the given parameter ignoring case</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">startsWith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String::startsWith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field starts with the given parameter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notStartsWith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!String::startsWith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field does not start with the given parameter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">startsWithIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String::startsWith ic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field starts with the given parameter ignoring case</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notStartsWithIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!String::startsWith ic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field does not start with the given parameter ignoring case</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">endsWith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String::endsWith</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field ends with the given parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notEndsWith</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!String::endsWith</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field does not end with the given parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">endsWithIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String::endsWith ic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field ends with the given parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notEndsWithIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!String::endsWith ic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field does not end with the given parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">contains</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String::contains</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field contains the given parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notContains</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!String::contains</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field does not contain the given parameter</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">containsIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String::contains ic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field contains the given parameter ignoring case</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notContainsIgnoreCase</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!String::contains ic</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Fields that are <code>null</code> will never fulfill any of the predicates in the list above. Thus, neither <code>contains</code> nor <code>notContains</code> will return <code>true</code> for null values.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>A <code>StringField</code> implements the interface traits <code>HasReferenceOperators</code>, <code>HasComparableOperators</code>} and <code>HasStringOperators</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+An informal notation of method references is made in the table above with \"!\" indicating the <code>Predicate::negate</code> method. I.e. it means that the operation indicates a <code>Predicate</code> that will return the negated value. The notation \"ic\" means that the method reference shall be applied ignoring case.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here is a list with examples for the <strong>String Predicates</strong>.</p>
+</div>
+<div class="sect2">
+<h3 id="_isempty"><a class="anchor" href="#_isempty"></a>isEmpty</h3>
+<div class="paragraph">
+<p>The following example that prints the number of films that has a title that is empty (e.g. is equal to ""):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.isEmpty())
+    .count();
+
+    System.out.format("There are %d films(s) with an empty title %n", count);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">There are 0 films(s) with an empty title</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_isnotempty"><a class="anchor" href="#_isnotempty"></a>isNotEmpty</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that is <strong>not</strong> empty (e.g. is <strong>not</strong> equal to ""):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.isNotEmpty())
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_equalignorecase"><a class="anchor" href="#_equalignorecase"></a>equalIgnoreCase</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that equals to "AlABama dEVil" ignoring case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.equalIgnoreCase("AlABama dEVil"))
+    .forEachOrdered(System.out::println);
+----</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">FilmImpl { filmId = 9, title = ALABAMA DEVIL, ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notequalignorecase"><a class="anchor" href="#_notequalignorecase"></a>notEqualIgnoreCase</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that does <strong>not</strong> equal to "AlABama dEVil" ignoring case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notEqualIgnoreCase("AlABama dEVil"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_startswith"><a class="anchor" href="#_startswith"></a>startsWith</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that starts with "ALABAMA":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.startsWith("ALABAMA"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Film { filmId = 9, title = ALABAMA DEVIL, ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notstartswith"><a class="anchor" href="#_notstartswith"></a>notStartsWith</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that does <strong>not</strong> start with "ALABAMA":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notStartsWith("ALABAMA"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_startswithignorecase"><a class="anchor" href="#_startswithignorecase"></a>startsWithIgnoreCase</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that starts with "ala" ignoring case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.startsWithIgnoreCase("ala"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Film { filmId = 9, title = ALABAMA DEVIL, ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notstartswithignorecase"><a class="anchor" href="#_notstartswithignorecase"></a>notStartsWithIgnoreCase</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that does <strong>not</strong> start with "ala" ignoring case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notStartsWithIgnoreCase("ala"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_endswith"><a class="anchor" href="#_endswith"></a>endsWith</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that ends with "DEVIL":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.endsWith("DEVIL"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 9, title = ALABAMA DEVIL, ...
+Film { filmId = 155, title = CLEOPATRA DEVIL, ...
+Film { filmId = 313, title = FIDELITY DEVIL, ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notendswith"><a class="anchor" href="#_notendswith"></a>notEndsWith</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that does <strong>not</strong> end with "DEVIL":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notEndsWith("DEVIL"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_endswithignorecase"><a class="anchor" href="#_endswithignorecase"></a>endsWithIgnoreCase</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that ends with "deVIL" ignoring case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.endsWithIgnoreCase("deVIL"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 9, title = ALABAMA DEVIL, ...
+Film { filmId = 155, title = CLEOPATRA DEVIL, ...
+Film { filmId = 313, title = FIDELITY DEVIL, ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notendswithignorecase"><a class="anchor" href="#_notendswithignorecase"></a>notEndsWithIgnoreCase</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that does <strong>not</strong> start with "deVIL" ignoring case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notEndsWithIgnoreCase("deVIL"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contains"><a class="anchor" href="#_contains"></a>contains</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that contains the string "CON":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.contains("CON"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 23, title = ANACONDA CONFESSIONS, ...
+Film { filmId = 127, title = CAT CONEHEADS, ...
+Film { filmId = 138, title = CHARIOTS CONSPIRACY, ...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notcontains"><a class="anchor" href="#_notcontains"></a>notContains</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that does <strong>not</strong> contain the string "CON":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.notContains("CON"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_containsignorecase"><a class="anchor" href="#_containsignorecase"></a>containsIgnoreCase</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that contains the string "CoN" ignoring case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.containsIgnoreCase("CoN"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 23, title = ANACONDA CONFESSIONS, ...
+Film { filmId = 127, title = CAT CONEHEADS, ...
+Film { filmId = 138, title = CHARIOTS CONSPIRACY, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notcontainsignorecase"><a class="anchor" href="#_notcontainsignorecase"></a>notContainsIgnoreCase</h3>
+<div class="paragraph">
+<p>The following example prints the films that has a title that does <strong>not</strong> contain the string "CoN" ignoring case:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.containsIgnoreCase("CoN"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ...
+...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="comparable-predicates.html">Comparable Predicates</a></span>
+  <span class="next"><a href="primitive-predicates.html">Primitive Predicates</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
