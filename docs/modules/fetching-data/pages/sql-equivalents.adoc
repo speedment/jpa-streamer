@@ -71,7 +71,7 @@ Film { filmId = 3, title = ADAPTATION HOLES, ...
 
 NOTE: The Film entities above and below will have its `List<Actor>` and `Language` fields lazily initialized. This is undesirable in many cases where we know we are going to use these fields. Read more hereunder on how to use a `StreamConfiguration` to read these fields eagerly using a join statement.
 
-== StreamConfiguration
+=== StreamConfiguration
 Anywhere below where `stream(Film.class)` is used, we might as well also use a StreamConfiguration<Film> that can be created like this:
 
 [source, java]
@@ -80,26 +80,28 @@ StreamConfiguration<Film> configuration = StreamConfiguration.of(Film.class)
         .joining(Film$.actors)
         .joining(Film$.language);
 ----
-This creates a `StremaConfiguration` where both the `actors` and `language` is (left) joined. Thus, avoiding a potential N + 1 SELECT problem.
+This creates a `StreamConfiguration` where both the `actors` and `language` is (left) joined. Thus, avoiding a potential N + 1 SELECT problem.
 
 == SELECT
-`SELECT` can be expressed using a `map()`-operation and a `Projection`. By applying a projection, only the selected columns are retrieved from the database. The mapping returns a `Tuple` consisting of values for the given columns.
+`SELECT` can be expressed using a `StreamConfiguration` or a `map()`-operation that to a `Projection`. The `StreamConfiguration` limits which columns are obtained from the database before the Stream operations are applied:
 
 [source, java]
 ----
-List<Tuple> tupleList = jpaStreamer.stream(Film.class)
+StreamConfiguration<Film> sc = StreamConfiguration.of(Film.class).selecting(Projection.select(Film$.filmId, Film$.title));
+
+jpaStreamer.stream(sc)
     .sorted(Film$.length.reversed())
     .limit(3)
-    .map(Projection.select(Film$.filmId, Film$.title))
-    .collect(Collectors.toList());
-
-System.out.println("tupleList = " + tupleList);
+    .forEach(System.out::println);
 ----
 
 This will produce the following output:
+
 [source, text]
 ----
-tupleList = [[817, SOLDIERS EVOLUTION], [349, GANGS PRIDE], [609, MUSCLE BRIGHT]]
+Film{filmId=212, title='DARN FORRESTER', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}
+Film{filmId=141, title='CHICAGO NORTH', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}
+Film{filmId=182, title='CONTROL ANTHEM', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}
 ----
 
 TIP: You can find more examples of how to use projections in the chapter link:stream-examples.adoc#_projection[Projections].
@@ -417,4 +419,6 @@ jpaStreamer.stream(Film.class)
 
 == JOIN
 
-Joins are expressed directly in the JPA entities. Additional join support is future work.
+Joins are expressed directly in the JPA entities. See link:stream-examples.adoc#_joins[Stream Examples - Joins]. Additional join support is future work.
+
+
