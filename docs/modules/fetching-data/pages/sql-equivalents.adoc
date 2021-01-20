@@ -13,6 +13,7 @@ The table below gives an overview of how SQL operators map to the Java Stream AP
 |==========================================================
 | SQL | Java Stream
 | FROM |  stream()
+| SELECT | map(Projection.select())
 | WHERE |	filter() (before collecting)
 | ORDER BY|	sorted()
 | OFFSET|	skip()
@@ -81,6 +82,27 @@ StreamConfiguration<Film> configuration = StreamConfiguration.of(Film.class)
 ----
 This creates a `StremaConfiguration` where both the `actors` and `language` is (left) joined. Thus, avoiding a potential N + 1 SELECT problem.
 
+== SELECT
+`SELECT` can be expressed using a `map()`-operation and a `Projection`. By applying a projection, only the selected columns are retrieved from the database. The mapping returns a `Tuple` consisting of values for the given columns.
+
+[source, java]
+----
+List<Tuple> tupleList = jpaStreamer.stream(Film.class)
+    .sorted(Film$.length.reversed())
+    .limit(3)
+    .map(Projection.select(Film$.filmId, Film$.title))
+    .collect(Collectors.toList());
+
+System.out.println("tupleList = " + tupleList);
+----
+
+This will produce the following output:
+[source, text]
+----
+tupleList = [[817, SOLDIERS EVOLUTION], [349, GANGS PRIDE], [609, MUSCLE BRIGHT]]
+----
+
+TIP: You can find more examples of how to use projections in the chapter link:stream-examples.adoc#_projection[Projections].
 
 == WHERE
 `WHERE` can be expressed using `.filter()`.

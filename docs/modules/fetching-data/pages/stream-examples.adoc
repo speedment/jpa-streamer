@@ -53,6 +53,64 @@ long is false has 543 films
 long is  true has 457 films
 ----
 
+== Projection
+There are several Stream operations that limit the number of rows obtained from the database (e.g. `filter()` and `limit()`). Although, to limit the number of columns we retrieve, JPAstreamer uses `Projections`. Projections can be used either initially, to limit the Stream source, or in combination with a `map()`-operation. The following sections describe both methods.
+
+=== Initial Stream configuration
+By making a `StreamConfiguration`, we can initially limit the Stream to include only selected columns.
+
+[source, java]
+----
+StreamConfiguration<Film> sc = StreamConfiguration.of(Film.class).selecting(Projection.select(Film$.filmId, Film$.title));
+
+jpaStreamer.stream(sc)
+    .sorted(Film$.length.reversed())
+    .limit(3)
+    .forEach(System.out::println);
+----
+
+The `Projection` is translated by JpaStreamer to a `SELECT` statement that is applied to the resulting query. This way we limit the given result set to only include values from column `film_id` and `title`.
+
+The output reveals that all Object fields which are not obtained are given a value of `null` whereas all primitive fields are assigned either a value of 0 or `false` (for `boolean` values):
+
+[source, text]
+----
+Film{filmId=212, title='DARN FORRESTER', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}
+Film{filmId=141, title='CHICAGO NORTH', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}
+Film{filmId=182, title='CONTROL ANTHEM', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}
+----
+
+=== Using a map-operation
+The downside of using a `StreamConfiguration` as described above is that we are unable to apply filtering and sorting operations to columns which are not included in the initial configuration. In SQL, this corresponds to the statements on the form `SELECT A WHERE B=3`. This can be resolved by providing a `Projection` to the `map()`-operation as follows:
+
+[source, java]
+----
+List<Tuple> tupleList = jpaStreamer.stream(Film.class) <1>
+    .sorted(Film$.length.reversed()) <2>
+    .limit(3)
+    .map(Projection.select(Film$.filmId, Film$.title)) <3>
+    .collect(Collectors.toList());
+
+    System.out.println("tupleList = " + tupleList);
+----
+<1> The Stream source is not limited in any regard
+<2> We can apply a sorting operation to the column `length` even though it is not included in the SELECT clause
+<3> The mapping results in a `Tuple` with values for the provided columns
+
+NOTE: This is yet to be optimized in a future release. As of this version, the construct `map(Projection.select()` works semantically but will still retrieve all columns from the database. See link:https://github.com/speedment/jpa-streamer/issues/23[github/speedment/jpa-streamer/issues/23].
+
+=== Retrieving a numerical column
+In the special case of retrieving only a numerical column from the database, you can obtain an `IntStream`, a `DoubleStream` or a `LongStream` using the operations `mapToInt()`, `mapToDouble()`, and `mapToLong()` as follows:
+
+[source, java]
+----
+int[] filmLengths = jpaStreamer.stream(Film.class)
+    .mapToInt(Film$.length.asInt())
+    .toArray();
+----
+
+NOTE: This is yet to be optimized in a future release. As of this version, the constructs `mapToInt()` etc. works semantically, but the resulting query will still retrieve all columns from the database.
+
 == Joins
 Relationships between tables are handled via the JPA provider. Hence, JPAstreamer assumes that the correct relationships are described by the present `@Entity` beans. The following examples makes use of the three tables `Film`, `Actor` and `Language` from the link:https://dev.mysql.com/doc/sakila/en/[Sakila database]. The corresponding entities are described below:
 
