@@ -11,20 +11,18 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  *
  */
-package com.speedment.jpastreamer.termopoptimizer.standard.internal;
+package com.speedment.jpastreamer.termopoptimizer.standard;
 
-import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizer;
+import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizerFactory;
+import com.speedment.jpastreamer.termopoptimizer.standard.internal.InternalTerminalOperationOptimizerFactory;
 
-import static java.util.Objects.requireNonNull;
+public final class StandardTerminalOperationOptimizerFactory implements TerminalOperationOptimizerFactory {
 
-final class StandardTerminalOperatorOptimizer implements TerminalOperationOptimizer {
+    private final TerminalOperationOptimizerFactory delegate = new InternalTerminalOperationOptimizerFactory();
 
     @Override
-    public <T> Pipeline<T> optimize(Pipeline<T> pipeline) {
-        requireNonNull(pipeline);
-        // For now, just return whatever we get.
-        return pipeline;
+    public TerminalOperationOptimizer get() {
+        return delegate.get();
     }
-
 }

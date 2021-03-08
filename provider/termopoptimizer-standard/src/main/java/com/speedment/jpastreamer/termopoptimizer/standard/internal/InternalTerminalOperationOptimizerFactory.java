@@ -11,18 +11,17 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  *
  */
-package com.speedment.jpastreamer.termopoptimizer.standard;
+package com.speedment.jpastreamer.termopoptimizer.standard.internal;
 
 import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizer;
 import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizerFactory;
-import com.speedment.jpastreamer.termopoptimizer.standard.internal.InternalTerminalOperatorOptimizerFactory;
 
-public final class StandardTerminalOperatorModifierFactory implements TerminalOperationOptimizerFactory {
+public final class InternalTerminalOperationOptimizerFactory implements TerminalOperationOptimizerFactory{
 
-    private final TerminalOperationOptimizerFactory delegate = new InternalTerminalOperatorOptimizerFactory();
+    private final TerminalOperationOptimizer singleton = new StandardTerminalOperationOptimizer();
 
     @Override
     public TerminalOperationOptimizer get() {
-        return delegate.get();
+        return singleton;
     }
 }
