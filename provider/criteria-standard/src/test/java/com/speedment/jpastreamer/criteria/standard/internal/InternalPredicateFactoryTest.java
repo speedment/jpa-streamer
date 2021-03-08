@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.PredicateFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.predicate.PredicateMapper;
+import com.speedment.jpastreamer.criteria.standard.internal.predicate.PredicateMapping;
 import com.speedment.jpastreamer.criteria.standard.internal.util.ReflectionUtil;
 import com.speedment.jpastreamer.criteria.standard.support.CombinedStringPredicate;
 import com.speedment.jpastreamer.criteria.standard.support.StringEqualPredicate;
@@ -32,7 +33,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Predicate;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -80,9 +80,9 @@ final class InternalPredicateFactoryTest {
 
     private static final class MockPredicateMapper implements PredicateMapper {
         @Override
-        public <ENTITY> Predicate mapPredicate(Criteria<ENTITY, ?> criteria,
+        public <ENTITY> PredicateMapping mapPredicate(Criteria<ENTITY, ?> criteria,
                 FieldPredicate<ENTITY> fieldPredicate) {
-            return null;
+            return new PredicateMapping(null);
         }
     }
 }

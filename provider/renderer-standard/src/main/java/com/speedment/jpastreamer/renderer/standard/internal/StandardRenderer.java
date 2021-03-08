@@ -12,6 +12,8 @@
  */
 package com.speedment.jpastreamer.renderer.standard.internal;
 
+import static java.util.Objects.requireNonNull;
+
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.CriteriaFactory;
 import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizerFactory;
@@ -38,8 +40,6 @@ import java.util.ServiceLoader;
 import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 
-import static java.util.Objects.requireNonNull;
-
 final class StandardRenderer implements Renderer {
 
     private final EntityManager entityManager;
@@ -57,6 +57,7 @@ final class StandardRenderer implements Renderer {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <E, T, S extends BaseStream<T, S>> RenderResult<E, T, S> render(final Pipeline<E> pipeline, final StreamConfiguration<E> streamConfiguration) {
         optimizePipeline(pipeline);
 
@@ -90,6 +91,10 @@ final class StandardRenderer implements Renderer {
 
             final TypedQuery<Long> typedQuery = entityManager.createQuery(countCriteria.getQuery());
 
+            countCriteria.getQueryParameters().forEach(
+                queryParameter -> typedQuery.setParameter(queryParameter.getParameterExpression(), queryParameter.getValue())
+            );
+
             return (RenderResult<E, T, S>) new StandardRenderResult<>(
                     entityClass,
                     typedQuery.getResultStream(),
@@ -98,6 +103,10 @@ final class StandardRenderer implements Renderer {
         }
 
         final TypedQuery<E> typedQuery = entityManager.createQuery(criteria.getQuery());
+
+        criteria.getQueryParameters().forEach(
+            queryParameter -> typedQuery.setParameter(queryParameter.getParameterExpression(), queryParameter.getValue())
+        );
 
         queryMerger.merge(pipeline, typedQuery);
 
@@ -115,10 +124,12 @@ final class StandardRenderer implements Renderer {
         final CriteriaQuery<T> criteriaQuery = criteria.getQuery();
 
         final Criteria<T, Long> countCriteria = criteriaFactory.createCriteria(
-                entityManager,
-                criteriaQuery.getResultType(),
-                Long.class
+            entityManager,
+            criteriaQuery.getResultType(),
+            Long.class
         );
+
+        criteria.getQueryParameters().forEach(countCriteria::addQueryParameter);
 
         countCriteria.getRoot().alias(criteria.getRoot().getAlias());
 

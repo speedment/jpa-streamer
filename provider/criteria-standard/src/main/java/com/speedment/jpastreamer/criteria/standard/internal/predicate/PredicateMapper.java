@@ -15,11 +15,9 @@ package com.speedment.jpastreamer.criteria.standard.internal.predicate;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 
-import javax.persistence.criteria.Predicate;
-
 public interface PredicateMapper {
 
-    <ENTITY> Predicate mapPredicate(
+    <ENTITY> PredicateMapping mapPredicate(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     );

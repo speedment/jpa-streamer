@@ -17,6 +17,7 @@ import static java.util.Objects.requireNonNull;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.PredicateFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.predicate.PredicateMapper;
+import com.speedment.jpastreamer.criteria.standard.internal.predicate.PredicateMapping;
 import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.field.predicate.CombinedPredicate;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
@@ -31,16 +32,19 @@ public final class InternalPredicateFactory implements PredicateFactory {
     @Override
     @SuppressWarnings("unchecked")
     public <ENTITY> Predicate createPredicate(
-            final Criteria<ENTITY, ?> criteria,
-            final SpeedmentPredicate<ENTITY> speedmentPredicate
+        final Criteria<ENTITY, ?> criteria,
+        final SpeedmentPredicate<ENTITY> speedmentPredicate
     ) {
         requireNonNull(criteria);
         requireNonNull(speedmentPredicate);
 
         if (speedmentPredicate instanceof FieldPredicate) {
             final FieldPredicate<ENTITY> fieldPredicate = (FieldPredicate<ENTITY>) speedmentPredicate;
+            final PredicateMapping predicateMapping = predicateMapper.mapPredicate(criteria, fieldPredicate);
 
-            return predicateMapper.mapPredicate(criteria, fieldPredicate);
+            predicateMapping.getQueryParameters().forEach(criteria::addQueryParameter);
+
+            return predicateMapping.getPredicate();
         }
 
         if (speedmentPredicate instanceof CombinedPredicate) {

@@ -15,9 +15,10 @@ package com.speedment.jpastreamer.criteria;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 /**
- * @author Mislav Miliceivc
+ * @author Mislav Milicevic
  * @since 0.0.9
  */
 public interface Criteria<ENTITY, RETURN> {
@@ -35,6 +36,21 @@ public interface Criteria<ENTITY, RETURN> {
      * @return the {@code CriteriaQuery} that is stored within this {@code Criteria}
      */
     CriteriaQuery<RETURN> getQuery();
+
+    /**
+     * Returns the {@code QueryParameters} that is stored within this {@code Criteria}
+     *
+     * @return the {@code QueryParameters} that is stored within this {@code Criteria}
+     */
+    List<QueryParameter> getQueryParameters();
+
+    /**
+     * Adds a {@code QueryParameter} to the current {@code Criteria}
+     *
+     * @param queryParameter to add
+     * @param <T> parameter type
+     */
+    <T> void addQueryParameter(QueryParameter<T> queryParameter);
 
     /**
      * Returns the {@code Root} that is stored within this {@code Criteria}

@@ -12,17 +12,24 @@
  */
 package com.speedment.jpastreamer.criteria.standard.internal;
 
+import static java.util.Collections.unmodifiableList;
+import static java.util.Objects.requireNonNull;
+
 import com.speedment.jpastreamer.criteria.Criteria;
+import com.speedment.jpastreamer.criteria.QueryParameter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class InternalCriteria<ENTITY, RETURN> implements Criteria<ENTITY, RETURN> {
 
     private final CriteriaBuilder builder;
     private final CriteriaQuery<RETURN> query;
     private final Root<ENTITY> root;
+    private final List<QueryParameter<?>> queryParameters;
 
     public InternalCriteria(
         final CriteriaBuilder builder,
@@ -32,6 +39,7 @@ public final class InternalCriteria<ENTITY, RETURN> implements Criteria<ENTITY, 
         this.builder = builder;
         this.query = query;
         this.root = root;
+        this.queryParameters = new ArrayList<>();
     }
 
     @Override
@@ -42,6 +50,16 @@ public final class InternalCriteria<ENTITY, RETURN> implements Criteria<ENTITY, 
     @Override
     public CriteriaQuery<RETURN> getQuery() {
         return query;
+    }
+
+    @Override
+    public List<QueryParameter> getQueryParameters() {
+        return unmodifiableList(queryParameters);
+    }
+
+    @Override
+    public <T> void addQueryParameter(QueryParameter<T> queryParameter) {
+        queryParameters.add(requireNonNull(queryParameter));
     }
 
     @Override

@@ -12,9 +12,13 @@
  */
 package com.speedment.jpastreamer.criteria.standard.internal.predicate;
 
+import static com.speedment.jpastreamer.criteria.standard.internal.predicate.ParameterizedPredicate.createParameterizedPredicate;
 import static java.util.Objects.requireNonNull;
 
+import com.speedment.common.function.TriFunction;
 import com.speedment.jpastreamer.criteria.Criteria;
+import com.speedment.jpastreamer.criteria.QueryParameter;
+import com.speedment.jpastreamer.criteria.standard.internal.InternalQueryParameter;
 import com.speedment.jpastreamer.criteria.standard.internal.util.Cast;
 import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.field.Field;
@@ -25,16 +29,16 @@ import com.speedment.jpastreamer.field.trait.HasArg0;
 import com.speedment.jpastreamer.field.trait.HasArg1;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public final class DefaultPredicateMapper implements PredicateMapper {
     
     @Override
-    public <ENTITY> Predicate mapPredicate(
+    public <ENTITY> PredicateMapping mapPredicate(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -44,7 +48,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         return mapPredicate0(criteria, fieldPredicate);
     }
 
-    private <ENTITY> Predicate alwaysTrue(
+    private <ENTITY> PredicateMapping alwaysTrue(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -54,7 +58,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <ENTITY> Predicate alwaysFalse(
+    private <ENTITY> PredicateMapping alwaysFalse(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -64,7 +68,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <ENTITY> Predicate isNull(
+    private <ENTITY> PredicateMapping isNull(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -74,7 +78,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <ENTITY> Predicate isNotNull(
+    private <ENTITY> PredicateMapping isNotNull(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -84,67 +88,82 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <ENTITY> Predicate equal(
+    private <ENTITY> PredicateMapping equal(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().equal(criteria.getRoot().get(column), value),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().equal(criteria.getRoot().get(column), parameter)
+            ),
             Object.class
         );
     }
 
-    private <ENTITY> Predicate notEqual(
+    private <ENTITY> PredicateMapping notEqual(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().notEqual(criteria.getRoot().get(column), value),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().notEqual(criteria.getRoot().get(column), parameter)
+            ),
             Object.class
         );
     }
 
     @SuppressWarnings("unchecked")
-    private <ENTITY> Predicate lessThan(
+    private <ENTITY> PredicateMapping lessThan(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return singleBoundRangeComparisonMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().lt(criteria.getRoot().get(column), value),
-            (column, value) -> criteria.getBuilder().lessThan(criteria.getRoot().get(column), value)
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().lt(criteria.getRoot().get(column), parameter)
+            ),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().lessThan(criteria.getRoot().get(column), parameter)
+            )
         );
     }
 
     @SuppressWarnings("unchecked")
-    private <ENTITY> Predicate lessOrEqual(
+    private <ENTITY> PredicateMapping lessOrEqual(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return singleBoundRangeComparisonMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().le(criteria.getRoot().get(column), value),
-            (column, value) -> criteria.getBuilder().lessThanOrEqualTo(criteria.getRoot().get(column), value)
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().le(criteria.getRoot().get(column), parameter)
+            ),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().lessThanOrEqualTo(criteria.getRoot().get(column), parameter)
+            )
         );
     }
 
     @SuppressWarnings("unchecked")
-    private <ENTITY, S extends Comparable<? super S>> Predicate between(
+    private <ENTITY, S extends Comparable<? super S>> PredicateMapping between(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return doubleBoundRangeComparisonMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> {
+            (column, parameterExpressions, inclusion) -> {
                 final CriteriaBuilder builder = criteria.getBuilder();
                 final Path<S> columnPath = criteria.getRoot().get(column);
 
-                final S first = (S) value.getLowerBound();
-                final S second = (S) value.getUpperBound();
-
-                final Inclusion inclusion = value.getInclusion();
+                final ParameterExpression<S> first = (ParameterExpression<S>) parameterExpressions.getFirst();
+                final ParameterExpression<S> second = (ParameterExpression<S>) parameterExpressions.getSecond();
 
                 switch (inclusion) {
                     case START_EXCLUSIVE_END_EXCLUSIVE:
@@ -196,20 +215,19 @@ public final class DefaultPredicateMapper implements PredicateMapper {
     }
 
     @SuppressWarnings("unchecked")
-    private <ENTITY, S extends Comparable<? super S>> Predicate notBetween(
+    private <ENTITY, S extends Comparable<? super S>> PredicateMapping notBetween(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return doubleBoundRangeComparisonMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> {
+            (column, parameterExpressions, inclusion) -> {
                 final CriteriaBuilder builder = criteria.getBuilder();
                 final Path<S> columnPath = criteria.getRoot().get(column);
 
-                final S first = (S) value.getLowerBound();
-                final S second = (S) value.getUpperBound();
-
-                final Inclusion inclusion = value.getInclusion();
+                final ParameterExpression<S> first = (ParameterExpression<S>) parameterExpressions.getFirst();
+                final ParameterExpression<S> second = (ParameterExpression<S>) parameterExpressions.getSecond();
 
                 switch (inclusion) {
                     case START_EXCLUSIVE_END_EXCLUSIVE:
@@ -265,7 +283,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <ENTITY> Predicate in(
+    private <ENTITY> PredicateMapping in(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -280,203 +298,263 @@ public final class DefaultPredicateMapper implements PredicateMapper {
 
         final Set<?> set = (Set<?>) value;
 
-        return criteria.getRoot().get(column).in(set);
+        return new PredicateMapping(criteria.getRoot().get(column).in(set));
     }
 
-    private <ENTITY> Predicate notIn(
+    private <ENTITY> PredicateMapping notIn(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
-        return in(criteria, fieldPredicate).not();
+        final Predicate predicate = in(criteria, fieldPredicate).getPredicate().not();
+
+        return new PredicateMapping(predicate);
     }
 
     @SuppressWarnings("unchecked")
-    private <ENTITY> Predicate greaterThan(
+    private <ENTITY> PredicateMapping greaterThan(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return singleBoundRangeComparisonMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().gt(criteria.getRoot().get(column), value),
-            (column, value) -> criteria.getBuilder().greaterThan(criteria.getRoot().get(column), value)
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().gt(criteria.getRoot().get(column), parameter)
+            ),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().greaterThan(criteria.getRoot().get(column), parameter)
+            )
         );
     }
 
     @SuppressWarnings("unchecked")
-    private <ENTITY> Predicate greaterOrEqual(
+    private <ENTITY> PredicateMapping greaterOrEqual(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return singleBoundRangeComparisonMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().ge(criteria.getRoot().get(column), value),
-            (column, value) -> criteria.getBuilder().greaterThanOrEqualTo(criteria.getRoot().get(column), value)
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().ge(criteria.getRoot().get(column), parameter)
+            ),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().greaterThanOrEqualTo(criteria.getRoot().get(column), parameter)
+            )
         );
     }
 
-    private <ENTITY> Predicate equalIgnoreCase(
+    private <ENTITY> PredicateMapping equalIgnoreCase(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().equal(
-                criteria.getBuilder().lower(criteria.getRoot().get(column)), value.toLowerCase()),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().equal(criteria.getBuilder().lower(criteria.getRoot().get(column)), parameter),
+                String::toLowerCase
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate notEqualIgnoreCase(
+    private <ENTITY> PredicateMapping notEqualIgnoreCase(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().notEqual(
-                criteria.getBuilder().lower(criteria.getRoot().get(column)), value.toLowerCase()),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().notEqual(criteria.getBuilder().lower(criteria.getRoot().get(column)), parameter),
+                String::toLowerCase
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate startsWith(
+    private <ENTITY> PredicateMapping startsWith(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().like(criteria.getRoot().get(column), value + "%"),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().like(criteria.getRoot().get(column), parameter),
+                value -> value + "%"
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate notStartsWith(
+    private <ENTITY> PredicateMapping notStartsWith(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().notLike(criteria.getRoot().get(column), value + "%"),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().notLike(criteria.getRoot().get(column), parameter),
+                value -> value + "%"
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate startsWithIgnoreCase(
+    private <ENTITY> PredicateMapping startsWithIgnoreCase(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().like(
-                criteria.getBuilder().lower(criteria.getRoot().get(column)), value.toLowerCase() + "%"),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().like(criteria.getBuilder().lower(criteria.getRoot().get(column)), parameter),
+                value -> value.toLowerCase() + "%"
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate notStartsWithIgnoreCase(
+    private <ENTITY> PredicateMapping notStartsWithIgnoreCase(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().notLike(
-                criteria.getBuilder().lower(criteria.getRoot().get(column)), value.toLowerCase() + "%"),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().notLike(criteria.getBuilder().lower(criteria.getRoot().get(column)), parameter),
+                value -> value.toLowerCase() + "%"
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate endsWith(
+    private <ENTITY> PredicateMapping endsWith(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().like(criteria.getRoot().get(column), "%" + value),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().like(criteria.getRoot().get(column), parameter),
+                value -> "%" + value
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate notEndsWith(
+    private <ENTITY> PredicateMapping notEndsWith(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().notLike(criteria.getRoot().get(column), "%" + value),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().notLike(criteria.getRoot().get(column), parameter),
+                value -> "%" + value
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate endsWithIgnoreCase(
+    private <ENTITY> PredicateMapping endsWithIgnoreCase(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().like(
-                criteria.getBuilder().lower(criteria.getRoot().get(column)), "%" + value.toLowerCase()),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().like(criteria.getBuilder().lower(criteria.getRoot().get(column)), parameter),
+                value -> "%" + value.toLowerCase()
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate notEndsWithIgnoreCase(
+    private <ENTITY> PredicateMapping notEndsWithIgnoreCase(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().notLike(
-                criteria.getBuilder().lower(criteria.getRoot().get(column)), "%" + value.toLowerCase()),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().notLike(criteria.getBuilder().lower(criteria.getRoot().get(column)), parameter),
+                value -> "%" + value.toLowerCase()
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate contains(
+    private <ENTITY> PredicateMapping contains(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().like(criteria.getRoot().get(column), "%" + value + "%"),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().like(criteria.getRoot().get(column), parameter),
+                value -> "%" + value + "%"
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate notContains(
+    private <ENTITY> PredicateMapping notContains(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().notLike(criteria.getRoot().get(column), "%" + value + "%"),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().notLike(criteria.getRoot().get(column), parameter),
+                value -> "%" + value + "%"
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate containsIgnoreCase(
+    private <ENTITY> PredicateMapping containsIgnoreCase(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().like(
-                criteria.getBuilder().lower(criteria.getRoot().get(column)), "%" + value.toLowerCase() + "%"),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().like(criteria.getBuilder().lower(criteria.getRoot().get(column)), parameter),
+                value -> "%" + value.toLowerCase() + "%"
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate notContainsIgnoreCase(
+    private <ENTITY> PredicateMapping notContainsIgnoreCase(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
         return typeMapping(
+            criteria,
             fieldPredicate,
-            (column, value) -> criteria.getBuilder().notLike(
-                criteria.getBuilder().lower(criteria.getRoot().get(column)), "%" + value.toLowerCase() + "%"),
+            createParameterizedPredicate(
+                (column, parameter) -> criteria.getBuilder().notLike(criteria.getBuilder().lower(criteria.getRoot().get(column)), parameter),
+                value -> "%" + value.toLowerCase() + "%"
+            ),
             String.class
         );
     }
 
-    private <ENTITY> Predicate isEmpty(
+    private <ENTITY> PredicateMapping isEmpty(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -486,7 +564,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         );
     }
 
-    private <ENTITY> Predicate isNotEmpty(
+    private <ENTITY> PredicateMapping isNotEmpty(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -500,59 +578,86 @@ public final class DefaultPredicateMapper implements PredicateMapper {
      * Mapping Helpers - Start
      */
 
-    private <ENTITY> Predicate noValueMapping(
+    private <ENTITY> PredicateMapping noValueMapping(
         final FieldPredicate<ENTITY> fieldPredicate,
         final Function<String, Predicate> callback
     ) {
         final String column = fieldPredicate.getField().columnName();
 
-        return callback.apply(column);
+        return new PredicateMapping(callback.apply(column));
     }
 
     @SuppressWarnings("unchecked")
-    private <ENTITY, S> Predicate typeMapping(
+    private <ENTITY, S> PredicateMapping typeMapping(
+        final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate,
-        final BiFunction<String, S, Predicate> callback,
+        final ParameterizedPredicate<String, S> parameterizedPredicate,
         final Class<S> clazz
     ) {
         final String column = fieldPredicate.getField().columnName();
         final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
 
         if (clazz.isInstance(value)) {
-            return callback.apply(column, (S) value);
+            final S val = parameterizedPredicate.getValueMapper().apply((S) value);
+
+            final ParameterExpression<S> parameter = criteria.getBuilder().parameter(clazz);
+            final QueryParameter<S> queryParameter = new InternalQueryParameter<>(parameter, val);
+
+            return new PredicateMapping(parameterizedPredicate.getParameterMapper()
+                .apply(column, parameter), queryParameter);
         }
 
         throw new JPAStreamerException();
     }
 
     @SuppressWarnings("rawtypes")
-    private <ENTITY> Predicate singleBoundRangeComparisonMapping(
+    private <ENTITY> PredicateMapping singleBoundRangeComparisonMapping(
+        final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate,
-        final BiFunction<String, Number, Predicate> callback,
-        final BiFunction<String, Comparable, Predicate> comparableCallback
+        final ParameterizedPredicate<String, Number> parameterizedNumberPredicate,
+        final ParameterizedPredicate<String, Comparable> parameterizedComparablePredicate
     ) {
         final String column = fieldPredicate.getField().columnName();
         final Object value = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
 
         if (value instanceof Number) {
-            return callback.apply(column, (Number) value);
+            final Number val = parameterizedNumberPredicate.getValueMapper().apply((Number) value);
+
+            final ParameterExpression<Number> numberParameter = criteria.getBuilder().parameter(Number.class);
+            final QueryParameter<Number> queryParameter = new InternalQueryParameter<>(numberParameter, val);
+
+            return new PredicateMapping(parameterizedNumberPredicate.getParameterMapper()
+                .apply(column, numberParameter), queryParameter);
         }
 
         if (value instanceof Character) {
-            return callback.apply(column, (int) (char) value);
+            final Number val = parameterizedNumberPredicate.getValueMapper().apply((int) (char) value);
+
+            final ParameterExpression<Number> numberParameter = criteria.getBuilder().parameter(Number.class);
+            final QueryParameter<Number> queryParameter = new InternalQueryParameter<>(numberParameter, val);
+
+            return new PredicateMapping(parameterizedNumberPredicate.getParameterMapper()
+                .apply(column, numberParameter), queryParameter);
         }
 
         if (value instanceof Comparable) {
-            return comparableCallback.apply(column, (Comparable) value);
+            final Comparable val = parameterizedComparablePredicate.getValueMapper().apply((Comparable) value);
+
+            final ParameterExpression<Comparable> comparableParameter = criteria.getBuilder().parameter(Comparable.class);
+            final QueryParameter<Comparable> queryParameter = new InternalQueryParameter<>(comparableParameter, val);
+
+            return new PredicateMapping(parameterizedComparablePredicate.getParameterMapper()
+                .apply(column, comparableParameter), queryParameter);
         }
 
         throw new JPAStreamerException("Illegal comparison value [" + value + "]");
     }
 
-    @SuppressWarnings("unchecked")
-    private <ENTITY, S extends Comparable<? super S>> Predicate doubleBoundRangeComparisonMapping(
-            final FieldPredicate<ENTITY> fieldPredicate,
-            final BiFunction<String, RangeInformation<S>, Predicate> callback
+    @SuppressWarnings("rawtypes")
+    private <ENTITY> PredicateMapping doubleBoundRangeComparisonMapping(
+        final Criteria<ENTITY, ?> criteria,
+        final FieldPredicate<ENTITY> fieldPredicate,
+        final TriFunction<String, Pair<ParameterExpression<?>, ParameterExpression<?>>, Inclusion, Predicate> callback
     ) {
         final String column = fieldPredicate.getField().columnName();
         final Object arg0 = Cast.castOrFail(fieldPredicate, HasArg0.class).get0();
@@ -563,10 +668,13 @@ public final class DefaultPredicateMapper implements PredicateMapper {
             .orElse(Inclusion.START_INCLUSIVE_END_INCLUSIVE);
 
         if (arg0 instanceof Comparable && arg1 instanceof Comparable) {
-            final RangeInformation<S> rangeInformation = new RangeInformation<>((S) arg0, (S) arg1,
-                    inclusion);
+            final ParameterExpression<Comparable> lowerBoundParameter = criteria.getBuilder().parameter(Comparable.class);
+            final ParameterExpression<Comparable> upperBoundParameter = criteria.getBuilder().parameter(Comparable.class);
 
-            return callback.apply(column, rangeInformation);
+            final QueryParameter<Comparable> lowerBoundQueryParameter = new InternalQueryParameter<>(lowerBoundParameter, (Comparable) arg0);
+            final QueryParameter<Comparable> upperBoundQueryParameter = new InternalQueryParameter<>(upperBoundParameter, (Comparable) arg1);
+
+            return new PredicateMapping(callback.apply(column, new Pair<>(lowerBoundParameter, upperBoundParameter), inclusion), lowerBoundQueryParameter, upperBoundQueryParameter);
         }
 
         throw new JPAStreamerException("Illegal comparison values [" + arg0 + "," + arg1 + "]");
@@ -576,7 +684,7 @@ public final class DefaultPredicateMapper implements PredicateMapper {
      * Mapping Helpers - End
      */
 
-    private <ENTITY> Predicate mapPredicate0(
+    private <ENTITY> PredicateMapping mapPredicate0(
         final Criteria<ENTITY, ?> criteria,
         final FieldPredicate<ENTITY> fieldPredicate
     ) {
@@ -649,32 +757,21 @@ public final class DefaultPredicateMapper implements PredicateMapper {
         }
     }
 
-    private static final class RangeInformation<S extends Comparable<? super S>> {
+    private static final class Pair<S, T> {
+        private final S first;
+        private final T second;
 
-        private final S lowerBound;
-        private final S upperBound;
-        private final Inclusion inclusion;
-
-        private RangeInformation(
-            final S lowerBound,
-            final S upperBound,
-            final Inclusion inclusion
-        ) {
-            this.lowerBound = requireNonNull(lowerBound);
-            this.upperBound = requireNonNull(upperBound);
-            this.inclusion = requireNonNull(inclusion);
+        private Pair(S first, T second) {
+            this.first = first;
+            this.second = second;
         }
 
-        public S getLowerBound() {
-            return lowerBound;
+        public S getFirst() {
+            return first;
         }
 
-        public S getUpperBound() {
-            return upperBound;
-        }
-
-        public Inclusion getInclusion() {
-            return inclusion;
+        public T getSecond() {
+            return second;
         }
     }
 }
