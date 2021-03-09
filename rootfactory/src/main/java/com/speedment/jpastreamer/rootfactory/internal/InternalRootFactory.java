@@ -44,7 +44,7 @@ public final class InternalRootFactory {
         }
     }
 
-    public static <S> Stream<S> stream(final Class<S> service, final Function<Class<S>, ServiceLoader<S>> loader ) {
+    public static <S> Stream<S> stream(final Class<S> service, final Function<Class<S>, ServiceLoader<S>> loader) {
         requireNonNull(service);
         requireNonNull(loader);
         final Iterator<S> iterator = loader.apply(service).iterator();
@@ -62,7 +62,7 @@ public final class InternalRootFactory {
 
     }
 
-    private static <S> S getHelper(final Class<S> service,  Function<Class<S>, ServiceLoader<S>> loader) {
+    private static <S> S getHelper(final Class<S> service, Function<Class<S>, ServiceLoader<S>> loader) {
         final Iterator<S> iterator = loader.apply(service).iterator();
         if (iterator.hasNext()) {
             return iterator.next();
@@ -78,7 +78,7 @@ public final class InternalRootFactory {
         try {
             clazz = Class.forName(standardServiceName);
         } catch (ClassNotFoundException x) {
-            fail(service, PROVIDER + standardServiceName + " not found");
+            fail(service, PROVIDER + standardServiceName + " not found", x);
         }
         if (!service.isAssignableFrom(clazz)) {
             fail(service, PROVIDER + standardServiceName + " not a subtype");
