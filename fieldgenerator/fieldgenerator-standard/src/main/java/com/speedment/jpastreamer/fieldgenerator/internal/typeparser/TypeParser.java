@@ -49,6 +49,10 @@ public final class TypeParser {
     }
 
     private Node parseNode(String s) {
+        // Remove annotations in the type
+        if (s.startsWith("@")) {
+            s = s.substring(s.indexOf(' ') + 1);
+        }
         // Base case returns leaf without children
         if (!(s.contains("<") || s.contains(","))) {
             return new Node(SimpleType.create(s));
