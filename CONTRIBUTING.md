@@ -11,6 +11,12 @@ The contract can be found [here](https://github.com/speedment/jpa-streamer/blob/
 
 Once we have received the signed CLA, your name will be added to the project's ```<contributors>...</contributors>``` tags :-)
 
+The simplest way of signing the CLA is to:
+
+* Copy the file `CONTRIBUTOR_LICENSE_AGREEMENT` to the directory `/cla`. 
+* Fill in the requested data in the file.
+* Rename the file to your GitHub handle name. 
+* Include the file in your first pull request.
 
 Creating a Pull Request
 -----------------------------
