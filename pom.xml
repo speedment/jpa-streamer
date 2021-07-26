@@ -124,6 +124,9 @@
     </developers>
     
     <contributors>
+        <contributor>
+            <name>Francesco Scuccimarri</name>
+        </contributor>
     </contributors>
 	
     <!-- Distribution Details -->
