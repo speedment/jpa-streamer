@@ -74,7 +74,7 @@
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <junit.jupiter.version>5.7.2</junit.jupiter.version>
+        <junit.jupiter.version>5.8.1</junit.jupiter.version>
         <junit.platform.provider.version>1.8.1</junit.platform.provider.version>
         <mockito.version>3.12.4</mockito.version>
         <jpa-streamer.version>${project.version}</jpa-streamer.version>
