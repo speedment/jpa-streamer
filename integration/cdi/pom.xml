@@ -17,20 +17,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.speedment.jpastreamer</groupId>
-        <artifactId>jpastreamer-parent</artifactId>
+        <groupId>com.speedment.jpastreamer.integration</groupId>
+        <artifactId>integration-parent</artifactId>
         <version>1.0.3-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <cdi.version>2.0.SP1</cdi.version>
+    </properties>
+
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.speedment.jpastreamer.integration</groupId>
-    <artifactId>integration-parent</artifactId>
+    <groupId>com.speedment.jpastreamer.integration.cdi</groupId>
+    <artifactId>cdi-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Integration - Parent</name>
+    <name>Integration - CDI</name>
 
     <modules>
-        <module>spring</module>
-        <module>cdi</module>
+        <module>cdi-jpastreamer</module>
     </modules>
 </project>

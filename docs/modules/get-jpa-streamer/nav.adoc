@@ -2,3 +2,4 @@
 ** xref:install-maven.adoc[Install with Maven]
 ** xref:install-gradle.adoc[Install with Gradle]
 ** xref:spring_integration.adoc[Spring Integration]
+** xref:cdi_integration.adoc[CDI Integration]
