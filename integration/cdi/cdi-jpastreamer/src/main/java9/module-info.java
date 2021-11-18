@@ -16,5 +16,6 @@ module jpastreamer.integration.cdi {
     //requires transitive spring.boot.autoconfigure;
     //requires transitive spring.context;
 
+    exports javax.enterprise;
     exports com.speedment.jpastreamer.integration.cdi;
 }
