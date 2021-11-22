@@ -23,7 +23,7 @@
     </parent>
 
     <properties>
-        <spring.boot.version>2.5.7</spring.boot.version>
+        <spring.boot.version>2.6.0</spring.boot.version>
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
