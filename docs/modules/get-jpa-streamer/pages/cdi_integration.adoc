@@ -1,0 +1,71 @@
+= CDI Integration
+keywords: stream, jpastreamer, java
+author:
+:reftext:  CDI Integration
+:navtitle:  CDI Integration
+:source-highlighter: highlight.js
+JPAstreamer comes with first-party support for projects built on top of CDI. Dependency Injection is a fundamental feature of the CDI API. With this in mind, a JPAstreamer CDI producer can be used to quickly and easily integrate JPAstreamer into your CDI projects.
+
+== Installing the CDI producer
+
+The installation process will differ depending on the build tool you're using. In this guide, Maven and Gradle are covered.
+
+=== Maven
+For Maven projects, the following JPAstreamer dependency must be added to the project's pom.xml file:
+
+[source, xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>com.speedment.jpastreamer.integration.cdi</groupId>
+        <artifactId>cdi-jpastreamer</artifactId>
+        <version>${jpa-streamer-version}</version>
+    </dependency>
+</dependencies>
+----
+
+=== Gradle
+For Gradle projects, the following JPAstreamer dependency must be added to the project's build.gradle file:
+
+[source, groovy]
+----
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "com.speedment.jpastreamer.integration.cdi:cdi-jpastreamer:version"
+}
+----
+
+== Accessing JPAstreamer
+
+Once the required dependencies are installed, you can access JPAStreamer using CDI's Dependency Injection system:
+
+[source, java]
+----
+@ApplicationScoped
+public class DummyService {
+
+    @Inject
+    JPAStreamer jpaStreamer;
+}
+----
+
+Direct field injection is usually not recommended, it's preferable to inject your dependencies via a constructor:
+
+[source, java]
+----
+@ApplicationScoped
+public class DummyService {
+
+    private final JPAStreamer jpaStreamer;
+
+    @Inject
+    public DummyService(final JPAStreamer jpaStreamer) {
+        this.jpaStreamer = jpaStreamer;
+    }
+}
+----
+
+WARNING: JPAstreamer's CDI injection relies on a `EntityManagerFactory` bean being present. If you're using JPA, this is already handled for you.
