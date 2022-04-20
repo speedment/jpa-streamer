@@ -76,7 +76,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <junit.platform.provider.version>1.8.2</junit.platform.provider.version>
-        <mockito.version>4.1.0</mockito.version>
+        <mockito.version>4.5.0</mockito.version>
         <jpa-streamer.version>${project.version}</jpa-streamer.version>
         <speedment-version>3.2.10</speedment-version>
 
