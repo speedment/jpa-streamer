@@ -128,8 +128,11 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 // todo: Filter out methods only returning boolean or Boolean
                 .map(Element::getSimpleName)
                 .map(Object::toString)
+                .filter(n -> n.startsWith(IS_PREFIX))
+                .map(n -> n.substring(2))
+                .map(Formatting::lcfirst)
                 .collect(toSet());
-
+        
         // Retrieve all declared non-final instance fields of the annotated class
         Map<? extends Element, String> enclosedFields = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind().isField()
@@ -177,10 +180,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         final String standardJavaName = javaNameFromExternal(fieldName);
 
         final String standardGetterName = getterPrefix + standardJavaName;
-
-        final Element standardGetter = getters.get(standardGetterName);
-
-        if (standardGetter != null) {
+        
+        if (getters.get(standardGetterName) != null || isGetters.contains(standardGetterName)) {
             // We got lucky because the user elected to conform
             // to the standard JavaBean notation.
             return entityName + "::" + standardGetterName;
@@ -324,9 +325,15 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     private Type fieldType(Element field) {
         TypeParser typeParser = new TypeParser();
-        return typeParser.render(field.asType().toString());
+        return typeParser.render(trimAnnotations(field));
     }
 
+    private String trimAnnotations(Element field) {
+        final String fieldType = field.asType().toString(); 
+        final int index = fieldType.lastIndexOf(' ');
+        return index < 0 ? fieldType : fieldType.substring(index + 1); 
+    }
+    
     private Type primitiveFieldType(Type fieldType, Type entityType) {
         Type primitiveFieldType;
         switch (fieldType.getTypeName()) {
