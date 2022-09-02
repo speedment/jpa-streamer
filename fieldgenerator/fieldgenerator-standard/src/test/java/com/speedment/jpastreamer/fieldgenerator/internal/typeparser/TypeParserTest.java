@@ -120,7 +120,7 @@ class TypeParserTest {
         Type actual = typeParser.render(type);
         assertEquals(expected, actual);
     }
-
+    
     @Test
     void renderMapOfStringWithAnnotations() {
         String type = "@javax.validation.constraints.Email,@javax.validation.constraints.Size(max=255) java.util.Map<java.lang.String>";
@@ -135,6 +135,14 @@ class TypeParserTest {
         String type = "@javax.validation.constraints.Size(max=255) java.util.Map<java.lang.String>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.Map"), SimpleType.create("java.lang.String"));
+        Type actual = typeParser.render(type);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void renderWithNotEmptyAnnotation() {
+        String type = "@javax.validation.constraints.NotEmpty java.lang.String";
+        SimpleType expected = SimpleType.create("java.lang.String");
         Type actual = typeParser.render(type);
         assertEquals(expected, actual);
     }

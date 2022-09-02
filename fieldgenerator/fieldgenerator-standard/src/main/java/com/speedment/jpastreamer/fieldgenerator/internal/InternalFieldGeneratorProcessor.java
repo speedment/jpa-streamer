@@ -10,6 +10,7 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
+
 package com.speedment.jpastreamer.fieldgenerator.internal;
 
 import com.speedment.common.codegen.Generator;
@@ -31,6 +32,7 @@ import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -126,9 +128,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 // todo: Filter out methods only returning boolean or Boolean
                 .map(Element::getSimpleName)
                 .map(Object::toString)
-                .filter(n -> n.startsWith(IS_PREFIX))
-                .map(n -> n.substring(2))
-                .map(Formatting::lcfirst)
                 .collect(toSet());
 
         // Retrieve all declared non-final instance fields of the annotated class
@@ -149,10 +148,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             throw new UnsupportedEncodingException(isGetters.toString());
         }*/
 
-
-        //messager.printMessage(Diagnostic.Kind.NOTE, annotatedElement.getSimpleName().toString() + " " +isGetters.size());
-
-
         final PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(annotatedElement);
         String packageName;
         if (packageElement.isUnnamed()) {
@@ -172,6 +167,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                               final String entityName,
                               boolean lombokGetterAvailable) {
 
+
+        // Only looks for non-Lombok getters and is-getters 
         final String fieldName = field.getSimpleName().toString();
         final String getterPrefix = isGetters.contains(fieldName)
                 ? IS_PREFIX
@@ -183,10 +180,19 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         final Element standardGetter = getters.get(standardGetterName);
 
-        if (standardGetter != null || lombokGetterAvailable) {
+        if (standardGetter != null) {
             // We got lucky because the user elected to conform
             // to the standard JavaBean notation.
             return entityName + "::" + standardGetterName;
+        }
+
+        // Returns a Lombok getter if one exists 
+        if (lombokGetterAvailable) {
+            TypeKind typeKind = field.asType().getKind();
+            // Lombok generates is-getters for primitive booleans and standard getters for Boolean types 
+            return (typeKind.isPrimitive() && typeKind == TypeKind.BOOLEAN) ?
+                    entityName + "::" + IS_PREFIX + standardJavaName :
+                    entityName + "::" + GET_PREFIX + standardJavaName;
         }
 
         final String lambdaName = lcfirst(entityName);
@@ -273,7 +279,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         fieldParams.toArray(new Value<?>[0])
                 ))
                 .set(Javadoc.of(
-                        "This Field corresponds to the {@link " + entityName + "} field " + fieldName + "."
+                        "This Field corresponds to the {@link " + entityName + "} field \"" + fieldName + "\"."
                 )));
     }
 
