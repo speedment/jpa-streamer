@@ -66,4 +66,56 @@ public static void main(String[] args) {
 }
 ----
 
-The next section demonstrates use of the available Stream operators and how they map to SQL constructs.
+== Resetting the Streamer 
+Calling `jpaStreamer.stream(Class<T> entityClass)` creates a dedicated Streamer for the provided Entity class. The Streamer instance is reused for subsequent calls on `jpaStreamer.stream()` on the same Entity, see example below: 
+
+[source, Java]
+----
+JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") 
+        .build();
+
+long count = jpaStreamer.stream(Film.class) <1>
+        .filter(Film$.title.startsWith("A"))
+        .count();
+
+long count2 = jpaStreamer.stream(Film.class) <2>
+        .filter(Film$.title.startsWith("A"))
+        .count();
+----
+<1> The first call to `jpaStreamer.stream(Film.class)` will create a `Streamer` of `Film` entities 
+<2> The second call will reuse the previously configured `Streamer`
+
+A `Streamer` instance hold a `javax.persistence.EntityManager` which has its own first-layer cache. Thus by default, database changes performed by another application, or made directly on the database, will not be detected. In the example above, the addition of the film "Avatar" to the database between the first and second count query therefore goes unnoticed and `count` will equal `count2`. 
+
+To ensure that database updates performed by another application are detected, you must reset the Streamer between queries. This will effectively remove the existing Streamer for the specified Entity. The next query will create a new Streamer with a new `EntityManager`, resetting the first-level cache associated with the Entity.
+
+You can reset the Streamer for one or more Entity classes with the following command: 
+
+[source, Java]
+----
+jpaStreamer.resetStreamer(Class<?>... entityClasses); 
+----
+
+We can thus update the prior example to ensure that database changes are detected as follows: 
+
+[source, Java]
+----
+JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") 
+        .build();
+
+long count = jpaStreamer.stream(Film.class) <1>
+        .filter(Film$.title.startsWith("A"))
+        .count();
+
+jpaStreamer.resetStreamer(Film.class); <2>
+
+long count2 = jpaStreamer.stream(Film.class) <3>
+        .filter(Film$.title.startsWith("A"))
+        .count();
+----
+<1> Creates a Streamer of `Film` entities
+<2> Resets (removes) the Streamer of `Film` entities. This resets the first-level cache. 
+<1> Creates a new Streamer of `Film` entities
+
+== What's Next 
+The xref:sql-equivalents.adoc[next section] demonstrates how to use the available Stream operators and how they map to SQL constructs.

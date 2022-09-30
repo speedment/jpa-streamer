@@ -189,6 +189,16 @@ public interface JPAStreamer {
     }
 
     /**
+     * Resets the Streamer associated with the provided Entity classes.
+     * <p> 
+     * This will create a new instance of the underlying {@code java.persistence.EntityManager}, removing all entries of the 
+     * associated Entity class from the first-level cache. 
+     * 
+     * @param entityClasses of the streamer  
+     */
+    void resetStreamer(Class<?>... entityClasses); 
+    
+    /**
      * Closes this JPAStreamer and releases any resources potentially held.
      * <p>
      * If and only if this JPAStreamer was created using a {@code persistenceUnitName},
