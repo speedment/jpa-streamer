@@ -151,7 +151,7 @@ extends Field<ENTITY>, HasCompare<ENTITY> {
      * value and the end value)
      */
     default SpeedmentPredicate<ENTITY> between(V start, V end) {
-        return between(start, end, Inclusion.START_EXCLUSIVE_END_EXCLUSIVE);
+        return between(start, end, Inclusion.START_INCLUSIVE_END_EXCLUSIVE);
     }
 
     /**
@@ -190,7 +190,7 @@ extends Field<ENTITY>, HasCompare<ENTITY> {
      * value and the end value)
      */
     default SpeedmentPredicate<ENTITY> notBetween(V start, V end) {
-        return notBetween(start, end, Inclusion.START_EXCLUSIVE_END_EXCLUSIVE);
+        return notBetween(start, end, Inclusion.START_INCLUSIVE_END_EXCLUSIVE);
     }
 
     /**

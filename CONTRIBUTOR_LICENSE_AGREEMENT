@@ -9,7 +9,10 @@ must have a Contributor License Agreement ("CLA" or “Agreement”)) on file th
 signed by each Contributor, indicating agreement to the license terms below. This license is for
 Your protection as a Contributor as well as the protection of Speedment and its users; it does not
 change Your rights to use Your own Contributions for any other purpose. If You have not
-already done so, please complete and send an original, signed Agreement to:
+already done so, copy this file to the directory `/cla`, fill in the data below and rename the file
+to your GitHub handle name and include the file in your first pull request.
+
+Alternately, please complete and send an original, signed Agreement to:
 
 Speedment, Inc.
 470 Ramona Street

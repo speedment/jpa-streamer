@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    JPAstreamer - Express JPA queries with Java Streams
+    Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
+
+    License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU Lesser General Public License for more details.
+
+    See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.speedment.jpastreamer.integration.cdi</groupId>
+        <artifactId>cdi-parent</artifactId>
+        <version>1.0.3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cdi-jpastreamer</artifactId>
+
+    <properties>
+        <module-name>jpastreamer.integration.cdi</module-name>
+    </properties>
+
+    <name>Integration - CDI</name>
+    <description>
+        A CDI module that adds support for JPAStreamer injection.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>application</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>${cdi.version}</version>
+        </dependency>
+    </dependencies>
+</project>

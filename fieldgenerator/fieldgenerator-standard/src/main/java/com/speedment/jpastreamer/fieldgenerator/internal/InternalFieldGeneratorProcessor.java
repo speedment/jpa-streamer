@@ -31,6 +31,7 @@ import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -130,7 +131,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .map(n -> n.substring(2))
                 .map(Formatting::lcfirst)
                 .collect(toSet());
-
+        
         // Retrieve all declared non-final instance fields of the annotated class
         Map<? extends Element, String> enclosedFields = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind().isField()
@@ -148,10 +149,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             messager.printMessage(Diagnostic.Kind.NOTE, enclosedFields.toString());
             throw new UnsupportedEncodingException(isGetters.toString());
         }*/
-
-
-        //messager.printMessage(Diagnostic.Kind.NOTE, annotatedElement.getSimpleName().toString() + " " +isGetters.size());
-
 
         final PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(annotatedElement);
         String packageName;
@@ -172,6 +169,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                               final String entityName,
                               boolean lombokGetterAvailable) {
 
+
+        // Only looks for non-Lombok getters and is-getters 
         final String fieldName = field.getSimpleName().toString();
         final String getterPrefix = isGetters.contains(fieldName)
                 ? IS_PREFIX
@@ -180,13 +179,20 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         final String standardJavaName = javaNameFromExternal(fieldName);
 
         final String standardGetterName = getterPrefix + standardJavaName;
-
-        final Element standardGetter = getters.get(standardGetterName);
-
-        if (standardGetter != null || lombokGetterAvailable) {
+        
+        if (getters.get(standardGetterName) != null || isGetters.contains(standardGetterName)) {
             // We got lucky because the user elected to conform
             // to the standard JavaBean notation.
             return entityName + "::" + standardGetterName;
+        }
+
+        // Returns a Lombok getter if one exists 
+        if (lombokGetterAvailable) {
+            TypeKind typeKind = field.asType().getKind();
+            // Lombok generates is-getters for primitive booleans and standard getters for Boolean types 
+            return (typeKind.isPrimitive() && typeKind == TypeKind.BOOLEAN) ?
+                    entityName + "::" + IS_PREFIX + standardJavaName :
+                    entityName + "::" + GET_PREFIX + standardJavaName;
         }
 
         final String lambdaName = lcfirst(entityName);
@@ -273,7 +279,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         fieldParams.toArray(new Value<?>[0])
                 ))
                 .set(Javadoc.of(
-                        "This Field corresponds to the {@link " + entityName + "} field " + fieldName + "."
+                        "This Field corresponds to the {@link " + entityName + "} field \"" + fieldName + "\"."
                 )));
     }
 
@@ -318,9 +324,15 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     private Type fieldType(Element field) {
         TypeParser typeParser = new TypeParser();
-        return typeParser.render(field.asType().toString());
+        return typeParser.render(trimAnnotations(field));
     }
 
+    private String trimAnnotations(Element field) {
+        final String fieldType = field.asType().toString(); 
+        final int index = fieldType.lastIndexOf(' ');
+        return index < 0 ? fieldType : fieldType.substring(index + 1); 
+    }
+    
     private Type primitiveFieldType(Type fieldType, Type entityType) {
         Type primitiveFieldType;
         switch (fieldType.getTypeName()) {

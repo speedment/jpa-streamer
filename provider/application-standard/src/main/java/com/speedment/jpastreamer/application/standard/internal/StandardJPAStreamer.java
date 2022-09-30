@@ -23,6 +23,7 @@ import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
@@ -65,6 +66,13 @@ final class StandardJPAStreamer implements JPAStreamer {
             return streamer.stream()
                     .onClose(streamer::close);
         }
+    }
+
+    @Override
+    public void resetStreamer(Class<?>... entityClasses) {
+        Arrays.stream(entityClasses)
+                .map(StreamConfiguration::of)
+                .forEach(streamerCache::remove); 
     }
 
     @Override

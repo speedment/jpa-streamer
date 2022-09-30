@@ -169,7 +169,7 @@ abstract class BaseStreamBuilder<E, T, S extends BaseStream<T, S>> implements Ba
     protected long renderCount() {
         final RenderResult<E, ?, ?> renderResult = renderResult();
 
-        if (renderResult.root().equals(Long.class)) {
+        if (renderResult.root().equals(Long.class) || baseState.pipeline().intermediateOperations().isEmpty()) {
             final Stream<Number> stream = (Stream<Number>) renderResult.stream();
             return stream.mapToLong(Number::longValue).sum();
         }

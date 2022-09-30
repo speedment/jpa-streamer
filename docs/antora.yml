@@ -1,5 +1,4 @@
 #
-#
 # JPAstreamer - Express JPA queries with Java Streams
 # Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
 #
@@ -14,7 +13,7 @@
 
 name: jpa-streamer
 title: JPAStreamer Docs
-version: 1.0.2
+version: 1.0.3-SNAPSHOT
 start_page: introduction:introduction.adoc
 nav:
   - modules/ROOT/nav.adoc

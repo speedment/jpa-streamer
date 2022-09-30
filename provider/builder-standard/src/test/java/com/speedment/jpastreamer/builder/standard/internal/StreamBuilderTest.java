@@ -183,10 +183,12 @@ final class StreamBuilderTest extends BaseStreamBuilderTest<String, Stream<Strin
         testTerminal(s -> s.max(comparing(v -> v.charAt(0))));
     }
 
+    /*
     @Test
     void count() {
         testTerminal(Stream::count);
     }
+     */
 
     @Test
     void anyMatch() {

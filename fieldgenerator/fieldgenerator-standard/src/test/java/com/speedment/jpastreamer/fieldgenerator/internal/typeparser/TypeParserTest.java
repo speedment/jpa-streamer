@@ -25,7 +25,7 @@ class TypeParserTest {
     final TypeParser typeParser = new TypeParser();
 
     @Test
-    void renderString() {
+    void renderStringTest() {
         String type = "java.lang.String";
         SimpleType expected = SimpleType.create(type);
         Type actual = typeParser.render(type);
@@ -33,7 +33,7 @@ class TypeParserTest {
     }
 
     @Test
-    void renderMapOfString() {
+    void renderMapOfStringTest() {
         String type = "java.util.Map<java.lang.String>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.Map"), SimpleType.create("java.lang.String"));
@@ -42,7 +42,7 @@ class TypeParserTest {
     }
 
     @Test
-    void renderListOfInteger() {
+    void renderListOfIntegerTest() {
         String type = "java.util.List<java.lang.Integer>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.List"), SimpleType.create("java.lang.Integer"));
@@ -51,7 +51,7 @@ class TypeParserTest {
     }
 
     @Test
-    void renderListOfListOfNumber() {
+    void renderListOfListOfNumberTest() {
         String type = "java.util.List<java.util.List<java.lang.Number>>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.List"), SimpleParameterizedType.create(
@@ -61,7 +61,7 @@ class TypeParserTest {
     }
 
     @Test
-    void renderListOfMapOfListOfSetOfDoubleAndInteger() {
+    void renderListOfMapOfListOfSetOfDoubleAndIntegerTest() {
         String type = "java.util.List<java.util.Map<java.util.List<java.util.Set<java.lang.Double>>, java.lang.Integer>>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.List"), SimpleParameterizedType.create(
@@ -77,7 +77,7 @@ class TypeParserTest {
     }
 
     @Test
-    void renderMapOfMapOfQuartetOfStringAndStringAndStringAndStringAndIntegerAndInteger() {
+    void renderMapOfMapOfQuartetOfStringAndStringAndStringAndStringAndIntegerAndIntegerTest() {
         String type = "java.util.Map<java.util.Map<Quartet<java.lang.String, java.lang.String, java.lang.String, java.lang.String>, java.lang.Integer>, java.lang.Integer>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.Map"), SimpleParameterizedType.create(
@@ -91,7 +91,7 @@ class TypeParserTest {
     }
 
     @Test
-    void renderMapOfMapOfListOfSetOfDoubleAndIntegerAndLong() {
+    void renderMapOfMapOfListOfSetOfDoubleAndIntegerAndLongTest() {
         String type = "java.util.Map<java.util.Map<java.util.List<java.util.Set<java.lang.Double>>,java.lang.Integer>,java.lang.Long>";
         SimpleParameterizedType expected = SimpleParameterizedType.create(
                 SimpleType.create("java.util.Map"), SimpleParameterizedType.create(
@@ -105,4 +105,46 @@ class TypeParserTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void renderStringWithAnnotationsTest() {
+        String type = "@javax.validation.constraints.Email,@javax.validation.constraints.Size(max=255) java.lang.String";
+        SimpleType expected = SimpleType.create("java.lang.String");
+        Type actual = typeParser.render(type);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void renderStringWithAnnotationTest() {
+        String type = "@javax.validation.constraints.Size(max=255) java.lang.String";
+        SimpleType expected = SimpleType.create("java.lang.String");
+        Type actual = typeParser.render(type);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    void renderMapOfStringWithAnnotationsTest() {
+        String type = "@javax.validation.constraints.Email,@javax.validation.constraints.Size(max=255) java.util.Map<java.lang.String>";
+        SimpleParameterizedType expected = SimpleParameterizedType.create(
+                SimpleType.create("java.util.Map"), SimpleType.create("java.lang.String"));
+        Type actual = typeParser.render(type);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void renderMapOfStringWithAnnotationTest() {
+        String type = "@javax.validation.constraints.Size(max=255) java.util.Map<java.lang.String>";
+        SimpleParameterizedType expected = SimpleParameterizedType.create(
+                SimpleType.create("java.util.Map"), SimpleType.create("java.lang.String"));
+        Type actual = typeParser.render(type);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void renderWithNotEmptyAnnotationTest() {
+        String type = "@javax.validation.constraints.NotEmpty java.lang.String";
+        SimpleType expected = SimpleType.create("java.lang.String");
+        Type actual = typeParser.render(type);
+        assertEquals(expected, actual);
+    }
+    
 }

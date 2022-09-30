@@ -19,7 +19,7 @@
     <parent>
         <artifactId>fieldgenerator</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
-        <version>1.0.2</version>
+        <version>1.0.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -27,7 +27,7 @@
 
     <properties>
         <module-name>jpastreamer.fieldgenerator.standard</module-name>
-        <auto-service.version>1.0-rc7</auto-service.version>
+        <auto-service.version>1.0.1</auto-service.version>
     </properties>
 
     <name>FieldGenerator - Standard</name>
