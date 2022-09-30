@@ -1,6 +1,6 @@
 /*
  * JPAstreamer - Express JPA queries with Java Streams
- * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
  *
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
  *
@@ -10,7 +10,6 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-
 package com.speedment.jpastreamer.fieldgenerator.internal;
 
 import com.speedment.common.codegen.Generator;
