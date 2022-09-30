@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Combining Predicates :: JPAStreamer</title>
+    <link rel="prev" href="negating-predicates.html">
+    <link rel="next" href="../stream-fundamentals/stream_basics.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../.."></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="1.1.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/cdi_integration.html">CDI Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../fetching-data/fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">1.1.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../introduction/introduction.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/introduction/introduction.html">1.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.1/introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.0/introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.5/introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="predicates.html">Predicates</a></li>
+    <li><a href="combining-predicates.html">Combining Predicates</a></li>
+  </ul>
+</nav>
+<h1 class="page">Combining Predicates</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>A predicate can be composed of other predicates by means of the <code>and()</code> and <code>or()</code> methods as shown in the examples below.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_and"><a class="anchor" href="#_and"></a>and</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>and()</code> method returns a composed predicate that represents a short-circuiting logical AND of a first predicate and another given second predicate. If the first predicate is evaluated to <code>false</code>, then the second predicate is not evaluated.</p>
+</div>
+<div class="paragraph">
+<p>The following code sample will print out all films that are long (apparently a film is long when its length is greater than 120 minutes) and that has a rating that is "PG-13":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Predicate&lt;Film&gt; isLong = Film$.length.greaterThan(120);
+Predicate&lt;Film&gt; isPG13 = Film$.rating.equal("PG-13");
+
+jpaStreamer.stream(Film.class)
+    .filter(isLong.and(isPG13))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 33, title = APOLLO TEEN, ... , length = 153, ..., rating = PG-13, ...
+Film { filmId = 35, title = ARACHNOPHOBIA ROLLERCOASTER, ..., length = 147, ..., rating = PG-13, ...
+Film { filmId = 36, title = ARGONAUTS TOWN, ..., length = 127, ..., rating = PG-13, ...
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The same result can be achieved by just stacking two <code>filter</code> operations on top of each other. So this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120))
+    .filter(Film$.rating.equal("PG-13"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is equivalent to:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120).and(Film$.rating.equal("PG-13"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_or"><a class="anchor" href="#_or"></a>or</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>or()</code> method returns a composed predicate that represents a short-circuiting logical OR of a first predicate and another given second predicate. If the first predicate is evaluated to <code>true</code>, then the second predicate is not evaluated.</p>
+</div>
+<div class="paragraph">
+<p>The following code sample will print out all films that are either long (length &gt; 120) or has a rating of "PG-13":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Predicate&lt;Film&gt; isLong = Film$.length.greaterThan(120);
+Predicate&lt;Film&gt; isPG13 = Film$.rating.equal("PG-13");
+
+jpaStreamer.stream(Film.class)
+    .filter(isLong.or(isPG13))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Film { filmId = 5, title = AFRICAN EGG, ..., length = 130, ..., rating = G, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ..., rating = PG, ...
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ..., rating = PG-13, ...
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As for the <code>and()</code> method, there is an equivalent way of expressing compositions with <code>or()</code>. Here is an example of how streams can be concatenated to obtain the same functionality as above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">StreamComposition.concatAndAutoClose(
+    jpaStreamer.stream(Film.class).filter(Film$.length.greaterThan(120)),
+    jpaStreamer.stream(Film.class).filter(Film$.rating.equal("PG-13"))
+    )
+    .distinct()
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 5, title = AFRICAN EGG, ..., length = 130, ..., rating = G, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ..., rating = PG, ...
+{... a number of films with length &gt; 120}
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ..., rating = PG-13, ...
+{... a number of films with rating = "PG-13}
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case, optimized queries will be used for the two sub-streams but the films must be handled by the JVM from the <code>.distinct()</code> operation.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+JPAstreamer can optimize <code>Predicate::or</code> better than a concatenation of streams followed by a <code>distinct()</code> operation.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="negating-predicates.html">Negating Predicates</a></span>
+  <span class="next"><a href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
