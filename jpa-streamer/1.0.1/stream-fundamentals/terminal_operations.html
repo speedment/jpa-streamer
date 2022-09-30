@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Terminal Operations :: JPAStreamer</title>
+    <link rel="prev" href="intermediate_operations.html">
+    <link rel="next" href="other_operations.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../.."></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="1.0.1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../predicates/predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../fetching-data/fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">1.0.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../1.1.0/introduction/introduction.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/introduction/introduction.html">1.0.2</a>
+        </li>
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.0/introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.5/introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="stream_basics.html">Stream Fundamentals</a></li>
+    <li><a href="terminal_operations.html">Terminal Operations</a></li>
+  </ul>
+</nav>
+<h1 class="page">Terminal Operations</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>A terminal operation starts the <code>Stream</code> and returns a result that depends on the <code>Stream</code> pipeline and content.For example, <code>collect</code> is a terminal operation because additional operation cannot be added to a <code>Stream</code> pipeline after <code>collect</code> has been called.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the examples below, many of the lambdas could be replaced by method references (e.g. the lambda <code>() &#8594; new StringBuilder</code> can be replaced by a method reference <code>StringBuilder::new</code>).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_common_operations"><a class="anchor" href="#_common_operations"></a>Common Operations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following terminal operations are accepted by a <code>Stream</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Operation</th>
+<th class="tableblock halign-left valign-top">Parameter(s)</th>
+<th class="tableblock halign-left valign-top">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>forEach</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Consumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performs the given <code>Consumer</code> action for each element in the stream in any order</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>forEachOrdered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Consumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performs the given <code>Consumer</code> action for each element in the stream in stream order</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>collect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Collector</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a reduction of the elements in the stream. For example a <code>List</code>, <code>Set</code> or a <code>Map</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>min</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Comparator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the smallest element (as determined by the provided <code>Comparator</code>) in the stream (if any)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>max</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Comparator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the biggest element (as determined by the provided <code>Comparator</code>) in the stream (if any)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the number of elements in the stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>anyMatch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Predicate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns whether at least one element in this stream matches the provided <code>Predicate</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>allMatch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Predicate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns whether all elements in this stream match the provided <code>Predicate</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>noneMatch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Predicate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns whether no elements in this stream match the provided <code>Predicate</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>findFirst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the first element in this stream (if any)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>findAny</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns any element in this stream (if any)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>toArray</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns an array containing all the elements in this stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>toArray</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IntFunction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns an array containing all the elements in this stream whereby the array is created using the provided <code>IntFunction</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_foreach"><a class="anchor" href="#_foreach"></a>forEach</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
+        .forEach(System.out::print);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>might output "CBBA". However, there is no guarantee of a particular order  using <code>forEach</code>. Despite this, most <code>Stream</code> implementations actually <em>would</em> output "BACB".</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_foreachordered"><a class="anchor" href="#_foreachordered"></a>forEachOrdered</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
+        .forEachOrdered(System.out::print);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>always</strong> outputs "BACB" (as opposed to <code>forEach</code>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_collect"><a class="anchor" href="#_collect"></a>collect</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
+        .collect(Collectors.toList());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns a <code>List&lt;String&gt;</code> equal to ["B", "A", "C", "B"]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
+        .collect(Collectors.toSet());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns a <code>Set&lt;String&gt;</code> equal to ["A", "B", "C"]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("I", "am", "a", "stream")
+        .collect(Collectors.toMap(
+            s -&gt; s.toLowerCase(), // Key extractor
+            s -&gt; s.length())      // Value extractor
+        )</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns a <code>Map&lt;String, Integer&gt;</code> equal to {a=1, stream=6, i=1, am=2}. Thus, the <code>Map</code> contains a mapping from a word (key) to how many characters that word has (value).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_min"><a class="anchor" href="#_min"></a>min</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
+        .min(String::compareTo);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>Optional[A]</code> because "A" is the smallest element in the stream.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.&lt;String&gt;empty()
+        .min(String::compareTo);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>Optional.empty</code> because there is no min value because the stream is empty.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_max"><a class="anchor" href="#_max"></a>max</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
+        .max(String::compareTo);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>Optional[C]</code> because "C" is the largest element in the stream.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.&lt;String&gt;empty()
+        .max(String::compareTo);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>Optional.empty</code> because there is no max value because the stream is empty.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_count"><a class="anchor" href="#_count"></a>count</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">----a
+     Stream.of("B", "A", "C" , "B")
+        .count();
+----
+returns 4 because there are four elements in the stream.</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">----a
+    Stream.empty()
+        .count();
+----
+returns 0 because there are no elements in an empty stream.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_anymatch"><a class="anchor" href="#_anymatch"></a>anyMatch</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
+        .anyMatch("A"::equals);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>true</code> because there is an "A" element in the stream.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
+        .anyMatch("Z"::equals);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>false</code> because there are no "Z" elements in the stream.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nonematch"><a class="anchor" href="#_nonematch"></a>noneMatch</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
+        .noneMatch("A"::equals);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>false</code> because there is an "A" element in the stream.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
+        .noneMatch("Z"::equals);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>true</code> because there are no "Z" elements in the stream.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_findfirst"><a class="anchor" href="#_findfirst"></a>findFirst</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
+        .findFirst();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>Optional[B]</code> because "B" is the first element in the stream.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.&lt;String&gt;empty()
+        .findFirst();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>Optional.empty</code> because the stream is empty.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_findany"><a class="anchor" href="#_findany"></a>findAny</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
+        .findAny();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>might return <code>Optional[C]</code> or any other element in the stream.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.&lt;String&gt;empty()
+        .findAny();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>Optional.empty</code> because the stream is empty.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_toarray"><a class="anchor" href="#_toarray"></a>toArray</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
+        .toArray();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns an array containing [B, A, C, B] created automatically by the <code>toArray</code> operator.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
+        .toArray(String[]::new)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns an array containing [B, A, C, B] that will be created by the provided constructor, for example using the equivalent to <code>new String[4]</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_less_common_operations"><a class="anchor" href="#_less_common_operations"></a>Less Common Operations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here is a list of other terminal operations that are a bit less commonly used by at least some programmers:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Operation</th>
+<th class="tableblock halign-left valign-top">Parameter(s)</th>
+<th class="tableblock halign-left valign-top">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>collect</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Supplier, BiConsumer, BiConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty <code>List</code>) obtained from the <code>Supplier</code> and then applying the first <code>BiConsumer</code> for each element and at the end, combining using the second <code>BiConsumer</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reduce</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>T, BinaryOperation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Using a first <code>T</code> and then subsequently applying a <code>BinaryOperation</code> for each element in the stream, returns the value of the last value (reduction)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reduce</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BinaryOperation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">By subsequently applying a <code>BinaryOperation</code> for each element in the stream, returns the value of the last value (reduction)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reduce</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>T, BiFunction, BinaryOperator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In parallel, using  first values <code>T</code> and then subsequently applying a <code>BiFunction</code> for each element in the stream, returns the value of the last values combined using the combining <code>BinaryOperator</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>iterator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns an <code>Iterator</code> of all the values in this stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>spliterator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a <code>Spliterator</code> with all the values in this stream</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_collect_with_3_parameters"><a class="anchor" href="#_collect_with_3_parameters"></a>collect with 3 Parameters</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">            Stream.of("B", "A", "C", "B")
+                                .collect(
+                    () -&gt; new StringBuilder(),
+                    (sb0, sb1) -&gt; sb0.append(sb1),
+                    (sb0, sb1) -&gt; sb0.append(sb1)
+                )</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns a <code>StringBuilder</code> containing "BACB" that will be created by the provided supplier and then built up by the append-lambdas.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reduce"><a class="anchor" href="#_reduce"></a>reduce</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(1, 2, 3, 4)
+        .reduce((a, b) -&gt; a + b)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns the value of <code>Optional[10]</code> because 10 is the sum of all <code>Integer</code> elements in the <code>Stream</code>. If the <code>Stream</code> is empty, <code>Optional.empty()</code> is returned.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(1, 2, 3, 4)
+        .reduce(100, (a, b) -&gt; a + b)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns the value of 110 since all the <code>Integer</code> elements in the <code>Stream</code> are added to the <code>Integer</code> 100. If the <code>Stream</code> is empty, 100 is returned.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(1, 2, 3, 4)
+        .parallel()
+        .reduce(
+            0,
+            (a, b) -&gt; a + b,
+            (a, b) -&gt; a + b
+        )</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns the value of 10 since this example simply adds all the <code>Integer</code> elements in the <code>Stream</code> beginning with 0. The <code>Stream</code> can be executed in parallel whereby the last lambda will be used to combine results from each thread. If the <code>Stream</code> is empty, 0 is returned.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_iterator"><a class="anchor" href="#_iterator"></a>iterator</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Iterator&lt;String&gt; iterator
+        = Stream.of("B", "A", "C", "B")
+            .iterator();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>creates a new <code>Iterator</code> over all the elements in the <code>Stream</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spliterator"><a class="anchor" href="#_spliterator"></a>spliterator</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Spliterator&lt;String&gt; spliterator
+        = Stream.of("B", "A", "C", "B")
+            .spliterator();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>creates a new <code>Spliterator</code> over all the elements in the <code>Stream</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_primitive_stream_operations"><a class="anchor" href="#_primitive_stream_operations"></a>Primitive Stream Operations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Primitive streams (like <code>IntStream</code> and <code>LongStream</code>) provide similar functionality as ordinary streams but usually the parameter count and types differ so that primitive streams can accept more optimized function variants.</p>
+</div>
+<div class="paragraph">
+<p>Here is a list of terminal operations that are available <strong>only</strong> for primitive streams:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Operation</th>
+<th class="tableblock halign-left valign-top">Parameter(s)</th>
+<th class="tableblock halign-left valign-top">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a reduction of the elements which is the sum of all elements in the stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>average</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a reduction of the elements which is the average of all elements in the stream (if any)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>summaryStatistics</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a reduction of the elements which is a summary of a number of statistic measurements (min, max, sum, average and count)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_sum"><a class="anchor" href="#_sum"></a>sum</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    IntStream.of(1, 2, 3, 4)
+        .sum()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns 10 because 10 is the sum of all elements in the <code>Stream</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_average"><a class="anchor" href="#_average"></a>average</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    IntStream.of(1, 2, 3, 4)
+        .average()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>OptionalDouble[2.5]</code> because 2.5 is the average of all elements in the <code>Stream</code>. If the <code>Stream</code> is empty, <code>OptionalDouble.empty()</code> is returned.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_summarystatistics"><a class="anchor" href="#_summarystatistics"></a>summaryStatistics</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    IntStream.of(1, 2, 3, 4)
+        .summaryStatistics()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns <code>IntSummaryStatistics{count=4, sum=10, min=1, average=2.500000, max=4}</code>.</p>
+</div>
+<div class="paragraph">
+<p>If the stream is empty, <code>IntSummaryStatistics{count=0, sum=0, min=2147483647, average=0.000000, max=-2147483648}</code> is returned (max is initially set to <code>Integer.MIN_VALUE</code> which is -2147483648 and min is set to <code>Integer.MAX_VALUE</code> which is 2147483648).</p>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="intermediate_operations.html">Intermediate Operations</a></span>
+  <span class="next"><a href="other_operations.html">Other Operations</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

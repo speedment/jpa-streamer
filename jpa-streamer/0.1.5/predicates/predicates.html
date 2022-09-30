@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>JPAstreamer Predicates :: JPAStreamer</title>
+    <link rel="prev" href="../get-jpa-streamer/spring_integration.html">
+    <link rel="next" href="reference-predicates.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../.."></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="0.1.5">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../fetching-data/fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">0.1.5</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../1.1.0/introduction/introduction.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/introduction/introduction.html">1.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.1/introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.0/introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="predicates.html">Predicates</a></li>
+  </ul>
+</nav>
+<h1 class="page">JPAstreamer Predicates</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>In JPAstreamer, the concept of <em>fields</em> and <em>predicates</em> is of central importance to achieve optimal performance. If you haven&#8217;t already, we recommend reading the chapter <a href="../how-it-works/how-it-works.html" class="page">How JPAstreamer Works</a>, to understand how fields are used by the JPAstreamer renderer to obtain optimized JPA queries.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_is_a_predicate"><a class="anchor" href="#_what_is_a_predicate"></a>What is a Predicate?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Predicate&lt;T&gt;</code> is a functional Java interface. An instance implementing this interface has a boolean function <code>test</code> that takes a parameter of type <code>T</code> and returns either <code>true</code> or <code>false</code>. JPAstreamer uses such predicates as arguments for Stream operations i.e. <code>filter()</code> and <code>sort()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here is an example that uses a <code>Predicate&lt;String&gt;</code> to return <code>true</code> if the <code>String</code> begins with an "A" and <code>false</code> otherwise:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Predicate&lt;String&gt; startsWithA = (String s) -&gt; s.startsWith("A");
+
+Stream.of("Snail", "Ape", "Bird", "Ant", "Alligator")
+    .filter(startsWithA)
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will print all animals that starts with "A": Ape, Ant and Alligator because the <code>filter</code> operator will only pass forward those elements where its <code>Predicate</code> returns <code>true</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The official JavaDoc contains more information about the interface <a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html">Predicate&lt;T&gt;</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_fields"><a class="anchor" href="#_fields"></a>Fields</h3>
+<div class="paragraph">
+<p>The fields included as part of the JPAstreamer metamodel (described <a href="../how-it-works/how-it-works.html" class="page">here</a>) can be used to produce <code>Predicates</code> that are related to the field.</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of how a <code>StringField</code> can be used in conjuction with a <code>Film</code> object:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.title.startsWith("A"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, the <code>StringField</code> 's method <code>Film$.title::startsWith</code> creates and returns a <code>Predicate&lt;Film&gt;</code> that, when tested with a <code>Film</code>, will return <code>true</code> if and only if that <code>Film</code> has a <code>title</code> that starts with an "A" (otherwise it will return <code>false</code>).</p>
+</div>
+<div class="paragraph">
+<p>When run, the code above will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, description = ...
+Film { filmId = 2, title = ACE GOLDFINGER, description = ...
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It would be possible to express the same semantics using a standard anonymous lambda:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">films.stream()
+    .filter(f -&gt; f.getTitle().startsWith("A"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>but JPAstreamer would not be able to recognize and optimize such vanilla lambdas. This means JPAstreamer is forced to pull in the entire Film table and then apply the predicates in the JVM. Because of this, developers are <strong>highly encouraged</strong> to use the provided <code>Fields</code> when obtaining predicates because these predicates will always be recognizable by the JPAstreamer query optimizer.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Do this: <code>filter(Film$.title.greaterOrEqual("He"))</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Don&#8217;t do this: <code>filter(f &#8594; "He".compareTo(f.getTitle()) &#8656; 0)</code>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_field_types"><a class="anchor" href="#_field_types"></a>Field types</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>JPAstreamer uses a variety of field types to represent the attributes of the entity-classes. This is partly due to the fact that different types are compatible with different operations, but also for performance reasons.</p>
+</div>
+<div class="paragraph">
+<p>Below is a table describing how attribute types are mapped to fields.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. How JPAstreamer&#8217;s metamodel represents the attribute types as fields</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute type</th>
+<th class="tableblock halign-left valign-top">Field type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IntField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DoubleField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FloatField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>byte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ByteField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LongField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>short</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ShortField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>char</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CharField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Enum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>EnumField&lt;ENTITY, Enum&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>bool</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BooleanField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StringField&lt;ENTITY&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Integer&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Double</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Double&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Float</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Float&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Byte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Byte&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Long&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Short</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Short&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Character</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Character&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Boolean&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CustomType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReferenceField&lt;ENTITY, CustomType&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Class&lt;T&gt;[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReferenceField&lt;ENTITY, Class&lt;?&gt;[]&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Set&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReferenceField&lt;ENTITY, Set&lt;?&gt;&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Map&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReferenceField&lt;ENTITY, Map&lt;?&gt;&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>List&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReferenceField&lt;ENTITY, List&lt;?&gt;&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LocalDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, LocalDate&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LocalDateTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, LocalDateTime&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LocalTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, LocalTime&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Calendar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, Calendar&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.util.Date</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, java.util.Date&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.sql.Time</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, java.sql.Time&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.sql.Date</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, java.sql.Date&gt;</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.sql.Timestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ComparableField&lt;ENTITY, java.sql.Timestamp&gt;</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The following chapters will describe how to get predicates from different <code>Field</code> types and how these predicates can be <a href="combining-predicates.html" class="page">combined</a> and <a href="negating-predicates.html" class="page">negated</a>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="reference-predicates.html" class="page">Reference Predicates</a> describes what predicates can be obtained from <code>ReferenceField</code></p>
+</li>
+<li>
+<p><a href="comparable-predicates.html" class="page">Comparable Predicates</a> describes what predicates can be obtained from <code>ComparableField</code></p>
+</li>
+<li>
+<p><a href="primitive-predicates.html" class="page">Primitive Predicates</a> describes what predicates can be obtained from all primitive fields i.e. <code>IntField</code> and <code>DoubleField</code></p>
+</li>
+<li>
+<p><a href="string-predicates.html" class="page">String Fields</a> describes what predicates can be obtained from <code>StringField</code></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../get-jpa-streamer/spring_integration.html">Spring Integration</a></span>
+  <span class="next"><a href="reference-predicates.html">Reference Predicates</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
