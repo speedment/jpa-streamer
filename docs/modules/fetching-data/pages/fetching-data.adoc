@@ -115,7 +115,7 @@ long count2 = jpaStreamer.stream(Film.class) <3>
 ----
 <1> Creates a Streamer of `Film` entities
 <2> Resets (removes) the Streamer of `Film` entities. This resets the first-level cache. 
-<1> Creates a new Streamer of `Film` entities
+<3> Creates a new Streamer of `Film` entities
 
 == What's Next 
 The xref:sql-equivalents.adoc[next section] demonstrates how to use the available Stream operators and how they map to SQL constructs.
