@@ -37,6 +37,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import java.util.Optional;
 import java.util.ServiceLoader;
+import java.util.function.Supplier;
 import java.util.stream.BaseStream;
 import java.util.stream.Stream;
 
@@ -50,7 +51,18 @@ final class StandardRenderer implements Renderer {
     private final MergerFactory mergerFactory;
 
     StandardRenderer(final EntityManagerFactory entityManagerFactory) {
-        this.entityManager = requireNonNull(entityManagerFactory).createEntityManager();
+        this(entityManagerFactory::createEntityManager); 
+    }
+
+    StandardRenderer(final Supplier<EntityManager> entityManagerSupplier) {
+        this.entityManager = requireNonNull(entityManagerSupplier).get();
+        this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class, ServiceLoader::load);
+        this.intermediateOperationOptimizerFactory = RootFactory.getOrThrow(IntermediateOperationOptimizerFactory.class, ServiceLoader::load);
+        this.mergerFactory = RootFactory.getOrThrow(MergerFactory.class, ServiceLoader::load);
+    }
+    
+    StandardRenderer(final EntityManager entityManager) {
+        this.entityManager = entityManager; 
         this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class, ServiceLoader::load);
         this.intermediateOperationOptimizerFactory = RootFactory.getOrThrow(IntermediateOperationOptimizerFactory.class, ServiceLoader::load);
         this.mergerFactory = RootFactory.getOrThrow(MergerFactory.class, ServiceLoader::load);

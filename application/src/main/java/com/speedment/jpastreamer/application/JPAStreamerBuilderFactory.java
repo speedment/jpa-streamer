@@ -12,12 +12,15 @@
  */
 package com.speedment.jpastreamer.application;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.function.Supplier;
 
 public interface JPAStreamerBuilderFactory {
 
     JPAStreamerBuilder create(String persistenceUnitName);
-
-    JPAStreamerBuilder create(EntityManagerFactory entityManagerFactory);
-
+    
+    JPAStreamerBuilder create(EntityManagerFactory entityManagerFactory); 
+    
+    JPAStreamerBuilder create(Supplier<EntityManager> entityManagerSupplier);
 }

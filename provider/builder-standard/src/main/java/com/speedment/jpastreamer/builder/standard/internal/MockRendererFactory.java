@@ -18,8 +18,10 @@ import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.renderer.RendererFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import java.util.stream.BaseStream;
 
 public final class MockRendererFactory implements RendererFactory {
@@ -33,6 +35,16 @@ public final class MockRendererFactory implements RendererFactory {
     @Override
     public Renderer createRenderer(EntityManagerFactory entityManagerFactory) {
         return new MockRenderer();
+    }
+    
+    @Override
+    public Renderer createRenderer(Supplier<EntityManager> entityManagerSupplier) {
+        return new MockRenderer();
+    }
+
+    @Override
+    public Renderer createRenderer(EntityManager entityManager) {
+        return new MockRenderer(); 
     }
 
     private final class MockRenderer implements Renderer {

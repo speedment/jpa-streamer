@@ -16,7 +16,10 @@ import com.speedment.jpastreamer.application.JPAStreamerBuilder;
 import com.speedment.jpastreamer.application.JPAStreamerBuilderFactory;
 import com.speedment.jpastreamer.application.standard.internal.StandardJPAStreamerBuilder;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
+import java.util.function.Supplier;
 
 import static java.util.Objects.requireNonNull;
 
@@ -30,5 +33,10 @@ public final class StandardJPAStreamerBuilderFactory implements JPAStreamerBuild
     @Override
     public JPAStreamerBuilder create(final EntityManagerFactory entityManagerFactory) {
         return new StandardJPAStreamerBuilder(requireNonNull(entityManagerFactory));
+    }
+
+    @Override
+    public JPAStreamerBuilder create(Supplier<EntityManager> entityManagerSupplier) {
+        return new StandardJPAStreamerBuilder(requireNonNull(entityManagerSupplier));
     }
 }
