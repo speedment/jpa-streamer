@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Quick-start with JPAstreamer :: JPAStreamer</title>
+    <link rel="prev" href="../how-it-works/how-it-works.html">
+    <link rel="next" href="../get-jpa-streamer/install-maven.html">
+    <meta name="generator" content="Antora 3.0.1">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../.."></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="1.1.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/cdi_integration.html">CDI Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../predicates/predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../fetching-data/fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">1.1.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">1.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/introduction/introduction.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/introduction/introduction.html">1.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.1/introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.0/introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.5/introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="quick-start.html">Quick-start with JPAstreamer</a></li>
+  </ul>
+</nav>
+<h1 class="page">Quick-start with JPAstreamer</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section helps you get started with JPAstreamer in a few minutes. The process can be summed up in four steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="#_installing_jpastreamer">Installing JPAstreamer</a></p>
+</li>
+<li>
+<p><a href="#_build_your_project_to_generate_fields">Build your project to generate fields</a></p>
+</li>
+<li>
+<p><a href="#_initiate_jpastreamer">Initiate JPAstreamer</a></p>
+</li>
+<li>
+<p><a href="#_streaming_a_table">Streaming a table</a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The provided guide does not intend to be an exhaustive explanation of these steps but rather provide enough information to set you off streaming in no time. Hence, most of the topics are explained in greater depth throughout the JPAstreamer documentation.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Use of JPAstreamer requires Java 8 or later.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This guide assumes you are starting from an existing project that conveys to the standard JPA specification i.e. represent database tables as Entities etc.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installing_jpastreamer"><a class="anchor" href="#_installing_jpastreamer"></a>Installing JPAstreamer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The installation is performed by notifying your build tool that the JPAstreamer dependency is required to compile your source code. This is accomplished by using either of the following dependencies for Maven or Gradle.</p>
+</div>
+<div class="sect2">
+<h3 id="_maven"><a class="anchor" href="#_maven"></a>Maven</h3>
+<div class="paragraph">
+<p>Install JPAStreamer by adding the following code in the project&#8217;s pom.xml-file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependencies&gt;
+    &lt;dependency&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+        &lt;groupId&gt;com.speedment.jpastreamer&lt;/groupId&gt;
+        &lt;artifactId&gt;jpastreamer-core&lt;/artifactId&gt;
+        &lt;version&gt;${jpa-streamer-version}&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+
+&lt;plugins&gt;
+    &lt;plugin&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+        &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+        &lt;artifactId&gt;build-helper-maven-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.2.0&lt;/version&gt;
+        &lt;executions&gt;
+            &lt;execution&gt;
+                &lt;phase&gt;generate-sources&lt;/phase&gt;
+                &lt;goals&gt;
+                    &lt;goal&gt;add-source&lt;/goal&gt;
+                &lt;/goals&gt;
+                &lt;configuration&gt;
+                    &lt;sources&gt;
+                        &lt;source&gt;${project.build.directory}/generated-sources/annotations&lt;/source&gt;<i class="conum" data-value="3"></i><b>(3)</b>
+                    &lt;/sources&gt;
+                &lt;/configuration&gt;
+            &lt;/execution&gt;
+        &lt;/executions&gt;
+    &lt;/plugin&gt;
+&lt;/plugins&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The JPAstreamer core dependency</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Picks up the generated metamodel as an additional source directory</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Path to the generated sources</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gradle"><a class="anchor" href="#_gradle"></a>Gradle</h3>
+<div class="paragraph">
+<p>Install JPAStreamer by adding the following code in the project&#8217;s build.gradle-file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">repositories {
+	mavenCentral()
+}
+
+dependencies { <i class="conum" data-value="1"></i><b>(1)</b>
+    compile "com.speedment.jpastreamer:jpastreamer-core:version"
+    annotationProcessor "com.speedment.jpastreamer:fieldgenerator-standard:version"
+}
+
+sourceSets { <i class="conum" data-value="2"></i><b>(2)</b>
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'target/generated-sources/annotations'<i class="conum" data-value="3"></i><b>(3)</b>
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The required JPAstreamer dependencies</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Picks up the generated metamodel as an additional source directory</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Path to the generated sources</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_build_your_project_to_generate_fields"><a class="anchor" href="#_build_your_project_to_generate_fields"></a>Build your project to generate fields</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>JPAstreamer relies on an annotation processor to generate the static metamodel classes required for the type-safe Stream parameters. This generation automatically takes place during compile time. Once you have added the JPAstreamer dependency, just go ahead and build your project. The metamodel is generated into the target folder in the same package as the corresponding <code>Entity</code>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+You may have to manually configure the output target folder as a source folder, or else the runtime compiler may not be aware of the generated classes. See <a href="../get-jpa-streamer/install-maven.html" class="xref page">Install with Maven</a> or <a href="../get-jpa-streamer/install-gradle.html" class="xref page">Install with Gradle</a> for instructions on how to perform this configuration with Maven and Gradle respectively.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_initiate_jpastreamer"><a class="anchor" href="#_initiate_jpastreamer"></a>Initiate JPAstreamer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>JPAstreamer does not need to be manually configured to recognize the underlying data source. Instead, it is using the existing description of the persistence unit. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+     http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"&gt;
+
+    &lt;persistence-unit name="sakila" transaction-type="RESOURCE_LOCAL"&gt;
+        &lt;description&gt;MySQL Sakila Example Database&lt;/description&gt;
+        &lt;provider&gt;org.hibernate.jpa.HibernatePersistenceProvider&lt;/provider&gt;
+        &lt;properties&gt;
+            &lt;!-- Configuring The Database Connection Details --&gt;
+            &lt;property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" /&gt;
+            &lt;property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sakila" /&gt;
+
+            &lt;!-- ... --&gt;
+
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After installation, JPAstreamer is initialized with the name of the persistance unit:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">JPAStreamer jpaStreamer = JPAStreamer.of("sakila"); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>"sakila" is to be replaced with the name of <strong>your</strong> persistence unit</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_streaming_a_table"><a class="anchor" href="#_streaming_a_table"></a>Streaming a table</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The persistence unit described in the example above is the <a href="https://dev.mysql.com/doc/sakila/en/">MySQL Sakila example database</a>. This models a traditional movie rental shop and contains tables such as Film.
+In this example, the entity-bean corresponding to the film-table looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
+@Table(name = "film", schema = "sakila")
+public class Film {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "film_id", columnDefinition = "smallint(5)")
+    private Integer filmId;
+
+    @Column(name = "title", columnDefinition = "varchar(255)")
+    private String title;
+
+    // ... additional fields and corresponding getters and setters
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To stream the entries of this table, simply call <code>jpaStreamer.stream()</code> and provide the entity class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class) <i class="conum" data-value="1"></i><b>(1)</b>
+    .forEach(System.out::println);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>Film.class</code> refers to the annotated <code>Entity</code> that models the table which is to be streamed</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This will yield the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film {filmId=1, title='ACADEMY DINOSAUR', ...
+Film {filmId=2, title='ACE GOLDFINGER', ...
+Film {filmId=3, title='ADAPTATION HOLES', ...
+Film {filmId=4, title='AFFAIR PREJUDICE', ...
+Film {filmId=5, title='AFRICAN EGG', ...</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To release any resources potentially held by JPAstreamer, simply close the streamer using the command <code>jpaStreamer.close()</code>;
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_next_steps"><a class="anchor" href="#_next_steps"></a>Next Steps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that you have access to JPAstreamer it&#8217;s time to put the expressiveness of Java Streams to work. If you are not yet familiar with the <code>Stream</code> API, you may find our guide on <a href="../stream-fundamentals/stream_basics.html" class="xref page">Stream Fundamentals</a> helpful.</p>
+</div>
+<div class="paragraph">
+<p>Otherwise, feel free to check out the <a href="../fetching-data/stream-examples.html" class="xref page">collection of examples</a> of JPAStreamer usage.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.close();</code></pre>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../how-it-works/how-it-works.html">How JPAstreamer Works</a></span>
+  <span class="next"><a href="../get-jpa-streamer/install-maven.html">Install with Maven</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
