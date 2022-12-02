@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # JPAstreamer - Express JPA queries with Java Streams
-# Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
+# Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
 #
 # License: GNU Lesser General Public License (LGPL), version 2.1 or later.
 #
