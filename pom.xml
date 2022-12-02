@@ -645,6 +645,8 @@
                                 <exclude>nbproject/**</exclude>
                                 <exclude>src/main/java/com/company/sakila/db0/**</exclude>
                                 <exclude>jpa-streamer/**</exclude>
+                                <exclude>docs/**</exclude>
+                                <exclude>_/**</exclude>
                                 <exclude>/Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0</exclude>
                                 <exclude>build.gradle</exclude>
                             </excludes>
