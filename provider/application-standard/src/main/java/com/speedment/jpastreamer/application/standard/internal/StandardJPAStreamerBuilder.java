@@ -33,7 +33,6 @@ public final class StandardJPAStreamerBuilder implements JPAStreamerBuilder {
 
     private final boolean closeEntityManagers;
 
-
     public StandardJPAStreamerBuilder(final String persistenceUnitName) {
         requireNonNull(persistenceUnitName);
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);

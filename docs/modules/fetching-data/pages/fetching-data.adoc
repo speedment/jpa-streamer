@@ -68,7 +68,7 @@ public static void main(String[] args) {
 ----
 
 === From `EntityManagagerFactory` 
-When configuring JPAStreamer with the persistence unit name as described above, a new `EntityManagerFactory` is created and managed by JPAStreamer. In this case, JPASteamer is responsible for the life cycle of the factory, and calling `JPAStreamer::close` will close the `EntityManagerFactory`. 
+When configuring JPAStreamer with the persistence unit name as described above, a new `EntityManagerFactory` is created and managed by JPAStreamer. In this case, JPAStreamer is responsible for the life cycle of the factory, and calling `JPAStreamer::close` will close the `EntityManagerFactory`. 
 
 If you rather wish to reuse an existing `EntityManagerFactory` you can initialize JPAStreamer as follows: 
 

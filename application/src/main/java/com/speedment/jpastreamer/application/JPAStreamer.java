@@ -197,7 +197,7 @@ public interface JPAStreamer {
      * associated Entity class from the first-level cache. 
      * 
      * In case JPAStreamer was configured with a {@code Supplier<EntityManager>} the lifecycle of the Entity Managers is 
-     * not managed by JPASteamer, thus use of the method is not permitted and will result in an {@code UnsupportedOperationException}. 
+     * not managed by JPAStreamer, thus use of the method is not permitted and will result in an {@code UnsupportedOperationException}. 
      * 
      * @param entityClasses of the streamer  
      * @throws UnsupportedOperationException if JPAStreamer is configured with a Supplier, see {@code com.speedment.jpastreamer.application.JPAStreamer#of(java.util.function.Supplier)}
@@ -249,6 +249,7 @@ public interface JPAStreamer {
     }
 
     /**
+     *
      * Creates and returns a new JPAStreamerBuilder that will use the provided
      * {@code entityManagerSupplier}.
      * <p>
@@ -256,8 +257,11 @@ public interface JPAStreamer {
      * <p>
      * EntityManagers provided by the {@code entityManagerSupplier} will <em>not</em> 
      * be closed whenever a built JPAStreamer instance is closed.
-     *
+     * <p>
+     * This is a preview and may be subject to change. 
+     * 
      * @param entityManagerSupplier to be used by the JPAStreamer
+     * @since 3.1.1 
      * @return a new JPAStreamerBuilder
      */
     static JPAStreamerBuilder createJPAStreamerBuilder(final Supplier<EntityManager> entityManagerSupplier) {

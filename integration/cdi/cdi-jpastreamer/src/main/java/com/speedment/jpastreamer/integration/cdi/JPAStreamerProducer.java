@@ -31,4 +31,5 @@ public class JPAStreamerProducer {
     JPAStreamer jpaStreamer(EntityManagerFactory entityManagerFactory) {
         return JPAStreamer.createJPAStreamerBuilder(entityManagerFactory).build();
     }
+    
 }
