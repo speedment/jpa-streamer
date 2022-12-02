@@ -644,7 +644,7 @@
                                 <exclude>src/main/resources/**</exclude>
                                 <exclude>nbproject/**</exclude>
                                 <exclude>src/main/java/com/company/sakila/db0/**</exclude>
-                                <exclude>/Users/juliagustafsson/**</exclude>
+                                <exclude>/Users/juliagustafsson/Documents/Speedment/Github/jpa-streamer/jpa-streamer/**</exclude>
                                 <exclude>/Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0</exclude>
                                 <exclude>build.gradle</exclude>
                             </excludes>
@@ -811,7 +811,7 @@
                                 <exclude>src/main/resources/**</exclude>
                                 <exclude>nbproject/**</exclude>
                                 <exclude>src/main/java/com/company/sakila/db0/**</exclude>
-                                <exclude>/Users/juliagustafsson/**</exclude>
+                                <exclude>/Users/juliagustafsson/Documents/Speedment/Github/jpa-streamer/jpa-streamer/**</exclude>
                                 <exclude>
                                     /Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0
                                 </exclude>
