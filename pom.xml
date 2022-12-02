@@ -630,8 +630,7 @@
                                 <headerDefinition>license_header_def.xml</headerDefinition>
                             </headerDefinitions>
                             <excludes>
-                                <exclude>**/README</exclude>
-                                <exclude>**/README.md</exclude>
+                                <exclude>**/README*</exclude>
                                 <exclude>**/package-info.java</exclude>
                                 <exclude>**/nbactions.xml</exclude>
                                 <exclude>**/nb-configuration.xml</exclude>
@@ -645,8 +644,12 @@
                                 <exclude>nbproject/**</exclude>
                                 <exclude>src/main/java/com/company/sakila/db0/**</exclude>
                                 <exclude>jpa-streamer/**</exclude>
+                                <exclude>jpa-streamer/**</exclude>
                                 <exclude>docs/**</exclude>
                                 <exclude>_/**</exclude>
+                                <exclude>cla/**</exclude>
+                                <exclude>index.html</exclude>
+                                <exclude>*nojekyll</exclude>
                                 <exclude>/Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0</exclude>
                                 <exclude>build.gradle</exclude>
                             </excludes>
@@ -799,8 +802,7 @@
                                 <headerDefinition>license_header_def.xml</headerDefinition>
                             </headerDefinitions>
                             <excludes>
-                                <exclude>**/README</exclude>
-                                <exclude>**/README.md</exclude>
+                                <exclude>**/README*</exclude>
                                 <exclude>**/package-info.java</exclude>
                                 <exclude>**/nbactions.xml</exclude>
                                 <exclude>**/nb-configuration.xml</exclude>
@@ -814,9 +816,13 @@
                                 <exclude>nbproject/**</exclude>
                                 <exclude>src/main/java/com/company/sakila/db0/**</exclude>
                                 <exclude>jpa-streamer/**</exclude>
-                                <exclude>
-                                    /Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0
-                                </exclude>
+                                <exclude>jpa-streamer/**</exclude>
+                                <exclude>docs/**</exclude>
+                                <exclude>_/**</exclude>
+                                <exclude>cla/**</exclude>
+                                <exclude>index.html</exclude>
+                                <exclude>*nojekyll</exclude>
+                                <exclude>/Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0</exclude>
                                 <exclude>build.gradle</exclude>
                             </excludes>
                         </configuration>
