@@ -2,7 +2,7 @@
 <!--
 
     JPAstreamer - Express JPA queries with Java Streams
-    Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
+    Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
 
     License: GNU Lesser General Public License (LGPL), version 2.1 or later.
 
@@ -30,7 +30,7 @@
     
     <groupId>com.speedment.jpastreamer</groupId>
     <artifactId>jpastreamer-parent</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
@@ -790,7 +790,7 @@
                         <configuration>
                             <header>license_header.txt</header>
                             <properties>
-                                <currentYear>2020</currentYear>
+                                <currentYear>2022</currentYear>
                             </properties>
                             <headerDefinitions>
                                 <headerDefinition>license_header_def.xml</headerDefinition>
