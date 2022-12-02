@@ -45,7 +45,7 @@ echo "** Checking if 'jpa-streamer-gh-pages/jpa-streamer' is on the 'gh-pages' b
 DEVELOP_BRANCH=`git branch | grep "* gh-pages" | wc -l`
 if [ "$DEVELOP_BRANCH" -ne 1 ]
   then
-    echo "Not on the 'develop' branch"
+    echo "Not on the 'gh-pages' branch"
     exit 1
 fi
 git add --all
