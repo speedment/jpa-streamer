@@ -633,6 +633,7 @@
                                 <exclude>**/README</exclude>
                                 <exclude>**/README.md</exclude>
                                 <exclude>**.adoc</exclude>
+                                <exclude>/docs/**</exclude>
                                 <exclude>**/package-info.java</exclude>
                                 <exclude>**/nbactions.xml</exclude>
                                 <exclude>**/nb-configuration.xml</exclude>
