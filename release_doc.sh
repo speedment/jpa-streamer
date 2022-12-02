@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # JPAstreamer - Express JPA queries with Java Streams
-# Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+# Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
 #
 # License: GNU Lesser General Public License (LGPL), version 2.1 or later.
 #
@@ -40,6 +40,14 @@ antora --fetch site.yml
 
 echo "** Push changes to GitHub"
 cd ../../jpa-streamer-gh-pages/jpa-streamer
+
+echo "** Checking if 'jpa-streamer-gh-pages/jpa-streamer' is on the 'gh-pages' branch"
+DEVELOP_BRANCH=`git branch | grep "* gh-pages" | wc -l`
+if [ "$DEVELOP_BRANCH" -ne 1 ]
+  then
+    echo "Not on the 'develop' branch"
+    exit 1
+fi
 git add --all
 git commit -m "Bump version to $VERSION"
 git push

@@ -1,6 +1,6 @@
 /*
  * JPAstreamer - Express JPA queries with Java Streams
- * Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
  *
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
  *
@@ -21,8 +21,10 @@ import com.speedment.jpastreamer.renderer.RendererFactory;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 final class StandardStreamer<T> implements Streamer<T> {
@@ -33,12 +35,25 @@ final class StandardStreamer<T> implements Streamer<T> {
     private final StreamConfiguration<T> streamConfiguration;
 
     StandardStreamer(final StreamConfiguration<T> streamConfiguration, final EntityManagerFactory entityManagerFactory) {
+        this(streamConfiguration, entityManagerFactory::createEntityManager); 
+    }
+    
+    StandardStreamer(final StreamConfiguration<T> streamConfiguration, final Supplier<EntityManager> entityManagerSupplier) {
         this.streamConfiguration = requireNonNull(streamConfiguration);
-        requireNonNull(entityManagerFactory);
+        requireNonNull(entityManagerSupplier);
         this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class, ServiceLoader::load);
         this.autoCloseFactory = RootFactory.getOrThrow(AutoCloseFactory.class, ServiceLoader::load);
         this.renderer = RootFactory.getOrThrow(RendererFactory.class, ServiceLoader::load)
-            .createRenderer(entityManagerFactory);
+                .createRenderer(entityManagerSupplier);
+    }
+
+    StandardStreamer(final StreamConfiguration<T> streamConfiguration, final EntityManager entityManager) {
+        this.streamConfiguration = requireNonNull(streamConfiguration);
+        requireNonNull(entityManager);
+        this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class, ServiceLoader::load);
+        this.autoCloseFactory = RootFactory.getOrThrow(AutoCloseFactory.class, ServiceLoader::load);
+        this.renderer = RootFactory.getOrThrow(RendererFactory.class, ServiceLoader::load)
+                .createRenderer(entityManager);
     }
 
     @Override

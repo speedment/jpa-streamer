@@ -1,6 +1,6 @@
 /*
  * JPAstreamer - Express JPA queries with Java Streams
- * Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
  *
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
  *
@@ -18,7 +18,7 @@ import com.speedment.jpastreamer.analytics.standard.internal.google.GoogleAnalyt
 import com.speedment.jpastreamer.analytics.standard.internal.InternalStandardAnalyticsReporter;
 
 public final class StandardAnalyticsReporterFactory implements AnalyticsReporterFactory {
-
+    
     @Override
     public AnalyticsReporter createAnalyticsReporter(final String version, final boolean demoMode) {
         return new InternalStandardAnalyticsReporter(new GoogleAnalyticsHandler(version, demoMode));

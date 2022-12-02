@@ -2,7 +2,7 @@
 <!--
 
     JPAstreamer - Express JPA queries with Java Streams
-    Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+    Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
 
     License: GNU Lesser General Public License (LGPL), version 2.1 or later.
 
@@ -19,7 +19,7 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>jpastreamer-parent</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -160,6 +160,40 @@
             <timezone>Europe/Stockholm</timezone>
         </developer>
     </developers>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>module-info.java</exclude>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>jpastreamer-core-uber</shadedClassifierName> 
+                            <!---<minimizeJar>true</minimizeJar>-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

@@ -102,19 +102,20 @@ NOTE: This is yet to be optimized in a future release. As of this version, the c
 === Retrieving a numerical column
 In the special case of retrieving only a numerical column from the database, you can obtain an `IntStream`, a `DoubleStream` or a `LongStream` using the operations `mapToInt()`, `mapToDouble()`, and `mapToLong()` as follows:
 
-[source, java]
+[source,java]
 ----
 int[] filmLengths = jpaStreamer.stream(Film.class)
     .mapToInt(Film$.length.asInt())
     .toArray();
 ----
 
-NOTE: This is yet to be optimized in a future release. As of this version, the constructs `mapToInt()` etc. works semantically, but the resulting query will still retrieve all columns from the database.
+NOTE: This is yet to be optimized in a future release.As of this version, the constructs `mapToInt()` etc. works semantically, but the resulting query will still retrieve all columns from the database.
 
+[#_joins]
 == Joins
-Relationships between tables are handled via the JPA provider. Hence, JPAstreamer assumes that the correct relationships are described by the present `@Entity` beans. The following examples makes use of the three tables `Film`, `Actor` and `Language` from the link:https://dev.mysql.com/doc/sakila/en/[Sakila database]. The corresponding entities are described below:
+Relationships between tables are handled via the JPA provider.Hence, JPAstreamer assumes that the correct relationships are described by the present `@Entity` beans.The following examples makes use of the three tables `Film`, `Actor` and `Language` from the link:https://dev.mysql.com/doc/sakila/en/[Sakila database].The corresponding entities are described below:
 
-[source, java]
+[source,java]
 ----
 @Entity
 @Table(name = "film", schema = "sakila")
@@ -134,7 +135,7 @@ public class Film {
             joinColumns = { @JoinColumn(name = "film_id") },
             inverseJoinColumns = { @JoinColumn(name = "actor_id") }
     )
-    List<Actor> actors = new ArrayList<>();
+    Set<Actor> actors = new HashSet<>();
 
     //...
 
@@ -173,7 +174,7 @@ public class Actor {
     private Integer actorId;
 
     @ManyToMany(mappedBy = "actors") #<1>
-    List<Film> films = new ArrayList<>();
+    Set<Film> films = new ArrayList<>();
 
     //...
 }

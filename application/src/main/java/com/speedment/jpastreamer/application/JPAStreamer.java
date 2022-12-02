@@ -1,6 +1,6 @@
 /*
  * JPAstreamer - Express JPA queries with Java Streams
- * Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
  *
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
  *
@@ -18,8 +18,10 @@ import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -194,15 +196,19 @@ public interface JPAStreamer {
      * This will create a new instance of the underlying {@code java.persistence.EntityManager}, removing all entries of the 
      * associated Entity class from the first-level cache. 
      * 
+     * In case JPAStreamer was configured with a {@code Supplier<EntityManager>} the lifecycle of the Entity Managers is 
+     * not managed by JPAStreamer, thus use of the method is not permitted and will result in an {@code UnsupportedOperationException}. 
+     * 
      * @param entityClasses of the streamer  
+     * @throws UnsupportedOperationException if JPAStreamer is configured with a Supplier, see {@code com.speedment.jpastreamer.application.JPAStreamer#of(java.util.function.Supplier)}
      */
-    void resetStreamer(Class<?>... entityClasses); 
+    void resetStreamer(Class<?>... entityClasses) throws UnsupportedOperationException; 
     
     /**
      * Closes this JPAStreamer and releases any resources potentially held.
      * <p>
      * If and only if this JPAStreamer was created using a {@code persistenceUnitName},
-     * the underlying EntityManagerFactory will be closed.
+     * the underlying EntityManagerFactory will be closed. 
      */
     void close();
 
@@ -243,6 +249,28 @@ public interface JPAStreamer {
     }
 
     /**
+     *
+     * Creates and returns a new JPAStreamerBuilder that will use the provided
+     * {@code entityManagerSupplier}.
+     * <p>
+     * Call the JPAStreamerBuilder::build method to create a new JPAStreamer instance.
+     * <p>
+     * EntityManagers provided by the {@code entityManagerSupplier} will <em>not</em> 
+     * be closed whenever a built JPAStreamer instance is closed.
+     * <p>
+     * This is a preview and may be subject to change. 
+     * 
+     * @param entityManagerSupplier to be used by the JPAStreamer
+     * @since 1.1.1 
+     * @return a new JPAStreamerBuilder
+     */
+    static JPAStreamerBuilder createJPAStreamerBuilder(final Supplier<EntityManager> entityManagerSupplier) {
+        return RootFactory
+                .getOrThrow(JPAStreamerBuilderFactory.class, ServiceLoader::load)
+                .create(entityManagerSupplier);
+    }
+
+    /**
      * Creates and returns a new JPAStreamer that will create a new
      * {@link EntityManagerFactory} using the provided {@code persistenceUnitName}.
      * <p>
@@ -273,4 +301,19 @@ public interface JPAStreamer {
         return createJPAStreamerBuilder(entityManagerFactory).build();
     }
 
+    /**
+     * Creates and returns a new JPAStreamer that will use the provided
+     * {@code entityManagerSupplier}. 
+     * <p>
+     * EntityManagers provided by the {@code entityManagerSupplier} will 
+     * <em>not</em> be closed whenever the returned JPAStreamer instance is closed.
+     *
+     * @param entityManagerSupplier to be used by the JPAStreamer
+     * @return a new JPAStreamerBuilder
+     */
+    static JPAStreamer of(final Supplier<EntityManager> entityManagerSupplier) {
+        requireNonNull(entityManagerSupplier);
+        return createJPAStreamerBuilder(entityManagerSupplier).build();
+    }
+    
 }

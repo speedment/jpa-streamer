@@ -1,6 +1,6 @@
 /*
  * JPAstreamer - Express JPA queries with Java Streams
- * Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
  *
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
  *
@@ -16,7 +16,9 @@ import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.renderer.RendererFactory;
 import com.speedment.jpastreamer.renderer.standard.internal.InternalRendererFactory;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.function.Supplier;
 
 public final class StandardRendererFactory implements RendererFactory {
 
@@ -25,5 +27,14 @@ public final class StandardRendererFactory implements RendererFactory {
     @Override
     public Renderer createRenderer(final EntityManagerFactory entityManagerFactory) {
         return delegate.createRenderer(entityManagerFactory);
+    }
+
+    @Override
+    public Renderer createRenderer(Supplier<EntityManager> entityManagerSupplier) {
+        return delegate.createRenderer(entityManagerSupplier);
+    }
+
+    public Renderer createRenderer(final EntityManager entityManager) {
+        return delegate.createRenderer(entityManager);
     }
 }

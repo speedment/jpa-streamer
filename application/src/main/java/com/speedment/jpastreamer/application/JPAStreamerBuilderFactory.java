@@ -1,6 +1,6 @@
 /*
  * JPAstreamer - Express JPA queries with Java Streams
- * Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
  *
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
  *
@@ -12,12 +12,15 @@
  */
 package com.speedment.jpastreamer.application;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.function.Supplier;
 
 public interface JPAStreamerBuilderFactory {
 
     JPAStreamerBuilder create(String persistenceUnitName);
-
-    JPAStreamerBuilder create(EntityManagerFactory entityManagerFactory);
-
+    
+    JPAStreamerBuilder create(EntityManagerFactory entityManagerFactory); 
+    
+    JPAStreamerBuilder create(Supplier<EntityManager> entityManagerSupplier);
 }

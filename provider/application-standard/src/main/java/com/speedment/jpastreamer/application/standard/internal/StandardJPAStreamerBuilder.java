@@ -1,6 +1,6 @@
 /*
  * JPAstreamer - Express JPA queries with Java Streams
- * Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+ * Copyright (c) 2020-2020, Speedment, Inc. All Rights Reserved.
  *
  * License: GNU Lesser General Public License (LGPL), version 2.1 or later.
  *
@@ -15,29 +15,51 @@ package com.speedment.jpastreamer.application.standard.internal;
 import com.speedment.jpastreamer.application.JPAStreamer;
 import com.speedment.jpastreamer.application.JPAStreamerBuilder;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import java.util.function.Supplier;
 
 import static java.util.Objects.requireNonNull;
 
 public final class StandardJPAStreamerBuilder implements JPAStreamerBuilder {
 
-    private final EntityManagerFactory entityManagerFactory;
-    private final boolean closeEntityManager;
+    private final Supplier<EntityManager> entityManagerSupplier;
+    
+    private final Runnable closeHandler;
+    
+    private final boolean demoMode;
+
+    private final boolean closeEntityManagers;
 
     public StandardJPAStreamerBuilder(final String persistenceUnitName) {
-        this.closeEntityManager = true;
-        this.entityManagerFactory = Persistence.createEntityManagerFactory(requireNonNull(persistenceUnitName));
+        requireNonNull(persistenceUnitName);
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
+        this.entityManagerSupplier = entityManagerFactory::createEntityManager;
+        this.closeHandler = entityManagerFactory::close; 
+        this.demoMode = "sakila".equals(persistenceUnitName); 
+        this.closeEntityManagers = true; 
     }
 
     public StandardJPAStreamerBuilder(final EntityManagerFactory entityManagerFactory) {
-        this.closeEntityManager = false;
-        this.entityManagerFactory = requireNonNull(entityManagerFactory);
+        requireNonNull(entityManagerFactory);
+        this.entityManagerSupplier = entityManagerFactory::createEntityManager;
+        this.closeHandler = () -> {}; 
+        this.demoMode = "sakila".equals(entityManagerFactory.getProperties().getOrDefault("hibernate.ejb.persistenceUnitName", ""));
+        this.closeEntityManagers = true; 
+    }
+
+    public StandardJPAStreamerBuilder(final Supplier<EntityManager> entityManagerSupplier) {
+        this.entityManagerSupplier = requireNonNull(entityManagerSupplier);
+        this.closeHandler = () -> {};
+        this.demoMode = false; 
+        this.closeEntityManagers = false; 
     }
 
     @Override
     public JPAStreamer build() {
-        return new StandardJPAStreamer(entityManagerFactory, closeEntityManager);
+        return new StandardJPAStreamer(entityManagerSupplier, closeHandler, demoMode, closeEntityManagers);
     }
 
 }
