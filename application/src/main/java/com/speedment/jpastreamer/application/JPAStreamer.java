@@ -261,7 +261,7 @@ public interface JPAStreamer {
      * This is a preview and may be subject to change. 
      * 
      * @param entityManagerSupplier to be used by the JPAStreamer
-     * @since 3.1.1 
+     * @since 1.1.1 
      * @return a new JPAStreamerBuilder
      */
     static JPAStreamerBuilder createJPAStreamerBuilder(final Supplier<EntityManager> entityManagerSupplier) {
