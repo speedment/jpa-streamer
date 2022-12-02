@@ -632,8 +632,6 @@
                             <excludes>
                                 <exclude>**/README</exclude>
                                 <exclude>**/README.md</exclude>
-                                <exclude>**.adoc</exclude>
-                                <exclude>/docs/**</exclude>
                                 <exclude>**/package-info.java</exclude>
                                 <exclude>**/nbactions.xml</exclude>
                                 <exclude>**/nb-configuration.xml</exclude>
@@ -646,6 +644,7 @@
                                 <exclude>src/main/resources/**</exclude>
                                 <exclude>nbproject/**</exclude>
                                 <exclude>src/main/java/com/company/sakila/db0/**</exclude>
+                                <exclude>/Users/juliagustafsson/**</exclude>
                                 <exclude>/Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0</exclude>
                                 <exclude>build.gradle</exclude>
                             </excludes>
@@ -812,6 +811,7 @@
                                 <exclude>src/main/resources/**</exclude>
                                 <exclude>nbproject/**</exclude>
                                 <exclude>src/main/java/com/company/sakila/db0/**</exclude>
+                                <exclude>/Users/juliagustafsson/**</exclude>
                                 <exclude>
                                     /Users/pemi/Documents/orm/speedment/example-parent/basic-example/src/main/java/com/company/sakila/db0
                                 </exclude>
