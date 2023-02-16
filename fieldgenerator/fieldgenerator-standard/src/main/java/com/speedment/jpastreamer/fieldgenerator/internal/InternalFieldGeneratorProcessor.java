@@ -98,10 +98,30 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .filter(ae -> ae.getKind() == ElementKind.CLASS)
                 .forEach(ae -> {
                     try {
-                        String qualifiedGenEntityName = ae.asType().toString() + "$";
+                        final String entityName = ae.asType().toString();
+                        final String shortEntityName = shortName(entityName);
+
+                        final String prefix = processingEnv.getOptions().getOrDefault("jpaStreamerPrefix", "");
+                        final String suffix = processingEnv.getOptions().getOrDefault("jpaStreamerSuffix", "");
+
+                        final String genEntityName = (!prefix.equals("") || !suffix.equals("")) ?
+                                prefix + shortEntityName + suffix : shortEntityName + "$";
+
+                        String annotatedElementPackageName = "";
+                        final PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(ae);
+                        if (packageElement.isUnnamed()) {
+                            messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + " has an unnamed package.");
+                            annotatedElementPackageName = "";
+                        } else {
+                            annotatedElementPackageName = packageElement.getQualifiedName().toString();
+                        }
+
+                        String packageName = processingEnv.getOptions().getOrDefault("jpaStreamerPackage", annotatedElementPackageName);
+
+                        String qualifiedGenEntityName = packageName + "." + genEntityName;
                         JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(qualifiedGenEntityName);
                         Writer writer = builderFile.openWriter();
-                        generateFields(ae, writer);
+                        generateFields(ae, entityName, genEntityName, packageName, writer);
                         writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -111,10 +131,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return true;
     }
 
-    void generateFields(final Element annotatedElement, final Writer writer) throws IOException {
-
-        final String entityName = shortName(annotatedElement.asType().toString());
-        final String genEntityName = entityName + "$";
+    void generateFields(final Element annotatedElement, final String entityName, final String genEntityName, final String packageName, final Writer writer) throws IOException {
 
         final Map<String, Element> getters = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind() == ElementKind.METHOD)
@@ -131,7 +148,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .map(n -> n.substring(2))
                 .map(Formatting::lcfirst)
                 .collect(toSet());
-        
+
         // Retrieve all declared non-final instance fields of the annotated class
         Map<? extends Element, String> enclosedFields = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind().isField()
@@ -140,24 +157,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .collect(
                         toMap(
                                 Function.identity(),
-                                ee -> findGetter(ee, getters, isGetters, entityName, lombokGetterAvailable(annotatedElement, ee)))
+                                ee -> findGetter(ee, getters, isGetters, shortName(entityName), lombokGetterAvailable(annotatedElement, ee)))
                 );
-
-/*        if (annotatedElement.getSimpleName().toString().contains("User")) {
-            messager.printMessage(Diagnostic.Kind.NOTE, " "+ isGetters.size());
-            messager.printMessage(Diagnostic.Kind.NOTE, " "+ isGetters.iterator().next());
-            messager.printMessage(Diagnostic.Kind.NOTE, enclosedFields.toString());
-            throw new UnsupportedEncodingException(isGetters.toString());
-        }*/
-
-        final PackageElement packageElement = processingEnvironment.getElementUtils().getPackageOf(annotatedElement);
-        String packageName;
-        if (packageElement.isUnnamed()) {
-            messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + " has an unnamed package.");
-            packageName = "";
-        } else {
-            packageName = packageElement.getQualifiedName().toString();
-        }
 
         final File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);
         writer.write(generator.on(file).orElseThrow(NoSuchElementException::new));
@@ -179,7 +180,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         final String standardJavaName = javaNameFromExternal(fieldName);
 
         final String standardGetterName = getterPrefix + standardJavaName;
-        
+
         if (getters.get(standardGetterName) != null || isGetters.contains(standardGetterName)) {
             // We got lucky because the user elected to conform
             // to the standard JavaBean notation.
@@ -210,23 +211,25 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     }
 
-    private File generatedEntity(Map<? extends Element, String> enclosedFields, String entityName, String genEntityName, String packageName) {
+    private File generatedEntity(final Map<? extends Element, String> enclosedFields, final String entityName, final String genEntityName, final String packageName) {
         final File file = packageName.isEmpty() ?
                 File.of(genEntityName + ".java") :
                 File.of(packageName + "/" + genEntityName + ".java");
+
+        final String shortEntityName = shortName(entityName);
 
         final Class clazz = Class.of(genEntityName)
                 .public_()
                 .final_()
                 .set(Javadoc.of(
-                        "The generated base for entity {@link " + entityName + "} representing entities of the"
-                                + " {@code " + lcfirst(entityName) + "}-table in the database." +
+                        "The generated base for entity {@link " + shortEntityName + "} representing entities of the"
+                                + " {@code " + lcfirst(shortEntityName) + "}-table in the database." +
                                 nl() + "<p> This file has been automatically generated by JPAStreamer."
                 ).author("JPAStreamer"));
 
         enclosedFields
                 .forEach((field, getter) -> {
-                    addFieldToClass(field, getter, clazz, entityName);
+                    addFieldToClass(field, getter, clazz, shortEntityName);
                     // Name magic...
                     if (getter.contains(IllegalJavaBeanException.class.getSimpleName())) {
                         file.add(Import.of(IllegalJavaBeanException.class));
@@ -235,6 +238,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
         file.add(clazz);
         file.call(new AutoImports(generator.getDependencyMgr())).call(new AlignTabs<>());
+        file.imports(SimpleType.create(entityName));
+
         return file;
     }
 
@@ -328,11 +333,11 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
     }
 
     private String trimAnnotations(Element field) {
-        final String fieldType = field.asType().toString(); 
+        final String fieldType = field.asType().toString();
         final int index = fieldType.lastIndexOf(' ');
-        return index < 0 ? fieldType : fieldType.substring(index + 1); 
+        return index < 0 ? fieldType : fieldType.substring(index + 1);
     }
-    
+
     private Type primitiveFieldType(Type fieldType, Type entityType) {
         Type primitiveFieldType;
         switch (fieldType.getTypeName()) {

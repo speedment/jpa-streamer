@@ -23,16 +23,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fieldgenerator-test</artifactId>
+    <artifactId>fieldgenerator-test-package</artifactId>
 
     <properties>
-        <module-name>jpastreamer.fieldgenerator.test</module-name>
+        <module-name>jpastreamer.fieldgenerator.test.renaming</module-name>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
 
-    <name>FieldGenerator - Test</name>
+    <name>FieldGenerator - Test Package Renaming</name>
     <description>
-        Standard field generator tests
+        Standard field generator tests with package renaming 
     </description>
 
     <dependencies>
@@ -69,6 +69,18 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-AjpaStreamerPackage=com.speedment.jpastreamer.fieldgenerator.test.renaming.inner</arg>
+                        <arg>-AjpaStreamerSuffix=B</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
