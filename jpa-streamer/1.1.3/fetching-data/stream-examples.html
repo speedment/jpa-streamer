@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Stream Examples :: JPAStreamer</title>
+    <link rel="prev" href="sql-equivalents.html">
+    <link rel="next" href="../transactions/transactions.html">
+    <meta name="generator" content="Antora 3.0.1">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../.."></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="1.1.3">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/cdi_integration.html">CDI Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../predicates/predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">1.1.3</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">1.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.2/introduction/introduction.html">1.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/introduction/introduction.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/introduction/introduction.html">1.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.1/introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.0/introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.5/introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="fetching-data.html">Fetching Data</a></li>
+    <li><a href="stream-examples.html">Stream Examples</a></li>
+  </ul>
+</nav>
+<h1 class="page">Stream Examples</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The section presents several examples that combines the operations described in the previous chapter. All examples are part of the JPAstreamer Demo that can be located <a href="https://github.com/speedment/jpa-streamer-demo/">here</a> and tested locally on your computer.</p>
+</div>
+<div class="paragraph">
+<p>The examples use the MySQL example database <a href="https://dev.mysql.com/doc/sakila/en/">Sakila</a>. It models a classic movie rental store and contains tables such as Film, Actor, Language etc.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_paging"><a class="anchor" href="#_paging"></a>Paging</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following example demonstrates how to serve a request for pages from a GUI or a similar application. The page number (starting with page = 0) and ordering will be given as parameters:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">private static final int PAGE_SIZE = 20;
+
+private static List&lt;Film&gt; filmPage(JPAStreamer jpaStreamer, int page, Comparator&lt;Film&gt; comparator) {
+    return jpaStreamer.stream(Film.class)
+        .sorted(comparator)
+        .skip(page * PAGE_SIZE)
+        .limit(PAGE_SIZE)
+        .collect(Collectors.toList());
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This method can e.g. be used to fetch the second page of films sorted by title in descending order:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    filmPage(1, Film$.title.reversed());</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_partition_by"><a class="anchor" href="#_partition_by"></a>Partition By</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Partitioning is a special case of grouping in which there are only two different classes: <code>false</code> or <code>true</code>. Java has its own partitioner that can be used to classify database entities. The example below classifies the films in two different categories: short and long films, where a long film is of length greater than 120 minutes.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Map&lt;Boolean, List&lt;Film&gt;&gt; map = jpaStreamer.stream(Film.class)
+        .collect(
+            Collectors.partitioningBy(Film$.length.greaterThan(120))
+        );
+
+    map.forEach((k, v) -&gt; {
+        System.out.format("long is %5s has %d films%n", k, v.size());
+    });</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will print:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">long is false has 543 films
+long is  true has 457 films</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_projection"><a class="anchor" href="#_projection"></a>Projection</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are several Stream operations that limit the number of rows obtained from the database (e.g. <code>filter()</code> and <code>limit()</code>). Although, to limit the number of columns we retrieve, JPAstreamer uses <code>Projections</code>. Projections can be used either initially, to limit the Stream source, or in combination with a <code>map()</code>-operation. The following sections describe both methods.</p>
+</div>
+<div class="sect2">
+<h3 id="_initial_stream_configuration"><a class="anchor" href="#_initial_stream_configuration"></a>Initial Stream configuration</h3>
+<div class="paragraph">
+<p>By making a <code>StreamConfiguration</code>, we can initially limit the Stream to include only selected columns.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">StreamConfiguration&lt;Film&gt; sc = StreamConfiguration.of(Film.class).selecting(Projection.select(Film$.filmId, Film$.title));
+
+jpaStreamer.stream(sc)
+    .sorted(Film$.length.reversed())
+    .limit(3)
+    .forEach(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>Projection</code> is translated by JpaStreamer to a <code>SELECT</code> statement that is applied to the resulting query. This way we limit the given result set to only include values from column <code>film_id</code> and <code>title</code>.</p>
+</div>
+<div class="paragraph">
+<p>The output reveals that all Object fields which are not obtained are given a value of <code>null</code> whereas all primitive fields are assigned either a value of 0 or <code>false</code> (for <code>boolean</code> values):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film{filmId=212, title='DARN FORRESTER', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}
+Film{filmId=141, title='CHICAGO NORTH', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}
+Film{filmId=182, title='CONTROL ANTHEM', description='null', language=null, actors=[], rentalDuration=null, rentalRate=null, length=null, replacementCost=null, rating='null', specialFeatures='null', lastUpdate=null}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_a_map_operation"><a class="anchor" href="#_using_a_map_operation"></a>Using a map-operation</h3>
+<div class="paragraph">
+<p>The downside of using a <code>StreamConfiguration</code> as described above is that we are unable to apply filtering and sorting operations to columns which are not included in the initial configuration. In SQL, this corresponds to the statements on the form <code>SELECT A WHERE B=3</code>. This can be resolved by providing a <code>Projection</code> to the <code>map()</code>-operation as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">List&lt;Tuple&gt; tupleList = jpaStreamer.stream(Film.class) <i class="conum" data-value="1"></i><b>(1)</b>
+    .sorted(Film$.length.reversed()) <i class="conum" data-value="2"></i><b>(2)</b>
+    .limit(3)
+    .map(Projection.select(Film$.filmId, Film$.title)) <i class="conum" data-value="3"></i><b>(3)</b>
+    .collect(Collectors.toList());
+
+    System.out.println("tupleList = " + tupleList);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The Stream source is not limited in any regard</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We can apply a sorting operation to the column <code>length</code> even though it is not included in the SELECT clause</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The mapping results in a <code>Tuple</code> with values for the provided columns</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This is yet to be optimized in a future release. As of this version, the construct <code>map(Projection.select()</code> works semantically but will still retrieve all columns from the database. See <a href="https://github.com/speedment/jpa-streamer/issues/23">github/speedment/jpa-streamer/issues/23</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_retrieving_a_numerical_column"><a class="anchor" href="#_retrieving_a_numerical_column"></a>Retrieving a numerical column</h3>
+<div class="paragraph">
+<p>In the special case of retrieving only a numerical column from the database, you can obtain an <code>IntStream</code>, a <code>DoubleStream</code> or a <code>LongStream</code> using the operations <code>mapToInt()</code>, <code>mapToDouble()</code>, and <code>mapToLong()</code> as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">int[] filmLengths = jpaStreamer.stream(Film.class)
+    .mapToInt(Film$.length.asInt())
+    .toArray();</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This is yet to be optimized in a future release.As of this version, the constructs <code>mapToInt()</code> etc. works semantically, but the resulting query will still retrieve all columns from the database.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_joins"><a class="anchor" href="#_joins"></a>Joins</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Relationships between tables are handled via the JPA provider.Hence, JPAstreamer assumes that the correct relationships are described by the present <code>@Entity</code> beans.The following examples makes use of the three tables <code>Film</code>, <code>Actor</code> and <code>Language</code> from the <a href="https://dev.mysql.com/doc/sakila/en/">Sakila database</a>.The corresponding entities are described below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
+@Table(name = "film", schema = "sakila")
+public class Film {
+
+    @Id
+    @Column(name = "film_id", columnDefinition = "smallint(5)")
+    private Integer filmId;
+
+    @ManyToOne <i class="conum" data-value="1"></i><b>(1)</b>
+    @JoinColumn(name="language_id", nullable = false)
+    private Language language;
+
+    @ManyToMany(cascade = { CascadeType.ALL }) <i class="conum" data-value="2"></i><b>(2)</b>
+    @JoinTable(
+            name = "film_actor",
+            joinColumns = { @JoinColumn(name = "film_id") },
+            inverseJoinColumns = { @JoinColumn(name = "actor_id") }
+    )
+    Set&lt;Actor&gt; actors = new HashSet&lt;&gt;();
+
+    //...
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>A film can only be spoken in one language (simplified reality)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>A film can starr many actors</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
+@Table(name = "language", schema = "sakila")
+public class Language {
+
+    @Id
+    @Column(name = "language_id", columnDefinition = "tinyint(5)")
+    private Integer languageId;
+
+    @OneToMany(mappedBy = "language") <i class="conum" data-value="1"></i><b>(1)</b>
+    private List&lt;Film&gt; films;
+
+    //...
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>One language can occur in many films</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Entity
+@Table(name = "actor", schema = "sakila")
+public class Actor {
+
+    @Id
+    @Column(name = "actor_id", columnDefinition = "smallint(5)")
+    private Integer actorId;
+
+    @ManyToMany(mappedBy = "actors") <i class="conum" data-value="1"></i><b>(1)</b>
+    Set&lt;Film&gt; films = new ArrayList&lt;&gt;();
+
+    //...
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>An actor can starr in many films</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_specifying_stream_joining"><a class="anchor" href="#_specifying_stream_joining"></a>Specifying Stream Joining</h3>
+<div class="paragraph">
+<p>So far, we have talked about the relations for joining in entities in other entities (e.g. how an Actor relates to a Film).</p>
+</div>
+<div class="paragraph">
+<p>It is also important when and how that relation is applied. This can be specified using a <code>StreamConfiguration</code> as shown hereunder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import static com.speedment.jpastreamer.streamconfiguration.StreamConfiguration.*;
+...
+jpaStreamer.stream(of(Film.class).joining(Film$.actors).joining(Film$.language))
+    .filter(Film$.length.between(100, 120))
+    .forEach(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will create a stream where the film actors and the film language is (JoinType.LEFT) joined into the query, thereby avoiding potential "select N + 1" performance problems.</p>
+</div>
+<div class="paragraph">
+<p>More generally, it is possible to specify the join type (<code>JoinType.INNER, JoinType.LEFT or JoinType.RIGHT</code>) using the method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">StreamConfiguration&lt;T&gt; joining(Field&lt;T&gt; field, JoinType joinType);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_one_to_many_relations"><a class="anchor" href="#_one_to_many_relations"></a>One-to-Many relations</h3>
+<div class="paragraph">
+<p>A One-to-Many relationship is defined as a relationship between two tables where a row from a first table can have multiple matching rows in a second table. For example, many films can be in the same language.</p>
+</div>
+<div class="paragraph">
+<p>The following example maps the languages to a list of all films that are spoken in that language:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Map&lt;Language, Set&lt;Film&gt;&gt; languageFilmMap = jpaStreamer.stream(of(Language.class).joining(Language$.films))
+    .collect(toMap(
+        Function.identity(),
+        Language::getFilms
+         )
+    );</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In this example, we are joining the <code>Language.films</code> thereby preventing an extra query each time <code>Language::getFilms</code> is invoked.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_many_to_one_relations"><a class="anchor" href="#_many_to_one_relations"></a>Many-to-One relations</h3>
+<div class="paragraph">
+<p>A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.</p>
+</div>
+<div class="paragraph">
+<p>The following example maps every film with rating PG-13 to its spoken language:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Map&lt;Film, Language&gt; languageMap = jpaStreamer.stream(of(Film.class).joining(Film$.language)) <i class="conum" data-value="1"></i><b>(1)</b>
+    .filter(Film$.rating.equal("PG-13"))
+    .collect(
+            Collectors.toMap(Function.identity(), <i class="conum" data-value="2"></i><b>(2)</b>
+                Film::getLanguage <i class="conum" data-value="3"></i><b>(3)</b>
+            )
+    );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Stream over the Film-table (joining in the field language)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The identity function assigns the current Film as the key</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Enters the spoken language as the value</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If printed with some formatting this may yield the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">ALTER VICTORY: English
+APOLLO TEEN: English
+AIRPLANE SIERRA: English
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_many_to_many_relations"><a class="anchor" href="#_many_to_many_relations"></a>Many-to-Many relations</h3>
+<div class="paragraph">
+<p>A Many-to-Many relationship is defined as a relationship between two tables where many multiple rows from a first table can match multiple rows in a second table. Often a third table is used to form these relations. For example, an actor may participate in several films and a film usually have several actors.</p>
+</div>
+<div class="paragraph">
+<p>Given the entities above, we can create a filmography that maps every actor to a list of films that they have starred in:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Map&lt;Actor, List&lt;Film&gt;&gt; filmography = jpaStreamer.stream(of(Actor.class).joining(Actor$.films)) <i class="conum" data-value="1"></i><b>(1)</b>
+    .collect(
+            Collectors.toMap(Function.identity(), <i class="conum" data-value="2"></i><b>(2)</b>
+                Actor::getFilms <i class="conum" data-value="3"></i><b>(3)</b>
+            )
+    );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Stream over the Actor-table (joining the field films)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The identity function assigns the current Actor as the key</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Enters the List of films as the value</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If printed with some formatting this may yield the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">JENNIFER DAVIS: [GREEDY ROOTS, HANOVER GALAXY, ... ]
+ED CHASE: [ARTIST COLDBLOODED, IMAGE PRINCESS, ... ]
+NICK WAHLBERG: [JEKYLL FROGMEN, CHISUM BEHAVIOR, ... ]
+...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_pivot_data"><a class="anchor" href="#_pivot_data"></a>Pivot Data</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following example shows a pivot table of all the actors and the number of films they have participated in for each film rating category (e.g. “PG-13”):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Map&lt;Actor, Map&lt;String, Long&gt;&gt; pivot = jpaStreamer.stream(of(Actor.class).joining(Actor$.films)) <i class="conum" data-value="1"></i><b>(1)</b>
+        .collect(
+            groupingBy(Function.identity(), <i class="conum" data-value="2"></i><b>(2)</b>
+                Collectors.flatMapping(a -&gt; a.getFilms().stream(), <i class="conum" data-value="3"></i><b>(3)</b>
+                    groupingBy(Film::getRating, counting()) <i class="conum" data-value="4"></i><b>(4)</b>
+                )
+            )
+        );</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As this is a more advanced example it requires some thinking to understand.</p>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Streams the Actor table (joining the field films)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Assigns Actor as the key</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Applies a downstream collector which flatmaps all the films which the actor starr in</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The films are grouped according to rating, and the number of films of each rating is counted</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>Collectors.flatMapping()</code> is only present in Java 9 and forward.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This will produce the following (slightly simplified) output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">MICHAEL BOLGER  {PG-13=9, R=3, NC-17=6, PG=4, G=8}
+LAURA BRODY  {PG-13=8, R=3, NC-17=6, PG=6, G=3}
+CAMERON ZELLWEGER  {PG-13=8, R=2, NC-17=3, PG=15, G=5}
+...</code></pre>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="sql-equivalents.html">SQL Equivalents</a></span>
+  <span class="next"><a href="../transactions/transactions.html">Transactions</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

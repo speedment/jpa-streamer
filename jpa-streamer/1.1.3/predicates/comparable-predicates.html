@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Comparable Predicates :: JPAStreamer</title>
+    <link rel="prev" href="reference-predicates.html">
+    <link rel="next" href="string-predicates.html">
+    <meta name="generator" content="Antora 3.0.1">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../.."></a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="1.1.3">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/cdi_integration.html">CDI Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../fetching-data/fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">1.1.3</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">1.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.2/introduction/introduction.html">1.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/introduction/introduction.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/introduction/introduction.html">1.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.1/introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.0/introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.5/introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="predicates.html">Predicates</a></li>
+    <li><a href="comparable-predicates.html">Comparable Predicates</a></li>
+  </ul>
+</nav>
+<h1 class="page">Comparable Predicates</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The following additional methods are available to a <code>ReferenceField</code> that is always associated to a <code>Comparable</code> field (e.g. <code>Integer</code>, <code>String</code>, <code>Date</code>, <code>Time</code> etc.). Comparable fields can be tested for equality and can also be compared to other objects of the same type. The "Condition" in the table below is the condition for which the corresponding <code>Predicate</code> will hold <code>true</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Param Type</th>
+<th class="tableblock halign-left valign-top">Operation</th>
+<th class="tableblock halign-left valign-top">Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">equal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Objects.equals(p, field)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is equal to the parameter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notEqual</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!Objects.equals(p, field)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is not equal to the parameter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lessThan</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field &lt; p</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is less than the parameter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">lessOrEqual</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field &#8656; p</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is less or equal to the the parameter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">greaterThan</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field &gt; p</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is greater than the parameter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">greaterOrEqual</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field &gt;= p</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is greater or equal to the parameter</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">between</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code>,<code>V</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field &gt;= s &amp;&amp; field &lt; e</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is between s (inclusive) and e (exclusive)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">between</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code>,<code>V</code>, <code>Inclusion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field &gt;? s &amp;&amp; field &lt;? e</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is between s and e with inclusion according to the given Inclusion parameter (<code>START_INCLUSIVE_END_INCLUSIVE</code>, <code>START_INCLUSIVE_END_EXCLUSIVE</code>, <code>START_EXCLUSIVE_END_INCLUSIVE</code> and <code>START_EXCLUSIVE_END_EXCLUSIVE</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notBetween</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code>,<code>V</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field &lt; s &amp;&amp; field &gt;= e</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is not between p1 (exclusive) and p2 (inclusive)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notBetween</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V</code>,<code>V</code>, <code>Inclusion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">field &lt;? s &amp;&amp; field &gt;? e</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the field is not between s and e with inclusion according to the given Inclusion parameter (<code>START_INCLUSIVE_END_INCLUSIVE</code>, <code>START_INCLUSIVE_END_EXCLUSIVE</code>, <code>START_EXCLUSIVE_END_INCLUSIVE</code> and <code>START_EXCLUSIVE_END_EXCLUSIVE</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">array p contains field</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the array parameter contains the field</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Collection&lt;V&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">p.contains(field)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the <code>Collection&lt;V&gt;</code> contains the field</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notIn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>V[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">array p does not contain field</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the array parameter does not contain the field</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">notIn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Collection&lt;V&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">!p.contains(field)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the <code>Collection&lt;V&gt;</code> does not contain the field</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Fields that are <code>null</code> will never fulfill any of the predicates in the list above. Thus, neither <code>equals</code> nor <code>notEquals</code> will return <code>true</code> for null values.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The reason <code>equal</code> is not named <code>equals</code> is that the latter name is already used as a method name by the <code>Object</code> class (that every other class inherits from). The latter method has a different meaning than function than <code>equal</code> so a new name had to be used.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>A <code>ComparableField</code> implements the interface traits <code>HasReferenceOperators</code> and <code>HasComparableOperators</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here is a list with examples for the <strong>Comparable Predicates</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The examples below assume that the database contains a number of films with ratings according to the Motion Picture Association of America (MPAA) film rating system:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">G</th>
+<th class="tableblock halign-left valign-top">General Audience</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PG</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parental Guidance Suggested</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PG-13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PG-13 – Parents Strongly Cautioned</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">R – Restricted</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NC-17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NC-17 – Adults Only</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_equal"><a class="anchor" href="#_equal"></a>equal</h3>
+<div class="paragraph">
+<p>To count all films with a rating that equals "PG-13" you can write the following snippet:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">long count = jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.equal("PG-13"))
+    .count();
+
+System.out.format("There are %d films(s) with a PG-13 rating %n", count);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">There are 223 films(s) with a PG-13 rating</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notequal"><a class="anchor" href="#_notequal"></a>notEqual</h3>
+<div class="paragraph">
+<p>The following example prints all films that has a rating that is <strong>not</strong> "PG-13":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.notEqual("PG-13"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ..., rating = PG, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ..., rating = G, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ..., rating = NC-17, ...
+Film { filmId = 4, title = AFFAIR PREJUDICE, ..., rating = G, ...
+Film { filmId = 5, title = AFRICAN EGG, ..., rating = G, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., rating = PG, ...
+Film { filmId = 8, title = AIRPORT POLLOCK, ..., rating = R, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lessthan"><a class="anchor" href="#_lessthan"></a>lessThan</h3>
+<div class="paragraph">
+<p>The following example prints all films that has a length that is less or equal to 120:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.lessThan(120))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Fil { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+Film { filmId = 2, title = ACE GOLDFINGER, ..., length = 48, ...
+Film { filmId = 3, title = ADAPTATION HOLES, ..., length = 50, ...
+Film { filmId = 4, title = AFFAIR PREJUDICE, ..., length = 117, ...
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_greaterthan"><a class="anchor" href="#_greaterthan"></a>greaterThan</h3>
+<div class="paragraph">
+<p>The following example prints all films that has a length that is greater than 120:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterThan(120))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 5, title = AFRICAN EGG, ..., length = 130, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ...
+Film { filmId = 11, title = ALAMO VIDEOTAPE, ..., length = 126, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_greaterorequal"><a class="anchor" href="#_greaterorequal"></a>greaterOrEqual</h3>
+<div class="paragraph">
+<p>The following example prints all films that has a length that is greater than or equal to 120:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.greaterOrEqual(120))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 5, title = AFRICAN EGG, ..., length = 130, ...
+Film { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ...
+Film { filmId = 11, title = ALAMO VIDEOTAPE, ..., length = 126, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_between"><a class="anchor" href="#_between"></a>between</h3>
+<div class="paragraph">
+<p>The following example prints all films that has a length that is between 60 (inclusive) and 120 (exclusive):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.between(60, 120))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+Film { filmId = 4, title = AFFAIR PREJUDICE, ...,, length = 117, ...
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+Film { filmId = 9, title = ALABAMA DEVIL, ..., length = 114, ...
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is also another variant of the <code>between</code> predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive.</p>
+</div>
+<div class="paragraph">
+<p>For an example, take the series [1 2 3 4 5]. If we select elements <strong>in</strong> the range (2, 4) from this series, we will get the following results:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">#</th>
+<th class="tableblock halign-left valign-top"><code>Inclusive</code> Enum Constant</th>
+<th class="tableblock halign-left valign-top">Included Elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>START_INCLUSIVE_END_INCLUSIVE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[2, 3, 4]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>START_INCLUSIVE_END_EXCLUSIVE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[2, 3]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>START_EXCLUSIVE_END_INCLUSIVE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[3, 4]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>START_EXCLUSIVE_END_EXCLUSIVE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[3]</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Here is an example that prints all films that has a length that is between 3 (inclusive) and 9 (inclusive):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.between(60, 120, Inclusion.START_INCLUSIVE_END_INCLUSIVE))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+Film { filmId = 4, title = AFFAIR PREJUDICE, ...,, length = 117, ...
+Film { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+Film { filmId = 9, title = ALABAMA DEVIL, ..., length = 114, ...
+...</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The order of the two parameters <code>start</code> and <code>end</code> is significant. If the <code>start</code> parameter is larger than the <code>end</code> parameter, then the <code>between</code> <code>Predicate</code> will always evaluate to <code>false</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notbetween"><a class="anchor" href="#_notbetween"></a>notBetween</h3>
+<div class="paragraph">
+<p>The following example prints all films that has a length that is <strong>not</strong> between 60 (inclusive) and 120 (exclusive):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.notBetween(60, 120))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 2, ..., length = 48, ...
+Film { filmId = 3, ..., length = 50, ...
+Film { filmId = 5, ..., length = 130, ...
+Film { filmId = 6, ..., length = 169, ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that a film with length 120 is printed because 120 is outside the range 60 (inclusive) and 120 (exclusive) (because 120 is NOT in the range as 120 is exclusive).</p>
+</div>
+<div class="paragraph">
+<p>There is also another variant of the <code>notBetween</code> predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive.</p>
+</div>
+<div class="paragraph">
+<p>For an example, take the series [1 2 3 4 5]. If you select elements <strong>not in</strong> the range (2, 4) from this series, we will get the following results:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">#</th>
+<th class="tableblock halign-left valign-top"><code>Inclusive</code> Enum Constant</th>
+<th class="tableblock halign-left valign-top">Included Elements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>START_INCLUSIVE_END_INCLUSIVE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1, 5]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>START_INCLUSIVE_END_EXCLUSIVE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1, 4, 5]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>START_EXCLUSIVE_END_INCLUSIVE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1, 2, 5]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>START_EXCLUSIVE_END_EXCLUSIVE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[1, 2, 4, 5]</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Here is an example that prints all films that has a length that is <strong>not</strong> between 60 (inclusive) and 120 (inclusive):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.length.notBetween(60, 120, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 2, ..., length = 48, ...
+Film { filmId = 3, ..., length = 50, ...
+Film { filmId = 5, ..., length = 130, ...
+Film { filmId = 6, ..., length = 169, ...
+...</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The order of the two parameters <code>start</code> and <code>end</code> is significant. If the <code>start</code> parameter is larger than the <code>end</code> parameter, then the <code>notBetween</code> <code>Predicate</code> will always evaluate to <code>true</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_in"><a class="anchor" href="#_in"></a>in</h3>
+<div class="paragraph">
+<p>Here is an example that prints all films that has a rating that is either "G", "PG" or "PG-13":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.in("G", "PG", "PG-13"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 1, ..., rating = PG, ...
+Film { filmId = 2, ..., rating = G, ...
+Film { filmId = 4, ..., rating = G, ...
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is also a variant of the <code>in</code> predicate that takes a <code>Collection</code> as a parameter. For example like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Set&lt;String&gt; set = Stream.of("G", "PG", "PG-13").collect(toSet());
+
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.in(set))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Film { filmId = 1, ..., rating = PG, ...
+Film { filmId = 2, ..., rating = G, ...
+Film { filmId = 4, ..., rating = G, ...
+...</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notin"><a class="anchor" href="#_notin"></a>notIn</h3>
+<div class="paragraph">
+<p>Here is an example that prints all films that has a rating that is <strong>neither</strong> "G", "PG" <strong>nor</strong> "PG-13":</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.notIn("G", "PG", "PG-13"))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">Film { filmId = 3, ..., rating = NC-17, ...
+Film { filmId = 8, ..., rating = R, ...
+Film { filmId = 10, ..., rating = NC-17, ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is also a variant of the <code>noIn</code> predicate that takes a <code>Collection</code> as a parameter. For example like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Set&lt;String&gt; set = Stream.of("G", "PG", "PG-13").collect(toSet());
+
+jpaStreamer.stream(Film.class)
+    .filter(Film$.rating.notIn(set))
+    .forEachOrdered(System.out::println);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The code will produce the following output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Film { filmId = 3, ..., rating = NC-17, ...
+Film { filmId = 8, ..., rating = R, ...
+Film { filmId = 10, ..., rating = NC-17, ...
+...</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="reference-predicates.html">Reference Predicates</a></span>
+  <span class="next"><a href="string-predicates.html">String Predicates</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
