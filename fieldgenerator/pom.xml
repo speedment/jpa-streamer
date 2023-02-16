@@ -51,6 +51,7 @@
                 <module>fieldgenerator-standard</module>
                 <module>fieldgenerator-component</module>
                 <module>fieldgenerator-test</module>
+                <module>fieldgenerator-test-package</module>
             </modules>
         </profile>
     </profiles>

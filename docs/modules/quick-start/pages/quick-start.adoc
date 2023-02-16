@@ -168,12 +168,51 @@ Film {filmId=5, title='AFRICAN EGG', ...
 
 NOTE: To release any resources potentially held by JPAstreamer, simply close the streamer using the command `jpaStreamer.close()`;
 
-== Next Steps
-Now that you have access to JPAstreamer it's time to put the expressiveness of Java Streams to work. If you are not yet familiar with the `Stream` API, you may find our guide on xref:stream-fundamentals:stream_basics.adoc[Stream Fundamentals] helpful.
-
-Otherwise, feel free to check out the xref:fetching-data:stream-examples.adoc[collection of examples] of JPAStreamer usage.
-
 [source, java]
 ----
 jpaStreamer.close();
 ----
+
+[#_code_generator_settings]
+== Code Generator Settings 
+You can configure where the annotation processor generates entities and how they are named using the link:https://maven.apache.org/plugins/maven-compiler-plugin/[Maven Compiler Plugin]. This section describes how that is done.
+
+=== Package name
+By default, all generated classes will be placed under `target/generated-sources/annotations` in a package that matches that of the original entity. Thus, a `com.foo.Film.class` entity will yield a `target/generated-sources/annotations/com/foo/Film$.class`.
+
+You can change the package name for all entities by setting the compiler argument `jpaStreamerPackage`. 
+
+NOTE: If your entities have package private fields, they may not be accessible to the generated Entities. Therefore, take caution when deciding to place the generated entities in a separate package. 
+
+=== Generated entity name
+As shown in examples throughout the user guide, generated entities are by default given the name of the original entity with an extra `$` at the end. Meaning an entity `Foo.class` will yield a `Foo$.class`. You can change the naming convention by setting the compiler argument `jpaStreamerPrefix` and `jpaStreamerSuffix`. The prefix will be added at the start of the original entity name and the suffix will be appended at the end. 
+
+NOTE: The default suffix `$` applies if no custom values are provided via the compiler arguments. If just one of `jpaStreamerPrefix` and `jpaStreamerSuffix` is set, the other will automatically default to an empty string. For example, just setting the prefix to `A` will result in entities with the name `AFoo.class`. Take note that the naming pattern must adhere to link:https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html[Java's naming conventions].
+
+Here is a complete example configuration of the plugin that sets both the package name, prefix, and suffix. 
+
+[source,xml]
+----
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.10.1</version>
+    <configuration>
+        <compilerArgs>
+            <arg>-AjpaStreamerPackage=com.speedment.jpastreamer.test</arg> <1>
+            <arg>-AjpaStreamerPrefix=A</arg> <2>
+            <arg>-AjpaStreamerSuffix=B</arg> <3>
+        </compilerArgs>
+    </configuration>
+</plugin>
+----
+<1> Package name is set to `com.speedment.jpastreamer.test` 
+<2> Entity prefix is set to A (start)
+<3> Entity suffix is set to B (ending)
+
+In the above example, all generated entities will be placed in `/target/generated-sources/annotations/com.speedment.jpastreamer.test`. An original entity with the name `Film` will yeild a generated entity called `AFilmB`.
+
+== Next Steps
+Now that you have access to JPAstreamer it's time to put the expressiveness of Java Streams to work. If you are not yet familiar with the `Stream` API, you may find our guide on xref:stream-fundamentals:stream_basics.adoc[Stream Fundamentals] helpful.
+
+Otherwise, feel free to check out the xref:fetching-data:stream-examples.adoc[collection of examples] of JPAStreamer usage.

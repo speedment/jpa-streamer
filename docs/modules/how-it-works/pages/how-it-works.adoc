@@ -74,11 +74,12 @@ long nrOfFilmsStartingWithA = jpaStreamer.stream(Film.class)
     .filter(Film$.title.startsWith("A")) "<1>
     .count();
 ----
-#<1> As `title` is of type `StringField` we get access to operators such as `startsWith` that returns a `Predicate<T>` that evaluates to `true` or `false`.
+<1> As `title` is of type `StringField` we get access to operators such as `startsWith` that returns a `Predicate<T>` that evaluates to `true` or `false`.
 
 You can read more about the use of fields and predicates xref:predicates:predicates.adoc[here].
 
 NOTE: The metamodel is stored in the projects target-folder and does not need to be checked-in with your source code, nor needs testing.
+NOTE: The package where generated entities are placed, as well as the name of the generated entities can be configured. Learn more xref:jpa-streamer:quick-start:quick-start.adoc#_code_generator_settings[here].
 
 == The Stream renderer
 Most JPA providers, by default, has the ability to provide the query result as a `Stream`. That makes it possible to e.g. select all rows of a table and then use Stream operators to narrow the results. Although, that process requires every object of the table to be materialized by the JVM, which is not desired as it impedes the performance.

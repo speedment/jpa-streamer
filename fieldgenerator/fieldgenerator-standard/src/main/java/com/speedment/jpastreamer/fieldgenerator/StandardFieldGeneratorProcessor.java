@@ -29,6 +29,7 @@ import java.util.Set;
  */
 
 @SupportedAnnotationTypes("javax.persistence.Entity")
+@SupportedOptions({"jpaStreamerPackage", "jpaStreamerPrefix", "jpaStreamerSuffix"})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
