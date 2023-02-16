@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "antora-lunr": "^0.8.0"
+  }
+}
