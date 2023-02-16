@@ -76,13 +76,13 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <junit.platform.provider.version>1.8.2</junit.platform.provider.version>
-        <mockito.version>4.1.0</mockito.version>
+        <mockito.version>4.9.0</mockito.version>
         <jpa-streamer.version>${project.version}</jpa-streamer.version>
         <speedment-version>3.2.10</speedment-version>
 
         <!-- later maven-javadoc-plugin versions does not support aggregate? -->
         <jpa.version>2.2</jpa.version>
-        <maven-javadoc-plugin-version>3.4.0</maven-javadoc-plugin-version>
+        <maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
         <maven-source-plugin-version>3.2.1</maven-source-plugin-version>
         <maven-dependency-plugin-version>3.3.0</maven-dependency-plugin-version>
         <maven-shade-plugin-version>3.3.0</maven-shade-plugin-version>
@@ -189,7 +189,7 @@
 
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
+                    <version>3.1.0</version>
                 </plugin>
 
                 <plugin>
