@@ -96,5 +96,5 @@ If you wish to learn more about the Java Stream API, start with the chapter xref
 - GitHub - https://github.com/speedment/jpa-streamer
 
 == Phone Home
-JPAstreamer sends certain anonymous usage data to Google Analytics as described link:https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.MD[here]. If you wish to disable this feature, please contact us at info@jpastreamer.org.
+JPAstreamer sends certain anonymous usage data to Google Analytics as described link:https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.md[here]. If you wish to disable this feature, please contact us at info@jpastreamer.org.
 
