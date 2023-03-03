@@ -22,18 +22,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
-import static com.speedment.common.rest.Param.param;
-import static com.speedment.common.rest.Rest.encode;
-import static java.lang.String.format;
+import static com.speedment.jpastreamer.analytics.standard.internal.google.HttpUtil.urlEncode;
+import static com.speedment.jpastreamer.analytics.standard.internal.google.JsonUtil.asElement;
+import static com.speedment.jpastreamer.analytics.standard.internal.google.JsonUtil.jsonElement;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
 public final class GoogleAnalyticsHandler implements Handler {
 
     private static final String COOKIE_FILE_NAME = "JPAstreamer.clientid";
-    private static final String URL_STRING = "www.google-analytics.com";
-    private static final String TRACKING_ID = "UA-54384165-3";
+    private static final String URL_STRING = "https://www.google-analytics.com/mp/collect"; 
+    private static final String MEASUREMENT_ID = "G-LNCF0RTS4N"; // JPAStreamer App Measurement ID
+    private static final String API_SECRET = "J-EHimWhT8anCwaHfq-h-Q"; 
 
     private final String version;
     private final boolean demoMode;
@@ -68,46 +71,19 @@ public final class GoogleAnalyticsHandler implements Handler {
         requireNonNull(eventType);
 
         final String eventName = eventType.eventName() + (demoMode ? "-demo" : "");
-
-        final StringJoiner payload = new StringJoiner("&")
-                .add("v=" + encode("1")) // version. See https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#v
-                .add("ds=" + encode("speedment")) // data source. See https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#ds
-                .add("tid=" + encode(TRACKING_ID)) //
-                .add("cid=" + clientId)
-                //.add("uip=" + encode(event.getIpAddress()))
-                //.add("ua=" + encode(event.getUserAgent()))
-                .add("t=" + encode("screenview")) // Hit type
-                .add("ni=" + encode("1")) // None interactive flag
-                .add("cd=" + encode(eventName)) // Screen Name
-                .add("an=" + encode("jpastreamer")) // Application Name
-                .add("av=" + encode(version)); // Application version
-        //.add("cd1=" + encode(event.getAppId().toString()))
-        //.add("cd2=" + encode(event.getDatabases()))
-        //.add("cd3=" + encode(event.getComputerName().orElse("no-host-specified")))
-        //.add("cd4=" + encode(event.getEmailAddress().orElse("no-mail-specified")))
-
-        eventType.sessionControl()
-                .ifPresent(sc -> payload.add("sc=" + sc)); // Session control
-
-
-        // System.out.println("Parameters: "+payload.toString());
-
-        analytics.post("collect", payload.toString(),
-                //header("User-Agent", event.getUserAgent()),
-                param("z", Integer.toString(random.nextInt()))
-        ).handle((res, ex) -> {
-            if (ex != null) {
-                System.err.println("Exception while sending usage statistics to Google Analytics.");
-                ex.printStackTrace();
-            } else if (!res.success()) {
-                System.err.println("Exception while sending usage statistics to Google Analytics.");
-                System.err.println(format("Google Analytics returned %d: %s",
-                        res.getStatus(), res.getText()
-                ));
-            }
-
-            return res;
-        });
+        final Map<String, String> eventParameters = new HashMap<>(); 
+        final Map<String, String> userProperties = new HashMap<>(); 
+        eventParameters.put("app_version", this.version);
+        
+        httpSend(eventName, eventParameters);
+    }
+    
+    void httpSend(String eventName, final Map<String, String> eventParameters) {
+        requireNonNull(eventName); 
+        requireNonNull(eventParameters); 
+        final String url = URL_STRING + "?measurement_id=" + urlEncode(MEASUREMENT_ID) + "&api_secret=" + urlEncode(API_SECRET);
+        final String json = jsonFor(eventName, acquireClientId(), eventParameters);
+        HttpUtil.send(url, json);
     }
 
     // This tries to read clientId from a "cookie" file in the
@@ -133,6 +109,56 @@ public final class GoogleAnalyticsHandler implements Handler {
         } catch (IOException ignore) {
         }
         return clientId;
+    }
+
+    static String jsonFor(final String eventName,
+                          final String clientId) {
+        requireNonNull(eventName);
+        requireNonNull(clientId);
+        return Stream.of(
+                "{",
+                jsonElement(" ", "clientId", clientId) + ',',
+                jsonElement(" ", "userId", clientId) + ',',
+                jsonElement(" ", "nonPersonalizedAds", true) + ',',
+                ' ' + asElement("events") + ": [{",
+                jsonElement("  ", "name", eventName) + ',',
+                "  " + asElement("params") + ": {}",
+                " }],",
+                ' ' + asElement("userProperties") + ": {}",
+                "}"
+        ).collect(joining(JsonUtil.nl()));
+    }
+
+    static String jsonFor(final String eventName,
+                          final String clientId,
+                          final Map<String, String> eventParameters) {
+        requireNonNull(eventName);
+        requireNonNull(clientId); 
+        requireNonNull(eventParameters);
+        return Stream.of(
+                "{",
+                jsonElement(" ", "clientId", clientId) + ',',
+                jsonElement(" ", "userId", clientId) + ',',
+                jsonElement(" ", "nonPersonalizedAds", true) + ',',
+                ' ' + asElement("events") + ": [{",
+                jsonElement("  ", "name", eventName) + ',',
+                "  " + asElement("params") + ": {",
+                renderMap(eventParameters, e -> jsonElement("   ", e.getKey(), e.getValue())),
+                "  }",
+                " }]",
+                "}"
+        ).collect(joining(JsonUtil.nl()));
+    }
+    static String userProperty(final Map.Entry<String, String> userProperty) {
+        return String.format("  %s: {%n %s%n  }", asElement(userProperty.getKey()), jsonElement("   ", "value", userProperty.getValue()));
+    }
+    
+    static String renderMap(final Map<String, String> map, final Function<Map.Entry<String, String>, String> mapper) {
+        requireNonNull(map);
+        requireNonNull(mapper);
+        return map.entrySet().stream()
+                .map(mapper)
+                .collect(joining(String.format(",%n")));
     }
 
 }

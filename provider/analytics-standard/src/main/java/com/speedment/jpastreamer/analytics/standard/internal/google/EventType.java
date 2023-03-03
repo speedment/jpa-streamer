@@ -16,9 +16,9 @@ import java.util.Optional;
 
 enum EventType {
 
-    STARTED("jpastreamer-started", "start"),
-    ALIVE("jpastreamer-alive", null),
-    STOPPED("jpastreamer-stopped", "end");
+    STARTED("started", "start"),
+    ALIVE("alive", null),
+    STOPPED("stopped", "end");
 
     private final String eventName;
     private final String sessionControl;
