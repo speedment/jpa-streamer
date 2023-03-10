@@ -6,14 +6,18 @@
     <title>Fetching Data :: JPAStreamer</title>
     <link rel="prev" href="../stream-fundamentals/other_operations.html">
     <link rel="next" href="sql-equivalents.html">
-    <meta name="generator" content="Antora 3.0.1">
+    <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/search.css">
   </head>
   <body class="article">
-<header class="header">
+<header class="header" role="banner">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="../../.."></a>
+      <a class="navbar-item logo" href="https://chronicle.software"></a>
+        <div class="navbar-item" style="background: none">
+          <input id="search-input" type="text" placeholder="Search docs...">
+        </div>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -22,15 +26,15 @@
     </div>
     <div id="topbar-nav" class="navbar-menu">
       <div class="navbar-end">
-        <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" href="#">Resources</a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
-            <a class="navbar-item" href="https://jpastreamer.org">Website</a>
-            <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+          <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+          <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link" href="#">Resources</a>
+              <div class="navbar-dropdown">
+                  <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+                  <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+                  <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+              </div>
           </div>
-        </div>
       </div>
     </div>
   </nav>
@@ -174,13 +178,7 @@
     <li class="component is-current">
       <span class="title">JPAStreamer Docs</span>
       <ul class="versions">
-        <li class="version">
-          <a href="../../1.1.3/introduction/introduction.html">1.1.3</a>
-        </li>
-        <li class="version">
-          <a href="../../1.1.2/introduction/introduction.html">1.1.2</a>
-        </li>
-        <li class="version is-current">
+        <li class="version is-current is-latest">
           <a href="../introduction/introduction.html">1.1.0</a>
         </li>
         <li class="version">
@@ -431,7 +429,7 @@ long count2 = jpaStreamer.stream(Film.class) <i class="conum" data-value="3"></i
 <h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s Next</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <a href="sql-equivalents.html" class="xref page">next section</a> demonstrates how to use the available Stream operators and how they map to SQL constructs.</p>
+<p>The <a href="sql-equivalents.html" class="page">next section</a> demonstrates how to use the available Stream operators and how they map to SQL constructs.</p>
 </div>
 </div>
 </div>
@@ -450,6 +448,9 @@ long count2 = jpaStreamer.stream(Film.class) <i class="conum" data-value="3"></i
   <p>© 2020 Speedment, Inc. All rights reserved.</p>
 </footer>
 <script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/vendor/search.js" id="search-script" data-base-path="../../.." data-page-path="/jpa-streamer/1.1.0/fetching-data/fetching-data.html"></script>
+<script async src="../../../_/../search-index.js"></script>
 <script async src="../../../_/js/vendor/highlight.js"></script>
   </body>
 </html>
