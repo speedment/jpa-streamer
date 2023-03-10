@@ -30,7 +30,7 @@
     
     <groupId>com.speedment.jpastreamer</groupId>
     <artifactId>jpastreamer-parent</artifactId>
-    <version>1.1.3</version>
+    <version>1.1.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
@@ -76,7 +76,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <junit.platform.provider.version>1.8.2</junit.platform.provider.version>
-        <mockito.version>4.9.0</mockito.version>
+        <mockito.version>5.1.1</mockito.version>
         <jpa-streamer.version>${project.version}</jpa-streamer.version>
         <speedment-version>3.2.10</speedment-version>
 
@@ -184,7 +184,7 @@
 
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.2</version>
+                    <version>3.3.0</version>
                 </plugin>
 
                 <plugin>

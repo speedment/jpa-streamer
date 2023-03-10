@@ -16,7 +16,7 @@ site:
   start_page: jpa-streamer:introduction:introduction.adoc
 content:
   sources:
-    - url: https://github.com/speedment/jpa-streamer
+    - url: ./../
       # only generate from git tags (and not branches)
       branches: []
       start_path: docs
@@ -28,5 +28,4 @@ ui:
 asciidoc:
   attributes:
     page-pagination: true
-output:
-  dir: ../../jpa-streamer-gh-pages/jpa-streamer
+

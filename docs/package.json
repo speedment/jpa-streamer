@@ -1,0 +1,21 @@
+{
+  "name": "jpastreamer-docs",
+  "version": "1.0.0",
+  "description": "Documentation for JPAStreamer built with Antora",
+  "scripts": {
+    "build": "cross-env DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr antora --generator antora-site-generator-lunr site.yml && NODE_PATH=\"$(npm -g root)\" antora --generator @antora/xref-validator site.yml",
+    "build-local": "cross-env DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr antora --generator antora-site-generator-lunr site-local.yml && NODE_PATH=\"$(npm -g root)\" antora --generator @antora/xref-validator site-local.yml"
+  },
+  "author": "JPAStreamer",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "antora": "^3.1.2",
+    "antora-site-generator-lunr": "^0.6.1",
+    "cross-env": "^7.0.3"
+  },
+  "private": true,
+  "dependencies": {
+    "@antora/cli": "~2.3",
+    "@antora/site-generator-default": "~2.3"
+  }
+}

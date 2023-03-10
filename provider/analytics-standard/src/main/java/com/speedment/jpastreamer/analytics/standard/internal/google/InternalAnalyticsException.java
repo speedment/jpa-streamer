@@ -12,28 +12,10 @@
  */
 package com.speedment.jpastreamer.analytics.standard.internal.google;
 
-import java.util.Optional;
+final class InternalAnalyticsException extends RuntimeException {
 
-enum EventType {
-
-    STARTED("started", "start"),
-    ALIVE("alive", null),
-    STOPPED("stopped", "end");
-
-    private final String eventName;
-    private final String sessionControl;
-
-    EventType(String eventName, String sessionControl) {
-        this.eventName = eventName;
-        this.sessionControl = sessionControl;
+    InternalAnalyticsException(String message) {
+        super(message);
     }
-
-    String eventName() {
-        return eventName;
-    }
-
-    Optional<String> sessionControl() {
-        return Optional.ofNullable(sessionControl);
-    }
-
+    
 }

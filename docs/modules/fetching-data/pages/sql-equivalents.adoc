@@ -418,7 +418,23 @@ jpaStreamer.stream(Film.class)
 ----
 
 == JOIN
+When performing joins with JPAStreamer the stream source is no longer a single table but multiple joined ones. Such source is defined using a `StreamConfiguration` with one table as the base. The columns on which to base the join are then specified using `.joining()` as shown in the example below: 
 
-Joins are expressed directly in the JPA entities. See link:stream-examples.adoc#_joins[Stream Examples - Joins]. Additional join support is future work.
+[source, java]
+----
+jpaStreamer.stream(
+        StreamConfiguration
+            .of(Film.class) <1>
+            .joining(Film$.actors) <2>
+            .joining(Film$.language) <3>
+    )
+    .filter(Film$.length.between(100, 120)) <4>
+    .forEach(System.out::println);
+----
+<1> Table with references to other tables 
+<2> Joining in matching entities from the Actor table
+<3> Joining in matching entities from the Language table  
+<4> Stream operations are applied as usual 
 
+NOTE: Join operations require that the relationship between tables is declared in the JPA Entities. For more information and more detailed examples of joins, see xref:fetching-data:stream-examples.adoc#_joins[Stream Examples - Joins]. 
 
