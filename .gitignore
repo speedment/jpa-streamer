@@ -14,6 +14,7 @@
 **/sonar-project.properties
 **/settings.properties
 **/application.properties
+**/node_modules
 
 *~
 *.iml
@@ -21,4 +22,5 @@
 *.xml.versionsBackup
 *.DS_Store
 
+/docs/package-lock.json
 .project
