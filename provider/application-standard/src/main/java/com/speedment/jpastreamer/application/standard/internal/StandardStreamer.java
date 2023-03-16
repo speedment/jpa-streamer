@@ -21,8 +21,9 @@ import com.speedment.jpastreamer.renderer.RendererFactory;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import java.util.ServiceLoader;
 import java.util.function.Supplier;
 import java.util.stream.Stream;

@@ -17,7 +17,7 @@ import com.speedment.jpastreamer.criteria.PredicateFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.InternalPredicateFactory;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 
 public final class StandardPredicateFactory implements PredicateFactory {
 

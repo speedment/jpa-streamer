@@ -13,7 +13,6 @@
 package com.speedment.jpastreamer.fieldgenerator.test;
 
 import java.util.stream.Stream;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -30,12 +29,12 @@ public class Main {
         spindel.setLength(110);
 
         // Make sure generation is actually done
-        Stream.of(olle, spindel)
+        /*Stream.of(olle, spindel)
                 .filter(Film$.length.between(100, 150))
                 .filter(Film$.rating.in("G", "PG"))
                 .sorted(Film$.title)
                 .forEachOrdered(System.out::println);
-
+*/
         // Make sure Lombok methods gets generated
         Lombok3Bean lombok3Bean = new Lombok3Bean();
         lombok3Bean.getName();

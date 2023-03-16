@@ -12,7 +12,7 @@
  */
 module jpastreamer.projection {
     requires transitive jpastreamer.field;
-    requires transitive java.persistence;
+    requires transitive jakarta.persistence;
 
     exports com.speedment.jpastreamer.projection;
 }

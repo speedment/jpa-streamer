@@ -11,7 +11,7 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.fieldgenerator.component {
-    requires java.persistence;
+    requires jakarta.persistence;
 
     exports com.speedment.jpastreamer.fieldgenerator.component;
 }

@@ -16,8 +16,8 @@ import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.projection.internal.InternalProjection;
+import jakarta.persistence.Tuple;
 
-import javax.persistence.Tuple;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;

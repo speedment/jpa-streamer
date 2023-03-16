@@ -11,7 +11,7 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.merger {
-    requires transitive java.persistence;
+    requires transitive jakarta.persistence;
     requires transitive jpastreamer.pipeline;
     requires transitive jpastreamer.criteria;
 

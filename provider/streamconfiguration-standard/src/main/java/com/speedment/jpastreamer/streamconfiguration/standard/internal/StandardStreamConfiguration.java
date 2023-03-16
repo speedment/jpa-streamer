@@ -17,8 +17,8 @@ import static java.util.Objects.requireNonNull;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
+import jakarta.persistence.criteria.JoinType;
 
-import javax.persistence.criteria.JoinType;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;

@@ -14,8 +14,7 @@ package com.speedment.jpastreamer.merger.standard.internal.query.strategy;
 
 import com.speedment.jpastreamer.merger.standard.internal.reference.IntermediateOperationReference;
 import com.speedment.jpastreamer.merger.standard.internal.tracker.MergingTracker;
-
-import javax.persistence.Query;
+import jakarta.persistence.Query;
 
 /**
  * @author Mislav Milicevic

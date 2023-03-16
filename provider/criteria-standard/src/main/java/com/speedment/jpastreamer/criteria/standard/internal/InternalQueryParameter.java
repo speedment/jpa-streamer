@@ -13,8 +13,7 @@
 package com.speedment.jpastreamer.criteria.standard.internal;
 
 import com.speedment.jpastreamer.criteria.QueryParameter;
-
-import javax.persistence.criteria.ParameterExpression;
+import jakarta.persistence.criteria.ParameterExpression;
 
 public class InternalQueryParameter<T> implements QueryParameter<T> {
 

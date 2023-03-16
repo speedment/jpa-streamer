@@ -29,10 +29,11 @@ import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.field.predicate.CombinedPredicate.Type;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Arrays;
 import java.util.Collections;
 

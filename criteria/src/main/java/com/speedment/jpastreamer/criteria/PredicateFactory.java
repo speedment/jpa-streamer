@@ -14,7 +14,7 @@ package com.speedment.jpastreamer.criteria;
 
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 
 /**
  * @author Mislav Milicevic
