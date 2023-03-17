@@ -28,7 +28,7 @@ import java.util.Set;
  * @since 0.1.0
  */
 
-@SupportedAnnotationTypes("javax.persistence.Entity")
+@SupportedAnnotationTypes("jakarta.persistence.Entity")
 @SupportedOptions({"jpaStreamerPackage", "jpaStreamerPrefix", "jpaStreamerSuffix"})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
