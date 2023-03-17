@@ -12,6 +12,10 @@
  */
 package com.speedment.jpastreamer.fieldgenerator.test.renaming;
 
+import com.speedment.jpastreamer.fieldgenerator.test.renaming.inner.FilmB;
+
+import java.util.stream.Stream;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -28,11 +32,11 @@ public class Main {
         spindel.setLength(110);
 
         // Make sure generation is actually done
-        /*Stream.of(olle, spindel)
+        Stream.of(olle, spindel)
                 .filter(FilmB.length.between(100, 150))
                 .filter(FilmB.rating.in("G", "PG"))
                 .sorted(FilmB.title)
                 .forEachOrdered(System.out::println);
-        */
+        
     }
 }
