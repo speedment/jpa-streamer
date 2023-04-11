@@ -24,10 +24,11 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 
-import javax.persistence.criteria.Order;
-import javax.persistence.metamodel.Attribute;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.SingularAttribute;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.metamodel.Attribute;
+import jakarta.persistence.metamodel.EntityType;
+import jakarta.persistence.metamodel.SingularAttribute;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

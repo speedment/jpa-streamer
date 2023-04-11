@@ -29,12 +29,13 @@ import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CompoundSelection;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CompoundSelection;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Path;
+
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.function.Supplier;

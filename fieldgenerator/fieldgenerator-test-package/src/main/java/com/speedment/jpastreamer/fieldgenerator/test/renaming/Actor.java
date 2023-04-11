@@ -10,13 +10,13 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-package com.speedment.jpastreamer.fieldgenerator.renaming;
+package com.speedment.jpastreamer.fieldgenerator.test.renaming;
 
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -12,7 +12,7 @@
  */
 module jpastreamer.field {
     requires com.speedment.common.invariant;
-    requires transitive java.persistence; // We expose this in fields via AttributeConverter
+    requires transitive jakarta.persistence; // We expose this in fields via AttributeConverter
 
     requires transitive com.speedment.common.function;
     requires transitive com.speedment.runtime.compute;

@@ -12,7 +12,7 @@
  */
 package com.speedment.jpastreamer.fieldgenerator.test;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import java.io.Serializable;

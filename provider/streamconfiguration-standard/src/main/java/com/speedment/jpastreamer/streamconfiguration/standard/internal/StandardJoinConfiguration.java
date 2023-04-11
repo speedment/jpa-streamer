@@ -14,8 +14,7 @@ package com.speedment.jpastreamer.streamconfiguration.standard.internal;
 
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
-
-import javax.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.JoinType;
 
 import static java.util.Objects.requireNonNull;
 

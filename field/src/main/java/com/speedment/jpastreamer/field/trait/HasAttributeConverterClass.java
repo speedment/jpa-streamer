@@ -12,7 +12,7 @@
  */
 package com.speedment.jpastreamer.field.trait;
 
-import javax.persistence.AttributeConverter;
+import jakarta.persistence.AttributeConverter;
 
 /**
  *

@@ -12,9 +12,9 @@
  */
 package com.speedment.jpastreamer.fieldgenerator.test;
 
-import lombok.Data;
+import jakarta.persistence.Entity;
 
-import javax.persistence.Entity;
+import lombok.Data;
 
 @Data
 @Entity

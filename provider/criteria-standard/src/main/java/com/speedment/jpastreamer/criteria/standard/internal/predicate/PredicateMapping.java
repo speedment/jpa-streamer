@@ -14,7 +14,7 @@ package com.speedment.jpastreamer.criteria.standard.internal.predicate;
 
 import com.speedment.jpastreamer.criteria.QueryParameter;
 
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

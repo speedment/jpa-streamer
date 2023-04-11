@@ -13,10 +13,10 @@
 module jpastreamer.fieldgenerator.test.renaming {
 
     requires jpastreamer.fieldgenerator.standard;
-    requires java.persistence;
+    requires jakarta.persistence;
     requires transitive java.sql;
     requires transitive jpastreamer.field;
 
-    exports com.speedment.jpastreamer.fieldgenerator.test.renaming.inner; 
+    exports com.speedment.jpastreamer.fieldgenerator.test.renaming;  
 
 }

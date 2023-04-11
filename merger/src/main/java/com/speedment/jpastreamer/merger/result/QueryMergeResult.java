@@ -13,8 +13,7 @@
 package com.speedment.jpastreamer.merger.result;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
-
-import javax.persistence.Query;
+import jakarta.persistence.Query;
 
 /**
  * A container object used to store the results of the merge operation

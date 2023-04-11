@@ -15,7 +15,7 @@ module jpastreamer.fieldgenerator.standard {
     requires transitive com.google.auto.service;
 
     requires com.speedment.common.codegen;
-    requires java.persistence;
+    requires jakarta.persistence;
     requires jpastreamer.field;
 
     exports com.speedment.jpastreamer.fieldgenerator;

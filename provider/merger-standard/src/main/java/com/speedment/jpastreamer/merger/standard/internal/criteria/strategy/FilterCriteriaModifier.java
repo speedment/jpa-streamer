@@ -23,8 +23,8 @@ import com.speedment.jpastreamer.merger.standard.internal.tracker.MergingTracker
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+import jakarta.persistence.criteria.Predicate;
 
-import javax.persistence.criteria.Predicate;
 import java.util.Optional;
 import java.util.ServiceLoader;
 

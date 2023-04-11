@@ -12,7 +12,7 @@
  */
 package com.speedment.jpastreamer.fieldgenerator.test;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "non_java_bean")

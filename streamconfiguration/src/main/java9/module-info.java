@@ -12,7 +12,7 @@
  */
 module jpastreamer.streamconfiguration {
     requires transitive jpastreamer.field;
-    requires transitive java.persistence;
+    requires transitive jakarta.persistence;
     requires transitive jpastreamer.projection; // To be removed
     requires jpastreamer.rootfactory;
 

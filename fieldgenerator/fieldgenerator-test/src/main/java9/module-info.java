@@ -13,7 +13,7 @@
 module jpastreamer.fieldgenerator.test {
 
     requires jpastreamer.fieldgenerator.standard;
-    requires java.persistence;
+    requires jakarta.persistence;
     requires transitive java.sql;
     requires transitive jpastreamer.field;
 

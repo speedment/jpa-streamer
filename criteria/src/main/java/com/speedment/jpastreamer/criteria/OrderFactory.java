@@ -12,7 +12,7 @@
  */
 package com.speedment.jpastreamer.criteria;
 
-import javax.persistence.criteria.Order;
+import jakarta.persistence.criteria.Order;
 import java.util.Comparator;
 import java.util.List;
 

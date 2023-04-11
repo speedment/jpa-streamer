@@ -12,7 +12,7 @@
  */
 package com.speedment.jpastreamer.projection.internal;
 
-import javax.persistence.TupleElement;
+import jakarta.persistence.TupleElement;
 
 import java.util.Objects;
 

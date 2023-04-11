@@ -14,9 +14,9 @@ package com.speedment.jpastreamer.renderer.standard.internal;
 
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.renderer.RendererFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.function.Supplier;
 
 public final class InternalRendererFactory implements RendererFactory {

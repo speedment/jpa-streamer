@@ -14,9 +14,7 @@ package com.speedment.jpastreamer.merger;
 
 import com.speedment.jpastreamer.merger.result.QueryMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
-
-import javax.persistence.Query;
-
+import jakarta.persistence.Query;
 
 /**
  * A stream operation merger used to apply offsets and limits to provided queries.

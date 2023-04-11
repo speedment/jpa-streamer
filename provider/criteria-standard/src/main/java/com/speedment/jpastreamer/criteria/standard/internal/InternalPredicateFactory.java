@@ -23,7 +23,7 @@ import com.speedment.jpastreamer.field.predicate.CombinedPredicate;
 import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 
 public final class InternalPredicateFactory implements PredicateFactory {
 

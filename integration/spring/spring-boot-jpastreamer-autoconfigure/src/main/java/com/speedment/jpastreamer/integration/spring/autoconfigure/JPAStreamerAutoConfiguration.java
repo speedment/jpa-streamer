@@ -13,12 +13,13 @@
 package com.speedment.jpastreamer.integration.spring.autoconfigure;
 
 import com.speedment.jpastreamer.application.JPAStreamer;
+
+import jakarta.persistence.EntityManagerFactory;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.persistence.EntityManagerFactory;
 
 /**
  * A Spring Boot autoconfiguration class that adds support for JPAStreamer autowiring.

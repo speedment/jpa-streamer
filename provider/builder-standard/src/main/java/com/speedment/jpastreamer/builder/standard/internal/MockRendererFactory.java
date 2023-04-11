@@ -18,8 +18,9 @@ import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.renderer.RendererFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.BaseStream;

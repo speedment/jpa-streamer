@@ -16,10 +16,10 @@ import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.CriteriaFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.InternalCriteriaFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 public final class StandardCriteriaFactory implements CriteriaFactory {
 

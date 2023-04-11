@@ -18,8 +18,8 @@ import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import java.util.ServiceLoader;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -193,7 +193,7 @@ public interface JPAStreamer {
     /**
      * Resets the Streamer associated with the provided Entity classes.
      * <p> 
-     * This will create a new instance of the underlying {@code java.persistence.EntityManager}, removing all entries of the 
+     * This will create a new instance of the underlying {@code jakarta.persistence.EntityManager}, removing all entries of the 
      * associated Entity class from the first-level cache. 
      * 
      * In case JPAStreamer was configured with a {@code Supplier<EntityManager>} the lifecycle of the Entity Managers is 

@@ -11,7 +11,7 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.renderer {
-    requires transitive java.persistence;
+    requires transitive jakarta.persistence;
     requires transitive jpastreamer.streamconfiguration;
     requires transitive jpastreamer.pipeline;
 

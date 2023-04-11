@@ -10,9 +10,9 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-package com.speedment.jpastreamer.fieldgenerator.renaming;
+package com.speedment.jpastreamer.fieldgenerator.test.renaming;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.*;

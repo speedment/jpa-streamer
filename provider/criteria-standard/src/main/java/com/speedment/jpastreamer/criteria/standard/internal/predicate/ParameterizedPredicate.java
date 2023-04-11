@@ -12,10 +12,11 @@
  */
 package com.speedment.jpastreamer.criteria.standard.internal.predicate;
 
+import jakarta.persistence.criteria.ParameterExpression;
+import jakarta.persistence.criteria.Predicate;
+
 import static java.util.Objects.requireNonNull;
 
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Predicate;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 

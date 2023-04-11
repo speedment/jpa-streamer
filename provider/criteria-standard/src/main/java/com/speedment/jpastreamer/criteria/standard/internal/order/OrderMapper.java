@@ -15,7 +15,7 @@ package com.speedment.jpastreamer.criteria.standard.internal.order;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.field.comparator.FieldComparator;
 
-import javax.persistence.criteria.Order;
+import jakarta.persistence.criteria.Order;
 
 public interface OrderMapper {
 

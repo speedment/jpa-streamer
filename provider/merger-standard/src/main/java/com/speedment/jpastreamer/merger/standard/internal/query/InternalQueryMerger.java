@@ -23,7 +23,8 @@ import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 
-import javax.persistence.Query;
+import jakarta.persistence.Query;
+
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
