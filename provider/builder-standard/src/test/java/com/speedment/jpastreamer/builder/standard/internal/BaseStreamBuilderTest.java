@@ -20,9 +20,9 @@ import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.renderer.RenderResult;
 import com.speedment.jpastreamer.renderer.Renderer;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
+import jakarta.persistence.criteria.JoinType;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.persistence.criteria.JoinType;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;

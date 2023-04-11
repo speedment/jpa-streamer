@@ -14,8 +14,7 @@ package com.speedment.jpastreamer.merger.standard.internal.query.result;
 
 import com.speedment.jpastreamer.merger.result.QueryMergeResult;
 import com.speedment.jpastreamer.pipeline.Pipeline;
-
-import javax.persistence.Query;
+import jakarta.persistence.Query;
 
 public final class InternalQueryMergeResult<T> implements QueryMergeResult<T> {
 

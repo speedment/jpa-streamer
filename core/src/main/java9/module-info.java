@@ -13,7 +13,7 @@
 module jpastreamer.core {
     exports com.speedment.jpastreamer.core;
 
-    requires transitive java.persistence;
+    requires transitive jakarta.persistence;
     requires transitive jpastreamer.application;
     requires transitive jpastreamer.field;
 

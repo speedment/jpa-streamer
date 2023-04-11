@@ -23,7 +23,7 @@ import com.speedment.jpastreamer.exception.JPAStreamerException;
 import com.speedment.jpastreamer.field.comparator.CombinedComparator;
 import com.speedment.jpastreamer.field.comparator.FieldComparator;
 
-import javax.persistence.criteria.Order;
+import jakarta.persistence.criteria.Order;
 import java.util.Comparator;
 import java.util.List;
 

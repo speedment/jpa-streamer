@@ -15,9 +15,8 @@ package com.speedment.jpastreamer.application.standard;
 import com.speedment.jpastreamer.application.JPAStreamerBuilder;
 import com.speedment.jpastreamer.application.JPAStreamerBuilderFactory;
 import com.speedment.jpastreamer.application.standard.internal.StandardJPAStreamerBuilder;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 import java.util.function.Supplier;
 

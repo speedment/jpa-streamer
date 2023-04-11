@@ -13,9 +13,9 @@
 package com.speedment.jpastreamer.projection.internal;
 
 import com.speedment.jpastreamer.field.*;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.TupleElement;
 
-import javax.persistence.Tuple;
-import javax.persistence.TupleElement;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;

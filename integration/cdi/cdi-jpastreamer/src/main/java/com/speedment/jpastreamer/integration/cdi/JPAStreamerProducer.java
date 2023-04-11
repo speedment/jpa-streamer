@@ -13,10 +13,10 @@
 package com.speedment.jpastreamer.integration.cdi;
 
 import com.speedment.jpastreamer.application.JPAStreamer;
+import jakarta.persistence.EntityManagerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.persistence.EntityManagerFactory;
 
 /**
  * A CDI class that adds support for JPAStreamer injection.

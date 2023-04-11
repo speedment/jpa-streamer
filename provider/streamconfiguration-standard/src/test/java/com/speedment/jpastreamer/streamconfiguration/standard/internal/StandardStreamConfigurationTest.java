@@ -14,10 +14,10 @@ package com.speedment.jpastreamer.streamconfiguration.standard.internal;
 
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
+import jakarta.persistence.criteria.JoinType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.criteria.JoinType;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;

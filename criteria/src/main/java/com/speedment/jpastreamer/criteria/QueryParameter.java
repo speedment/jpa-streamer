@@ -12,7 +12,7 @@
  */
 package com.speedment.jpastreamer.criteria;
 
-import javax.persistence.criteria.ParameterExpression;
+import jakarta.persistence.criteria.ParameterExpression;
 
 /**
  * Stores a query parameter and the value associated with the parameter

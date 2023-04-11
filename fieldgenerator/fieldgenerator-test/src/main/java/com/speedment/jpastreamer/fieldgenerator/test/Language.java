@@ -13,7 +13,7 @@
 package com.speedment.jpastreamer.fieldgenerator.test;
 
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 

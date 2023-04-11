@@ -17,10 +17,9 @@ import static java.util.Objects.requireNonNull;
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.field.comparator.FieldComparator;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Root;
 
 public final class DefaultOrderMapper implements OrderMapper {
 

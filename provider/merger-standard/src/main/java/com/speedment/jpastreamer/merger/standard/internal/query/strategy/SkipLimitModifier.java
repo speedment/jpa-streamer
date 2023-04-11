@@ -20,8 +20,8 @@ import com.speedment.jpastreamer.merger.standard.internal.reference.Intermediate
 import com.speedment.jpastreamer.merger.standard.internal.tracker.MergingTracker;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
+import jakarta.persistence.Query;
 
-import javax.persistence.Query;
 import java.util.Optional;
 
 public enum SkipLimitModifier implements QueryModifier {

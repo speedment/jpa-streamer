@@ -15,8 +15,8 @@ package com.speedment.jpastreamer.streamconfiguration;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+import jakarta.persistence.criteria.JoinType;
 
-import javax.persistence.criteria.JoinType;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.Set;

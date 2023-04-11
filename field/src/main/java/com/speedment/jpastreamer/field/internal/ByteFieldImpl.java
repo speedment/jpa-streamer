@@ -24,7 +24,6 @@ import com.speedment.jpastreamer.field.predicate.FieldPredicate;
 import com.speedment.jpastreamer.field.predicate.Inclusion;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 
-import javax.persistence.AttributeConverter;
 import java.util.Collection;
 
 import static com.speedment.jpastreamer.field.internal.util.CollectionUtil.collectionToSet;

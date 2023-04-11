@@ -10,9 +10,9 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-package com.speedment.jpastreamer.fieldgenerator.renaming;
+package com.speedment.jpastreamer.fieldgenerator.test.renaming;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name="user")
 @Data

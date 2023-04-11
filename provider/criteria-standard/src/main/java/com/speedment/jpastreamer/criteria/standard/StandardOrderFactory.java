@@ -16,7 +16,7 @@ import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.OrderFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.InternalOrderFactory;
 
-import javax.persistence.criteria.Order;
+import jakarta.persistence.criteria.Order;
 import java.util.Comparator;
 import java.util.List;
 

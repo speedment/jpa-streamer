@@ -10,7 +10,7 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-package com.speedment.jpastreamer.fieldgenerator.renaming;
+package com.speedment.jpastreamer.fieldgenerator.test.renaming;
 
 import com.speedment.jpastreamer.fieldgenerator.test.renaming.inner.FilmB;
 
@@ -37,6 +37,6 @@ public class Main {
                 .filter(FilmB.rating.in("G", "PG"))
                 .sorted(FilmB.title)
                 .forEachOrdered(System.out::println);
-
+        
     }
 }
