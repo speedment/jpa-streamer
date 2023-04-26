@@ -15,8 +15,10 @@ package com.speedment.jpastreamer.streamconfiguration;
 import com.speedment.jpastreamer.field.Field;
 import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
+
 import jakarta.persistence.criteria.JoinType;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.Set;
@@ -129,6 +131,10 @@ public interface StreamConfiguration<T> {
      * <em>initial</em> entities in a future stream
      */
     StreamConfiguration<T> selecting(final Projection<T> projection);
+
+    Map<String, Object> hints();
+
+    StreamConfiguration<T> withHint(final String hintName, final Object value);
 
     /**
      * Creates and returns a new StreamConfiguration that can be used

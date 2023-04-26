@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 import java.util.stream.*;
 
 import static java.util.stream.Collectors.toList;
@@ -228,6 +227,16 @@ abstract class BaseStreamBuilderTest<T, S extends BaseStream<T, S>> {
 
         @Override
         public StreamConfiguration<T> selecting(Projection<T> projection) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Map<String, Object> hints() {
+            return new HashMap<>();
+        }
+
+        @Override
+        public StreamConfiguration<T> withHint(String hintName, Object value) {
             throw new UnsupportedOperationException();
         }
     }
