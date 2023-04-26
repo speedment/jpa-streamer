@@ -48,7 +48,7 @@ Once the required dependencies are installed, you can access JPAStreamer using S
 public class DummyService {
 
     @Autowired
-    private final JPAStreamer jpaStreamer;
+    private JPAStreamer jpaStreamer;
 }
 ----
 
