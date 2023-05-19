@@ -132,8 +132,25 @@ public interface StreamConfiguration<T> {
      */
     StreamConfiguration<T> selecting(final Projection<T> projection);
 
+    /**
+     * Returns the map with the query hints that will be configured in
+     * a future Stream.
+     *
+     * @return the map containing all the query hints
+     */
     Map<String, Object> hints();
 
+    /**
+     * Add a query hint.
+     * 
+     * <p>
+     * This method is useful when you need to customize how a query will be executed
+     * by the underlying persistence provider.
+     * <p>
+     * 
+     * @return a new StreamConfiguration configured with
+     * the provided {@code hintName} and its {@code value}
+     */
     StreamConfiguration<T> withHint(final String hintName, final Object value);
 
     /**
