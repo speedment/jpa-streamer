@@ -71,6 +71,10 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>${jakarta.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>termopoptimizer</artifactId>
+        </dependency>
 
 
     </dependencies>
