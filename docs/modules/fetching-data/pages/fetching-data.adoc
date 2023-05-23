@@ -157,5 +157,33 @@ long count2 = jpaStreamer.stream(Film.class) <3>
 <2> Resets (removes) the Streamer of `Film` entities. This resets the first-level cache. 
 <3> Creates a new Streamer of `Film` entities
 
+== Using Query Hints 
+In complex scenarios or when dealing with specific database systems, it may be necessary to provide additional guidance to the underlying JPA provider for optimal query execution. This is where query hints come into play, allowing developers to control and influence various aspects of the query execution process. The query hints influence e.g. the execution plan chosen by the JPA provider, potentially leading to improved query performance or tailored behavior based on specific requirements.
+
+To pass a query hint to the underlying JPA provider with `JPAStreamer`, you need to use a `StreamConfiguration`. It exposes a method `withHint()` that accepts the name and value of the query hint. This method call can be chained to set multiple hints. 
+
+[source, java]
+----
+StreamConfiguration<T> withHint(final String hintName, final Object value);
+----
+
+NOTE: The available set of query hints is defined in the JPA specification and the documentation of your underlying JPA provider. Thorben Jansen wrote an excellent blog post on useful query hints available to Hibernate users link:https://thorben-janssen.com/11-jpa-hibernate-query-hints-every-developer-know/[here]. JPAStreamer does not provide any custom query hints. 
+
+Let's bring query hints into the context of a JPAStreamer query. Here is an example that issues a read-only query with a timeout of 50 ms: 
+
+[source, java]
+----
+StreamConfiguration sc = StreamConfiguration.of(Film.class)
+    .withHint("javax.persistence.query.timeout", 50)
+    .withHint("org.hibernate.readOnly", true);
+List<Film> films = jpaStreamer.stream(sc)
+    .filter(Film$.title.startsWith("A"))
+    .sorted(Film$.length)
+    .limit(10)
+    .collect(Collectors::toList); 
+----
+
+WARNING: While query hints can be powerful tools for query optimization, it's important to use them carefully and with a clear understanding of their impact. Misusing or overusing query hints can lead to unintended consequences. 
+
 == What's Next 
 The xref:sql-equivalents.adoc[next section] demonstrates how to use the available Stream operators and how they map to SQL constructs.
