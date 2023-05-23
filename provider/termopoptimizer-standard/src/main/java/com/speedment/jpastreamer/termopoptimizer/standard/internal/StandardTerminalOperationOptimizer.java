@@ -14,21 +14,28 @@ package com.speedment.jpastreamer.termopoptimizer.standard.internal;
 
 import static java.util.Objects.requireNonNull;
 
+import com.speedment.jpastreamer.criteria.PredicateFactory;
+import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizer;
 
+import java.util.Optional;
 import java.util.ServiceLoader;
 
 final class StandardTerminalOperationOptimizer implements TerminalOperationOptimizer {
+
+    private final IntermediateOperationFactory intermediateOperationFactory; 
+    private final TerminalOperationFactory terminalOperationFactory; 
     
-    final IntermediateOperationFactory iof = RootFactory
-            .getOrThrow(IntermediateOperationFactory.class, ServiceLoader::load);
-    final TerminalOperationFactory tof = 
-            RootFactory.getOrThrow(TerminalOperationFactory.class, ServiceLoader::load); 
+    public StandardTerminalOperationOptimizer() {
+        this.intermediateOperationFactory = RootFactory.getOrThrow(IntermediateOperationFactory.class, ServiceLoader::load);
+        this.terminalOperationFactory = RootFactory.getOrThrow(TerminalOperationFactory.class, ServiceLoader::load);
+    }
     
     @Override
     public <T> Pipeline<T> optimize(Pipeline<T> pipeline) {
@@ -52,32 +59,49 @@ final class StandardTerminalOperationOptimizer implements TerminalOperationOptim
     }
     
     private <T> Pipeline<T> optimizeAnyMatch(Pipeline<T> pipeline) {
-        pipeline.intermediateOperations().add(iof.createLimit(1));
-        pipeline.intermediateOperations().add(
-                iof.createFilter(pipeline.terminatingOperation().predicate()));
-        pipeline.terminatingOperation(tof.createAnyMatch(p -> true));
+        this.<T>getPredicate(pipeline.terminatingOperation()).ifPresent(speedmentPredicate -> {
+            pipeline.intermediateOperations().add(intermediateOperationFactory.createLimit(1));
+            pipeline.intermediateOperations().add(
+                    intermediateOperationFactory.createFilter(speedmentPredicate));
+            pipeline.terminatingOperation(terminalOperationFactory.createAnyMatch(p -> true));
+        });
         return pipeline; 
     }
 
     private <T> Pipeline<T> optimizeNoneMatch(Pipeline<T> pipeline) {
-        pipeline.intermediateOperations().add(iof.createLimit(1)); 
-        pipeline.intermediateOperations().add(
-                iof.createFilter(pipeline.terminatingOperation().predicate())); 
-        // NoneMatch() - If the stream is empty then true is returned and the predicate is not evaluated. 
-        // If the expression is evaluated => There is a match and the expression is always false. 
-        pipeline.terminatingOperation(tof.createNoneMatch(e -> false));
+        this.<T>getPredicate(pipeline.terminatingOperation()).ifPresent(speedmentPredicate -> {
+            pipeline.intermediateOperations().add(intermediateOperationFactory.createLimit(1));
+            pipeline.intermediateOperations().add(intermediateOperationFactory.createFilter(speedmentPredicate));
+            // NoneMatch() - If the stream is empty then true is returned and the predicate is not evaluated. 
+            // If the expression is evaluated => There is a match and the expression is always false. 
+            pipeline.terminatingOperation(terminalOperationFactory.createNoneMatch(e -> false));
+        });
         return pipeline;
     }
 
     private <T> Pipeline<T> optimizeFindFirst(Pipeline<T> pipeline) {
-        pipeline.intermediateOperations().add(iof.createLimit(1));
+        pipeline.intermediateOperations().add(intermediateOperationFactory.createLimit(1));
         return pipeline;
     }
 
     private <T> Pipeline<T> optimizeFindAny(Pipeline<T> pipeline) {
         pipeline.ordered(false);
-        pipeline.intermediateOperations().add(iof.createLimit(1));
+        pipeline.intermediateOperations().add(intermediateOperationFactory.createLimit(1));
         return pipeline;
+    }
+
+    private <T> Optional<SpeedmentPredicate<T>> getPredicate(final TerminalOperation<?, ?> operation) {
+        final Object[] arguments = operation.arguments();
+
+        if (arguments.length != 1) {
+            return Optional.empty();
+        }
+
+        if (arguments[0] instanceof SpeedmentPredicate) {
+            return Optional.of((SpeedmentPredicate<T>) arguments[0]);
+        }
+
+        return Optional.empty();
     }
     
 }

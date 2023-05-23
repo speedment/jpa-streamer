@@ -16,6 +16,7 @@ import com.speedment.jpastreamer.javanine.Java9StreamUtil;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 
 import java.util.Comparator;
 import java.util.function.*;
@@ -53,7 +54,6 @@ public final class InternalIntermediateOperationFactory implements IntermediateO
                 Stream.class,
                 function,
                 predicate);
-
     }
 
     @Override
