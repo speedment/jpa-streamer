@@ -121,6 +121,8 @@ final class StandardRenderer implements Renderer {
             queryParameter -> typedQuery.setParameter(queryParameter.getParameterExpression(), queryParameter.getValue())
         );
 
+        streamConfiguration.hints().forEach((hintName, value) -> typedQuery.setHint(hintName, value));
+
         queryMerger.merge(pipeline, typedQuery);
 
         final Stream<E> baseStream = typedQuery.getResultStream();

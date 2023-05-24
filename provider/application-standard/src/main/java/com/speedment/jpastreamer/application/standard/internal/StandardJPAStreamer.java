@@ -54,9 +54,7 @@ final class StandardJPAStreamer implements JPAStreamer {
     @SuppressWarnings("unchecked")
     public <T> Stream<T> stream(final StreamConfiguration<T> streamConfiguration) {
         requireNonNull(streamConfiguration);
-        if (streamConfiguration.joins().isEmpty()) {
-            // Only cache simple configurations to limit the number of objects held
-            // See https://github.com/speedment/jpa-streamer/issues/56
+        if (cached(streamConfiguration)) {
             return (Stream<T>) streamerCache
                     .computeIfAbsent(streamConfiguration, ec -> new StandardStreamer<>(streamConfiguration, entityManagerSupplier))
                     .stream();
@@ -83,6 +81,12 @@ final class StandardJPAStreamer implements JPAStreamer {
         streamerCache.values().forEach(Streamer::close);
         analyticsReporter.stop();
         closeHandler.run(); 
+    }
+
+    // Only cache simple configurations to limit the number of objects held
+    // See https://github.com/speedment/jpa-streamer/issues/56
+    private <T> boolean cached(final StreamConfiguration<T> streamConfiguration) {
+        return streamConfiguration.joins().isEmpty() && !streamConfiguration.selections().isPresent(); 
     }
 
     private void printGreeting(final ApplicationInformation info) {
