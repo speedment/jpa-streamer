@@ -84,7 +84,7 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     }
 
     @Override
-    public StreamConfiguration<T> withHint(String hintName, Object value) {
+    public StreamConfiguration<T> withHint(final String hintName, final Object value) {
         requireNonNull(hintName);
         requireNonNull(value);
         final HashMap<String, Object> newHints = new HashMap<>(queryHints);
