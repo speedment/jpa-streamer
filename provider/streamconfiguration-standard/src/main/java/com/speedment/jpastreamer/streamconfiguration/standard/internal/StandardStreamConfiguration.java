@@ -20,7 +20,9 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import jakarta.persistence.criteria.JoinType;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,17 +32,20 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     private final Class<T> entityClass;
     private final Projection<T> projection;
     private final Set<JoinConfiguration<T>> joinConfigurations;
+    private final Map<String, Object> queryHints;
 
     public StandardStreamConfiguration(final Class<T> entityClass) {
         this.entityClass = requireNonNull(entityClass);
         this.projection = null;
         this.joinConfigurations = Collections.emptySet();
+        this.queryHints = Collections.emptyMap();
     }
 
-    private StandardStreamConfiguration(final Class<T> entityClass, Projection<T> projection, final Set<JoinConfiguration<T>> joinConfigurations) {
+    private StandardStreamConfiguration(final Class<T> entityClass, Projection<T> projection, final Set<JoinConfiguration<T>> joinConfigurations, final Map<String, Object> queryHints) {
         this.entityClass = entityClass;
         this.projection = projection;
         this.joinConfigurations = new HashSet<>(joinConfigurations);
+        this.queryHints = new HashMap<>(queryHints);
     }
 
     @Override
@@ -59,7 +64,7 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
         requireNonNull(joinType);
         final Set<JoinConfiguration<T>> newJoins = new HashSet<>(joinConfigurations);
         newJoins.add(new StandardJoinConfiguration<>(field, joinType));
-        return new StandardStreamConfiguration<>(entityClass, projection, newJoins);
+        return new StandardStreamConfiguration<>(entityClass, projection, newJoins, queryHints);
     }
 
     @Override
@@ -70,7 +75,21 @@ public final class StandardStreamConfiguration<T> implements StreamConfiguration
     @Override
     public StreamConfiguration<T> selecting(Projection<T> projection) {
         requireNonNull(projection);
-        return new StandardStreamConfiguration<>(entityClass, projection, joinConfigurations);
+        return new StandardStreamConfiguration<>(entityClass, projection, joinConfigurations, queryHints);
+    }
+
+    @Override
+    public Map<String, Object> hints() {
+        return Collections.unmodifiableMap(queryHints);
+    }
+
+    @Override
+    public StreamConfiguration<T> withHint(final String hintName, final Object value) {
+        requireNonNull(hintName);
+        requireNonNull(value);
+        final HashMap<String, Object> newHints = new HashMap<>(queryHints);
+        newHints.put(hintName, value);
+        return new StandardStreamConfiguration<>(entityClass, projection, joinConfigurations, newHints);
     }
 
     @Override

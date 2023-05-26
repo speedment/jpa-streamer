@@ -30,7 +30,7 @@
     
     <groupId>com.speedment.jpastreamer</groupId>
     <artifactId>jpastreamer-parent</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
@@ -128,7 +128,11 @@
         <contributor>
             <name>Francesco Scuccimarri</name>
         </contributor>
+        <contributor>
+            <name>Manuel Serra</name>
+        </contributor>
     </contributors>
+    
 	
     <!-- Distribution Details -->
     <issueManagement>
@@ -190,7 +194,7 @@
 
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.1.1</version>
                 </plugin>
 
                 <plugin>
@@ -200,7 +204,7 @@
 
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.10.1</version>
+                    <version>3.11.0</version>
                 </plugin>
 
                 <plugin>

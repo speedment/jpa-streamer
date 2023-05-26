@@ -1,0 +1,112 @@
+= Troubleshooting
+keywords: stream, jpastreamer, java, transactions, JPA, troubleshooting
+author: Julia Gustafsson
+:reftext: Troubleshooting
+:navtitle: Troubleshooting
+:toclevels:3
+:source-highlighter: highlight.js
+
+This section explores pitfalls that users may encounter while working with JPAStreamer and provides practical solutions to address them.
+
+== Metamodel Generation
+=== No Metamodel is Generated
+There can be a number of reasons that explains why the metamodel is not being generated as expected:
+
+- xref:rebuild[Project was not rebuilt after installation]
+- xref:compatible[The JPA Entities are not compatible with the annotation processor]
+- xref:compilation[Compilation errors arise when metamodel was deleted]
+- xref:ide[Annotation processors are not enabled]
+
+[#rebuild]
+==== Project was not rebuilt after installation
+If you have installed JPAStreamer using xref:get-jpa-streamer:install-maven.adoc[Maven] or xref:get-jpa-streamer:install-gradle.adoc[Gradle] you *must* rebuild your project to trigger the annotation processor. If this has no effect, please consider the other common reasons for failure.
+
+[#compatible]
+==== The JPA Entities are not compatible with the annotation processor
+JPAStreamer 3.0.0 and later adhere to the JPA 3 standard. This means the code generator will only detect classes annotated with `jakarta.persistence.Entity`. 
+Take note that prior to JPA 3 this annotation resided in the package `javax.persistence.Entity`. Thus, if you are using JPA 2 the code generator will not process the entities and the result is an empty `target/generated-sources/annotations`-folder. 
+
+To summarize: 
+
+- *JPAStreamer 3.0.0 and later* - Entities must be annotated with `jakarta.persistence.Entity`
+- *JPAStreamer 1.1.4 and earlier* - Entities must be annotated with `javax.persistence.Entity` 
+
+NOTE: In the near future we will be backporting some of the updates to JPA 2 compatible versions. 
+
+[#compilation]
+=== No metamodel is generated after deletion 
+If you deleted your metamodel e.g. as a result of an unfinished `mvn clean install` this might set the code in a limbo. As the project sources are depending on the use of the generated classes, the project fails to compile and might even prohibit rerunning the code generator.
+
+In such cases we have found it helpful to use the link:https://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html[Maven Compiler Plugin] to trigger JPAStreamer's annotation processor without also compiling the code. Here is a useful configuration: 
+
+[source, xml]
+----
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.10.1</version>
+    <configuration>
+        <proc>only</proc> <1>
+    </configuration>
+</plugin>
+----
+<1> Only annotation processing is done, no compilation.
+
+There are parameters available to reference a specific annotation processor, however these should not be needed as Maven will automatically detect all annotation processors on the path (assuming JPAStreamer is installed properly). 
+
+[#ide]
+==== Annotation processors are not enabled
+The code generator responsible for creating JPAStreamer's metamodel is formally referred to as an _annotation processor_. The use of annotation processors is sometimes prohibited by default by your IDE. Therefore, if you are building your application via e.g. IntelliJ, you need to make sure that annotation processors are enabled. 
+
+NOTE: As there are many IDEs to chose from and their interfaces change constantly with new releases we omit describing how to update the settings in this user guide, but googling for "Enable annotation processors" and the name of your IDE is a good start.
+
+=== The Metamodel Cannot be Found 
+As the generated metamodel is put into the target folder, your IDE may not recognize the generated sources as source files. This effectively means the generated classes cannot be detected for import in your application. To mark the output folder `target/generated-sources/annotations` as a source folder, use the Build Helper Maven Plugin as demonstrated below:
+
+[source, xml]
+----
+    <plugin> 
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+            <execution>   
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>add-source</goal>
+                </goals>
+                <configuration>
+                    <sources>
+                        <source>
+                            ${project.build.directory}/generated-sources/annotations
+                        </source>
+                    </sources>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
+----
+
+You can also right-click on the folder in your IDE and select an option along the lines of "Mark Directory as -> Generated Sources Root". Either of these actions (adding the Maven plugin or manually selecting the folder) should result in the metamodel classes being made available for import in your project.
+
+== Paging Join Queries
+Join queries unfortunately cannot be combined with `.limit()` and `.skip()` operations at this point. This is a known bug, or may we claim - a limitation of the JPA Criteria API. As the Stream query pipeline is translated to a Criteria Query, JPAStreamer is restricted to the operations supported by the underlying API. There are known complications related to setting a limit (maxResult) or a skip (firstResult) in conjunction with a join operation as these operations do not apply to the aggregated table, and can yield unexpected results. 
+
+For now, this leaves us no other option than asking that you apply a limit/skip in the JVM after executing the query. Here is an example:
+[source, java]
+----
+List<Film> films = jpaStreamer.stream(StreamConfiguration.of(Film.class).joining(Film$.actors))
+    .filter(Film$.title.startsWith("A"))
+//  .limit(20) <1>
+    .collect(Collectors.toList()); <2>
+
+films.stream().limit(20).forEach(System.out::println); <3>
+----
+<1> Applying a limit here will fail due to mentioned constraints
+<2> The terminating operation will trigger the execution of the unlimited query
+<3> Apply the limit on the complete result set on the JVM side
+
+NOTE: There is an issue tracking any updates on this matter link:https://github.com/speedment/jpa-streamer/issues/53[here].
+
+== Other Issues
+This page is a work in progress, and we may not have addressed your concern at this point. If you cannot find an answer to your question here, we recommend that you check out the past and current link:https://github.com/speedment/jpa-streamer/issues[issues on GitHub]. Still haven't found a resolution to your problem? Please help us improve JPAStreamer by opening a new issue. 
