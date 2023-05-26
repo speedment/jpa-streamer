@@ -1,12 +1,15 @@
-package com.speedment.jpastreamer.termopoptimizer.standard.internal;
+package com.speedment.jpastreamer.termopmodifier.standard.internal;
+
 
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.termopmodifier.standard.internal.model.Film;
+import com.speedment.jpastreamer.termopmodifier.standard.internal.model.Film$;
 
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class NoneMatchTest extends StandardTerminalOperationOptimizerTest<Film>{
+public class NoneMatchTest extends StandardTerminalOperationModifierTest<Film>{
 
     @Override
     Class<Film> getEntityClass() {
@@ -24,7 +27,7 @@ public class NoneMatchTest extends StandardTerminalOperationOptimizerTest<Film>{
 
     private PipelineTestCase<Film> noNoneMatch() {
         final Predicate<Film> p = f -> f.getTitle().startsWith("A");
-        
+
         final Pipeline<Film> noAnyMatch = createPipeline(
                 tof.createAllMatch(p),
                 iof.createLimit(100)
@@ -65,11 +68,11 @@ public class NoneMatchTest extends StandardTerminalOperationOptimizerTest<Film>{
         final Pipeline<Film> anyMatchExpected = createPipeline(
                 tof.createNoneMatch(s -> true),
                 iof.createLimit(100),
-                iof.createLimit(1),
-                iof.createFilter(p)
+                iof.createFilter(p),
+                iof.createLimit(1)
         );
 
         return new PipelineTestCase<>("None Match Speedment Predicate", anyMatch, anyMatchExpected);
     }
-    
+
 }

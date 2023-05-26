@@ -1,15 +1,14 @@
-package com.speedment.jpastreamer.termopoptimizer.standard.internal;
+package com.speedment.jpastreamer.termopmodifier.standard.internal;
 
-import com.speedment.jpastreamer.field.ComparableField;
-import com.speedment.jpastreamer.field.ShortField;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.termopmodifier.standard.internal.model.Film;
+import com.speedment.jpastreamer.termopmodifier.standard.internal.model.Film$;
 
-import java.math.BigDecimal;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-final class AnyMatchTest extends StandardTerminalOperationOptimizerTest<Film> {
+public class AnyMatchTest extends StandardTerminalOperationModifierTest<Film> {
 
     @Override
     Class<Film> getEntityClass() {
@@ -24,7 +23,7 @@ final class AnyMatchTest extends StandardTerminalOperationOptimizerTest<Film> {
                 anyMatchSpeedmentPredicate()
         );
     }
-    
+
     private PipelineTestCase<Film> noAnyMatch() {
         final Pipeline<Film> noAnyMatch = createPipeline(
                 tof.createAllMatch(s -> s.equals("test")),
@@ -66,8 +65,8 @@ final class AnyMatchTest extends StandardTerminalOperationOptimizerTest<Film> {
         final Pipeline<Film> anyMatchExpected = createPipeline(
                 tof.createAnyMatch(s -> true),
                 iof.createLimit(100),
-                iof.createLimit(1),
-                iof.createFilter(predicate)
+                iof.createFilter(predicate),
+                iof.createLimit(1)
         );
 
         return new PipelineTestCase<>("Any Match Speedment Predicate", anyMatch, anyMatchExpected);

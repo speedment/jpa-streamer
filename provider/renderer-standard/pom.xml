@@ -60,10 +60,15 @@
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>interopoptimizer</artifactId>
         </dependency>
-
+        
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>rootfactory</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>termopmodifier</artifactId>
         </dependency>
 
         <dependency>
@@ -71,11 +76,6 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>${jakarta.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>termopoptimizer</artifactId>
-        </dependency>
-
 
     </dependencies>
 

@@ -1,4 +1,4 @@
-package com.speedment.jpastreamer.termopoptimizer.standard.internal;
+package com.speedment.jpastreamer.termopmodifier.standard.internal;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.PipelineFactory;
@@ -7,7 +7,7 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFact
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
-import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizer;
+import com.speedment.jpastreamer.termopmodifier.TerminalOperationModifier;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
@@ -19,19 +19,19 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-abstract class StandardTerminalOperationOptimizerTest<ENTITY> {
-
+abstract class StandardTerminalOperationModifierTest<ENTITY> {
+    
     protected final PipelineFactory pipelineFactory = RootFactory.getOrThrow(PipelineFactory.class, ServiceLoader::load);
     protected final IntermediateOperationFactory iof = RootFactory.getOrThrow(IntermediateOperationFactory.class, ServiceLoader::load);
     protected final TerminalOperationFactory tof  = RootFactory.getOrThrow(TerminalOperationFactory.class, ServiceLoader::load);
-    protected final TerminalOperationOptimizer optimizer = new StandardTerminalOperationOptimizer(); 
-    
+    protected final TerminalOperationModifier modifier = new StandardTerminalOperatorModifier();
+
     abstract Class<ENTITY> getEntityClass();
-    
+
     @TestFactory
-    Stream<DynamicTest> optimize() {
+    Stream<DynamicTest> modify() {
         return pipelines().map(testCase -> dynamicTest(testCase.getName(), () -> {
-            this.optimizer.optimize(testCase.getPipeline());
+            this.modifier.modify(testCase.getPipeline());
 
             assertTestCase(testCase);
         }));
@@ -45,8 +45,8 @@ abstract class StandardTerminalOperationOptimizerTest<ENTITY> {
         for (IntermediateOperation<?, ?> operation : operations) {
             pipeline.intermediateOperations().add(operation);
         }
-        
-        pipeline.terminatingOperation(terminalOperation); 
+
+        pipeline.terminatingOperation(terminalOperation);
 
         return pipeline;
     }

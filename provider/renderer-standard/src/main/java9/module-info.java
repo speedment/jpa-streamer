@@ -19,7 +19,7 @@ module jpastreamer.renderer.standard {
     requires jpastreamer.criteria;
     requires jpastreamer.merger;
     requires jpastreamer.interopoptimizer;
-    requires jpastreamer.termopoptimizer; 
+    requires jpastreamer.termopmodifier; 
 
     exports com.speedment.jpastreamer.renderer.standard;
     // Todo: Enable this

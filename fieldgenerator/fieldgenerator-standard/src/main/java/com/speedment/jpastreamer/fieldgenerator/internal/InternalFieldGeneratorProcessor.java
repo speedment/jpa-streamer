@@ -95,11 +95,19 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
             return false;
         }
 
-        roundEnv.getElementsAnnotatedWith(Entity.class).stream()
+        Set<? extends Element> entities = roundEnv.getElementsAnnotatedWith(Entity.class);
+        
+        if (entities.isEmpty()) {
+            System.out.format("[JPAStreamer Field Generator Processor] Found no classes annotated with jakarta.persistence.Entity.\n");
+            return true; 
+        }
+        
+        entities.stream()
                 .filter(ae -> ae.getKind() == ElementKind.CLASS)
                 .forEach(ae -> {
                     try {
                         final String entityName = ae.asType().toString();
+                        System.out.format("[JPAStreamer Field Generator Processor] Generating class for: %s\n", entityName);
                         final String shortEntityName = shortName(entityName);
 
                         final String prefix = processingEnv.getOptions().getOrDefault("jpaStreamerPrefix", "");

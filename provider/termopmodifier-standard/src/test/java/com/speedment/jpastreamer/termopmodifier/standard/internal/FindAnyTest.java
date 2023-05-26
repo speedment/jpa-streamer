@@ -1,13 +1,14 @@
-package com.speedment.jpastreamer.termopoptimizer.standard.internal;
+package com.speedment.jpastreamer.termopmodifier.standard.internal;
 
-import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.termopmodifier.standard.internal.model.Film;
+import com.speedment.jpastreamer.termopmodifier.standard.internal.model.Film$;
 
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class FindAnyTest extends StandardTerminalOperationOptimizerTest<Film> {
-
+public class FindAnyTest extends StandardTerminalOperationModifierTest<Film> {
+    
     @Override
     Class<Film> getEntityClass() {
         return Film.class;
@@ -53,5 +54,4 @@ public class FindAnyTest extends StandardTerminalOperationOptimizerTest<Film> {
 
         return new PipelineTestCase<>("Find Any", findAny, findAnyExpected);
     }
-    
 }

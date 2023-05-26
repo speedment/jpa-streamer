@@ -12,8 +12,6 @@
  */
 module jpastreamer.termopoptimizer.standard {
     requires transitive jpastreamer.termopoptimizer;
-    requires jpastreamer.rootfactory; 
-    requires jpastreamer.predicate; 
 
     exports com.speedment.jpastreamer.termopoptimizer.standard;
 

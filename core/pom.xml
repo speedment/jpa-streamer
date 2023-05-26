@@ -122,6 +122,12 @@
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>termopmodifier-standard</artifactId>
+            <version>${jpa-streamer.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>announcer</artifactId>
             <version>${jpa-streamer.version}</version>
         </dependency>

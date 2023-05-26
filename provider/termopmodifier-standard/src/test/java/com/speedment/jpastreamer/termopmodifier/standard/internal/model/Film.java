@@ -1,17 +1,20 @@
-package com.speedment.jpastreamer.termopoptimizer.standard.internal;
+package com.speedment.jpastreamer.termopmodifier.standard.internal.model;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.HashSet;
 
 @Entity
 @Table(name = "film", schema = "sakila")
 public class Film {
-    public Film() {}
+    public Film() {
+    }
+
     public Film(short filmId) {
         this.filmId = filmId;
     }
+
     public Film(String description) {
         this.description = description;
     }
@@ -104,9 +107,13 @@ public class Film {
         this.rentalDuration = rentalDuration;
     }
 
-    public String getRating() { return rating; }
+    public String getRating() {
+        return rating;
+    }
 
-    public void setRating(String rating) { this.rating = rating; }
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
     public BigDecimal getRentalRate() {
         return rentalRate;
@@ -131,6 +138,7 @@ public class Film {
     public void setReplacementCost(BigDecimal replacementCost) {
         this.replacementCost = replacementCost;
     }
+
     public Timestamp getLastUpdate() {
         return lastUpdate;
     }
@@ -138,7 +146,7 @@ public class Film {
     public void setLastUpdate(Timestamp lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

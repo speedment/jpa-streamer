@@ -12,6 +12,7 @@
  */
 module jpastreamer.termopmodifier.standard {
     requires transitive jpastreamer.termopmodifier;
+    requires jpastreamer.rootfactory;
 
     exports com.speedment.jpastreamer.termopmodifier.standard;
 
