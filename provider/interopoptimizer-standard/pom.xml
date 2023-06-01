@@ -24,11 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>interopoptimizer-standard</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.interopoptimizer.standard</module-name>
-    </properties>
-
+    
     <name>IntermediateOperationOptimizer - Standard</name>
     <description>
         Standard IntermediateOperationOptimizer
@@ -58,6 +54,24 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                    <configuration>
+                        <argLine>
+                            --add-opens jpastreamer.interopoptimizer.standard/com.speedment.jpastreamer.interopoptimizer.standard=ALL-UNNAMED
+                            --add-opens jpastreamer.interopoptimizer.standard/com.speedment.jpastreamer.interopoptimizer.standard.internal=ALL-UNNAMED
+                            --add-opens jpastreamer.interopoptimizer.standard/com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy=ALL-UNNAMED
+                        </argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 
 </project>

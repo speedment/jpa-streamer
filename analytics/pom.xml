@@ -24,11 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>analytics</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.analytics</module-name>
-    </properties>
-
+    
     <name>Analytics</name>
     <description>
         Analytics module

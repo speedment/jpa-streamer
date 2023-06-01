@@ -13,10 +13,11 @@
 package com.speedment.jpastreamer.termopmodifier.standard.internal;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
+import com.speedment.jpastreamer.termopmodifier.TerminalOperationModifier;
 
 import static java.util.Objects.requireNonNull;
 
-final class StandardTerminalOperatorModifier implements com.speedment.jpastreamer.termopmodifier.TerminalOperationModifier {
+final class StandardTerminalOperatorModifier implements TerminalOperationModifier {
 
     @Override
     public <T> Pipeline<T> modify(Pipeline<T> pipeline) {

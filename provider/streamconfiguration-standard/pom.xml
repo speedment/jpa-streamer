@@ -24,11 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>streamconfiguration-standard</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.streamconfiguration.standard</module-name>
-    </properties>
-
+    
     <name>StreamConfiguration - Standard</name>
     <description>
         Standard provider of the StreamConfiguration
@@ -42,6 +38,22 @@
         </dependency>
 
     </dependencies>
-
-
+    
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                    <configuration>
+                        <argLine>
+                            --add-opens jpastreamer.streamconfiguration.standard/com.speedment.jpastreamer.streamconfiguration.standard=ALL-UNNAMED
+                            --add-opens jpastreamer.streamconfiguration.standard/com.speedment.jpastreamer.streamconfiguration.standard.internal=ALL-UNNAMED
+                        </argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    
 </project>

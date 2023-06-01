@@ -25,10 +25,6 @@
 
     <artifactId>analytics-standard</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.analytics.standard</module-name>
-    </properties>
-
     <name>Analytics - Standard</name>
     <description>
         Standard provider of the Analytics module

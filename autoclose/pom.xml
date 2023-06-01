@@ -25,13 +25,9 @@
 
     <artifactId>autoclose</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.autoclose</module-name>
-    </properties>
-
     <name>AutoClose</name>
     <description>
         This module provides auto-closing stream capability
     </description>
-
+    
 </project>

@@ -25,10 +25,6 @@
 
     <artifactId>javanine</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.javanine</module-name>
-    </properties>
-
     <name>Java9</name>
     <description>
         Java9 Stream Additions

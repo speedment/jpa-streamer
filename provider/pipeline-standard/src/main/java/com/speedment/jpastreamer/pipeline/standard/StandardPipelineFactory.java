@@ -14,7 +14,7 @@ package com.speedment.jpastreamer.pipeline.standard;
 
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.PipelineFactory;
-import com.speedment.jpastreamer.pipeline.standard.internal.pipeline.InternalPipelineFactory;
+import com.speedment.jpastreamer.pipeline.standard.internal.InternalPipelineFactory;
 
 public final class StandardPipelineFactory implements PipelineFactory {
 

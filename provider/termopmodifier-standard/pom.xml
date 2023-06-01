@@ -41,4 +41,22 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                    <configuration>
+                        <argLine>
+                            --add-opens jpastreamer.termopmodifier.standard/com.speedment.jpastreamer.termopmodifier.standard=ALL-UNNAMED
+                            --add-opens jpastreamer.termopmodifier.standard/com.speedment.jpastreamer.termopmodifier.standard.internal=ALL-UNNAMED
+                        </argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    
 </project>

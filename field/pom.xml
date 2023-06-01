@@ -25,10 +25,6 @@
 
     <artifactId>field</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.field</module-name>
-    </properties>
-
     <name>Field</name>
     <description>
         Partly generated model of the fields that represent columns in the

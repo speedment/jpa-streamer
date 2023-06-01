@@ -25,10 +25,6 @@
 
     <artifactId>cdi-jpastreamer</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.integration.cdi</module-name>
-    </properties>
-
     <name>Integration - CDI</name>
     <description>
         A CDI module that adds support for JPAStreamer injection.

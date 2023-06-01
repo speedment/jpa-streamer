@@ -26,7 +26,6 @@
     <artifactId>fieldgenerator-standard</artifactId>
 
     <properties>
-        <module-name>jpastreamer.fieldgenerator.standard</module-name>
         <auto-service.version>1.0.1</auto-service.version>
     </properties>
 
@@ -88,8 +87,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>com.google.auto.service</groupId>
@@ -99,19 +98,22 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-
-<!--            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    &lt;!&ndash;Disables javadocs under the module system. Todo: Examine why&ndash;&gt;
-                    <additionalOptions combine.self="override"></additionalOptions>
-                    <source>8</source>
-                    <detectJavaApiLink>false</detectJavaApiLink>
-&lt;!&ndash;                    <excludePackageNames>com.speedment.jpastreamer.fieldgenerator.*</excludePackageNames>&ndash;&gt;
-                </configuration>
-            </plugin>-->
-
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                    <configuration>
+                        <argLine>
+                            --add-opens jpastreamer.fieldgenerator.standard/com.speedment.jpastreamer.fieldgenerator=ALL-UNNAMED
+                            --add-opens jpastreamer.fieldgenerator.standard/com.speedment.jpastreamer.fieldgenerator.internal=ALL-UNNAMED
+                            --add-opens jpastreamer.fieldgenerator.standard/com.speedment.jpastreamer.fieldgenerator.internal.typeparser=ALL-UNNAMED
+                        </argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <!--Makes JavaDoc work on deploy -->

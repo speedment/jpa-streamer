@@ -26,7 +26,6 @@
     <artifactId>fieldgenerator-component</artifactId>
 
     <properties>
-        <module-name>jpastreamer.fieldgenerator.component</module-name>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
 

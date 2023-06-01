@@ -17,7 +17,6 @@ import lombok.Getter;
 
 import jakarta.persistence.Entity;
 
-
 @Getter
 @Entity
 public class Lombok3Bean {

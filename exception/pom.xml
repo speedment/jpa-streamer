@@ -25,10 +25,6 @@
 
     <artifactId>exception</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.exception</module-name>
-    </properties>
-
     <name>Exception</name>
     <description>
         JPAStreamer Exceptions

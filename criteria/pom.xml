@@ -25,10 +25,6 @@
 
     <artifactId>criteria</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.criteria</module-name>
-    </properties>
-
     <name>Criteria</name>
     <description>
         Creates JPA Criteria from Speedment-specific objects

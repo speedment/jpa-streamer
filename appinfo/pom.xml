@@ -25,10 +25,6 @@
 
     <artifactId>appinfo</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.appinfo</module-name>
-    </properties>
-
     <name>ApplicationInformation</name>
     <description>
         Application information about vendor, version etc.
