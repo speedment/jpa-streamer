@@ -569,7 +569,7 @@
 
 
                         <configuration>
-                            <source>8</source>
+                            <source>11</source>
 <!--                            <additionalOptions>
                                 <option>&#45;&#45;add-modules</option>
                                 <option>${module-name}</option>
