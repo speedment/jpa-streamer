@@ -39,6 +39,7 @@
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>termopoptimizer</artifactId>
         </dependency>
+        
     </dependencies>
 
 </project>

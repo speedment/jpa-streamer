@@ -23,4 +23,5 @@ public final class InternalTerminalOperatorModifierFactory implements TerminalOp
     public TerminalOperationModifier get() {
         return singleton;
     }
+    
 }

@@ -25,6 +25,7 @@ module jpastreamer.renderer.standard {
     requires jpastreamer.criteria;
     requires jpastreamer.merger;
     requires jpastreamer.interopoptimizer;
+    requires jpastreamer.termopmodifier;
     
     uses CriteriaFactory;
     uses MergerFactory;

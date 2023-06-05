@@ -12,18 +12,20 @@
  */
 package com.speedment.jpastreamer.termopoptimizer.standard.internal;
 
-import static java.util.Objects.requireNonNull;
-
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizer;
 
-final class StandardTerminalOperationOptimizer implements TerminalOperationOptimizer {
+import static java.util.Objects.requireNonNull;
 
+final class StandardTerminalOperationOptimizer implements TerminalOperationOptimizer {
+    
     @Override
     public <T> Pipeline<T> optimize(Pipeline<T> pipeline) {
         requireNonNull(pipeline);
-        // For now, just return whatever we get.
+        
+        // For now, just return whatever we get. 
+        
         return pipeline;
     }
-
+    
 }
