@@ -1,3 +1,6 @@
+import com.speedment.jpastreamer.pipeline.PipelineFactory;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.termopmodifier.TerminalOperationModifierFactory;
 import com.speedment.jpastreamer.termopmodifier.standard.StandardTerminalOperatorModifierFactory;
 
@@ -20,6 +23,10 @@ module jpastreamer.termopmodifier.standard {
     requires jpastreamer.field;
 
     exports com.speedment.jpastreamer.termopmodifier.standard;
+    
+    uses PipelineFactory;
+    uses TerminalOperationFactory; 
+    uses IntermediateOperationFactory; 
     
     provides TerminalOperationModifierFactory with StandardTerminalOperatorModifierFactory;
 }
