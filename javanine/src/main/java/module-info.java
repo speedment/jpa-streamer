@@ -14,4 +14,5 @@ module jpastreamer.javanine {
     requires jpastreamer.exception;
 
     exports com.speedment.jpastreamer.javanine;
+
 }

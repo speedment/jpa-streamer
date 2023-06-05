@@ -11,5 +11,7 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.exception {
+
     exports com.speedment.jpastreamer.exception;
+  
 }
