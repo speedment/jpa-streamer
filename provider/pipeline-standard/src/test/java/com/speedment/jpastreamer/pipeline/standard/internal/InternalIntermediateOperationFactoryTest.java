@@ -15,7 +15,7 @@ package com.speedment.jpastreamer.pipeline.standard.internal;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
-import com.speedment.jpastreamer.pipeline.standard.internal.intermediate.InternalIntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.intermediate.standard.internal.InternalIntermediateOperationFactory;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

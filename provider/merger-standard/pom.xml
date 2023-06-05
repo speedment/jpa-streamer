@@ -19,15 +19,11 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>provider</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>merger-standard</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.merger.standard</module-name>
-    </properties>
 
     <name>Merger - Standard</name>
     <description>

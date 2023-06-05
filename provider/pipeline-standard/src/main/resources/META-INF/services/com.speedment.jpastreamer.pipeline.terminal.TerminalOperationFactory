@@ -1,1 +1,1 @@
-com.speedment.jpastreamer.pipeline.standard.terminal.StandardTerminalOperationFactory
+com.speedment.jpastreamer.pipeline.terminal.standard.StandardTerminalOperationFactory

@@ -19,14 +19,13 @@
     <parent>
         <artifactId>fieldgenerator</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fieldgenerator-test-package</artifactId>
 
     <properties>
-        <module-name>jpastreamer.fieldgenerator.test.renaming</module-name>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
 
@@ -63,7 +62,7 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>2.0.0.Final</version>
+            <version>2.0.1.Final</version>
         </dependency>
         
     </dependencies>
@@ -73,7 +72,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <compilerArgs>
                         <arg>-AjpaStreamerPackage=com.speedment.jpastreamer.fieldgenerator.test.renaming.inner</arg>
@@ -106,6 +105,29 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <!-- Uncomment to trigger code generation processes without compiling -->
+                    <!--<proc>only</proc> -->
+                    <source>11</source>
+                    <target>11</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>com.speedment.jpastreamer</groupId>
+                            <artifactId>fieldgenerator-standard</artifactId>
+                            <version>${jpa-streamer.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.28</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
         </plugins>
     </build>

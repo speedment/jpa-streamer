@@ -19,15 +19,11 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>provider</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>criteria-standard</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.criteria.standard</module-name>
-    </properties>
 
     <name>Criteria - Standard</name>
     <description>
@@ -50,6 +46,27 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>rootfactory</artifactId>
+        </dependency>
     </dependencies>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                    <configuration>
+                        <argLine>
+                            --add-opens jpastreamer.criteria.standard/com.speedment.jpastreamer.criteria.standard=ALL-UNNAMED
+                            --add-opens jpastreamer.criteria.standard/com.speedment.jpastreamer.criteria.standard.internal=ALL-UNNAMED
+                        </argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    
 </project>

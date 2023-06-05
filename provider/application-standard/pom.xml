@@ -19,16 +19,12 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>provider</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>application-standard</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.application.standard</module-name>
-    </properties>
-
+    
     <name>Application - Standard</name>
     <description>
         Standard provider of the entry API of JPAStreamer
@@ -85,6 +81,11 @@
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>${jakarta.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>rootfactory</artifactId>
         </dependency>
 
     </dependencies>

@@ -19,16 +19,12 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>jpastreamer-parent</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>jpastreamer-core</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.core</module-name>
-    </properties>
-
+    
     <name>JPAstreamer - Core</name>
     <description>
         JPAstreamer - a lightweight library for expressing JPA queries as Java Streams

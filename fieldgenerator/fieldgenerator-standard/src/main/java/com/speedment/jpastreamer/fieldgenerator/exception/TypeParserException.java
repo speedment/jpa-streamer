@@ -21,6 +21,8 @@ package com.speedment.jpastreamer.fieldgenerator.exception;
 
 public class TypeParserException extends RuntimeException {
 
+    private static final long serialVersionUID = 89932468258829812L;
+
     public TypeParserException(String message) {
         super(message);
     }

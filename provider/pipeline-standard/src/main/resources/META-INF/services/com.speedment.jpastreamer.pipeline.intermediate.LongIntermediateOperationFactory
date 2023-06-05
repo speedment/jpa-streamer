@@ -1,1 +1,1 @@
-com.speedment.jpastreamer.pipeline.standard.intermediate.StandardLongIntermediateOperationFactory
+com.speedment.jpastreamer.pipeline.intermediate.standard.StandardLongIntermediateOperationFactory

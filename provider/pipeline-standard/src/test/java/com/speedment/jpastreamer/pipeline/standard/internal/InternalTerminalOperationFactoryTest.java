@@ -13,7 +13,7 @@
 package com.speedment.jpastreamer.pipeline.standard.internal;
 
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
-import com.speedment.jpastreamer.pipeline.standard.internal.terminal.InternalTerminalOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.standard.internal.InternalTerminalOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 import org.junit.jupiter.api.Test;
