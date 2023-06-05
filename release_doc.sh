@@ -36,10 +36,10 @@ read -p "Press enter to continue"
 
 echo "** Building version $VERSION"
 cd docs
-antora --fetch site.yml
+./build-local.sh
 
 echo "** Push changes to GitHub"
-cd ../../jpa-streamer-gh-pages/jpa-streamer
+cd ../../../jpa-streamer-gh-pages/jpa-streamer
 
 echo "** Checking if 'jpa-streamer-gh-pages/jpa-streamer' is on the 'gh-pages' branch"
 DEVELOP_BRANCH=`git branch | grep "* gh-pages" | wc -l`

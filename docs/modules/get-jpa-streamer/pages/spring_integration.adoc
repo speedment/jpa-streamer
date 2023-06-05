@@ -4,14 +4,14 @@ author:
 :reftext:  Spring Integration
 :navtitle:  Spring Integration
 :source-highlighter: highlight.js
-JPAstreamer comes with first-party support for projects built on top of Spring Boot. Dependency Injection is a fundamental feature of the Spring framework. With this in mind, a JPAstreamer autoconfiguration module can be used to quickly and easily integrate JPAstreamer into your Spring Boot projects.
+JPAStreamer comes with first-party support for projects built on top of Spring Boot. Dependency Injection is a fundamental feature of the Spring framework. With this in mind, a JPAStreamer autoconfiguration module can be used to quickly and easily integrate JPAStreamer into your Spring Boot projects.
 
 == Installing the autoconfiguration module
 
 The installation process will differ depending on the build tool you're using. In this guide, Maven and Gradle are covered.
 
 === Maven
-For Maven projects, the following JPAstreamer dependency must be added to the project's pom.xml file:
+For Maven projects, the following JPAStreamer dependency must be added to the project's pom.xml file:
 
 [source, xml]
 ----
@@ -25,7 +25,7 @@ For Maven projects, the following JPAstreamer dependency must be added to the pr
 ----
 
 === Gradle
-For Gradle projects, the following JPAstreamer dependency must be added to the project's build.gradle file:
+For Gradle projects, the following JPAStreamer dependency must be added to the project's build.gradle file:
 
 [source, groovy]
 ----
@@ -38,9 +38,17 @@ dependencies {
 }
 ----
 
-== Accessing JPAstreamer
+== Accessing JPAStreamer
+Once the required dependencies are installed, you must make JPAStreamer available for injection by explicitly scanning for annotated components. This is done by setting the parameter `scanBasePackages` on the `SpringBootApplication` annotation as follows: 
 
-Once the required dependencies are installed, you can access JPAStreamer using Spring's Dependency Injection system:
+[source, java]
+----
+@SpringBootApplication(scanBasePackages={"com.speedment.jpastreamer"}) 
+----
+
+NOTE: If you need to scan multiple base packages, just use a comma separated list e.g. "com.package.A, com.package.B". 
+
+You should now be able to access JPAStreamer using Spring's Dependency Injection system:
 
 [source, java]
 ----
@@ -68,4 +76,4 @@ public class DummyService {
 }
 ----
 
-WARNING: JPAstreamer's autoconfiguration relies on a `EntityManagerFactory` bean being present. If you're using Spring Data JPA, this is already handled for you.
+WARNING: JPAStreamer's autoconfiguration relies on a `EntityManagerFactory` bean being present. If you're using Spring Data JPA, this is already handled for you.

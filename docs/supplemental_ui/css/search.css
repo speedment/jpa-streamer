@@ -125,3 +125,6 @@
   font-weight: 500;
 }
 
+.search-result-component-header {
+  display: none;
+}

@@ -26,3 +26,4 @@ nav:
   - modules/stream-fundamentals/nav.adoc
   - modules/fetching-data/nav.adoc
   - modules/transactions/nav.adoc
+  - modules/troubleshooting/nav.adoc
