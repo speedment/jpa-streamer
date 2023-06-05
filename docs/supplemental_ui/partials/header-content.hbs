@@ -1,10 +1,12 @@
 <header class="header" role="banner">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item logo" href="https://chronicle.software"></a>
-        <div class="navbar-item" style="background: none">
-          <input id="search-input" type="text" placeholder="Search docs...">
-        </div>
+      <a class="navbar-item logo" href="https://speedment.github.io/jpa-streamer/"></a>
+        {{#if env.SITE_SEARCH_PROVIDER}}
+            <div class="navbar-item" style="background: none">
+                <input id="search-input" type="text" placeholder="Search docs...">
+            </div>
+        {{/if}}
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>

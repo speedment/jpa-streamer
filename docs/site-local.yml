@@ -20,7 +20,7 @@ content:
       # only generate from git tags (and not branches)
       branches: []
       start_path: docs
-      tags: [0.1*, 1.0*, '!1.0.3', 1.1*, '!1.1.1']
+      tags: [0.1*, 1.0*, '!1.0.3', 1.1*, '!1.1.1', 3.*]
 ui:
   bundle:
     url: ui-bundle.zip
@@ -28,4 +28,11 @@ ui:
 asciidoc:
   attributes:
     page-pagination: true
-
+output:
+  dir: ../../../jpa-streamer-gh-pages/jpa-streamer
+antora:
+  extensions:
+    - require : '@antora/lunr-extension'
+      index_latest_only: true
+urls:
+  latest_version_segment: latest 
