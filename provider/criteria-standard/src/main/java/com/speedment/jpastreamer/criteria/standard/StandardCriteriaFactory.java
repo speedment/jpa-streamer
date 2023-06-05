@@ -16,11 +16,13 @@ import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.CriteriaFactory;
 import com.speedment.jpastreamer.criteria.standard.internal.InternalCriteriaFactory;
 
+import com.speedment.jpastreamer.rootfactory.Priority;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+@Priority(value = 1)
 public final class StandardCriteriaFactory implements CriteriaFactory {
 
     private final CriteriaFactory delegate = new InternalCriteriaFactory();

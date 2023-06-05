@@ -13,5 +13,5 @@
 module jpastreamer.exception {
 
     exports com.speedment.jpastreamer.exception;
-
+  
 }

@@ -25,10 +25,6 @@
 
     <artifactId>streamconfiguration</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.streamconfiguration</module-name>
-    </properties>
-
     <name>StreamConfiguration</name>
     <description>
         Configuration of Streams

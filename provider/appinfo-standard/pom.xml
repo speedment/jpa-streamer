@@ -25,10 +25,6 @@
 
     <artifactId>appinfo-standard</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.appinfo.standard</module-name>
-    </properties>
-
     <name>ApplicationInformation - Standard</name>
     <description>
         Standard provider of the appinfo module

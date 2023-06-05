@@ -30,10 +30,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass({JPAStreamer.class, EntityManagerFactory.class})
 public class JPAStreamerAutoConfiguration {
-
+    
     @Bean
     @ConditionalOnMissingBean
     JPAStreamer jpaStreamer(EntityManagerFactory entityManagerFactory) {
         return JPAStreamer.createJPAStreamerBuilder(entityManagerFactory).build();
     }
+    
 }

@@ -72,8 +72,8 @@
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <junit.platform.provider.version>1.8.2</junit.platform.provider.version>
         <mockito.version>5.2.0</mockito.version>
@@ -81,7 +81,6 @@
         <speedment-version>3.2.10</speedment-version>
 
         <!-- later maven-javadoc-plugin versions does not support aggregate? -->
-        <jpa.version>2.2</jpa.version>
         <jakarta.version>3.1.0</jakarta.version>
         <maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
         <maven-source-plugin-version>3.2.1</maven-source-plugin-version>
@@ -264,59 +263,9 @@
                     <showWarnings>true</showWarnings>
                     <meminitial>256m</meminitial>
                     <maxmem>1024m</maxmem>
-                    <excludes>
-                        <exclude>**/package-info.java</exclude>
-                    </excludes>
+                    <release>11</release>
+
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>8</release>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>module-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>9</release>
-                            <compileSourceRoots>
-                                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
-                            </compileSourceRoots>
-                            <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
-                            <compilerArgs>
-                                <arg>--patch-module</arg>
-                                <arg>${module-name}=${project.build.outputDirectory}</arg>
-                            </compilerArgs>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>module-testCompile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>9</release>
-                            <compileSourceRoots>
-                                <compileSourceRoot>${project.basedir}/src/test/java9</compileSourceRoot>
-                            </compileSourceRoots>
-                            <compilerArgs>
-                                <arg>--patch-module</arg>
-                                <arg>${module-name}=${project.build.outputDirectory}</arg>
-                            </compilerArgs>
-                        </configuration>
-                    </execution>
-                </executions>
-
             </plugin>
 
             <plugin>
@@ -332,15 +281,10 @@
                             <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
                             <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
                             <Implementation-Version>${project.version}</Implementation-Version>
-                            <Automatic-Module-Name>${module-name}</Automatic-Module-Name>
-                            <Multi-Release>true</Multi-Release>
+                           <!-- <Automatic-Module-Name>${module-name}</Automatic-Module-Name> -->
                         </manifestEntries>
                     </archive>
                     <skipIfEmpty>true</skipIfEmpty>
-                    <excludes>
-                        <!--Remove the module-info in the main dir because it is generated for the test phase-->
-                        <exclude>module-info.class</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
 

@@ -25,10 +25,6 @@
 
     <artifactId>interopoptimizer</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.interopoptimizer</module-name>
-    </properties>
-
     <name>IntermediateOperationOptimizer</name>
     <description>
         An interface that provides optimization of intermediate operations

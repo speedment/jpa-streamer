@@ -25,10 +25,6 @@
 
     <artifactId>application</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.application</module-name>
-    </properties>
-
     <name>Application</name>
     <description>
         The entry API of JPAStreamer

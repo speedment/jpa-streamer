@@ -25,10 +25,6 @@
 
     <artifactId>merger-standard</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.merger.standard</module-name>
-    </properties>
-
     <name>Merger - Standard</name>
     <description>
         Standard Merger

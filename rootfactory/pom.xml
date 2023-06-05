@@ -25,10 +25,6 @@
 
     <artifactId>rootfactory</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.rootfactory</module-name>
-    </properties>
-
     <name>RootFactory</name>
     <description>
         Utility methods for handling service loading

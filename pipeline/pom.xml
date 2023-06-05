@@ -25,10 +25,6 @@
 
     <artifactId>pipeline</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.pipeline</module-name>
-    </properties>
-
     <name>Pipeline</name>
     <description>
         Provides Stream Pipeline

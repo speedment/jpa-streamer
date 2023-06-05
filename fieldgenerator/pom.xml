@@ -27,12 +27,7 @@
     <packaging>pom</packaging>
 
     <name>FieldGenerator - Parent</name>
-
-    <properties>
-        <module-name>jpastreamer.fieldgenerator</module-name>
-    </properties>
-
-
+    
     <profiles>
         <!-- DO NOT CHANGE THE *ORDER* IN WHICH THESE PROFILES ARE DEFINED! -->
         <profile>

@@ -25,10 +25,6 @@
 
     <artifactId>termopmodifier</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.termopmodifier</module-name>
-    </properties>
-
     <name>TerminalOperationModifier</name>
     <description>
         Terminal Operator Modifier

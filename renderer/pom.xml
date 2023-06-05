@@ -25,10 +25,6 @@
 
     <artifactId>renderer</artifactId>
 
-    <properties>
-        <module-name>jpastreamer.renderer</module-name>
-    </properties>
-
     <name>Renderer</name>
     <description>
         Renderer that can render a pipeline to a Stream
