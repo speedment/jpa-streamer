@@ -194,7 +194,7 @@ public interface JPAStreamer {
      * Resets the Streamer associated with the provided Entity classes.
      * <p> 
      * This will create a new instance of the underlying {@code jakarta.persistence.EntityManager}, removing all entries of the 
-     * associated Entity class from the first-level cache. 
+     * associated Entity class from the first-level cache. The old {@code jakarta.persistence.EntityManager} is closed upon removal from the cache. 
      * 
      * In case JPAStreamer was configured with a {@code Supplier<EntityManager>} the lifecycle of the Entity Managers is 
      * not managed by JPAStreamer, thus use of the method is not permitted and will result in an {@code UnsupportedOperationException}. 

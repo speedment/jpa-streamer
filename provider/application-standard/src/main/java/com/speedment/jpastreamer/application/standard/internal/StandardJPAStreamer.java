@@ -73,7 +73,11 @@ final class StandardJPAStreamer implements JPAStreamer {
         }
         Arrays.stream(entityClasses)
                 .map(StreamConfiguration::of)
-                .forEach(streamerCache::remove); 
+                .filter(streamerCache::containsKey)
+                .forEach(sc -> {
+                    streamerCache.get(sc).close(); // Close Entity Manager
+                    streamerCache.remove(sc);
+                }); 
     }
 
     @Override
