@@ -296,7 +296,7 @@ public interface JPAStreamer {
      * @throws UnsupportedOperationException if JPAStreamer is configured with a Supplier, see {@code com.speedment.jpastreamer.application.JPAStreamer#of(java.util.function.Supplier)}
      */
     @Deprecated(since = "3.0.2", forRemoval = true)
-    void resetStreamer(Class<?>... entityClasses) throws UnsupportedOperationException; 
+    void resetStreamer(Class<?>... entityClasses);
     
     /**
      * Closes this JPAStreamer and releases any resources potentially held.

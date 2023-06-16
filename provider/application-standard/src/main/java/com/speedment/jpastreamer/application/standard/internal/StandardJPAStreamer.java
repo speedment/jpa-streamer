@@ -64,7 +64,7 @@ final class StandardJPAStreamer implements JPAStreamer {
     }
 
     @Override
-    public void resetStreamer(Class<?>... entityClasses) throws UnsupportedOperationException {
+    public void resetStreamer(Class<?>... entityClasses) {
         // As there no longer exists a Streamer cache, this method has no effect
     }
 
