@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * @author Per Minborg, Julia Gustafsson 
  * @since 3.0.1
  */
-public interface StreamSupplier<T> {
+public interface StreamSupplier<T> extends AutoCloseable {
 
     /**
      * Creates and returns a new {@link Stream} over all entities in the
