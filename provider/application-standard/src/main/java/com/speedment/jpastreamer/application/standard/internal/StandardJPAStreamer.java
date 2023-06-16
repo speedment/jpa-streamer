@@ -74,12 +74,6 @@ final class StandardJPAStreamer implements JPAStreamer {
         closeHandler.run(); 
     }
 
-    // Only cache simple configurations to limit the number of objects held
-    // See https://github.com/speedment/jpa-streamer/issues/56
-    private <T> boolean cached(final StreamConfiguration<T> streamConfiguration) {
-        return streamConfiguration.joins().isEmpty() && !streamConfiguration.selections().isPresent(); 
-    }
-
     private void printGreeting(final ApplicationInformation info) {
         final String greeting = String.format("%s%n" +
                         ":: %s %s :: %s%n" +
