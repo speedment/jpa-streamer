@@ -26,6 +26,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.ServiceLoader;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -36,7 +37,8 @@ final class StandardStreamSupplier<T> implements StreamSupplier<T> {
     private final AutoCloseFactory autoCloseFactory;
     private final StreamConfiguration<T> streamConfiguration;
     private final boolean closeEntityManager; 
-    
+    private static final AtomicBoolean closed = new AtomicBoolean(false);
+
     StandardStreamSupplier(final StreamConfiguration<T> streamConfiguration, final EntityManagerFactory entityManagerFactory, boolean closeEntityManager) {
         this(streamConfiguration, entityManagerFactory::createEntityManager, closeEntityManager); 
     }
@@ -48,7 +50,7 @@ final class StandardStreamSupplier<T> implements StreamSupplier<T> {
         this.autoCloseFactory = RootFactory.getOrThrow(AutoCloseFactory.class, ServiceLoader::load);
         this.renderer = RootFactory.getOrThrow(RendererFactory.class, ServiceLoader::load)
                 .createRenderer(entityManagerSupplier);
-        this.closeEntityManager = closeEntityManager; 
+        this.closeEntityManager = closeEntityManager;
     }
 
     StandardStreamSupplier(final StreamConfiguration<T> streamConfiguration, final EntityManager entityManager, boolean closeEntityManager) {
@@ -67,10 +69,10 @@ final class StandardStreamSupplier<T> implements StreamSupplier<T> {
     }
 
     @Override
-    public void close() throws UnsupportedOperationException {
+    public void close() {
         if (this.closeEntityManager) {
             renderer.close();
-        } else {
+        } else if (closed.compareAndSet(false, true)) {
             System.out.println("JPAStreamer does not close Entity Managers obtained by a given Supplier<EntityManager>.");
         }
     }
