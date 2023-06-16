@@ -57,17 +57,16 @@ long is  true has 457 films
 There are several Stream operations that limit the number of rows obtained from the database (e.g. `filter()` and `limit()`). Although, to limit the number of columns we retrieve, JPAstreamer uses `Projections`. Projections can be used either initially, to limit the Stream source, or in combination with a `map()`-operation. The following sections describe both methods.
 
 === Initial Stream configuration
-By making a `StreamConfiguration`, we can initially limit the Stream to include only selected columns.
+Using a `Projection`, we can initially limit the Stream to include only selected columns.
 
 [source, java]
 ----
-StreamConfiguration<Film> sc = StreamConfiguration.of(Film.class).selecting(Projection.select(Film$.filmId, Film$.title));
-
-jpaStreamer.stream(sc)
+jpaStreamer.stream(Projection.select(Film$.filmId, Film$.title)) <1>
     .sorted(Film$.length.reversed())
     .limit(3)
     .forEach(System.out::println);
 ----
+<1> Short for `StreamConfiguration.of(Film.class).selecting(Projection.select(Film$.filmId, Film$.title))`
 
 The `Projection` is translated by JpaStreamer to a `SELECT` statement that is applied to the resulting query. This way we limit the given result set to only include values from column `film_id` and `title`.
 
