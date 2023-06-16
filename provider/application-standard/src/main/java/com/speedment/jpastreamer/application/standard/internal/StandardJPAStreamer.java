@@ -34,7 +34,6 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     private final Supplier<EntityManager> entityManagerSupplier;
     private final Runnable closeHandler;
-    private final Map<StreamConfiguration<?>, StreamSupplier<?>> streamerCache;
     private final AnalyticsReporter analyticsReporter;
     
     private final boolean closeEntityManagers; 
@@ -43,7 +42,6 @@ final class StandardJPAStreamer implements JPAStreamer {
         this.closeHandler = requireNonNull(closeHandler);
         this.entityManagerSupplier = requireNonNull(entityManagerSupplier);
         this.closeEntityManagers = closeEntityManagers; 
-        streamerCache = new ConcurrentHashMap<>();
         final ApplicationInformation applicationInformation = RootFactory.getOrThrow(ApplicationInformation.class, ServiceLoader::load);
         final AnalyticsReporterFactory analyticsReporterFactory = RootFactory.getOrThrow(AnalyticsReporterFactory.class, ServiceLoader::load);
         analyticsReporter = analyticsReporterFactory.createAnalyticsReporter(applicationInformation.implementationVersion(), demoMode);
@@ -73,7 +71,6 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     @Override
     public void close() {
-        streamerCache.values().forEach(StreamSupplier::close);
         analyticsReporter.stop();
         closeHandler.run(); 
     }
