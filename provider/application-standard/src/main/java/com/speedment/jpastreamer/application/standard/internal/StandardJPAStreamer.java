@@ -26,7 +26,6 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import jakarta.persistence.EntityManager;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
