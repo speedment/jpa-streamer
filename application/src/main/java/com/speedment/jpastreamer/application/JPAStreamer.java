@@ -207,7 +207,7 @@ public interface JPAStreamer {
      * If you are using the same Stream source frequently e.g. Film.class, 
      * consider configuring a {@link StreamSupplier} that can supply 
      * {@link Stream}s from the same source over and over again. 
-     * This save resources and avoids instantiating a new {@link EntityManager} for each new {@link Stream}s.
+     * This save resources and avoids instantiating a new {@link EntityManager} for each new {@link Stream}.
      * <p>
      * Here is an example of using a {@link StreamSupplier}: 
      * <pre>{@code
