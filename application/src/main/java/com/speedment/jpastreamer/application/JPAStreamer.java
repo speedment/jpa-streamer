@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 
 /**
  * A JPAStreamer is responsible for creating Streams from data sources,
- * alternatively for creating Streamers that can be reused to create Streams of the same Entity source, 
+ * alternatively for creating {@link StreamSupplier}s that can be reused to create Streams of the same Entity source, 
  * see {@link JPAStreamer#createStreamSupplier(StreamConfiguration)}
  * <p>
  * Entity sources can be RDBMSes, files or other data sources.
