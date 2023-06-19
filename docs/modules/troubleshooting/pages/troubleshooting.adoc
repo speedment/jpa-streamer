@@ -3,7 +3,7 @@ keywords: stream, jpastreamer, java, transactions, JPA, troubleshooting
 author: Julia Gustafsson
 :reftext: Troubleshooting
 :navtitle: Troubleshooting
-:toclevels:3
+:toclevels: 3
 :source-highlighter: highlight.js
 
 This section explores pitfalls that users may encounter while working with JPAStreamer and provides practical solutions to address them.
