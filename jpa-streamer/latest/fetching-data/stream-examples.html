@@ -40,7 +40,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="jpa-streamer" data-version="3.0.1">
+<div class="nav-container" data-component="jpa-streamer" data-version="3.0.2">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -166,20 +166,30 @@
   </li>
 </ul>
   </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../troubleshooting/troubleshooting.html">Troubleshooting</a>
+  </li>
+</ul>
+  </li>
 </ul>
   </nav>
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">JPAStreamer Docs</span>
-    <span class="version">3.0.1</span>
+    <span class="version">3.0.2</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">JPAStreamer Docs</span>
       <ul class="versions">
         <li class="version is-current">
-          <a href="../introduction/introduction.html">3.0.1</a>
+          <a href="../introduction/introduction.html">3.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.1/introduction/introduction.html">3.0.1</a>
         </li>
         <li class="version">
           <a href="../../3.0.0/introduction/introduction.html">3.0.0</a>
@@ -327,17 +337,23 @@ long is  true has 457 films</code></pre>
 <div class="sect2">
 <h3 id="_initial_stream_configuration"><a class="anchor" href="#_initial_stream_configuration"></a>Initial Stream configuration</h3>
 <div class="paragraph">
-<p>By making a <code>StreamConfiguration</code>, we can initially limit the Stream to include only selected columns.</p>
+<p>Using a <code>Projection</code>, we can initially limit the Stream to include only selected columns.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">StreamConfiguration&lt;Film&gt; sc = StreamConfiguration.of(Film.class).selecting(Projection.select(Film$.filmId, Film$.title));
-
-jpaStreamer.stream(sc)
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">jpaStreamer.stream(Projection.select(Film$.filmId, Film$.title)) <i class="conum" data-value="1"></i><b>(1)</b>
     .sorted(Film$.length.reversed())
     .limit(3)
     .forEach(System.out::println);</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Short for <code>StreamConfiguration.of(Film.class).selecting(Projection.select(Film$.filmId, Film$.title))</code></td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The <code>Projection</code> is translated by JpaStreamer to a <code>SELECT</code> statement that is applied to the resulting query. This way we limit the given result set to only include values from column <code>film_id</code> and <code>title</code>.</p>
