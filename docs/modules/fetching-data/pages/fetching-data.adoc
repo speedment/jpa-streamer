@@ -5,7 +5,7 @@ author: Julia Gustafsson
 :navtitle: Fetching Data
 :source-highlighter: highlight.js
 
-To start fetching data with JPAsStreamer you need to initialize an instance of `JPAStreamer`. This section describes how that is accomplished.
+This section details how to create a basic Stream from your datasource. To initiate the data fetching process, you will need to initialize an instance of `JPAStreamer`. Once you have obtained access to `JPAStreamer`, you can leverage two main methods to obtain a Stream from your datasource: `stream()` and `createStreamSupplier()`. These methods provide efficient and customizable approaches to interact with your data. In this chapter, we will discuss what differentiates the two approaches.
 
 == Obtaining a JPAStreamer instance
 === From persistence unit name 
@@ -102,60 +102,122 @@ public class FilmRepository implements PanacheRepository<Film> {
 }
 ----
 
-NOTE: When using a Supplier, JPAStreamer is not responsible for the lifecycle of the Entity Managers, thus `JPAStreamer::close` will not close any supplied Entity Managers. 
+NOTE: When using a Supplier, JPAStreamer is not responsible for the lifecycle of the Entity Managers, thus `JPAStreamer::close` will not close any supplied Entity Managers.
 
-== Resetting the Streamer 
-Calling `jpaStreamer.stream(Class<T> entityClass)` creates a dedicated Streamer for the provided Entity class. The Streamer instance is reused for subsequent calls on `jpaStreamer.stream()` on the same Entity, see example below: 
+== Creating a Stream
+To create a Stream, you first need to describe the stream source as a `StreamConfiguration`. The `StreamConfiguration` declares what entity to use as the base for the query, and e.g. if any joins or projections should be performed. The `StreamConfiguration` is then passed to xref:_stream[`JPAStreamer.stream(StreamConfiguration<T> streamConfiguration)`] or xref:_createstreamsupplier[`JPAStreamer.createStreamSupplier(StreamConfiguration<T> streamConfiguration)`].
 
-[source, Java]
+When deciding which of these methods to use, consider whether you will reuse the same stream source frequently or not, and if you are expecting that the source will be updated by an external application in between streams. A more detailed explanation follows in the subsequent sections on each method below.
+
+JPAStreamer also offers convenience methods for simple `StreamConfigurations`:
+
+- `JPAStreamer.stream(Class<T> entityClass)`
+- `JPAStreamer.stream(Projection<T> projection)`
+- `JPAStreamer.createStreamSupplier(Class<T> entityClass)`
+- `JPAStreamer.createStreamSupplier(Projection<T> projection)`
+
+The simplest way of creating a `Stream` is to provide a single entity class, creating a `Stream` of the single table associated with that JPA entity: 
+[source, java]
 ----
-JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") 
-        .build();
-
-long count = jpaStreamer.stream(Film.class) <1>
-        .filter(Film$.title.startsWith("A"))
-        .count();
-
-long count2 = jpaStreamer.stream(Film.class) <2>
-        .filter(Film$.title.startsWith("A"))
-        .count();
+Stream<Film> stream = jpaStreamer.stream(Film.class); <1>
 ----
-<1> The first call to `jpaStreamer.stream(Film.class)` will create a `Streamer` of `Film` entities 
-<2> The second call will reuse the previously configured `Streamer`
+<1> Creates a Stream over the Film-table. Passing the entity class `Film.class` is equivalent of passing `StreamConfiguration.of(Film.class)`.
 
-A `Streamer` instance hold a `javax.persistence.EntityManager` which has its own first-layer cache. Thus by default, database changes performed by another application, or made directly on the database, will not be detected. In the example above, the addition of the film "Avatar" to the database between the first and second count query therefore goes unnoticed and `count` will equal `count2`. 
+All options available for `StreamConfiguration` is laid out in the table below:
 
-To ensure that database updates performed by another application are detected, you must reset the Streamer between queries. This will effectively remove the existing Streamer for the specified Entity and close its associated `EntityManager`. The next query will create a new Streamer with a new `EntityManager`, resetting the first-level cache associated with the Entity.
+.`StreamConfiguration`
+[cols="1,1,1"]
+|===
+| Modifer and type | Method | Description
 
-You can reset the Streamer for one or more Entity classes with the following command:
+| `StreamConfiguration<T>`
+| `of(Class<T> entityClass)`
+|  Creates and returns a new StreamConfiguration that can be used to configure streams.
 
-[source, Java]
+| `Class<T>`
+| `entityClass()`
+| Returns the entity class that is to appear in a future Stream.
+
+| `Set<JoinConfiguration<T>`
+| `joins()`
+| Returns the fields that shall be joined in a future stream.
+
+| `StreamConfiguration<T>`
+| `joining(Field<T> field)`
+|  Creates and returns a new `StreamConfiguration` configured with the provided field so that it will be eagerly joined when producing elements in the future Stream using join type left. 
+
+| `StreamConfiguration<T>`
+| `joining(Field<T> field, JoinType joinType)`
+|  Creates and returns a new `StreamConfiguration` configured with the provided field so that it will be eagerly joined when producing elements in the future Stream using the provided join type.
+
+| `Optional<Projection<T>>` 
+| `selections()`
+| Returns the projected columns to use when creating entities or `Optional.empty()` if no projection should be used.
+ 
+| `StreamConfiguration<T>`
+| `selecting(Projection<T> projection)`
+| Selects the projected columns to initialize when creating initial entities in a future stream.
+
+| `StreamConfiguration<T>`
+| `withHint(String hintName, Object value)`
+|  Adds a query hint.
+
+| `Map<String, Object>`
+| `hints()` 
+| Returns the map with the query hints that will be configured in a future Stream.
+
+|=== 
+
+TIP: There are many examples of how to use a `StreamConfiguration` in xref:stream-examples.adoc[Stream Examples].
+
+[#_stream]
+=== `stream()`
+Calls to `JPAStreamer.stream(StreamConfiguration<T> streamConfiguration)` will lead to the creation of a `StreamSupplier`. The `StreamSupplier` obtains a JPA `EntityManager` that JPAStreamer uses internally to issue JPA Criteria Queries.
+
+Whenever the `Stream` is terminated with a terminal operation, e.g. `collect()`, the underlying `StreamSupplier` and the `EntityManager` is closed and can no longer be used. 
+
+[source,java]
 ----
-jpaStreamer.resetStreamer(Class<?>... entityClasses); 
+final JPAStreamer jpaStreamer = JPAStreamer.of("sakila"); 
+
+final List<Film> films = jpaStreamer.stream(Film.class) <1>
+    .filter(Film$.name.equal("Casablanca"))
+    .collect(toList()); <2>
 ----
+<1> Creates a `StreamSupplier` that returns a `Stream` over the Film-table 
+<2> The terminal operation closes the underlying `StreamSupplier` and its Entity Manager
 
-WARNING: JPAStreamer instances configured with a `Supplier<EntityManager` do not manage the lifecycle of the supplied Entity Managers, and thus cannot close them. Calling `resetStreamer` on such instance result in an `UnsupportedOperationException`. See, xref:#_supplier[Initializing JPAStreamer with a Supplier]. 
+[#_createstreamsupplier]
+=== `createStreamSupplier()` 
+As calls to `JPAStreamer.stream()` creates a new `StreamSupplier` each time, you can potentially save resources by reusing a single `StreamSupplier` for the creation of many streams. A reusable `StreamSupplier` can be obtained by calling `JPAStreamer.createStreamSupplier()`. 
 
-We can thus update the prior example to ensure that database changes are detected as follows: 
+Like `JPAStreamer`, the `StreamSupplier` provides a method `stream()` that returns a `Stream` as described by the provided `StreamConfiguration`. There is one important distinction between calls to these methods: 
 
-[source, Java]
+- `JPAStreamer.stream()` - the execution of a terminal operation *closes* the underlying `StreamSupplier` its `EntityManager`
+- `StreamSupplier.stream()` - the execution of a terminal operation *does not close* the `StreamSupplier` and its `EntityManager`
+
+This means repeated calls to `StreamSupplier.stream()` will reuse the same `EntityManager`. We recommend using a try-with-resources block to automatically close the `StreamSupplier` when done with the operations:
+
+[source,java]
 ----
-JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") 
-        .build();
+final JPAStreamer jpaStreamer = JPAStreamer.of("sakila"); 
 
-long count = jpaStreamer.stream(Film.class) <1>
-        .filter(Film$.title.startsWith("A"))
-        .count();
+try (final StreamSupplier<Film> streamSupplier = jpaStreamer.createStreamSupplier()) {
+    final List<Film> shortFilms = streamSupplier.stream(Film.class)
+        .filter(Film$.length.lessThan(60))
+        .collect(toList()); <1>
 
-jpaStreamer.resetStreamer(Film.class); <2>
-
-long count2 = jpaStreamer.stream(Film.class) <3>
-        .filter(Film$.title.startsWith("A"))
-        .count();
+    final List<Film> longFilms = streamSupplier.stream(Film.class)
+        .filter(Film$.length.greatherThanOrEqual(61))
+        .collect(toList()); <1>
+} <2>
 ----
-<1> Creates a Streamer of `Film` entities
-<2> Resets (removes) the Streamer of `Film` entities. This resets the first-level cache. 
-<3> Creates a new Streamer of `Film` entities
+<1> The `StreamSupplier` and the underlying `EntityManager` stays open when executing the terminal operation 
+<2> The `StreamSupplier` and the underlying `EntityManager` is closed
+
+NOTE: The `javax.persistence.EntityManager` associated with the `StreamSupplier` has a first-layer cache. Thus by default, database changes performed by another application, or made directly on the database, may not be detected between calls to `StreamSupplier.stream()`. To ensure that the cache is cleared between each fetch, use xref:_stream[JPAStreamer.stream()] instead. 
+
+WARNING: If you instantiate `JPAStreamer` with a `Supplier<EntityManager>` as described xref:_supplier[here], JPAStreamer will not close the underlying Entity Manager. In that case the lifecycle of the obtained Entity Managers is managed by the supplier.
 
 == Using Query Hints 
 In complex scenarios or when dealing with specific database systems, it may be necessary to provide additional guidance to the underlying JPA provider for optimal query execution. This is where query hints come into play, allowing developers to control and influence various aspects of the query execution process. The query hints influence e.g. the execution plan chosen by the JPA provider, potentially leading to improved query performance or tailored behavior based on specific requirements.
@@ -183,7 +245,7 @@ List<Film> films = jpaStreamer.stream(sc)
     .collect(Collectors::toList); 
 ----
 
-WARNING: While query hints can be powerful tools for query optimization, it's important to use them carefully and with a clear understanding of their impact. Misusing or overusing query hints can lead to unintended consequences. 
+WARNING: While query hints can be powerful tools for query optimization, it's important to use them carefully and with a clear understanding of their impact. Misusing or overusing query hints can lead to unintended consequences.
 
 == What's Next 
 The xref:sql-equivalents.adoc[next section] demonstrates how to use the available Stream operators and how they map to SQL constructs.

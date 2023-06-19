@@ -14,6 +14,7 @@ package com.speedment.jpastreamer.application.standard.internal;
 
 import static java.util.Objects.requireNonNull;
 
+import com.speedment.jpastreamer.application.StreamSupplier;
 import com.speedment.jpastreamer.autoclose.AutoCloseFactory;
 import com.speedment.jpastreamer.builder.BuilderFactory;
 import com.speedment.jpastreamer.renderer.Renderer;
@@ -25,36 +26,41 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.ServiceLoader;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-final class StandardStreamer<T> implements Streamer<T> {
+final class StandardStreamSupplier<T> implements StreamSupplier<T> {
 
     private final Renderer renderer;
     private final BuilderFactory builderFactory;
     private final AutoCloseFactory autoCloseFactory;
     private final StreamConfiguration<T> streamConfiguration;
+    private final boolean closeEntityManager; 
+    private static final AtomicBoolean closed = new AtomicBoolean(false);
 
-    StandardStreamer(final StreamConfiguration<T> streamConfiguration, final EntityManagerFactory entityManagerFactory) {
-        this(streamConfiguration, entityManagerFactory::createEntityManager); 
+    StandardStreamSupplier(final StreamConfiguration<T> streamConfiguration, final EntityManagerFactory entityManagerFactory, boolean closeEntityManager) {
+        this(streamConfiguration, entityManagerFactory::createEntityManager, closeEntityManager); 
     }
     
-    StandardStreamer(final StreamConfiguration<T> streamConfiguration, final Supplier<EntityManager> entityManagerSupplier) {
+    StandardStreamSupplier(final StreamConfiguration<T> streamConfiguration, final Supplier<EntityManager> entityManagerSupplier, boolean closeEntityManager) {
         this.streamConfiguration = requireNonNull(streamConfiguration);
         requireNonNull(entityManagerSupplier);
         this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class, ServiceLoader::load);
         this.autoCloseFactory = RootFactory.getOrThrow(AutoCloseFactory.class, ServiceLoader::load);
         this.renderer = RootFactory.getOrThrow(RendererFactory.class, ServiceLoader::load)
                 .createRenderer(entityManagerSupplier);
+        this.closeEntityManager = closeEntityManager;
     }
 
-    StandardStreamer(final StreamConfiguration<T> streamConfiguration, final EntityManager entityManager) {
+    StandardStreamSupplier(final StreamConfiguration<T> streamConfiguration, final EntityManager entityManager, boolean closeEntityManager) {
         this.streamConfiguration = requireNonNull(streamConfiguration);
         requireNonNull(entityManager);
         this.builderFactory = RootFactory.getOrThrow(BuilderFactory.class, ServiceLoader::load);
         this.autoCloseFactory = RootFactory.getOrThrow(AutoCloseFactory.class, ServiceLoader::load);
         this.renderer = RootFactory.getOrThrow(RendererFactory.class, ServiceLoader::load)
                 .createRenderer(entityManager);
+        this.closeEntityManager = closeEntityManager; 
     }
 
     @Override
@@ -64,7 +70,16 @@ final class StandardStreamer<T> implements Streamer<T> {
 
     @Override
     public void close() {
-        //System.out.println("Closing Streamer<" + entityClass.getSimpleName() + ">");
-        renderer.close();
+        if (this.closeEntityManager) {
+            renderer.close();
+        } else if (closed.compareAndSet(false, true)) {
+            System.out.println("JPAStreamer does not close Entity Managers obtained by a given Supplier<EntityManager>.");
+        }
     }
+
+    @Override
+    public StreamConfiguration<T> configuration() {   
+        return this.streamConfiguration; 
+    }
+
 }

@@ -19,13 +19,13 @@ import com.speedment.jpastreamer.analytics.AnalyticsReporterFactory;
 import com.speedment.jpastreamer.announcer.Announcer;
 import com.speedment.jpastreamer.appinfo.ApplicationInformation;
 import com.speedment.jpastreamer.application.JPAStreamer;
+import com.speedment.jpastreamer.application.StreamSupplier;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import jakarta.persistence.EntityManager;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -33,7 +33,6 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     private final Supplier<EntityManager> entityManagerSupplier;
     private final Runnable closeHandler;
-    private final Map<StreamConfiguration<?>, Streamer<?>> streamerCache;
     private final AnalyticsReporter analyticsReporter;
     
     private final boolean closeEntityManagers; 
@@ -42,7 +41,6 @@ final class StandardJPAStreamer implements JPAStreamer {
         this.closeHandler = requireNonNull(closeHandler);
         this.entityManagerSupplier = requireNonNull(entityManagerSupplier);
         this.closeEntityManagers = closeEntityManagers; 
-        streamerCache = new ConcurrentHashMap<>();
         final ApplicationInformation applicationInformation = RootFactory.getOrThrow(ApplicationInformation.class, ServiceLoader::load);
         final AnalyticsReporterFactory analyticsReporterFactory = RootFactory.getOrThrow(AnalyticsReporterFactory.class, ServiceLoader::load);
         analyticsReporter = analyticsReporterFactory.createAnalyticsReporter(applicationInformation.implementationVersion(), demoMode);
@@ -51,46 +49,29 @@ final class StandardJPAStreamer implements JPAStreamer {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T> Stream<T> stream(final StreamConfiguration<T> streamConfiguration) {
         requireNonNull(streamConfiguration);
-        if (cached(streamConfiguration)) {
-            return (Stream<T>) streamerCache
-                    .computeIfAbsent(streamConfiguration, ec -> new StandardStreamer<>(streamConfiguration, entityManagerSupplier))
-                    .stream();
-        } else {
-            final Streamer<T> streamer = new StandardStreamer<>(streamConfiguration, entityManagerSupplier);
-            return closeEntityManagers ? 
+        final StreamSupplier<T> streamer = new StandardStreamSupplier<>(streamConfiguration, entityManagerSupplier, this.closeEntityManagers);
+        return closeEntityManagers ? 
                     streamer.stream().onClose(streamer::close) : 
-                    streamer.stream(); 
-        }
+                    streamer.stream();
     }
 
     @Override
-    public void resetStreamer(Class<?>... entityClasses) throws UnsupportedOperationException{
-        if (!closeEntityManagers) {
-            throw new UnsupportedOperationException("An instance of JPAStreamer.of(Supplier<EntityManager>) is not responsible for the lifecycle of the supplied Entity Managers, and thus cannot reset the Entity Managers."); 
-        }
-        Arrays.stream(entityClasses)
-                .map(StreamConfiguration::of)
-                .filter(streamerCache::containsKey)
-                .forEach(sc -> {
-                    streamerCache.get(sc).close(); // Close Entity Manager
-                    streamerCache.remove(sc);
-                }); 
+    public <T> StreamSupplier<T> createStreamSupplier(StreamConfiguration<T> streamConfiguration) { 
+        requireNonNull(streamConfiguration); 
+        return new StandardStreamSupplier<>(streamConfiguration, entityManagerSupplier, this.closeEntityManagers); 
+    }
+
+    @Override
+    public void resetStreamer(Class<?>... entityClasses) {
+        // As there no longer exists a Streamer cache, this method has no effect
     }
 
     @Override
     public void close() {
-        streamerCache.values().forEach(Streamer::close);
         analyticsReporter.stop();
         closeHandler.run(); 
-    }
-
-    // Only cache simple configurations to limit the number of objects held
-    // See https://github.com/speedment/jpa-streamer/issues/56
-    private <T> boolean cached(final StreamConfiguration<T> streamConfiguration) {
-        return streamConfiguration.joins().isEmpty() && !streamConfiguration.selections().isPresent(); 
     }
 
     private void printGreeting(final ApplicationInformation info) {
