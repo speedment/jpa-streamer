@@ -23,7 +23,7 @@
     </parent>
 
     <properties>
-        <cdi.version>2.0.SP1</cdi.version>
+        <cdi.version>2.0</cdi.version>
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
