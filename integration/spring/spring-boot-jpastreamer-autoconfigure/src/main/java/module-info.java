@@ -11,7 +11,7 @@
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
 module jpastreamer.integration.spring.autoconfigure {
-    requires transitive jpastreamer.application;
+    requires jpastreamer.application;
 
     requires transitive spring.boot.autoconfigure;
     requires transitive spring.context;
