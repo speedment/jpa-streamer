@@ -12,6 +12,10 @@
  */
 package com.speedment.jpastreamer.rootfactory.internal;
 
+import com.speedment.jpastreamer.rootfactory.Priority;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -62,9 +66,15 @@ public final class InternalRootFactory {
     }
 
     private static <S> S getHelper(final Class<S> service, Function<Class<S>, ServiceLoader<S>> loader) {
-        final Iterator<S> iterator = loader.apply(service).iterator();
-        if (iterator.hasNext()) {
-            return iterator.next();
+        Optional<ServiceLoader.Provider<S>> provider = loader.apply(service)
+                .stream()
+                .min(Comparator.comparingInt(p -> {
+                    final boolean knownPriority = Arrays.stream(p.type().getAnnotations())
+                            .anyMatch(a -> a.annotationType().equals(Priority.class));
+                    return (knownPriority) ? p.type().getAnnotation(Priority.class).value() : 20;
+                }));
+        if (provider.isPresent()) {
+            return provider.get().get();
         } else {
             // If not found though the ServiceLoader, try to guess the standard implementation
             return getStandard(service);

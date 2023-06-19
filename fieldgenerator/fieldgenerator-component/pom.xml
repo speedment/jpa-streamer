@@ -19,14 +19,13 @@
     <parent>
         <artifactId>fieldgenerator</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
-        <version>3.0.1</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>fieldgenerator-component</artifactId>
 
     <properties>
-        <module-name>jpastreamer.fieldgenerator.component</module-name>
         <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
 

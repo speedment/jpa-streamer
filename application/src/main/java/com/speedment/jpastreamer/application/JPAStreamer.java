@@ -25,7 +25,10 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * A JPAStreamer is responsible for creating Streams from data sources
+ * A JPAStreamer is responsible for creating Streams from data sources,
+ * alternatively for creating {@link StreamSupplier}s that can be reused to create Streams of the same Entity source, 
+ * see {@link JPAStreamer#createStreamSupplier(StreamConfiguration)}
+ * <p>
  * Entity sources can be RDBMSes, files or other data sources.
  *
  * A JPAStreamer must be thread safe and be able to handle several reading and
@@ -138,7 +141,9 @@ public interface JPAStreamer {
      *
      * @param <T> The element type (type of a class token)
      * @param streamConfiguration a configuration including an entity class (annotated with {@code @Entity})
-     * @return a new stream over all entities in this table in unspecified order
+     * @return a new {@link Stream} over all entities in the
+                underlying data source (e.g database) described by the provided 
+                {@code streamConfiguration}
      *
      * @throws RuntimeException if an error occurs during a Terminal Operation
      * (e.g. an SqlException is thrown by the underlying database)
@@ -162,7 +167,7 @@ public interface JPAStreamer {
      *         underlying data source (e.g database) of the provided type
      *         {@code entityClass}
      *
-     * @see JPAStreamer#stream(StreamConfiguration) for furhter details
+     * @see JPAStreamer#stream(StreamConfiguration) for further details
      */
     default <T> Stream<T> stream(final Class<T> entityClass) {
         requireNonNull(entityClass);
@@ -174,6 +179,7 @@ public interface JPAStreamer {
      * underlying data source (e.g database) of the {@code entity} specified
      * by the provided {@code projection}.
      * <p>
+     *     
      * This method is a convenience method equivalent to:
      * <pre>{@code stream(StreamConfiguration.of(projection.entityClass()).select(projection))}</pre>
      *
@@ -191,18 +197,106 @@ public interface JPAStreamer {
     }
 
     /**
+     * Creates and returns a new {@link StreamSupplier} that can create 
+     * {@link Stream}s over all entities in the underlying data source (e.g database) 
+     * of the provided type {@code entityClass}. 
+     * <p>
+     * The provided {@link StreamSupplier} will <em>not</em> be closed whenever
+     * the generated {@link Stream} instance is closed.
+     * <p>
+     * If you are using the same Stream source frequently e.g. Film.class, 
+     * consider configuring a {@link StreamSupplier} that can supply 
+     * {@link Stream}s from the same source over and over again. 
+     * This save resources and avoids instantiating a new {@link EntityManager} for each new {@link Stream}.
+     * <p>
+     * Here is an example of using a {@link StreamSupplier}: 
+     * <pre>{@code
+     *    final StreamSupplier<Film> streamSupplier = jpaStreamer.createStreamSupplier(Film.class);
+     *    List<Film> longFilms = streamSupplier.stream()
+     *       .filter(Film$.name.equal("Casablanca"))
+     *       .collect(toList()); // the terminal operation does not close the Stream Supplier and its Entity Manager
+     *     
+     *    // ... repeated uses of the supplier 
+     *      
+     *    streamSupplier.close(); // closes the Entity Manager
+     * }</pre>
+     * The above is equal to:  
+     * <pre>{@code
+     *    List<Film> films = jpaStreamer.stream(Film.class) 
+     *       .filter(Film$.name.equal("Casablanca"))
+     *       .collect(toList()); // the terminal operation closes the underlying StreamSupplier and its Entity Manager
+     * }</pre>
+     * <p>
+     *
+     * @param <T> The element type (type of a class token)
+     * @param streamConfiguration a configuration including an entity class (annotated with {@code @Entity})
+     * @return a new {@link StreamSupplier} that can create 
+     *          {@link Stream}s over all entities in the
+     *          underlying data source (e.g database) described by the provided 
+     *          {@code streamConfiguration}
+     */
+    <T> StreamSupplier<T> createStreamSupplier(StreamConfiguration<T> streamConfiguration);
+
+    /**
+     * Creates and returns a new {@link StreamSupplier} that can create 
+     * {@link Stream}s over all entities in the underlying data source (e.g database) 
+     *  of the provided type {@code entityClass}.
+     * <p>
+     * This method is a convenience method equivalent to:
+     * <pre>{@code createStreamer(StreamConfiguration.of(entityClass))}</pre>
+     *
+     * @param <T> The element type (type of a class token)
+     * @param entityClass to use in generated {@link Stream}s
+     * @return a new {@link StreamSupplier} that can create 
+     *          {@link Stream}s over all entities in the
+     *          underlying data source (e.g database) of the provided 
+     *          type {@code entityClass}
+     *
+     * @see JPAStreamer#createStreamSupplier(StreamConfiguration) (StreamConfiguration) for further details
+     */
+    default <T> StreamSupplier<T> createStreamSupplier(final Class<T> entityClass) {
+        requireNonNull(entityClass); 
+        return createStreamSupplier(StreamConfiguration.of(entityClass)); 
+    }
+
+    /**
+     * Creates and returns a new {@link StreamSupplier} that can create 
+     * {@link Stream}s over all entities in the underlying data source (e.g database) 
+     *  of the {@code entity} specified by the provided {@code projection}.
+     * <p>
+     * This method is a convenience method equivalent to:
+     * <pre>{@code createStreamer(StreamConfiguration.of(entityClass))}</pre>
+     *
+     * @param <T> The element type (type of a class token)
+     * @param projection to use 
+     * @return a new {@link StreamSupplier} that can create 
+     *          {@link Stream}s over all entities in the
+     *          underlying data source (e.g database) of the {@code entity}
+     *          specified by the provided {@code projection}.
+     *
+     * @see JPAStreamer#createStreamSupplier(StreamConfiguration) (StreamConfiguration) for further details
+     */
+    default <T> StreamSupplier<T> createStreamSupplier(final Projection<T> projection) {
+        requireNonNull(projection); 
+        return createStreamSupplier(StreamConfiguration.of(projection.entityClass()).selecting(projection));
+    }
+    
+    /**
      * Resets the Streamer associated with the provided Entity classes.
      * <p> 
      * This will create a new instance of the underlying {@code jakarta.persistence.EntityManager}, removing all entries of the 
-     * associated Entity class from the first-level cache. 
+     * associated Entity class from the first-level cache. The old {@code jakarta.persistence.EntityManager} is closed upon removal from the cache. 
      * 
      * In case JPAStreamer was configured with a {@code Supplier<EntityManager>} the lifecycle of the Entity Managers is 
      * not managed by JPAStreamer, thus use of the method is not permitted and will result in an {@code UnsupportedOperationException}. 
      * 
+     * @deprecated since 3.0.2, JPAStreamer no longer caches Streamers thus there is no need for a method that resets the cache.
+     * If you wish to manage the Streamer lifecycle manually, see {@link JPAStreamer#createStreamSupplier(StreamConfiguration)}
      * @param entityClasses of the streamer  
      * @throws UnsupportedOperationException if JPAStreamer is configured with a Supplier, see {@code com.speedment.jpastreamer.application.JPAStreamer#of(java.util.function.Supplier)}
      */
-    void resetStreamer(Class<?>... entityClasses) throws UnsupportedOperationException; 
+    @Deprecated(since = "3.0.2", forRemoval = true)
+    void resetStreamer(Class<?>... entityClasses);
     
     /**
      * Closes this JPAStreamer and releases any resources potentially held.

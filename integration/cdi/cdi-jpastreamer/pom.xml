@@ -19,15 +19,11 @@
     <parent>
         <groupId>com.speedment.jpastreamer.integration.cdi</groupId>
         <artifactId>cdi-parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cdi-jpastreamer</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.integration.cdi</module-name>
-    </properties>
 
     <name>Integration - CDI</name>
     <description>

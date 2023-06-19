@@ -12,6 +12,8 @@
  */
 package com.speedment.jpastreamer.pipeline.intermediate;
 
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperation;
+
 import java.util.Comparator;
 import java.util.function.*;
 import java.util.stream.DoubleStream;
@@ -22,8 +24,7 @@ import java.util.stream.Stream;
 public interface IntermediateOperationFactory {
 
     <T> IntermediateOperation<Stream<T>, Stream<T>> createFilter(Predicate<? super T> predicate);
-
-
+    
     <T, R> IntermediateOperation<Stream<T>, Stream<R>> createMap(Function<? super T, ? extends R> mapper);
 
     <T> IntermediateOperation<Stream<T>, IntStream> createMapToInt(ToIntFunction<? super T> mapper);

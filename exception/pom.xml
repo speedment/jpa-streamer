@@ -19,15 +19,11 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>jpastreamer-parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>exception</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.exception</module-name>
-    </properties>
 
     <name>Exception</name>
     <description>

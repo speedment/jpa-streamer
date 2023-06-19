@@ -21,6 +21,8 @@ package com.speedment.jpastreamer.fieldgenerator.exception;
 
 public class FieldGeneratorProcessorException extends RuntimeException {
 
+    private static final long serialVersionUID = 55832323589303921L;
+    
     public FieldGeneratorProcessorException() {}
 
     public FieldGeneratorProcessorException(String message) {

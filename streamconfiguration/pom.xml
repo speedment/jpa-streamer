@@ -19,15 +19,11 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>jpastreamer-parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>streamconfiguration</artifactId>
-
-    <properties>
-        <module-name>jpastreamer.streamconfiguration</module-name>
-    </properties>
 
     <name>StreamConfiguration</name>
     <description>
