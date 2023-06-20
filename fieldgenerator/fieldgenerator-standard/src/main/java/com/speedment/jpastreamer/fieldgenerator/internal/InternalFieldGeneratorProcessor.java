@@ -98,7 +98,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         Set<? extends Element> entities = roundEnv.getElementsAnnotatedWith(Entity.class);
         
         if (entities.isEmpty()) {
-            System.out.format("[JPAStreamer Field Generator Processor] Found no classes annotated with jakarta.persistence.Entity.\n");
+            messager.printMessage(Diagnostic.Kind.WARNING, "[JPAStreamer Field Generator Processor] Found no classes annotated with jakarta.persistence.Entity.\n");
             return true; 
         }
         
@@ -107,7 +107,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .forEach(ae -> {
                     try {
                         final String entityName = ae.asType().toString();
-                        System.out.format("[JPAStreamer Field Generator Processor] Generating class for: %s\n", entityName);
+                        messager.printMessage(Diagnostic.Kind.NOTE, "[JPAStreamer Field Generator Processor] Generating class for: " + entityName + "\n");
                         final String shortEntityName = shortName(entityName);
 
                         final String prefix = processingEnv.getOptions().getOrDefault("jpaStreamerPrefix", "");
@@ -189,8 +189,9 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         final String standardJavaName = javaNameFromExternal(fieldName);
 
         final String standardGetterName = getterPrefix + standardJavaName;
-
-        if (getters.get(standardGetterName) != null || isGetters.contains(standardGetterName)) {
+        final boolean disallowedAccessLevel = DISALLOWED_ACCESS_LEVELS.contains(getterAccessLevel(field).orElse("No access level defined"));
+        
+        if (!disallowedAccessLevel && (getters.get(standardGetterName) != null || isGetters.contains(standardGetterName))) {
             // We got lucky because the user elected to conform
             // to the standard JavaBean notation.
             return entityName + "::" + standardGetterName;
@@ -217,7 +218,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         // Todo: This should be an error in the future
         messager.printMessage(Diagnostic.Kind.WARNING, "Class " + entityName + " is not a proper JavaBean because " + field.getSimpleName().toString() + " has no standard getter. Fix the issue to ensure stability.");
         return lambdaName + " -> {throw new " + IllegalJavaBeanException.class.getSimpleName() + "(" + entityName + ".class, \"" + fieldName + "\");}";
-
     }
 
     private File generatedEntity(final Map<? extends Element, String> enclosedFields, final String entityName, final String genEntityName, final String packageName) {
