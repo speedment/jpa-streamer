@@ -13,6 +13,9 @@
 package com.speedment.jpastreamer.fieldgenerator.test;
 
 import jakarta.persistence.*;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -76,9 +79,13 @@ public class Film {
     private Integer rentalDuration;
 
     @Column(name = "rental_rate", columnDefinition = "decimal(4,2)")
+    @NotNull
+    @NotEmpty
     private Float rentalRate;
 
     @Column(name = "length", columnDefinition = "smallint(5)")
+    @NotNull
+    @NotEmpty
     private Integer length;
 
     @Column(name = "replacement_cost", columnDefinition = "decimal(5,2)")
@@ -87,7 +94,9 @@ public class Film {
     @Column(name = "rating", columnDefinition = "enum('G','PG','PG-13','R','NC-17')")
     private String rating;
 
-    @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")
+    @Column(name = "special_features", columnDefinition = "set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')")    
+    @NotNull
+    @NotEmpty
     private Set<String> specialFeatures; // Should be Set<String>
 
     @Column(name = "last_update", nullable = false, columnDefinition = "timestamp")

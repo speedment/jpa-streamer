@@ -343,8 +343,21 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
 
     private String trimAnnotations(Element field) {
         final String fieldType = field.asType().toString();
-        final int index = fieldType.lastIndexOf(' ');
-        return index < 0 ? fieldType : fieldType.substring(index + 1);
+        final List<String> annotations = field.getAnnotationMirrors().stream()
+                .map(Object::toString)
+                .filter(s -> !(s.contains("jakarta"))) 
+                .collect(Collectors.toList()); 
+        if (annotations.isEmpty() && !fieldType.contains("@")) {
+            final int index = fieldType.lastIndexOf(' ');
+            return index < 0 ? fieldType : fieldType.substring(index + 1);
+        } 
+        String result = fieldType; 
+        for (String annotation : annotations) {
+            result = result.replace(annotation, "");
+        }
+        result = result.replace(" ", ""); 
+        result = result.replace(",", "");
+        return result; 
     }
 
     private Type primitiveFieldType(Type fieldType, Type entityType) {
