@@ -17,31 +17,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.speedment.jpastreamer</groupId>
-        <artifactId>jpastreamer-parent</artifactId>
+        <groupId>com.speedment.jpastreamer.integration</groupId>
+        <artifactId>integration-parent</artifactId>
         <version>3.0.3-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <spring.boot.version>2.7.1</spring.boot.version>
+    </properties>
+
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>provider</artifactId>
+    <groupId>com.speedment.jpastreamer.integration.spring</groupId>
+    <artifactId>spring-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Provider</name>
+    <name>Integration - Spring</name>
 
     <modules>
-        <module>application-standard</module>
-        <module>autoclose-standard</module>
-        <module>builder-standard</module>
-        <module>pipeline-standard</module>
-        <module>renderer-standard</module>
-        <module>interopoptimizer-standard</module>
-        <module>merger-standard</module>
-        <module>criteria-standard</module>
-        <module>termopmodifier-standard</module>
-        <module>termopoptimizer-standard</module>
-        <module>analytics-standard</module>
-        <module>appinfo-standard</module>
-        <module>streamconfiguration-standard</module>
+        <module>jpastreamer.integration.spring.autoconfigure</module>
     </modules>
-
 </project>

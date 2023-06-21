@@ -85,8 +85,9 @@ public interface StreamConfiguration<T> {
      * This prevents the N+1 problem if the field is accessed in
      * elements in the future Stream.
      * </p>
-     *
+     * 
      * @param field to join
+     * @param joinType type of join, e.g. left join 
      * @return a new StreamConfiguration configured with
      * the provided {@code field} so that it will be
      * eagerly joined when producing elements in the future Stream
@@ -125,6 +126,7 @@ public interface StreamConfiguration<T> {
      *     }
      * }</pre>
      *
+     * @param projection the projection to use
      * @return a new StreamConfiguration configured with
      * the provided {@code projection} so that it will use
      * the projected columns to initialize when creating
@@ -147,6 +149,9 @@ public interface StreamConfiguration<T> {
      * This method is useful when you need to customize how a query will be executed
      * by the underlying persistence provider.
      * <p>
+     * 
+     * @param hintName the hint
+     * @param value 
      * 
      * @return a new StreamConfiguration configured with
      * the provided {@code hintName} and its {@code value}
@@ -173,6 +178,12 @@ public interface StreamConfiguration<T> {
 
     }
 
+    /**
+     * JoinConfiguration instances are used to configure  
+     * Stream joins. 
+     * 
+     * @param <T> the entity type
+     */ 
     interface JoinConfiguration<T> {
         /**
          * Returns the {@link Field} for this JoinConfiguration.

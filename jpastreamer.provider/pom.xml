@@ -17,38 +17,31 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jpastreamer-parent</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
+        <artifactId>jpastreamer-parent</artifactId>
         <version>3.0.3-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fieldgenerator</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>provider</artifactId>
     <packaging>pom</packaging>
 
-    <name>FieldGenerator - Parent</name>
-    
-    <profiles>
-        <!-- DO NOT CHANGE THE *ORDER* IN WHICH THESE PROFILES ARE DEFINED! -->
-        <profile>
-            <id>release</id>
-            <modules>
-                <!--Only deploy this module-->
-                <module>fieldgenerator-standard</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>fieldgenerator-standard</module>
-                <module>fieldgenerator-component</module>
-                <module>fieldgenerator-test</module>
-                <module>fieldgenerator-test-package</module>
-            </modules>
-        </profile>
-    </profiles>
+    <name>Provider</name>
+
+    <modules>
+        <module>jpastreamer.application.standard</module>
+        <module>jpastreamer.autoclose.standard</module>
+        <module>jpastreamer.builder.standard</module>
+        <module>jpastreamer.pipeline.standard</module>
+        <module>jpastreamer.renderer.standard</module>
+        <module>jpastreamer.interopoptimizer.standard</module>
+        <module>jpastreamer.merger.standard</module>
+        <module>jpastreamer.criteria.standard</module>
+        <module>jpastreamer.termopmodifier.standard</module>
+        <module>jpastreamer.termopoptimizer.standard</module>
+        <module>jpastreamer.analytics.standard</module>
+        <module>jpastreamer.appinfo.standard</module>
+        <module>jpastreamer.streamconfiguration.standard</module>
+    </modules>
 
 </project>

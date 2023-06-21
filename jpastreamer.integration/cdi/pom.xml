@@ -23,17 +23,17 @@
     </parent>
 
     <properties>
-        <spring.boot.version>2.7.1</spring.boot.version>
+        <cdi.version>2.0.SP1</cdi.version>
     </properties>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.speedment.jpastreamer.integration.spring</groupId>
-    <artifactId>spring-parent</artifactId>
+    <groupId>com.speedment.jpastreamer.integration.cdi</groupId>
+    <artifactId>cdi-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Integration - Spring</name>
+    <name>Integration - CDI</name>
 
     <modules>
-        <module>spring-boot-jpastreamer-autoconfigure</module>
+        <module>jpastreamer.integration.cdi</module>
     </modules>
 </project>

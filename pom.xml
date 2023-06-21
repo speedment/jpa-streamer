@@ -41,29 +41,29 @@
     
     <!-- Modules -->
     <modules>
-        <module>exception</module>
-        <module>rootfactory</module>
-        <module>field</module>
-        <module>application</module>
-        <module>javanine</module>
-        <module>autoclose</module>
-        <module>pipeline</module>
-        <module>builder</module>
-        <module>renderer</module>
-        <module>interopoptimizer</module>
-        <module>merger</module>
-        <module>criteria</module>
-        <module>termopmodifier</module>
-        <module>termopoptimizer</module>
-        <module>provider</module>
-        <module>fieldgenerator</module>
-        <module>core</module>
-        <module>integration</module>
-        <module>analytics</module>
-        <module>appinfo</module>
-        <module>streamconfiguration</module>
-        <module>announcer</module>
-        <module>projection</module>
+        <module>jpastreamer.exception</module>
+        <module>jpastreamer.rootfactory</module>
+        <module>jpastreamer.field</module>
+        <module>jpastreamer.application</module>
+        <module>jpastreamer.javanine</module>
+        <module>jpastreamer.autoclose</module>
+        <module>jpastreamer.pipeline</module>
+        <module>jpastreamer.builder</module>
+        <module>jpastreamer.renderer</module>
+        <module>jpastreamer.interopoptimizer</module>
+        <module>jpastreamer.merger</module>
+        <module>jpastreamer.criteria</module>
+        <module>jpastreamer.termopmodifier</module>
+        <module>jpastreamer.termopoptimizer</module>
+        <module>jpastreamer.provider</module>
+        <module>jpastreamer.fieldgenerator</module>
+        <module>jpastreamer.core</module>
+        <module>jpastreamer.integration</module>
+        <module>jpastreamer.analytics</module>
+        <module>jpastreamer.appinfo</module>
+        <module>jpastreamer.streamconfiguration</module>
+        <module>jpastreamer.announcer</module>
+        <module>jpastreamer.projection</module>
     </modules>
     
     <!-- Properties -->
@@ -534,6 +534,7 @@
                             <keywords>true</keywords>
                             <!--                                <docfilessubdirs>true</docfilessubdirs>-->
                             <excludePackageNames>*.internal:*.internal.*</excludePackageNames>
+                            <excludePackageNames>*.test:*.test.*</excludePackageNames>
                             <!--                                <includeDependencySources>true</includeDependencySources>-->
 
                             <additionalJOptions>

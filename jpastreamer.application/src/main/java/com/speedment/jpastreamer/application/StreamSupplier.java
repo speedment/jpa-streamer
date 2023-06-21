@@ -17,9 +17,9 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 import java.util.stream.Stream;
 
 /**
- * A Stream Supplier is responsible for creating Streams from a data source
+ * A Stream Supplier is responsible for creating Streams from a data source.
  * An entity source can be RDBMSes, files or other data sources.
- *
+ * <p>
  * A Stream Supplier must be thread safe and be able to handle several reading and
  * writing threads at the same time.
  *
