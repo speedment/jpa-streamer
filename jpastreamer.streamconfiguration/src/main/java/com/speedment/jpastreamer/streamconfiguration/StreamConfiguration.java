@@ -167,7 +167,7 @@ public interface StreamConfiguration<T> {
      * any object obtained from instances (or subsequent derived instances)
      * are immutable or unmodifiable.
      *
-     * @param <T>         The element type (type of a class token)
+     * @param <T> the type of the stream elements
      * @param entityClass a class token for an entity class (annotated with {@code @Entity})
      * @return a new JPAStreamerBuilder
      */

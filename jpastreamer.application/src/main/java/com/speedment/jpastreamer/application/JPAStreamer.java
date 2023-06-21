@@ -139,7 +139,7 @@ public interface JPAStreamer {
      * </li>
      * </ul>
      *
-     * @param <T> The element type (type of a class token)
+     * @param <T> the type of the stream elements
      * @param streamConfiguration a configuration including an entity class (annotated with {@code @Entity})
      * @return a new {@link Stream} over all entities in the
                 underlying data source (e.g database) described by the provided 
@@ -161,7 +161,7 @@ public interface JPAStreamer {
      * This method is a convenience method equivalent to:
      * <pre>{@code stream(StreamConfiguration.of(entityClass))}</pre>
      *
-     * @param <T> The element type (type of a class token)
+     * @param <T> the type of the stream elements
      * @param entityClass to use
      * @return a new {@link Stream} over all entities in the
      *         underlying data source (e.g database) of the provided type
@@ -183,7 +183,7 @@ public interface JPAStreamer {
      * This method is a convenience method equivalent to:
      * <pre>{@code stream(StreamConfiguration.of(projection.entityClass()).select(projection))}</pre>
      *
-     * @param <T> The element type (type of a class token)
+     * @param <T> the type of the stream elements
      * @param projection to use
      * @return a new {@link Stream} over all entities in the
      *         underlying data source (e.g database) of the {@code entity}
@@ -228,7 +228,7 @@ public interface JPAStreamer {
      * }</pre>
      * <p>
      *
-     * @param <T> The element type (type of a class token)
+     * @param <T> the type of the stream elements
      * @param streamConfiguration a configuration including an entity class (annotated with {@code @Entity})
      * @return a new {@link StreamSupplier} that can create 
      *          {@link Stream}s over all entities in the
@@ -245,7 +245,7 @@ public interface JPAStreamer {
      * This method is a convenience method equivalent to:
      * <pre>{@code createStreamer(StreamConfiguration.of(entityClass))}</pre>
      *
-     * @param <T> The element type (type of a class token)
+     * @param <T> the type of the stream elements
      * @param entityClass to use in generated {@link Stream}s
      * @return a new {@link StreamSupplier} that can create 
      *          {@link Stream}s over all entities in the
@@ -267,7 +267,7 @@ public interface JPAStreamer {
      * This method is a convenience method equivalent to:
      * <pre>{@code createStreamer(StreamConfiguration.of(entityClass))}</pre>
      *
-     * @param <T> The element type (type of a class token)
+     * @param <T> the type of the stream elements
      * @param projection to use 
      * @return a new {@link StreamSupplier} that can create 
      *          {@link Stream}s over all entities in the
