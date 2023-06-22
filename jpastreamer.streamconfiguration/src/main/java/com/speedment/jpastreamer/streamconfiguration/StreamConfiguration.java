@@ -150,8 +150,8 @@ public interface StreamConfiguration<T> {
      * by the underlying persistence provider.
      * <p>
      * 
-     * @param hintName the hint
-     * @param value 
+     * @param hintName name of the property or hint
+     * @param value value for the property or hint.
      * 
      * @return a new StreamConfiguration configured with
      * the provided {@code hintName} and its {@code value}

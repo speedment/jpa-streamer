@@ -27,13 +27,41 @@ import java.util.stream.Stream;
 /**
  * A JPAStreamer is responsible for creating Streams from data sources,
  * alternatively for creating {@link StreamSupplier}s that can be reused to create Streams of the same Entity source, 
- * see {@link JPAStreamer#createStreamSupplier(StreamConfiguration)}
+ * see {@link JPAStreamer#createStreamSupplier(StreamConfiguration)}. Entity sources can be RDBMSes, files or other data sources. 
  * <p>
- * Entity sources can be RDBMSes, files or other data sources.
- *
- * A JPAStreamer must be thread safe and be able to handle several reading and
+ * A JPAStreamer must be thread safe and able to handle several reading and
  * writing threads at the same time.
+ * <p>
+ * JPAStreamer can be instantiated using different approaches depending on your requirements.
  *
+ * <h3>1. Using the persistence unit name</h3>
+ * The persistence unit name can be used to initialize JPAStreamer as follows:
+ * <pre>{@code
+ * final JPAStreamer jpaStreamer = JPAStreamer.of("sakila");
+ * }</pre>
+ *
+ * Replace "sakila" with the name of your persistence unit as specified in the JPA configuration file.
+ * JPAStreamer will establish a database connection based on the provided persistence unit name.
+ * This method creates a new {@code jakarta.persistence.EntityManagerFactory} managed by JPAStreamer. 
+ *
+ * <h3>2. Using an existing EntityManagerFactory</h3>
+ * If you already have an existing {@code EntityManagerFactory}, you can initialize JPAStreamer as follows:
+ * <pre>{@code
+ * final EntityManagerFactory emf = Persistence.createEntityManagerFactory("sakila");
+ * final JPAStreamer jpaStreamer = JPAStreamer.of(emf);
+ * }</pre>
+ *
+ * In this case, JPAStreamer will not manage the lifecycle of the {@code EntityManagerFactory}. 
+ * The provided {@code EntityManagerFactory} will be used to obtain {@code EntityManager}s, which will be managed by JPAStreamer.
+ *
+ * <h3>3. Using a Supplier of EntityManagers</h3>
+ * Another third option is to provide a Supplier of EntityManagers:
+ * <pre>{@code
+ * final EntityManagerFactory emf = Persistence.createEntityManagerFactory("sakila");
+ * final JPAStreamer jpaStreamer = JPAStreamer.of(emf::createEntityManager);
+ * }</pre>
+ * This approach is useful when you want to supply your own EntityManagers.
+ * JPAStreamer will not manage the lifecycle of the EntityManagers supplied through the Supplier.
  * @author Per Minborg
  * @since 0.1.0
  */
@@ -42,41 +70,38 @@ public interface JPAStreamer {
     /**
      * Creates and returns a new {@link Stream} over all entities in the
      * underlying data source (e.g database) according to the provided {@code streamConfiguration}.
-     * This is the main query API for JPAstreamer.
      * <p>
      * The order in which elements are returned when the stream is eventually
      * consumed <em>is unspecified</em>. The order may even change from one
      * invocation to another. Thus, it is an error to assume any particular
-     * element order even though is might appear, for some stream sources, that
-     * there is a de-facto order.
-     * <p>
-     * If a deterministic order is required, then make sure to invoke the
-     * {@link Stream#sorted(java.util.Comparator)} method on the {@link Stream}
-     * returned.
+     * element order even though it might appear that there is a de-facto 
+     * order for some stream sources. If a deterministic order is required, 
+     * then make sure to invoke the {@link Stream#sorted(java.util.Comparator)}
+     * method on the {@link Stream} returned.
      * <p>
      * Mutable elements are not reused within the stream. More formally, there
      * are no pair of mutable stream elements <code>e1</code> and
-     * <code>e2</code> such that <code>e1 == e2</code>.
-     * <p>
-     * The Stream will never contain <code>null</code> elements.
+     * <code>e2</code> such that <code>e1 == e2</code>. The {@link Stream} will never 
+     * contain <code>null</code> elements.
      * <p>
      * This is <em>an inexpensive O(1) operation</em> that will complete in
      * constant time regardless of the number of entities in the underlying
      * database.
      * <p>
-     * The returned stream is aware of its own pipeline and will optionally
+     * The returned {@link Stream} is aware of its own pipeline and will optionally
      * <em>optimize its own pipeline</em> whenever it encounters a <em>Terminal
      * Operation</em> so that it will only iterate over a minimum set of
-     * matching entities.
-     * <p>
-     * When a Terminal Operation is eventually called on the {@link Stream},
-     * that execution time of the Terminal Operation will depend on the
-     * optimized pipeline and the entities in the underlying database.
+     * matching entities. Thus, the execution time of the Terminal Operation 
+     * will depend on the optimized pipeline and the entities in the underlying database.
+     * Because the Stream may short-circuit operations in the Stream pipeline,
+     * methods having side-effects (like {@link Stream#peek(java.util.function.Consumer) 
+     * peek(Consumer)} will potentially be affected by the optimization.
      * <p>
      * The Stream will be automatically
      * {@link Stream#onClose(java.lang.Runnable) closed} after the Terminal
      * Operation is completed or if an Exception is thrown during the Terminal
-     * Operation.
+     * Operation. Any Terminating Operation may throw an Exception if the
+     * underlying database throws an Exception (e.g. an SqlException)
      * <p>
      * Some of the <em>Terminal Operations</em> are:
      * <ul>
@@ -99,15 +124,7 @@ public interface JPAStreamer {
      * <li>{@link Stream#iterator() iterator()}
      * </ul>
      * <p>
-     * Any Terminating Operation may throw an Exception if the
-     * underlying database throws an Exception (e.g. an SqlException)
-     * <p>
-     * Because the Stream may short-circuit operations in the Stream pipeline,
-     * methods having side-effects (like
-     * {@link Stream#peek(java.util.function.Consumer) peek(Consumer)} will
-     * potentially be affected by the optimization.
-     * <p>
-     * Here are some examples of how the stream optimization might work:
+     * Here are some examples of how the {@link Stream} optimization might work:
      * <ul>
      * <li>
      * <pre>{@code stream(Film.class)
@@ -123,7 +140,7 @@ public interface JPAStreamer {
      * <pre>{@code stream(Film.class)
      *   .filter(Film$.name.startsWith("A"))
      *   .count();}</pre>
-     * <pre>{@code -> select count(*) from hares where
+     * <pre>{@code -> select count(*) from Film where
      *   name LIKE 'A%'}</pre>
      * <p>
      * </li>
@@ -132,7 +149,7 @@ public interface JPAStreamer {
      *   .filter(Film$.rating.equal("G")
      *   .filter(Film$.length.greaterThan(100)
      *   .count();}</pre>
-     * <pre>{@code -> select count(*) from hares where
+     * <pre>{@code -> select count(*) from Film where
      *          rating ='G'
      *        and
      *          length > 100}</pre>

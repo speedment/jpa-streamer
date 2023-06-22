@@ -14,14 +14,48 @@ package com.speedment.jpastreamer.application;
 
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
  * A Stream Supplier is responsible for creating Streams from a data source.
  * An entity source can be RDBMSes, files or other data sources.
  * <p>
- * A Stream Supplier must be thread safe and be able to handle several reading and
- * writing threads at the same time.
+ * It provides methods to obtain a {@code Stream} instance that corresponds to the configured stream source.
+ * The {@link StreamSupplier} is responsible for managing the lifecycle of the underlying {@link jakarta.persistence.EntityManager}.
+ * <p>
+ * A {@code StreamSupplier} is associated with a particular Stream source and cannot be reconfigured. This ensures thread-safety to allows concurrent reads and writes via the same {@code StreamSupplier}.  
+ * 
+ * The {@link StreamSupplier} is typically obtained by calling {@link JPAStreamer#createStreamSupplier(Class)} ()}.
+ * It allows for the creation of multiple streams using the same {@link jakarta.persistence.EntityManager}, potentially saving resources.
+ * <p>
+ * To create a {@code Stream}, call the {@code stream()} method, providing the desired entity class as the type parameter.
+ * The resulting {@code Stream} will correspond to the specified entity class and the configured {@link StreamConfiguration}.
+ * <p>
+ * The execution of a terminal operation on the {@code Stream} will not close the {@link StreamSupplier} and its associated {@code EntityManager}.
+ * This allows for repeated calls to {@code stream()} on the same {@link StreamSupplier}, reusing the same {@code EntityManager}.
+ * <p>
+ * The EntityManager associated with the {@link StreamSupplier} has a first-level cache to optimize query performance.
+ * By default, database changes performed by another application or made directly on the database may not be detected between calls to {@link StreamSupplier#stream()}.
+ * To ensure that the cache is cleared between each fetch, use {@link JPAStreamer#stream(StreamConfiguration)} instead.
+ * <p>
+ * It is important to manage the lifecycle of the {@link StreamSupplier} and close it when it is no longer needed.
+ * Closing the StreamSupplier will also close the associated EntityManager, releasing any acquired resources.
+ * The recommended approach is to use a try-with-resources block to automatically close the StreamSupplier:
+ *
+ * <pre>{@code
+ * final JPAStreamer jpaStreamer = JPAStreamer.of("sakila");
+ *
+ * try (final StreamSupplier<Film> streamSupplier = jpaStreamer.createStreamSupplier()) {
+ *     // Use the StreamSupplier to create and process streams
+ *     Stream<Film> stream = streamSupplier.stream(Film.class);
+ *     // Perform stream operations...
+ * }
+ * }</pre>
+ *
+ * <p>
+ * Note that if {@link JPAStreamer} is instantiated with a {@code Supplier<EntityManager>} via {@link JPAStreamer#of(Supplier)}, {@link JPAStreamer} will not close the underlying {@code EntityManager}.
+ * In that case, the lifecycle of the obtained {@code EntityManagers} is managed by the supplier.
  *
  * @author Per Minborg, Julia Gustafsson 
  * @since 3.0.1
