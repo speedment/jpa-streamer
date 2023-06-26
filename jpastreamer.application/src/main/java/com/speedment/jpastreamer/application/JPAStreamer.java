@@ -34,7 +34,7 @@ import java.util.stream.Stream;
  * <p>
  * JPAStreamer can be instantiated using different approaches depending on your requirements.
  *
- * <h3>1. Using the persistence unit name</h3>
+ * <strong>1. Using the persistence unit name</strong>
  * The persistence unit name can be used to initialize JPAStreamer as follows:
  * <pre>{@code
  * final JPAStreamer jpaStreamer = JPAStreamer.of("sakila");
@@ -44,7 +44,7 @@ import java.util.stream.Stream;
  * JPAStreamer will establish a database connection based on the provided persistence unit name.
  * This method creates a new {@code jakarta.persistence.EntityManagerFactory} managed by JPAStreamer. 
  *
- * <h3>2. Using an existing EntityManagerFactory</h3>
+ * <strong>2. Using an existing EntityManagerFactory</strong>
  * If you already have an existing {@code EntityManagerFactory}, you can initialize JPAStreamer as follows:
  * <pre>{@code
  * final EntityManagerFactory emf = Persistence.createEntityManagerFactory("sakila");
@@ -54,7 +54,7 @@ import java.util.stream.Stream;
  * In this case, JPAStreamer will not manage the lifecycle of the {@code EntityManagerFactory}. 
  * The provided {@code EntityManagerFactory} will be used to obtain {@code EntityManager}s, which will be managed by JPAStreamer.
  *
- * <h3>3. Using a Supplier of EntityManagers</h3>
+ * <strong>3. Using a Supplier of EntityManagers</strong>
  * Another third option is to provide a Supplier of EntityManagers:
  * <pre>{@code
  * final EntityManagerFactory emf = Persistence.createEntityManagerFactory("sakila");

@@ -57,6 +57,7 @@ import java.util.stream.Stream;
  * Note that if {@link JPAStreamer} is instantiated with a {@code Supplier<EntityManager>} via {@link JPAStreamer#of(Supplier)}, {@link JPAStreamer} will not close the underlying {@code EntityManager}.
  * In that case, the lifecycle of the obtained {@code EntityManagers} is managed by the supplier.
  *
+ * @param <T> the type of the stream elements
  * @author Per Minborg, Julia Gustafsson 
  * @since 3.0.1
  */
