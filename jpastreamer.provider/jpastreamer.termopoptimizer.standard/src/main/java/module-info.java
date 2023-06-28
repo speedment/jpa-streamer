@@ -1,3 +1,6 @@
+import com.speedment.jpastreamer.pipeline.PipelineFactory;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
+import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationFactory;
 import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizerFactory;
 import com.speedment.jpastreamer.termopoptimizer.standard.StandardTerminalOperationOptimizerFactory;
 
@@ -15,8 +18,13 @@ import com.speedment.jpastreamer.termopoptimizer.standard.StandardTerminalOperat
  */
 module jpastreamer.termopoptimizer.standard {
     requires transitive jpastreamer.termopoptimizer;
-
+    requires jpastreamer.pipeline;
+    
     exports com.speedment.jpastreamer.termopoptimizer.standard;
+
+    uses PipelineFactory;
+    uses TerminalOperationFactory;
+    uses IntermediateOperationFactory;
 
     provides TerminalOperationOptimizerFactory with StandardTerminalOperationOptimizerFactory;
 }

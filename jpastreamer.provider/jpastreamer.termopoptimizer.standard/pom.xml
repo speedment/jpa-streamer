@@ -39,7 +39,45 @@
             <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>termopoptimizer</artifactId>
         </dependency>
-        
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>rootfactory</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>pipeline-standard</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.2</version>
+                    <configuration>
+                        <argLine>
+                            --add-opens jpastreamer.termopoptimizer.standard/com.speedment.jpastreamer.termopoptimizer.standard=ALL-UNNAMED
+                            --add-opens jpastreamer.termopoptimizer.standard/com.speedment.jpastreamer.termopoptimizer.standard.internal=ALL-UNNAMED
+                        </argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    
 </project>
