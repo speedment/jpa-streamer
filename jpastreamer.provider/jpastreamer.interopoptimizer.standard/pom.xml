@@ -52,6 +52,14 @@
             <artifactId>pipeline-standard</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>field</artifactId>
+        </dependency>
 
     </dependencies>
 
