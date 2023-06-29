@@ -48,44 +48,7 @@ public class MoveAnonymousLambdaOperations implements IntermediateOperationOptim
         
         return pipeline;
     }
-
-    public <T> Pipeline<T> optimize2(Pipeline<T> pipeline) {
-
-        LinkedList<IntermediateOperation<?, ?>> intermediateOperations = pipeline.intermediateOperations();
-
-        int i = 0;
-        while(i < intermediateOperations.size() - 1) {
-            final IntermediateOperation<?, ?> intermediateOperation = intermediateOperations.get(i);
-            final IntermediateOperationType iot = intermediateOperation.type();
-            if (movable(iot) && !anonymousLambda(intermediateOperation) ) {
-                // We only move movable operations with anonymous lambdas
-                int j = i + 1;
-                int currentPos = i;
-                while (j < intermediateOperations.size()) {
-                    final IntermediateOperation<?, ?> next = intermediateOperations.get(j);
-                    final IntermediateOperationType iotNext = next.type();
-                    if (swappable(iot, iotNext)) { // check if current lambda can be swapped with next operation 
-                        if (iotNext == DISTINCT || anonymousLambda(next)) {
-                            i = -1;
-                            currentPos = swapOperations(intermediateOperations, currentPos, j);
-                        } else {
-                            j++;
-                            i++;
-                            continue;
-                        }
-                    } else {
-                        break;
-                    }
-                    j++;
-                }
-            }
-            i++;
-        }
-
-        return pipeline;
-    }
-        
-
+    
     private boolean movable(final IntermediateOperationType type) {
         return type == FILTER || type == SORTED || type == DISTINCT; 
     }
