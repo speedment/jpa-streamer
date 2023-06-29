@@ -66,21 +66,6 @@ public class MoveAnonymousLambdaOperations implements IntermediateOperationOptim
         return false; 
     }
     
-    private int swapOperations(final LinkedList<IntermediateOperation<?, ?>> intermediateOperations,
-                            final int index1, final int index2)
-    {
-        if (0 <= index1 && index1 < intermediateOperations.size() && 0 <= index2 && index2 < intermediateOperations.size()) {
-            final IntermediateOperation<?, ?> io1 = intermediateOperations.get(index1);
-            final IntermediateOperation<?, ?> io2 = intermediateOperations.get(index2);
-
-            intermediateOperations.set(index1, io2);
-            intermediateOperations.set(index2, io1);
-            
-            return index2; 
-        }
-        return -1; 
-    }
-
     private boolean anonymousLambda(final IntermediateOperation<?, ?> operation) {
         if (operation.type() == DISTINCT){
             return true;
