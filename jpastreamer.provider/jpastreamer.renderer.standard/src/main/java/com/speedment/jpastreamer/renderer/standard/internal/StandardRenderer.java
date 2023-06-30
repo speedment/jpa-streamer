@@ -12,16 +12,20 @@
  */
 package com.speedment.jpastreamer.renderer.standard.internal;
 
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.FILTER;
 import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.criteria.Criteria;
 import com.speedment.jpastreamer.criteria.CriteriaFactory;
+import com.speedment.jpastreamer.criteria.PredicateFactory;
+import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizerFactory;
 import com.speedment.jpastreamer.merger.CriteriaMerger;
 import com.speedment.jpastreamer.merger.MergerFactory;
 import com.speedment.jpastreamer.merger.QueryMerger;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
+import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 import com.speedment.jpastreamer.pipeline.terminal.TerminalOperationType;
 import com.speedment.jpastreamer.projection.Projection;
 import com.speedment.jpastreamer.renderer.RenderResult;
@@ -33,20 +37,22 @@ import com.speedment.jpastreamer.termopmodifier.TerminalOperationModifierFactory
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CompoundSelection;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.function.Supplier;
 import java.util.stream.BaseStream;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 final class StandardRenderer implements Renderer {
 
     private final EntityManager entityManager;
     private final CriteriaFactory criteriaFactory;
+    private final PredicateFactory predicateFactory;
 
     private final IntermediateOperationOptimizerFactory intermediateOperationOptimizerFactory;
     private final TerminalOperationModifierFactory terminalOperationModifierFactory;
@@ -60,6 +66,7 @@ final class StandardRenderer implements Renderer {
     StandardRenderer(final Supplier<EntityManager> entityManagerSupplier) {
         this.entityManager = requireNonNull(entityManagerSupplier).get();
         this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class, ServiceLoader::load);
+        this.predicateFactory = RootFactory.getOrThrow(PredicateFactory.class, ServiceLoader::load); 
         this.intermediateOperationOptimizerFactory = RootFactory.getOrThrow(IntermediateOperationOptimizerFactory.class, ServiceLoader::load);
         this.terminalOperationModifierFactory = RootFactory.getOrThrow(TerminalOperationModifierFactory.class, ServiceLoader::load);
         this.mergerFactory = RootFactory.getOrThrow(MergerFactory.class, ServiceLoader::load);
@@ -68,6 +75,7 @@ final class StandardRenderer implements Renderer {
     StandardRenderer(final EntityManager entityManager) {
         this.entityManager = entityManager; 
         this.criteriaFactory = RootFactory.getOrThrow(CriteriaFactory.class, ServiceLoader::load);
+        this.predicateFactory = RootFactory.getOrThrow(PredicateFactory.class, ServiceLoader::load);
         this.intermediateOperationOptimizerFactory = RootFactory.getOrThrow(IntermediateOperationOptimizerFactory.class, ServiceLoader::load);
         this.terminalOperationModifierFactory = RootFactory.getOrThrow(TerminalOperationModifierFactory.class, ServiceLoader::load);
         this.mergerFactory = RootFactory.getOrThrow(MergerFactory.class, ServiceLoader::load);
@@ -102,10 +110,13 @@ final class StandardRenderer implements Renderer {
         streamConfiguration.joins()
                 .forEach(joinConfiguration -> criteria.getRoot().fetch(joinConfiguration.field().columnName(), joinConfiguration.joinType()));
 
+        List<IntermediateOperation<?, ?>> filters = pipeline.intermediateOperations()
+                .stream().filter(io -> io.type() == IntermediateOperationType.FILTER)
+                .collect(Collectors.toList()); 
         criteriaMerger.merge(pipeline, criteria);
 
         if (pipeline.terminatingOperation().type() == TerminalOperationType.COUNT && pipeline.intermediateOperations().isEmpty()) {
-            final Criteria<E, Long> countCriteria = createCountCriteria(criteria);
+            final Criteria<E, Long> countCriteria = createCountCriteria(criteria, filters);
 
             final TypedQuery<Long> typedQuery = entityManager.createQuery(countCriteria.getQuery());
 
@@ -140,7 +151,7 @@ final class StandardRenderer implements Renderer {
         );
     }
 
-    private <T> Criteria<T, Long> createCountCriteria(final Criteria<T, T> criteria) {
+    private <T> Criteria<T, Long> createCountCriteria(final Criteria<T, T> criteria, final List<IntermediateOperation<?, ?>> filters) {
         final CriteriaQuery<T> criteriaQuery = criteria.getQuery();
 
         final Criteria<T, Long> countCriteria = criteriaFactory.createCriteria(
@@ -148,17 +159,20 @@ final class StandardRenderer implements Renderer {
             criteriaQuery.getResultType(),
             Long.class
         );
-
-        criteria.getQueryParameters().forEach(countCriteria::addQueryParameter);
-
+        
         countCriteria.getRoot().alias(criteria.getRoot().getAlias());
 
         final CriteriaQuery<Long> countQuery = countCriteria.getQuery();
 
         countQuery.select(countCriteria.getBuilder().count(countCriteria.getRoot()));
-
-        if (criteriaQuery.getRestriction() != null) {
-            countQuery.where(criteriaQuery.getRestriction());
+        
+        if (!filters.isEmpty()) {
+            // There can only be one JPAStreamer filter after the filter merge (see FilterCriteriaModifier). 
+            IntermediateOperation<?, ?> filter = filters.stream().findFirst().get();
+            this.<T>getPredicate(filter).ifPresent(speedmentPredicate -> {
+                final Predicate predicate = predicateFactory.createPredicate(countCriteria, speedmentPredicate);
+                countQuery.where(predicate);
+            });
         }
 
         countQuery.distinct(criteriaQuery.isDistinct());
@@ -197,5 +211,19 @@ final class StandardRenderer implements Renderer {
     @Override
     public void close() {
         entityManager.close();
+    }
+
+    private <T> Optional<SpeedmentPredicate<T>> getPredicate(final IntermediateOperation<?, ?> operation) {
+        final Object[] arguments = operation.arguments();
+
+        if (arguments.length != 1) {
+            return Optional.empty();
+        }
+
+        if (arguments[0] instanceof SpeedmentPredicate) {
+            return Optional.of((SpeedmentPredicate<T>) arguments[0]);
+        }
+
+        return Optional.empty();
     }
 }
