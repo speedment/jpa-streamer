@@ -15,7 +15,7 @@ public class ReorderTest extends JPAStreamerTest {
 
     @Test
     void reorderTest1() {
-        
+
         try (StreamSupplier<Film> supplier = jpaStreamer.createStreamSupplier(Film.class)) {
             final List<Film> actual = supplier.stream()
                     .filter(f -> f.getLength() > 120)
@@ -23,20 +23,20 @@ public class ReorderTest extends JPAStreamerTest {
                     .filter(Film$.title.startsWith("A"))
                     .distinct()
                     .collect(Collectors.toList());
-            
+
             final List<Film> expected = supplier.stream()
                     .filter(f -> f.getLength() > 120)
                     .sorted(Comparator.comparing(Film::getLength))
                     .filter(f -> f.getTitle().startsWith("A"))
                     .distinct()
                     .collect(Collectors.toList());
-            
-            assertEquals(expected, actual); 
+
+            assertEquals(expected, actual);
         }
-        
+
     }
-    
-    @Test 
+
+    @Test
     void reorderTest2() {
 
         try (StreamSupplier<Film> supplier = jpaStreamer.createStreamSupplier(Film.class)) {
@@ -58,7 +58,7 @@ public class ReorderTest extends JPAStreamerTest {
 
             assertEquals(expected, actual);
         }
-        
+
     }
 
     @Test
@@ -242,5 +242,73 @@ public class ReorderTest extends JPAStreamerTest {
             assertEquals(expected, actual);
         }
 
+    }
+
+    @Test
+    void reorderTest10() {
+
+        try (StreamSupplier<Film> supplier = jpaStreamer.createStreamSupplier(Film.class)) {
+            final List<String> actual = supplier.stream()
+                    .filter(Film$.length.greaterThan(120))
+                    .filter(Film$.title.startsWith("A"))
+                    .filter(Film$.rating.equal("PG-13"))
+                    .distinct()
+                    .sorted(Film$.length)
+                    .skip(10)
+                    .sorted(Film$.title)
+                    .filter(Film$.filmId.greaterThan(20))
+                    .map(Film$.title)
+                    .limit(10)
+                    .collect(Collectors.toList());
+
+            final List<String> expected = supplier.stream()
+                    .filter(f -> f.getLength() > 120)
+                    .filter(f -> f.getTitle().startsWith("A"))
+                    .filter(f -> f.getRating().equals("PG-13"))
+                    .distinct()
+                    .sorted(Comparator.comparing(Film::getLength))
+                    .skip(10)
+                    .sorted(Comparator.comparing(Film::getTitle))
+                    .filter(f -> f.getFilmId() > 20)
+                    .map(Film::getTitle)
+                    .limit(10)
+                    .collect(Collectors.toList());
+
+            assertEquals(expected, actual);
+        }
+    }
+
+    @Test
+    void reorderTest11() {
+
+        try (StreamSupplier<Film> supplier = jpaStreamer.createStreamSupplier(Film.class)) {
+            final List<String> actual = supplier.stream()
+                    .filter(Film$.length.greaterThan(120))
+                    .filter(Film$.title.startsWith("A"))
+                    .distinct()
+                    .sorted(Film$.length)
+                    .filter(Film$.rating.equal("PG-13"))
+                    .skip(10)
+                    .sorted(Film$.title)
+                    .filter(Film$.filmId.greaterThan(20))
+                    .map(Film$.title)
+                    .limit(40)
+                    .collect(Collectors.toList());
+
+            final List<String> expected = supplier.stream()
+                    .filter(f -> f.getLength() > 120)
+                    .filter(f -> f.getTitle().startsWith("A"))
+                    .distinct()
+                    .sorted(Comparator.comparing(Film::getLength))
+                    .filter(f -> f.getRating().equals("PG-13"))
+                    .skip(10)
+                    .sorted(Comparator.comparing(Film::getTitle))
+                    .filter(f -> f.getFilmId() > 20)
+                    .map(Film::getTitle)
+                    .limit(40)
+                    .collect(Collectors.toList());
+
+            assertEquals(expected, actual);
+        }
     }
 }

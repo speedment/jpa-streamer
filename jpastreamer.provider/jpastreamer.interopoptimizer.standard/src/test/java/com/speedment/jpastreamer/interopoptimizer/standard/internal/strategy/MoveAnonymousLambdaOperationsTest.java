@@ -26,7 +26,8 @@ public class MoveAnonymousLambdaOperationsTest extends InternalOptimizerTest<Fil
                 test7(), 
                 test8(),
                 test9(),
-                test10()
+                test10(),
+                test11()
         );
     }
 
@@ -151,10 +152,10 @@ public class MoveAnonymousLambdaOperationsTest extends InternalOptimizerTest<Fil
 
         final Pipeline<Film> optimized = createPipeline(
                 iof.createFilter(Film$.length.greaterThan((short) 120)),
-                iof.createSorted(Comparator.comparing(Object::toString)),
-                iof.createSorted(Film$.length),
                 iof.acquireDistinct(),
-                iof.createFilter(f -> f.equals("b"))
+                iof.createFilter(f -> f.equals("b")),
+                iof.createSorted(Comparator.comparing(Object::toString)),
+                iof.createSorted(Film$.length)
         );
 
         return new PipelineTestCase<>("Reorder Test 7", unoptimized, optimized);
@@ -220,5 +221,35 @@ public class MoveAnonymousLambdaOperationsTest extends InternalOptimizerTest<Fil
 
         return new PipelineTestCase<>("Reorder Test 10", unoptimized, optimized);
     }
-    
+
+    private PipelineTestCase<Film> test11() {
+        final Pipeline<Film> unoptimized = createPipeline(
+                iof.createFilter(Film$.length.greaterThan((short) 120)),
+                iof.createFilter(Film$.title.startsWith("A")),
+                iof.acquireDistinct(),
+                iof.createSorted(Film$.length),
+                iof.createFilter(Film$.rating.equal("PG-13")),
+                iof.createSkip(10),
+                iof.createSorted(Film$.title),
+                iof.createFilter(Film$.length.greaterThan((short) 120)),
+                iof.createMap(Film$.title),
+                iof.createLimit(40)
+        );
+
+        final Pipeline<Film> optimized = createPipeline(
+                iof.createFilter(Film$.length.greaterThan((short) 120)),
+                iof.createFilter(Film$.title.startsWith("A")),
+                iof.createFilter(Film$.rating.equal("PG-13")),
+                iof.acquireDistinct(),
+                iof.createSorted(Film$.length),
+                iof.createSkip(10),
+                iof.createFilter(Film$.length.greaterThan((short) 120)),
+                iof.createSorted(Film$.title),
+                iof.createMap(Film$.title),
+                iof.createLimit(40)
+        );
+
+        return new PipelineTestCase<>("Reorder Test 11", unoptimized, optimized);
+    }
+
 }

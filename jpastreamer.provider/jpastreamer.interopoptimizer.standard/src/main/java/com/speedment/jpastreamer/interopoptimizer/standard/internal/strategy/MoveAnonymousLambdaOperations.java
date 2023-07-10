@@ -20,14 +20,15 @@ public class MoveAnonymousLambdaOperations implements IntermediateOperationOptim
         LinkedList<IntermediateOperation<?, ?>> optimizedOperations = new LinkedList<>(); 
         for (int i = 0; i < intermediateOperations.size(); i++) {
             final IntermediateOperation<?, ?> intermediateOperation = intermediateOperations.get(i); 
-            if (i == 0 || !movable(intermediateOperation.type())) {
+            if (i == 0 
+                    || !movable(intermediateOperation)) {
                 optimizedOperations.add(intermediateOperation); 
                 continue; 
             }
-            int position = optimizedOperations.size(); // default - end of list 
+            int position = optimizedOperations.size(); // default placement - end of list 
             for(int j = optimizedOperations.size() - 1; j >= 0; j--) {
                 final IntermediateOperation<?, ?> currentOperation = optimizedOperations.get((j)); 
-                if(swappable(intermediateOperation.type(), currentOperation.type()) && anonymousLambda(currentOperation)) {
+                if(shouldSwap(intermediateOperation, currentOperation)) {
                     position = j; 
                 } else {
                     break; 
@@ -49,29 +50,38 @@ public class MoveAnonymousLambdaOperations implements IntermediateOperationOptim
         return pipeline;
     }
     
-    private boolean movable(final IntermediateOperationType type) {
-        return type == FILTER || type == SORTED || type == DISTINCT; 
+    private boolean movable(final IntermediateOperation<?, ?> operation) {
+        final IntermediateOperationType type = operation.type();
+        return (type == FILTER || type == SORTED || type == DISTINCT) && jpaStreamerOperator(operation); 
     }
 
-    private boolean swappable(final IntermediateOperationType type, final IntermediateOperationType nextType) {
-        // Anonymous sorts and lambdas can be swapped with a distinct operator to allow the inclusion 
-        // of the distinct operation in the query.
-        if (type == FILTER) {
-            return nextType == FILTER || nextType == SORTED || nextType == DISTINCT;
-        } else if (type == SORTED) {
-            return nextType == FILTER || nextType == DISTINCT;
-        } else if (type == DISTINCT) {
-            return nextType == FILTER || nextType == SORTED; 
+    private boolean shouldSwap(final IntermediateOperation<?, ?> operation, final IntermediateOperation<?, ?> nextOperation) {
+        final IntermediateOperationType type = operation.type();
+        final IntermediateOperationType nextType = nextOperation.type();
+        final boolean jpaStreamerOperation = jpaStreamerOperator(nextOperation);
+        switch (type) {
+            case FILTER:
+                if (nextType == SORTED || nextType == DISTINCT) {
+                    return true; 
+                } else if (nextType == FILTER) {
+                    return !jpaStreamerOperation;
+                } 
+                return false; 
+            case SORTED:
+                return (nextType == FILTER || nextType == DISTINCT) && !jpaStreamerOperation;
+            case DISTINCT:
+                return (nextType == FILTER || nextType == SORTED) && !jpaStreamerOperation;
+            default:
+                return false;
         }
-        return false; 
     }
     
-    private boolean anonymousLambda(final IntermediateOperation<?, ?> operation) {
+    private boolean jpaStreamerOperator(final IntermediateOperation<?, ?> operation) {
         if (operation.type() == DISTINCT){
             return true;
         }
         final Object[] arguments = operation.arguments();
-        return !(arguments != null && (arguments[0] instanceof SpeedmentPredicate || arguments[0] instanceof Field));
+        return (arguments != null && (arguments[0] instanceof SpeedmentPredicate || arguments[0] instanceof Field));
     }
     
 }

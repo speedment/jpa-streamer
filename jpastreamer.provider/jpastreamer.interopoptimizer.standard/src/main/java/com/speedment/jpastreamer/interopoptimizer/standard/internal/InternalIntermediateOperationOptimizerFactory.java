@@ -42,13 +42,13 @@ public final class InternalIntermediateOperationOptimizerFactory implements Inte
         intermediateOperationOptimizers.put(Priority.LOW, new ArrayList<>());
         intermediateOperationOptimizers.put(Priority.LOWEST, new ArrayList<>());
 
-        registerOptimizer(new RemoveOrderAffectingOperations(), Priority.HIGH);
+        registerOptimizer(new RemoveOrderAffectingOperations(), Priority.HIGHEST);
+        registerOptimizer(new MoveAnonymousLambdaOperations(), Priority.HIGH);
         registerOptimizer(new SquashSkip(intermediateOperationFactory));
         registerOptimizer(new SquashLimit(intermediateOperationFactory));
         registerOptimizer(new SquashFilter<>(intermediateOperationFactory));
         registerOptimizer(new SquashSorted<>(intermediateOperationFactory));
         registerOptimizer(new SquashDistinct(intermediateOperationFactory));
-        registerOptimizer(new MoveAnonymousLambdaOperations(), Priority.LOWEST);
     }
 
     @Override
