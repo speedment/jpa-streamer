@@ -12,16 +12,19 @@
  */
 package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.abstracts;
 
+import com.speedment.jpastreamer.field.ComparableField;
 import com.speedment.jpastreamer.field.predicate.SpeedmentPredicate;
 import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.squash.SingleValueSquash;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Optional;
 
 import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.FILTER;
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.SORTED;
 
 public abstract class AbstractSingleValueSquash<S> implements SingleValueSquash<S> {
 
@@ -48,15 +51,16 @@ public abstract class AbstractSingleValueSquash<S> implements SingleValueSquash<
                 }
 
                 if (valueClass().isAssignableFrom(intermediateOperation.arguments()[0].getClass())) {
-                    S value = (S) intermediateOperation.arguments()[0];
-                    if (operationType() != FILTER || value instanceof SpeedmentPredicate) {
+                    S value = (S) intermediateOperation.arguments()[0]; 
+                    if ((operationType() != FILTER && operationType() != SORTED) || 
+                            value instanceof SpeedmentPredicate ||
+                            value instanceof ComparableField ) {
                         result = squash().apply(value, result);
 
                         intermediateOperations.remove(i);
+                        continue;
                     }
                 }
-
-                continue;
             }
 
             if (result != checkValue()) {
