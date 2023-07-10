@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Documentation for JPAStreamer built with Antora",
   "scripts": {
-    "build-local": "antora site-local.yml",
-    "build": "antora site.yml"
+    "build-local": "antora --fetch site-local.yml",
+    "build": "antora --fetch site.yml"
   },
   "author": "JPAStreamer",
   "license": "UNLICENSED",

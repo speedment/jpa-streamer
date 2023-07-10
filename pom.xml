@@ -30,7 +30,7 @@
     
     <groupId>com.speedment.jpastreamer</groupId>
     <artifactId>jpastreamer-parent</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
@@ -41,29 +41,29 @@
     
     <!-- Modules -->
     <modules>
-        <module>exception</module>
-        <module>rootfactory</module>
-        <module>field</module>
-        <module>application</module>
-        <module>javanine</module>
-        <module>autoclose</module>
-        <module>pipeline</module>
-        <module>builder</module>
-        <module>renderer</module>
-        <module>interopoptimizer</module>
-        <module>merger</module>
-        <module>criteria</module>
-        <module>termopmodifier</module>
-        <module>termopoptimizer</module>
-        <module>provider</module>
-        <module>fieldgenerator</module>
-        <module>core</module>
-        <module>integration</module>
-        <module>analytics</module>
-        <module>appinfo</module>
-        <module>streamconfiguration</module>
-        <module>announcer</module>
-        <module>projection</module>
+        <module>jpastreamer.exception</module>
+        <module>jpastreamer.rootfactory</module>
+        <module>jpastreamer.field</module>
+        <module>jpastreamer.application</module>
+        <module>jpastreamer.javanine</module>
+        <module>jpastreamer.autoclose</module>
+        <module>jpastreamer.pipeline</module>
+        <module>jpastreamer.builder</module>
+        <module>jpastreamer.renderer</module>
+        <module>jpastreamer.interopoptimizer</module>
+        <module>jpastreamer.merger</module>
+        <module>jpastreamer.criteria</module>
+        <module>jpastreamer.termopmodifier</module>
+        <module>jpastreamer.termopoptimizer</module>
+        <module>jpastreamer.provider</module>
+        <module>jpastreamer.fieldgenerator</module>
+        <module>jpastreamer.core</module>
+        <module>jpastreamer.integration</module>
+        <module>jpastreamer.analytics</module>
+        <module>jpastreamer.appinfo</module>
+        <module>jpastreamer.streamconfiguration</module>
+        <module>jpastreamer.announcer</module>
+        <module>jpastreamer.projection</module>
     </modules>
     
     <!-- Properties -->
@@ -83,9 +83,9 @@
         <!-- later maven-javadoc-plugin versions does not support aggregate? -->
         <jakarta.version>3.1.0</jakarta.version>
         <maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
-        <maven-source-plugin-version>3.2.1</maven-source-plugin-version>
+        <maven-source-plugin-version>3.3.0</maven-source-plugin-version>
         <maven-dependency-plugin-version>3.6.0</maven-dependency-plugin-version>
-        <maven-shade-plugin-version>3.4.1</maven-shade-plugin-version>
+        <maven-shade-plugin-version>3.5.0</maven-shade-plugin-version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
     </properties>
     
@@ -534,6 +534,7 @@
                             <keywords>true</keywords>
                             <!--                                <docfilessubdirs>true</docfilessubdirs>-->
                             <excludePackageNames>*.internal:*.internal.*</excludePackageNames>
+                            <excludePackageNames>*.test:*.test.*</excludePackageNames>
                             <!--                                <includeDependencySources>true</includeDependencySources>-->
 
                             <additionalJOptions>

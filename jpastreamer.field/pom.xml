@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    JPAstreamer - Express JPA queries with Java Streams
+    Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+
+    License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+
+    This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU Lesser General Public License for more details.
+
+    See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.speedment.jpastreamer</groupId>
+        <artifactId>jpastreamer-parent</artifactId>
+        <version>3.0.3-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>field</artifactId>
+
+    <name>Field</name>
+    <description>
+        Partly generated model of the fields that represent columns in the
+        database. Fields can be used to produce special predicates and functions
+        that contain metadata that JPAStream can analyze runtime.
+    </description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>${jakarta.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.common</groupId>
+            <artifactId>invariant</artifactId>
+            <version>${speedment-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.common</groupId>
+            <artifactId>function</artifactId>
+            <version>${speedment-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.speedment.runtime</groupId>
+            <artifactId>runtime-compute</artifactId>
+            <version>${speedment-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
