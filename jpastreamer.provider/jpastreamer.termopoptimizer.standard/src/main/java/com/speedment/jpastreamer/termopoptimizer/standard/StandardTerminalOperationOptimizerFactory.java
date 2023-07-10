@@ -24,4 +24,5 @@ public final class StandardTerminalOperationOptimizerFactory implements Terminal
     public TerminalOperationOptimizer get() {
         return delegate.get();
     }
+    
 }
