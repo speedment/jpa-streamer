@@ -18,6 +18,7 @@ import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFact
 module jpastreamer.interopoptimizer.standard {
     requires transitive jpastreamer.interopoptimizer;
     requires jpastreamer.rootfactory;
+    requires jpastreamer.field;
 
     exports com.speedment.jpastreamer.interopoptimizer.standard;
     

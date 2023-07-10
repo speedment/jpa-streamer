@@ -63,7 +63,7 @@ public final class InternalQueryMerger implements QueryMerger {
             final QueryModifier queryModifier = mergingStrategies.get(operationType);
 
             if (queryModifier == null) {
-                continue;
+                break;
             }
 
             final IntermediateOperationReference operationReference =

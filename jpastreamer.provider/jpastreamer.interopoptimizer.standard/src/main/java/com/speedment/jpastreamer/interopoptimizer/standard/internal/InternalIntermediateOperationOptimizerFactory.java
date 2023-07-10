@@ -16,12 +16,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizer;
 import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizerFactory;
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.RemoveOrderAffectingOperations;
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.SquashDistinct;
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.SquashFilter;
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.SquashLimit;
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.SquashSkip;
-import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.SquashSorted;
+import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.*;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationFactory;
 import com.speedment.jpastreamer.rootfactory.RootFactory;
 
@@ -47,7 +42,8 @@ public final class InternalIntermediateOperationOptimizerFactory implements Inte
         intermediateOperationOptimizers.put(Priority.LOW, new ArrayList<>());
         intermediateOperationOptimizers.put(Priority.LOWEST, new ArrayList<>());
 
-        registerOptimizer(new RemoveOrderAffectingOperations(), Priority.HIGH);
+        registerOptimizer(new RemoveOrderAffectingOperations(), Priority.HIGHEST);
+        registerOptimizer(new MoveAnonymousLambdaOperations(), Priority.HIGH);
         registerOptimizer(new SquashSkip(intermediateOperationFactory));
         registerOptimizer(new SquashLimit(intermediateOperationFactory));
         registerOptimizer(new SquashFilter<>(intermediateOperationFactory));

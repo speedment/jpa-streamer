@@ -81,7 +81,7 @@ public enum SortedCriteriaModifier implements CriteriaModifier {
             criteria.getQuery().orderBy(previousOrders);
 
             /*
-            * If a Stream::sorted sequence contains a operation without a specified comparator
+            * If a Stream::sorted sequence contains an operation without a specified comparator
             * we cannot squash that sequence into a single operation. Because of this, we should
             * only mark the operation as merged if it's the last one in the sequence.
             * */

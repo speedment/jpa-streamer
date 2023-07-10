@@ -124,6 +124,11 @@
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>termopoptimizer-standard</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>announcer</artifactId>
             <version>${jpa-streamer.version}</version>
         </dependency>

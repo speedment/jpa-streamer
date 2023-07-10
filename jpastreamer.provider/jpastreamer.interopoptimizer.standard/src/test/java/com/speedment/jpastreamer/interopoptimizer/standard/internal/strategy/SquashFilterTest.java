@@ -14,6 +14,8 @@ package com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.model.Film;
+import com.speedment.jpastreamer.interopoptimizer.standard.internal.strategy.model.Film$;
 import com.speedment.jpastreamer.pipeline.Pipeline;
 import com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperation;
 
@@ -21,7 +23,7 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-final class SquashFilterTest extends SquashTest<String, SquashFilter<?>> {
+final class SquashFilterTest extends SquashTest<Film, SquashFilter<?>> {
 
     @Override
     SquashFilter<?> getSquashInstance() {
@@ -29,85 +31,103 @@ final class SquashFilterTest extends SquashTest<String, SquashFilter<?>> {
     }
 
     @Override
-    Class<String> getEntityClass() {
-        return String.class;
+    Class<Film> getEntityClass() {
+        return Film.class;
     }
 
     @Override
-    protected Stream<PipelineTestCase<String>> pipelines() {
+    protected Stream<PipelineTestCase<Film>> pipelines() {
         return Stream.of(
             noFilter(),
             filterN(1), filterN(2), filterN(3), filterN(10), filterN(100),
             filterOther(),
             filter2Other2(),
-            filter2OtherFilter2()
+            filter2OtherFilter2(), 
+            filterAndLambdaFilter2()
         );
     }
 
-    private PipelineTestCase<String> noFilter() {
-        final Pipeline<String> noFilter = createPipeline(
+    private PipelineTestCase<Film> noFilter() {
+        final Pipeline<Film> noFilter = createPipeline(
             operationFactory.createSkip(1)
         );
 
-        final Pipeline<String> noFilterExpected = createPipeline(
+        final Pipeline<Film> noFilterExpected = createPipeline(
             operationFactory.createSkip(1)
         );
 
         return new PipelineTestCase<>("No Filter", noFilter, noFilterExpected);
     }
 
-    private PipelineTestCase<String> filterN(int n) {
-        IntermediateOperation<?, ?>[] operations = IntStream.range(0, n).mapToObj(i -> operationFactory.createFilter(x -> i % 2 == 0)).toArray(IntermediateOperation[]::new);
+    private PipelineTestCase<Film> filterN(int n) {
+        IntermediateOperation<?, ?>[] operations = IntStream.range(0, n).mapToObj(i -> operationFactory.createFilter(Film$.title.startsWith("A"))).toArray(IntermediateOperation[]::new);
 
-        final Pipeline<String> filter = createPipeline(operations);
+        final Pipeline<Film> filter = createPipeline(operations);
 
-        final Pipeline<String> filterExpected = createPipeline(operationFactory.createFilter(x -> n == 1));
+        final Pipeline<Film> filterExpected = createPipeline(operationFactory.createFilter(Film$.title.startsWith("A")));
 
         return new PipelineTestCase<>("Filter " + n, filter, filterExpected);
     }
 
-    private PipelineTestCase<String> filterOther() {
-        final Pipeline<String> filterOther = createPipeline(
-            operationFactory.createFilter(x -> true),
+    private PipelineTestCase<Film> filterOther() {
+        final Pipeline<Film> filterOther = createPipeline(
+            operationFactory.createFilter(Film$.title.startsWith("A")),
             operationFactory.createSkip(1)
         );
 
-        final Pipeline<String> filterOtherExpected = createPipeline(
-            operationFactory.createFilter(x -> true),
+        final Pipeline<Film> filterOtherExpected = createPipeline(
+            operationFactory.createFilter(Film$.title.startsWith("A")),
             operationFactory.createSkip(1)
         );
 
         return new PipelineTestCase<>("Filter, Other", filterOther, filterOtherExpected);
     }
 
-    private PipelineTestCase<String> filter2Other2() {
-        final Pipeline<String> filter2Other2 = createPipeline(
-            operationFactory.createFilter(x -> true), operationFactory.createFilter(x -> true),
+    private PipelineTestCase<Film> filter2Other2() {
+        final Pipeline<Film> filter2Other2 = createPipeline(
+            operationFactory.createFilter(Film$.title.startsWith("A")), operationFactory.createFilter(Film$.title.endsWith("B")),
             operationFactory.createSkip(1), operationFactory.createSkip(1)
         );
 
-        final Pipeline<String> filter2Other2Expected = createPipeline(
-            operationFactory.createFilter(x -> true),
+        final Pipeline<Film> filter2Other2Expected = createPipeline(
+            operationFactory.createFilter(Film$.title.startsWith("A").and(Film$.title.endsWith("B"))),
             operationFactory.createSkip(1), operationFactory.createSkip(1)
         );
 
         return new PipelineTestCase<>("Filter 2, Other 2", filter2Other2, filter2Other2Expected);
     }
 
-    private PipelineTestCase<String> filter2OtherFilter2() {
-        final Pipeline<String> filter2OtherFilter2 = createPipeline(
-            operationFactory.createFilter(x -> true), operationFactory.createFilter(x -> true),
+    private PipelineTestCase<Film> filter2OtherFilter2() {
+        final Pipeline<Film> filter2OtherFilter2 = createPipeline(
+            operationFactory.createFilter(Film$.title.startsWith("T")), operationFactory.createFilter(Film$.title.endsWith("C")),
             operationFactory.createLimit(1),
-            operationFactory.createFilter(x -> true), operationFactory.createFilter(x -> false)
+            operationFactory.createFilter(Film$.title.startsWith("A")), operationFactory.createFilter(Film$.title.startsWith("B"))
         );
 
-        final Pipeline<String> filter2OtherFilter2Expected = createPipeline(
-            operationFactory.createFilter(x -> true),
+        final Pipeline<Film> filter2OtherFilter2Expected = createPipeline(
+            operationFactory.createFilter(Film$.title.startsWith("T").and(Film$.title.endsWith("C"))),
             operationFactory.createLimit(1),
-            operationFactory.createFilter(x -> false)
+            operationFactory.createFilter(Film$.title.startsWith("A").and(Film$.title.endsWith("B")))
         );
 
         return new PipelineTestCase<>("Filter 2, Other, Filter 2", filter2OtherFilter2, filter2OtherFilter2Expected);
+    }
+
+    private PipelineTestCase<Film> filterAndLambdaFilter2() {
+        final Pipeline<Film> filter2OtherFilter2 = createPipeline(
+                operationFactory.createFilter(Film$.title.startsWith("T")), operationFactory.createFilter(x -> true),
+                operationFactory.createLimit(1),
+                operationFactory.createFilter(Film$.title.startsWith("A")), operationFactory.createFilter(Film$.title.startsWith("B"))
+        );
+
+        final Pipeline<Film> filter2OtherFilter2Expected = createPipeline(
+                operationFactory.createFilter(Film$.title.startsWith("T")),
+                operationFactory.createFilter(x -> true),
+                operationFactory.createLimit(1),
+                operationFactory.createFilter(Film$.title.startsWith("A").and(Film$.title.endsWith("B")))
+        );
+
+        return new PipelineTestCase<>("Filter and Lambda, Filter 2", filter2OtherFilter2, filter2OtherFilter2Expected);
     }
 
     @Override
@@ -117,7 +137,8 @@ final class SquashFilterTest extends SquashTest<String, SquashFilter<?>> {
             final Predicate expectedPredicate = (Predicate) expected[0];
             final Predicate actualPredicate = (Predicate) actual[0];
 
-            assertEquals(expectedPredicate.test(null), actualPredicate.test(null));
+            final Film film = new Film((short) 1234, "TITANIC", "About a ship that sank.");
+            assertEquals(expectedPredicate.test(film), actualPredicate.test(film));
         } else {
             super.assertArguments(expected, actual);
         }

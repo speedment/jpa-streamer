@@ -3,6 +3,7 @@ import com.speedment.jpastreamer.interopoptimizer.IntermediateOperationOptimizer
 import com.speedment.jpastreamer.merger.MergerFactory;
 import com.speedment.jpastreamer.renderer.RendererFactory;
 import com.speedment.jpastreamer.renderer.standard.StandardRendererFactory;
+import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizerFactory;
 
 /*
  * JPAstreamer - Express JPA queries with Java Streams
@@ -26,10 +27,12 @@ module jpastreamer.renderer.standard {
     requires jpastreamer.merger;
     requires jpastreamer.interopoptimizer;
     requires jpastreamer.termopmodifier;
+    requires jpastreamer.termopoptimizer;
     
     uses CriteriaFactory;
     uses MergerFactory;
     uses IntermediateOperationOptimizerFactory; 
+    uses TerminalOperationOptimizerFactory; 
 
     provides RendererFactory with StandardRendererFactory;
 }

@@ -24,6 +24,7 @@ module jpastreamer.core {
     requires jpastreamer.builder.standard;
     requires jpastreamer.renderer.standard;
     requires jpastreamer.interopoptimizer.standard;
+    requires jpastreamer.termopoptimizer.standard;
     requires jpastreamer.merger.standard;
     requires jpastreamer.criteria.standard;
     requires jpastreamer.analytics.standard;

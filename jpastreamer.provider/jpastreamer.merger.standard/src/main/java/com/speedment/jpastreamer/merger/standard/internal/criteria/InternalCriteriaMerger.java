@@ -12,9 +12,7 @@
  */
 package com.speedment.jpastreamer.merger.standard.internal.criteria;
 
-import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.DISTINCT;
-import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.FILTER;
-import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.SORTED;
+import static com.speedment.jpastreamer.pipeline.intermediate.IntermediateOperationType.*;
 import static java.util.Objects.requireNonNull;
 
 import com.speedment.jpastreamer.criteria.Criteria;
@@ -65,14 +63,21 @@ public final class InternalCriteriaMerger implements CriteriaMerger {
 
             final CriteriaModifier criteriaModifier = mergingStrategies.get(operationType);
 
-            if (criteriaModifier == null) {
-                continue;
+            if (criteriaModifier != null) {
+
+                final IntermediateOperationReference operationReference =
+                        IntermediateOperationReference.createReference(operation, i, intermediateOperations);
+
+                criteriaModifier.modifyCriteria(operationReference, criteria, mergingTracker);
+                
             }
 
-            final IntermediateOperationReference operationReference =
-                    IntermediateOperationReference.createReference(operation, i, intermediateOperations);
-
-            criteriaModifier.modifyCriteria(operationReference, criteria, mergingTracker);
+            if (!mergingTracker.mergedOperations().contains(operationType)) {
+                // If the current operation was not merged, the following operations cannot be merged
+                // as that risks changing the order in which the operations are applied
+                break;
+            }
+            
         }
 
         mergingTracker.forRemoval()

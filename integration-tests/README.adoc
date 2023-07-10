@@ -1,0 +1,20 @@
+= Integration Test
+Julia Gustafsson
+:toc: macro
+
+The tests assume that you are running the Sakila database as a Docker instance on port 3306. See simple installation instructions below.
+
+== Sakila Database 
+The tests makes use of the link:https://dev.mysql.com/doc/sakila/en/[MySQL Sakila database]. It can either be downloaded from Oracle as described link:https://dev.mysql.com/doc/sakila/en/sakila-installation.html[here] or used directly via a link:https://hub.docker.com/r/restsql/mysql-sakila/[Sakila Docker instance] by issuing the following commands:
+
+[shell script]
+----
+$ docker pull restsql/mysql-sakila
+----
+
+[shell script]
+----
+$ docker run -d --publish 3306:3306 --name mysqld restsql/mysql-sakila
+----
+
+NOTE: This Docker image does not support ARM64 architecture, thus if you are running on e.g. an M1 Mac, you need to emulate an Intel image by adding the flag `--platform linux/amd64` after `docker run` in the above command. This may not always work ideally, learn more about why at the link:https://docs.docker.com/desktop/mac/apple-silicon/#known-issues[Docker webpage].
