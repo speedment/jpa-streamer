@@ -72,11 +72,17 @@
         </dependency>
 
         <dependency>
+            <groupId>com.speedment.jpastreamer</groupId>
+            <artifactId>termopoptimizer</artifactId>
+        </dependency>
+
+        
+        <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>${jakarta.version}</version>
         </dependency>
-
+        
     </dependencies>
 
 

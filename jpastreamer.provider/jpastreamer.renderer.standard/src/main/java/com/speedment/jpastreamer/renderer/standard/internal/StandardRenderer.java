@@ -34,6 +34,7 @@ import com.speedment.jpastreamer.rootfactory.RootFactory;
 import com.speedment.jpastreamer.streamconfiguration.StreamConfiguration;
 
 import com.speedment.jpastreamer.termopmodifier.TerminalOperationModifierFactory;
+import com.speedment.jpastreamer.termopoptimizer.TerminalOperationOptimizerFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -56,6 +57,7 @@ final class StandardRenderer implements Renderer {
 
     private final IntermediateOperationOptimizerFactory intermediateOperationOptimizerFactory;
     private final TerminalOperationModifierFactory terminalOperationModifierFactory;
+    private final TerminalOperationOptimizerFactory terminalOperationOptimizerFactory;
 
     private final MergerFactory mergerFactory;
 
@@ -69,6 +71,7 @@ final class StandardRenderer implements Renderer {
         this.predicateFactory = RootFactory.getOrThrow(PredicateFactory.class, ServiceLoader::load); 
         this.intermediateOperationOptimizerFactory = RootFactory.getOrThrow(IntermediateOperationOptimizerFactory.class, ServiceLoader::load);
         this.terminalOperationModifierFactory = RootFactory.getOrThrow(TerminalOperationModifierFactory.class, ServiceLoader::load);
+        this.terminalOperationOptimizerFactory = RootFactory.getOrThrow(TerminalOperationOptimizerFactory.class, ServiceLoader::load);
         this.mergerFactory = RootFactory.getOrThrow(MergerFactory.class, ServiceLoader::load);
     }
     
@@ -78,6 +81,7 @@ final class StandardRenderer implements Renderer {
         this.predicateFactory = RootFactory.getOrThrow(PredicateFactory.class, ServiceLoader::load);
         this.intermediateOperationOptimizerFactory = RootFactory.getOrThrow(IntermediateOperationOptimizerFactory.class, ServiceLoader::load);
         this.terminalOperationModifierFactory = RootFactory.getOrThrow(TerminalOperationModifierFactory.class, ServiceLoader::load);
+        this.terminalOperationOptimizerFactory = RootFactory.getOrThrow(TerminalOperationOptimizerFactory.class, ServiceLoader::load);
         this.mergerFactory = RootFactory.getOrThrow(MergerFactory.class, ServiceLoader::load);
     }
 
@@ -206,6 +210,7 @@ final class StandardRenderer implements Renderer {
     
     private <T> void optimizePipeline(final Pipeline<T> pipeline) {
         intermediateOperationOptimizerFactory.stream().forEach(intermediateOperationOptimizer -> intermediateOperationOptimizer.optimize(pipeline));
+        terminalOperationOptimizerFactory.get().optimize(pipeline);
     }
 
     @Override
