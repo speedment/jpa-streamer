@@ -196,6 +196,7 @@ public class ReorderTest extends JPAStreamerTest {
                     .sorted(Film$.length)
                     .map(Film$.title)
                     .limit(10)
+                    .limit(10)
                     .collect(Collectors.toList());
 
             final List<String> expected = supplier.stream()
@@ -206,11 +207,40 @@ public class ReorderTest extends JPAStreamerTest {
                     .sorted(Comparator.comparing(Film::getLength))
                     .map(Film::getTitle)
                     .limit(10)
+                    .limit(10)
                     .collect(Collectors.toList());
 
             assertEquals(expected, actual);
         }
 
     }
-    
+
+    @Test
+    void reorderTest9() {
+
+        try (StreamSupplier<Film> supplier = jpaStreamer.createStreamSupplier(Film.class)) {
+            final List<String> actual = supplier.stream()
+                    .filter(f -> f.getTitle().endsWith("A"))
+                    .filter(Film$.length.greaterThan(120))
+                    .distinct()
+                    .sorted(Film$.length)
+                    .sorted(Comparator.comparing(Film::getTitle))
+                    .map(Film$.title)
+                    .limit(10)
+                    .collect(Collectors.toList());
+
+            final List<String> expected = supplier.stream()
+                    .filter(f -> f.getTitle().endsWith("A"))
+                    .filter(f -> f.getLength() > 120)
+                    .distinct()
+                    .sorted(Comparator.comparing(Film::getLength))
+                    .sorted(Comparator.comparing(Film::getTitle))
+                    .map(Film::getTitle)
+                    .limit(10)
+                    .collect(Collectors.toList());
+
+            assertEquals(expected, actual);
+        }
+
+    }
 }
