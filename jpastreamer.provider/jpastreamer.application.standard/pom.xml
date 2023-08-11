@@ -64,11 +64,6 @@
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>analytics</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.speedment.jpastreamer</groupId>
             <artifactId>appinfo</artifactId>
         </dependency>
 
