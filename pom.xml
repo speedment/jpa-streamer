@@ -59,7 +59,6 @@
         <module>jpastreamer.fieldgenerator</module>
         <module>jpastreamer.core</module>
         <module>jpastreamer.integration</module>
-        <module>jpastreamer.analytics</module>
         <module>jpastreamer.appinfo</module>
         <module>jpastreamer.streamconfiguration</module>
         <module>jpastreamer.announcer</module>
@@ -946,18 +945,6 @@
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>appinfo-standard</artifactId>
-                <version>${jpa-streamer.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>analytics</artifactId>
-                <version>${jpa-streamer.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>analytics-standard</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 

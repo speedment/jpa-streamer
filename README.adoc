@@ -167,9 +167,6 @@ We gladly welcome any form of contributions, whether it is comments and question
 
 Before we can accept your patches we need to establish a common legal ground to protect your rights to your contributions and the users of JPAstreamer. This is done by signing a Contributor License Agreement (link:https://github.com/speedment/jpa-streamer/blob/master/CONTRIBUTOR_LICENSE_AGREEMENT[CLA]) with Speedment, Inc. The details of this process is laid out link:https://github.com/speedment/jpa-streamer/blob/master/CONTRIBUTING.md[here].
 
-== Phone Home
-JPAstreamer sends certain data back to servers as described link:https://github.com/speedment/jpa-streamer/blob/master/DISCLAIMER.md[here]. If you wish to disable this feature, please contact us at info@jpastreamer.org.
-
 == License
 JPAstreamer is released under the link:https://github.com/speedment/jpa-streamer/blob/master/LICENSE[LGPL 2.1 License].
 
