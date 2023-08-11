@@ -39,7 +39,6 @@
         <module>jpastreamer.criteria.standard</module>
         <module>jpastreamer.termopmodifier.standard</module>
         <module>jpastreamer.termopoptimizer.standard</module>
-        <module>jpastreamer.analytics.standard</module>
         <module>jpastreamer.appinfo.standard</module>
         <module>jpastreamer.streamconfiguration.standard</module>
     </modules>

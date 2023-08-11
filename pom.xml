@@ -59,7 +59,6 @@
         <module>jpastreamer.fieldgenerator</module>
         <module>jpastreamer.core</module>
         <module>jpastreamer.integration</module>
-        <module>jpastreamer.analytics</module>
         <module>jpastreamer.appinfo</module>
         <module>jpastreamer.streamconfiguration</module>
         <module>jpastreamer.announcer</module>

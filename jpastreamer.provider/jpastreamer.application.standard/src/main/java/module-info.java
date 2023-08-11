@@ -10,7 +10,6 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-import com.speedment.jpastreamer.analytics.AnalyticsReporterFactory;
 import com.speedment.jpastreamer.announcer.Announcer;
 import com.speedment.jpastreamer.appinfo.ApplicationInformation;
 import com.speedment.jpastreamer.application.JPAStreamerBuilderFactory;
@@ -35,7 +34,6 @@ import com.speedment.jpastreamer.streamconfiguration.StreamConfigurationFactory;
 module jpastreamer.application.standard {
     requires transitive jpastreamer.application;
     requires transitive jpastreamer.streamconfiguration;
-    requires jpastreamer.analytics;
     requires jpastreamer.appinfo;
     requires jpastreamer.renderer;
     requires jpastreamer.builder;
@@ -47,7 +45,6 @@ module jpastreamer.application.standard {
     
     uses Announcer;
     uses ApplicationInformation;
-    uses AnalyticsReporterFactory;
     uses RendererFactory; 
     uses BuilderFactory; 
     uses AutoCloseFactory;
