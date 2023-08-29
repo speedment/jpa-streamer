@@ -18,7 +18,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
      http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-
+    
     <persistence-unit name="sakila" transaction-type="RESOURCE_LOCAL">
         <description>Test</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
@@ -35,4 +35,40 @@
 
         </properties>
     </persistence-unit>
+
+    <persistence-unit name="testdb" transaction-type="RESOURCE_LOCAL">
+        <description>Inheritance Test</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <!-- Configuring The Database Connection Details -->
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3305/testdb" />
+            <property name="jakarta.persistence.jdbc.user" value="speedment" />
+            <property name="jakarta.persistence.jdbc.password" value="password" />
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testdb2" transaction-type="RESOURCE_LOCAL">
+        <description>Inheritance Test 2</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+
+            <!-- Configuring The Database Connection Details -->
+
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3304/testdb2" />
+            <property name="jakarta.persistence.jdbc.user" value="speedment" />
+            <property name="jakarta.persistence.jdbc.password" value="password" />
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+        </properties>
+    </persistence-unit> 
+
 </persistence>

@@ -29,12 +29,14 @@ import com.speedment.jpastreamer.field.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
+import jakarta.persistence.MappedSuperclass;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.*;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
@@ -96,6 +98,7 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         }
 
         Set<? extends Element> entities = roundEnv.getElementsAnnotatedWith(Entity.class);
+        Set<? extends Element> superClasses = roundEnv.getElementsAnnotatedWith(MappedSuperclass.class);
         
         if (entities.isEmpty()) {
             messager.printMessage(Diagnostic.Kind.WARNING, "[JPAStreamer Field Generator Processor] Found no classes annotated with jakarta.persistence.Entity.\n");
@@ -124,13 +127,34 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         } else {
                             annotatedElementPackageName = packageElement.getQualifiedName().toString();
                         }
-
+                        
                         String packageName = processingEnv.getOptions().getOrDefault("jpaStreamerPackage", annotatedElementPackageName);
 
                         String qualifiedGenEntityName = packageName + "." + genEntityName;
                         JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(qualifiedGenEntityName);
                         Writer writer = builderFile.openWriter();
-                        generateFields(ae, entityName, genEntityName, packageName, writer);
+
+                        TypeMirror type = ae.asType();
+                        List<? extends TypeMirror> typeMirrors = processingEnvironment.getTypeUtils().directSupertypes(type);
+
+                        Optional<String> superClass = typeMirrors.stream()
+                                .filter(DeclaredType.class::isInstance)
+                                .map(DeclaredType.class::cast)
+                                .map(DeclaredType::asElement)
+                                .filter(e -> e.getAnnotation(MappedSuperclass.class) != null || e.getAnnotation(Entity.class ) != null)
+                                .map(e -> e.getSimpleName().toString())
+                                .findFirst();
+                        
+                        Optional<? extends Element> superClassElement = Optional.empty();  
+                        if (superClass.isPresent()) {
+                                // Entity should inherit fields from the superclass, retrieve element 
+                                superClassElement = Stream.concat(entities.stream(), superClasses.stream())
+                                        .filter(sc -> sc.getKind() == ElementKind.CLASS)
+                                        .filter(sc -> sc.getSimpleName().toString().equals(superClass.get()))
+                                        .findFirst();
+                        }
+
+                        generateFields(ae, entityName, genEntityName, packageName, superClassElement, writer);
                         writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -140,8 +164,13 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return true;
     }
 
-    void generateFields(final Element annotatedElement, final String entityName, final String genEntityName, final String packageName, final Writer writer) throws IOException {
-
+    void generateFields(final Element annotatedElement, 
+                        final String entityName, 
+                        final String genEntityName, 
+                        final String packageName, 
+                        final Optional<? extends Element> superClass, 
+                        final Writer writer) throws IOException {
+        
         final Map<String, Element> getters = annotatedElement.getEnclosedElements().stream()
                 .filter(ee -> ee.getKind() == ElementKind.METHOD)
                 // Only consider methods with no parameters
@@ -158,8 +187,15 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .map(Formatting::lcfirst)
                 .collect(toSet());
 
+        Stream<? extends Element> fields = annotatedElement.getEnclosedElements().stream();
+        
+        if (superClass.isPresent()) {
+            // Add parent fields 
+            fields = Stream.concat(fields, superClass.get().getEnclosedElements().stream());
+        }
+        
         // Retrieve all declared non-final instance fields of the annotated class
-        Map<? extends Element, String> enclosedFields = annotatedElement.getEnclosedElements().stream()
+        Map<? extends Element, String> enclosedFields = fields
                 .filter(ee -> ee.getKind().isField()
                         && !ee.getModifiers().contains(Modifier.STATIC) // Ignore static fields
                         && !ee.getModifiers().contains(Modifier.FINAL)) // Ignore final fields
@@ -168,8 +204,8 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                                 Function.identity(),
                                 ee -> findGetter(ee, getters, isGetters, shortName(entityName), lombokGetterAvailable(annotatedElement, ee)))
                 );
-
-        final File file = generatedEntity(enclosedFields, entityName, genEntityName, packageName);
+        
+        final File file = generatedEntity(annotatedElement, enclosedFields, entityName, genEntityName, packageName);
         writer.write(generator.on(file).orElseThrow(NoSuchElementException::new));
     }
 
@@ -220,7 +256,11 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         return lambdaName + " -> {throw new " + IllegalJavaBeanException.class.getSimpleName() + "(" + entityName + ".class, \"" + fieldName + "\");}";
     }
 
-    private File generatedEntity(final Map<? extends Element, String> enclosedFields, final String entityName, final String genEntityName, final String packageName) {
+    private File generatedEntity(final Element annotatedElement,
+                                 final Map<? extends Element, String> enclosedFields, 
+                                 final String entityName, 
+                                 final String genEntityName, 
+                                 final String packageName) {
         final File file = packageName.isEmpty() ?
                 File.of(genEntityName + ".java") :
                 File.of(packageName + "/" + genEntityName + ".java");
@@ -345,7 +385,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         final String fieldType = field.asType().toString();
         final List<String> annotations = field.getAnnotationMirrors().stream()
                 .map(Object::toString)
-                .filter(s -> !(s.contains("jakarta"))) 
                 .collect(Collectors.toList()); 
         if (annotations.isEmpty() && !fieldType.contains("@")) {
             final int index = fieldType.lastIndexOf(' ');
@@ -353,10 +392,12 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         } 
         String result = fieldType; 
         for (String annotation : annotations) {
-            result = result.replace(annotation, "");
+            // ensure that trailing commas are removed 
+            result = result.contains(annotation + ',') ?
+                    result.replace(annotation + ',', "") : 
+                    result.replace(annotation, "");
         }
         result = result.replace(" ", ""); 
-        result = result.replace(",", "");
         return result; 
     }
 

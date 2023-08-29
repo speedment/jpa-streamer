@@ -1,5 +1,3 @@
-import com.speedment.jpastreamer.fieldgenerator.StandardFieldGeneratorProcessor;
-
 /*
  * JPAstreamer - Express JPA queries with Java Streams
  * Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
@@ -12,14 +10,7 @@ import com.speedment.jpastreamer.fieldgenerator.StandardFieldGeneratorProcessor;
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-module jpastreamer.fieldgenerator.test {
+package com.speedment.jpastreamer.integration.test.standard.model.groups;
 
-    requires jpastreamer.fieldgenerator.standard;
-    requires jakarta.persistence;
-    requires lombok;
-    requires jakarta.validation;
-    requires transitive java.sql;
-    requires transitive jpastreamer.field;
-    
-    exports com.speedment.jpastreamer.fieldgenerator.test;
+public interface GroupA {
 }
