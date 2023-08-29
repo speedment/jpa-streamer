@@ -17,7 +17,7 @@ module jpastreamer.fieldgenerator.test {
     requires jpastreamer.fieldgenerator.standard;
     requires jakarta.persistence;
     requires lombok;
-    requires java.validation;
+    requires jakarta.validation;
     requires transitive java.sql;
     requires transitive jpastreamer.field;
     

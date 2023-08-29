@@ -13,9 +13,11 @@
 package com.speedment.jpastreamer.fieldgenerator.test;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -37,6 +39,7 @@ public class Film {
     private String title;
 
     @Column(name = "description", nullable = false, columnDefinition = "text")
+    @NotBlank
     private String description;
 
     @Column(name = "audienceScore", nullable = true, columnDefinition = "decimal(4,2)")
@@ -73,6 +76,9 @@ public class Film {
     private Language originalLanguage;
 
     @Column(name = "complex_column")
+    @NotBlank
+    @NotEmpty
+    @NotNull
     private Map<Map<List<Set<Double>>, Integer>, Long> complexColumn;
 
     @Column(name = "rental_duration", columnDefinition = "smallint(5)")

@@ -13,21 +13,21 @@
 package com.speedment.jpastreamer.fieldgenerator.test;
 
 import jakarta.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name="user")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User2  implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_shared")

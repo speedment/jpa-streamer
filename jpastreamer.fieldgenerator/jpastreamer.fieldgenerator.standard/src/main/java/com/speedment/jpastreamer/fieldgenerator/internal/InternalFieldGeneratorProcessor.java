@@ -385,7 +385,6 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         final String fieldType = field.asType().toString();
         final List<String> annotations = field.getAnnotationMirrors().stream()
                 .map(Object::toString)
-                .filter(s -> !(s.contains("jakarta"))) 
                 .collect(Collectors.toList()); 
         if (annotations.isEmpty() && !fieldType.contains("@")) {
             final int index = fieldType.lastIndexOf(' ');
@@ -393,10 +392,12 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         } 
         String result = fieldType; 
         for (String annotation : annotations) {
-            result = result.replace(annotation, "");
+            // ensure that trailing commas are removed 
+            result = result.contains(annotation + ',') ?
+                    result.replace(annotation + ',', "") : 
+                    result.replace(annotation, "");
         }
         result = result.replace(" ", ""); 
-        result = result.replace(",", "");
         return result; 
     }
 

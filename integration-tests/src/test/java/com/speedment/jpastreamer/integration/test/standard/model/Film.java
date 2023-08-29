@@ -15,9 +15,10 @@ package com.speedment.jpastreamer.integration.test.standard.model;
 import com.speedment.jpastreamer.integration.test.standard.model.groups.GroupA;
 import com.speedment.jpastreamer.integration.test.standard.model.groups.GroupB;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,11 +46,11 @@ public class Film implements Serializable {
     private Integer filmId;
 
     @Column(name = "title", nullable = false, columnDefinition = "varchar(255)")
-    //@NotEmpty(message = "Title may not be empty", groups = {GroupA.class, GroupB.class})
-    @NotNull(message = "Title may not be null", groups = {GroupA.class, GroupB.class})
+    @NotEmpty(message = "Title may not be empty", groups = {GroupA.class, GroupB.class})
     private String title;
-
+    
     @Column(name = "description", nullable = false, columnDefinition = "text")
+    @NotBlank
     private String description;
 
     @ManyToOne
