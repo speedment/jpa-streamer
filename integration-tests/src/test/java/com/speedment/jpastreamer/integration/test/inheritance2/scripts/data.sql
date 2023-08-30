@@ -1,3 +1,16 @@
+--
+-- JPAstreamer - Express JPA queries with Java Streams
+-- Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+--
+-- License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+--
+-- This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+-- without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-- See the GNU Lesser General Public License for more details.
+--
+-- See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
+--
+
 INSERT INTO publication(id, publication_type, publishing_date, title, version, pages, url)
 VALUES  (1, 'Book', '2008-7-04', 'Book 1', 2, 213, null),
         (2, 'Book', '2009-7-04', 'Book 2', 2, 234, null),

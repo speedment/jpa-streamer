@@ -1,4 +1,17 @@
 #!/bin/sh
+#
+# JPAstreamer - Express JPA queries with Java Streams
+# Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+#
+# License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+#
+# This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
+#
+
 
 # Run sakila database 
 docker run --platform linux/amd64 -d --publish 3306:3306 --name mysqld restsql/mysql-sakila
