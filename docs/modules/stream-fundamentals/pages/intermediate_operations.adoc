@@ -16,108 +16,108 @@ The following intermediate operations are accepted by a `Stream`:
 |==========================================================
 | Operation         | Parameter          | Returns a `Stream` that:
 
-| `filter`          | `Predicate`        | contains only the elements that match the `Predicate`
-| `map`             | `Function`         | contains the results of applying the given `Function` to the elements of this stream
-| `distinct`        | -                  | contains the distinct (i.e. unique) elements in the stream as per the element's `equals()` method
-| `sorted`          | -                  | contains the elements in the stream in sorted order as per the element's `compareTo()` method
-| `sorted`          | `Comparator`       | contains the elements in the stream in sorted order as per the given `Comparator`
-| `limit`           | `long`             | contains the original elements in the stream but truncated to be no longer than the given `long` value
-| `skip`            | `long`             | contains the original elements in the stream but after discarding the given `long` value of elements
-| `flatMap`         | `Function`         | contains the elements of the `Stream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
-| `peek`            | `Consumer`         | contains the original elements in the stream but additionally letting the given `Consumer` accept each element (side effect)
+| `filter`          | `Predicate`        | Contains only the elements that match the `Predicate`
+| `map`             | `Function`         | Contains the results of applying the given `Function` to the elements of this stream
+| `distinct`        | -                  | Contains the distinct (i.e. unique) elements in the stream as per the element's `equals()` method
+| `sorted`          | -                  | Contains the elements in the stream in sorted order as per the element's `compareTo()` method
+| `sorted`          | `Comparator`       | Contains the elements in the stream in sorted order as per the given `Comparator`
+| `limit`           | `long`             | Contains the original elements in the stream but truncated to be no longer than the given `long` value
+| `skip`            | `long`             | Contains the original elements in the stream but after discarding the given `long` value of elements
+| `flatMap`         | `Function`         | Contains the elements of the `Stream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `peek`            | `Consumer`         | Contains the original elements in the stream but additionally letting the given `Consumer` accept each element (side effect)
 |==========================================================
 
 Below are examples that demonstrate how these operations can be applied.
 
-=== filter
+=== filter()
 [source, java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .filter(s -> s.equals("B"))
+Stream.of("B", "A", "C" , "B")
+    .filter(s -> s.equals("B"))
 ----
 
-returns a `Stream` with the elements "B" and "B" because only elements that are equal to "B" will pass the `filter` operation.
+Returns a `Stream` with the elements "B" and "B" because only elements that are equal to "B" will pass the `filter` operation.
 
-=== map
+=== map()
 [source, java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .map(s -> s.toLowerCase())
+Stream.of("B", "A", "C" , "B")
+    .map(s -> s.toLowerCase())
 ----
-returns a `Stream` with the elements "b", "a", "c" and "b" because each element will be mapped (converted) to its lower case representation.
+Returns a `Stream` with the elements "b", "a", "c" and "b" because each element will be mapped (converted) to its lower case representation.
 
-=== distinct
+=== distinct()
 [source, java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .distinct()
+Stream.of("B", "A", "C" , "B")
+    .distinct()
 ----
-returns a `Stream` with the elements "B", "A" and "C" because only unique elements will pass the `distinct` operation.
+Returns a `Stream` with the elements "B", "A" and "C" because only unique elements will pass the `distinct` operation.
 
-=== sorted
+=== sorted()
 [source, java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .sorted()
+Stream.of("B", "A", "C" , "B")
+    .sorted()
 ----
-returns a `Stream` with the elements "A", "B", "B" and "C" because the `sort` operation will sort all elements in the stream in natural order.
+Returns a `Stream` with the elements "A", "B", "B" and "C" because the `sort` operation will sort all elements in the stream in natural order.
 
 [source,java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .sorted(Comparator.reverseOrder())
+Stream.of("B", "A", "C" , "B")
+    .sorted(Comparator.reverseOrder())
 ----
-returns a `Stream` with the elements "C", "B", "B" and "A" because the `sort` operation will sort all elements in the stream according to the provided `Comparator` (in reversed natural order).
+Returns a `Stream` with the elements "C", "B", "B" and "A" because the `sort` operation will sort all elements in the stream according to the provided `Comparator` (in reversed natural order).
 
-=== limit
-
-[source,java]
-----
-    Stream.of("B", "A", "C" , "B")
-        .limit(2)
-----
-returns a `Stream` with the elements "B" and "A" because after the two first elements the rest of the elements will be discarded.
-
-=== skip
+=== limit()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .skip(1)
+Stream.of("B", "A", "C" , "B")
+    .limit(2)
 ----
-returns a `Stream` with the elements "A", "C" and "B" because the first element in the stream will be skipped.
+Returns a `Stream` with the elements "B" and "A" because after the two first elements the rest of the elements will be discarded.
 
-=== flatMap
-
-[source,java]
-----
-    Stream.of(
-        Stream.of("B", "A"),
-        Stream.of("C", "B")
-    )
-        .flatMap(Function.identity())
-        .forEachOrdered(System.out::println);
-----
-returns a `Stream` with the elements "B", "A", "C" and "B" because the two streams (that each contain two elements) are "flattened" to a single `Stream` with four elements.
+=== skip()
 
 [source,java]
 ----
-    Stream.of(
-        Arrays.asList("B", "A"),
-        Arrays.asList("C", "B")
-    )
-        .flatMap(l -> l.stream())
+Stream.of("B", "A", "C" , "B")
+    .skip(1)
 ----
-returns a `Stream` with the elements "B", "A", "C" and "B" because the two lists (that each contain two elements) are "flattened" to a single `Stream` with four elements. The lists are converted to sub-streams using the `List::stream` mapper method.
+Returns a `Stream` with the elements "A", "C" and "B" because the first element in the stream will be skipped.
 
-=== peek
+=== flatMap()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .peek(System.out::print)
+Stream.of(
+    Stream.of("B", "A"),
+    Stream.of("C", "B")
+)
+    .flatMap(Function.identity())
+    .forEachOrdered(System.out::println);
 ----
-returns a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect.
+Returns a `Stream` with the elements "B", "A", "C" and "B" because the two streams (that each contain two elements) are "flattened" to a single `Stream` with four elements.
+
+[source,java]
+----
+Stream.of(
+    Arrays.asList("B", "A"),
+    Arrays.asList("C", "B")
+)
+    .flatMap(l -> l.stream())
+----
+Returns a `Stream` with the elements "B", "A", "C" and "B" because the two lists (that each contain two elements) are "flattened" to a single `Stream` with four elements. The lists are converted to sub-streams using the `List::stream` mapper method.
+
+=== peek()
+
+[source,java]
+----
+Stream.of("B", "A", "C" , "B")
+    .peek(System.out::print)
+----
+Returns a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect.
 
 NOTE: Side-effect usage is discouraged in Streams. Use this operation for debug only.
 
@@ -134,42 +134,42 @@ There are also a number of intermediate operations that controls the properties 
 | `onClose`         | `Runnable`         | will run the provided `Runnable` when closed
 |=============
 
-=== parallel
+=== parallel()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .parallel()
+Stream.of("B", "A", "C" , "B")
+    .parallel()
 ----
-returns a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Threads. By default, parallel streams are executed on the default `ForkJoinPool`.
+Returns a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Threads. By default, parallel streams are executed on the default `ForkJoinPool`.
 
-=== sequential
-
-[source,java]
-----
-    Stream.of("B", "A", "C" , "B")
-        .parallel()
-        .sequential()
-----
-returns a `Stream` with the elements "B", "A", "C" and "B" that is not parallel.
-
-=== unordered
+=== sequential()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .unordered()
+Stream.of("B", "A", "C" , "B")
+    .parallel()
+    .sequential()
 ----
-returns a `Stream` with the given elements but not necessary in any particular order. So when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A". Note that `unordered` is just a relaxation of the stream requirements. Unordered streams can retain their original element order or elements can appear in any other order.
+Returns a `Stream` with the elements "B", "A", "C" and "B" that is not parallel.
 
-=== onClose
+=== unordered()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .onClose( () -> System.out.println("The Stream was closed") );
+Stream.of("B", "A", "C" , "B")
+    .unordered()
 ----
-is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".
+Returns a `Stream` with the given elements but not necessary in any particular order. So when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A". Note that `unordered` is just a relaxation of the stream requirements. Unordered streams can retain their original element order or elements can appear in any other order.
+
+=== onClose()
+
+[source,java]
+----
+Stream.of("B", "A", "C", "B")
+    .onClose( () -> System.out.println("The Stream was closed") );
+----
+Is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".
 
 == Map to Primitive Operations
 There are also some intermediate operations that maps a `Stream` to one of the special primitive stream types; `IntStrem`, `LongStream` and `DoubleStream`:
@@ -177,77 +177,145 @@ There are also some intermediate operations that maps a `Stream` to one of the s
 [width="100%", cols="3", options="header"]
 |=============
 | Operation         | Parameter          | Returns a `Stream` that:
-| `mapToInt`        | `ToIntFunction`    | is an `IntStream` containing `int` elements obtained by applying the given `ToIntFunction` to the elements of this stream
-| `mapToLong`       | `ToLongFunction`   | is a `LongStream` containing `long` elements obtained by applying the given `ToLongFunction` to the elements of this stream
-| `mapToDouble`     | `ToDoubleFunction` | is a `DoubleStream` containing `double` elements obtained by applying the given `ToDoubleFunction` to the elements of this stream
-| `flatMapToInt`    | `Function`         | contains the `int` elements of the `IntStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
-| `flatMapToLong`   | `Function`         | contains the `long` elements of the `LongStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
-| `flatMapToDouble` | `Function`         | contains the `double` elements of the `DoubleStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `mapToInt`        | `ToIntFunction`    | Is an `IntStream` containing `int` elements obtained by applying the given `ToIntFunction` to the elements of this stream
+| `mapToLong`       | `ToLongFunction`   | Is a `LongStream` containing `long` elements obtained by applying the given `ToLongFunction` to the elements of this stream
+| `mapToDouble`     | `ToDoubleFunction` | Is a `DoubleStream` containing `double` elements obtained by applying the given `ToDoubleFunction` to the elements of this stream
+| `flatMapToInt`    | `Function`         | Contains the `int` elements of the `IntStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `flatMapToLong`   | `Function`         | Contains the `long` elements of the `LongStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `flatMapToDouble` | `Function`         | Contains the `double` elements of the `DoubleStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
 |=============
 
 NOTE: In many cases, primitive streams provide better performance but can only handle streams of: `int`, `long` and `double`.
 
-=== mapToInt
+=== mapToInt()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C" , "B")
-        .mapToInt(s -> s.hashCode())
+Stream.of("B", "A", "C" , "B")
+    .mapToInt(s -> s.hashCode())
 ----
-returns an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B is 66 and so on)
+Returns an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B is 66 and so on)
 
-=== mapToLong
-
-[source,java]
-----
-    Stream.of("B", "A", "C", "B")
-        .mapToLong(s -> s.hashCode() * 1_000_000_000_000l)
-----
-returns a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.
-
-=== mapToDouble
+=== mapToLong()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .mapToDouble(s -> s.hashCode() / 10.0)
+Stream.of("B", "A", "C", "B")
+    .mapToLong(s -> s.hashCode() * 1_000_000_000_000l)
 ----
-returns a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
+Returns a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.
+
+=== mapToDouble()
+
+[source,java]
+----
+Stream.of("B", "A", "C", "B")
+    .mapToDouble(s -> s.hashCode() / 10.0)
+----
+Returns a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
 === flatMapToInt
 
 [source,java]
 ----
-    Stream.of(
-        IntStream.of(1, 2),
-        IntStream.of(3, 4)
-    )
-        .flatMapToInt(s -> s.map(i -> i + 1))
+Stream.of(
+    IntStream.of(1, 2),
+    IntStream.of(3, 4)
+)
+    .flatMapToInt(s -> s.map(i -> i + 1))
 ----
-returns an `IntStream` with the `int` elements 2, 3, 4 and 5 because the two `IntStream`s where flattened to one stream whereby 1 was added to each element.
+Returns an `IntStream` with the `int` elements 2, 3, 4 and 5 because the two `IntStream`s where flattened to one stream whereby 1 was added to each element.
 
-=== flatMapToLong
-
-[source,java]
-----
-    Stream.of(
-        LongStream.of(1, 2),
-        LongStream.of(3, 4)
-    )
-        .flatMapToLong(s -> s.map(i -> i + 1))
-----
-returns a `LongStream` with the `long` elements 2, 3, 4 and 5 because the two `LongStreams` where flattened to one stream whereby 1 was added to each element.
-
-=== flatMapToDouble
+=== flatMapToLong()
 
 [source,java]
 ----
-    Stream.of(
-        DoubleStream.of(1.0, 2.0),
-        DoubleStream.of(3.0, 4.0)
-    )
-        .flatMapToDouble(s -> s.map(i -> i + 1))
+Stream.of(
+    LongStream.of(1, 2),
+    LongStream.of(3, 4)
+)
+    .flatMapToLong(s -> s.map(i -> i + 1))
 ----
-returns a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0 because the two `DoubleStream`s where flattened to one stream whereby 1 was added to each element.
+Returns a `LongStream` with the `long` elements 2, 3, 4 and 5 because the two `LongStreams` where flattened to one stream whereby 1 was added to each element.
+
+=== flatMapToDouble()
+
+[source,java]
+----
+Stream.of(
+    DoubleStream.of(1.0, 2.0),
+    DoubleStream.of(3.0, 4.0)
+)
+    .flatMapToDouble(s -> s.map(i -> i + 1))
+----
+Returns a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0 because the two `DoubleStream`s where flattened to one stream whereby 1 was added to each element.
+
+== Map Multi Operations (Java 16 Only)
+Java 16 introduced several new map operations, expanding the capabilities of Streams. The `mapMulti()` function enables the mapping of a single element within the Stream to zero or multiple elements, contingent on specific conditions. 
+
+[width="100%", cols="3", options="header"]
+|=============
+| Operation         | Parameter          | Returns a `Stream` that:
+| `mapMulti`       | `BiConsumer`        | Returns a stream consisting of the results of replacing each element of this stream with multiple elements, specifically zero or more elements.
+| `mapMultiToDouble`       | `BiConsumer`        | Returns a `DoubleStream` consisting of the results of replacing each element of this stream with multiple elements, specifically zero or more elements.
+| `mapMultiToInt`       | `BiConsumer`        | Returns an `IntStream`
+consisting of the results of replacing each element of this stream with multiple elements, specifically zero or more elements.
+| `mapMultiToLong`       | `BiConsumer`        | Returns a `LongStream` consisting of the results of replacing each element of this stream with multiple elements, specifically zero or more elements.
+
+|=============
+
+WARNING: These operations are only available in applications running Java 16 or later.
+
+=== mapMulti()
+[source,java]
+----
+Stream.of(1.0, 2.0, 3.0, 4.0, 5.0)
+    .mapMulti((i, mapper) -> {
+        if (i % 2 == 0) {
+            mapper.accept(i); 
+            mapper.accept(i); 
+        }
+    });
+----
+Returns a `Stream` with the elements [2.0, 2.0, 4.0, 4.0] because the even elements were duplicated by accepting them twice.
+
+=== mapMultiToDouble()
+[source,java]
+----
+Stream.of(1.0, 2.0, 3.0, 4.0, 5.0)
+    .mapMulti((i, mapper) -> {
+        if (i % 2 == 0) {
+            mapper.accept(i); 
+            mapper.accept(i); 
+        }
+    });
+----
+Returns an `DoubleStream` with the elements [2.0, 2.0, 4.0, 4.0] because the even elements were duplicated by accepting them twice.
+
+=== mapMultiToInt()
+[source,java]
+----
+Stream.of(1, 2, 3, 4, 5)
+    .mapMulti((i, mapper) -> {
+        if (i % 2 == 0) {
+            mapper.accept(i); 
+            mapper.accept(i); 
+        }
+    });
+----
+Returns an `IntStream` with the elements [2, 2, 4, 4] because the even elements were duplicated by accepting them twice.
+
+=== mapMultiToLong()
+[source,java]
+----
+Stream.of(1.0, 2.0, 3.0, 4.0, 5.0)
+    .mapMulti((i, mapper) -> {
+        if (i % 2 == 0) {
+            mapper.accept(i.longValue()); 
+            mapper.accept(i.longValue()); 
+        }
+    });
+----
+Returns an `LongStream` with the elements [2, 2, 4, 4] because the even elements were duplicated by accepting them twice.
 
 == Primitive Operations
 Primitive streams (like `IntStream` and `LongStream`) provide similar functionality as ordinary streams but usually the parameter count and types differ so that primitive streams can accept more optimized function variants.
@@ -261,58 +329,57 @@ Here is a table of some additional *Intermediate Operations* that primitive Stre
 | `asDoubleStream`  | -                  | contains the elements in the original stream converted to `double` elements
 |=============
 
-=== boxed
+=== boxed()
 
 [source,java]
 ----
-    IntStream.of(1, 2, 3, 4)
-        .boxed()
+IntStream.of(1, 2, 3, 4)
+    .boxed()
 ----
 returns a `Stream` with the `Integer` elements 1, 2, 3 and 4 because the original `int` elements were boxed to their corresponding `Integer` elements.
 
-=== asLongStream
+=== asLongStream()
 
 [source,java]
 ----
-     IntStream.of(1, 2, 3, 4)
-        .asLongStream()
+IntStream.of(1, 2, 3, 4)
+    .asLongStream()
 ----
 returns a `LongStream` with the `long` elements 1, 2, 3 and 4 because the original `int` elements were converted to `long` elements.
 
-=== asDoubleStream
+=== asDoubleStream()
 
 [source,java]
 ----
-    IntStream.of(1, 2, 3, 4)
-        .asDoubleStream()
+IntStream.of(1, 2, 3, 4)
+    .asDoubleStream()
 ----
 returns a `DoubleStream` with the `double` elements 1.0, 2.0, 3.0 and 4.0 because the original `int` elements were converted to `double` elements.
 
-
-== Java 9 Operations
-Two new intermediate operations were introduced in Java 9. Since these methods were added to the `Stream` interface with default implementations, these methods can be used by any `Stream` implementation written in either Java 8 or Java 9.
+== Selective Operations
+Two stream operations exist for capturing or omitting elements within the stream until a particular condition is satisfied. Unlike a filter, these operations discontinue predicate evaluation once it turns true for the first time.
 
 [width="100%", cols="3", options="header"]
 |=============
 | Operation         | Parameter          | Returns a `Stream` that:
-| `takeWhile`       | `Predicate`        | contains the elements in the original stream until the the first one fails the `Predicate` test
-| `dropWhile`       | `Predicate`        | contains the elements in the original stream dropping all elements until the the first one fails the `Predicate` test then containing the rest of the elements
+| `takeWhile`       | `Predicate`        | Contains the elements in the original stream until the the first one fails the `Predicate` test
+| `dropWhile`       | `Predicate`        | Contains the elements in the original stream dropping all elements until the the first one fails the `Predicate` test then containing the rest of the elements
 |=============
 
-=== takeWhile (Java 9 only)
+=== takeWhile()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .takeWhile(s -> "B".compareTo(s) >= 0)
+Stream.of("B", "A", "C", "B")
+    .takeWhile(s -> "B".compareTo(s) >= 0)
 ----
-returns a `Stream` with the elements "B" and "A" because when "C" is encountered in the `Stream`, that element and all following are dropped.
+Returns a `Stream` with the elements "B" and "A" because when "C" is encountered in the `Stream`, that element and all following are dropped.
 
-=== dropWhile (Java 9 only)
+=== dropWhile()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .dropWhile(s -> "B".compareTo(s) >= 0)
+Stream.of("B", "A", "C", "B")
+    .dropWhile(s -> "B".compareTo(s) >= 0)
 ----
-returns a `Stream` with the elements "C" and "B" because elements are dropped from the `Stream` but when "C" in encountered, subsequent elements are not dropped.
+Returns a `Stream` with the elements "C" and "B" because elements are dropped from the `Stream` but when "C" in encountered, subsequent elements are not dropped.

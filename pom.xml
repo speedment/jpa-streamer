@@ -45,7 +45,7 @@
         <module>jpastreamer.rootfactory</module>
         <module>jpastreamer.field</module>
         <module>jpastreamer.application</module>
-        <module>jpastreamer.javanine</module>
+        <module>jpastreamer.javasixteen</module>
         <module>jpastreamer.autoclose</module>
         <module>jpastreamer.pipeline</module>
         <module>jpastreamer.builder</module>
@@ -938,7 +938,7 @@
 
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>javanine</artifactId>
+                <artifactId>javasixteen</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 

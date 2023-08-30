@@ -12,9 +12,6 @@
  */
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9LongStreamAdditions;
-import com.speedment.jpastreamer.javanine.Java9StreamUtil;
-
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.DoubleStream;
@@ -35,7 +32,7 @@ import java.util.stream.Stream;
  */
 final class AutoClosingLongStream
     extends AbstractAutoClosingBaseStream<Long, LongStream>
-    implements LongStream, Java9LongStreamAdditions {
+    implements LongStream {
 
     AutoClosingLongStream(final LongStream stream) {
         this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
@@ -105,12 +102,12 @@ final class AutoClosingLongStream
 
     @Override
     public LongStream takeWhile(LongPredicate predicate) {
-        return wrap(Java9StreamUtil.takeWhile(stream(), predicate));
+        return wrap(stream().takeWhile(predicate));
     }
 
     @Override
     public LongStream dropWhile(LongPredicate predicate) {
-        return wrap(Java9StreamUtil.dropWhile(stream(), predicate));
+        return wrap(stream().dropWhile(predicate));
     }
 
     @Override

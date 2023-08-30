@@ -39,7 +39,7 @@
 
         <dependency>
             <groupId>com.speedment.jpastreamer</groupId>
-            <artifactId>javanine</artifactId>
+            <artifactId>javasixteen</artifactId>
         </dependency>
 
     </dependencies>
