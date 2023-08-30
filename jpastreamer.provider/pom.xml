@@ -19,7 +19,7 @@
     <parent>
         <groupId>com.speedment.jpastreamer</groupId>
         <artifactId>jpastreamer-parent</artifactId>
-        <version>3.0.3</version>
+        <version>3.0.4-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -39,7 +39,6 @@
         <module>jpastreamer.criteria.standard</module>
         <module>jpastreamer.termopmodifier.standard</module>
         <module>jpastreamer.termopoptimizer.standard</module>
-        <module>jpastreamer.analytics.standard</module>
         <module>jpastreamer.appinfo.standard</module>
         <module>jpastreamer.streamconfiguration.standard</module>
     </modules>

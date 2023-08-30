@@ -14,8 +14,6 @@ package com.speedment.jpastreamer.application.standard.internal;
 
 import static java.util.Objects.requireNonNull;
 
-import com.speedment.jpastreamer.analytics.AnalyticsReporter;
-import com.speedment.jpastreamer.analytics.AnalyticsReporterFactory;
 import com.speedment.jpastreamer.announcer.Announcer;
 import com.speedment.jpastreamer.appinfo.ApplicationInformation;
 import com.speedment.jpastreamer.application.JPAStreamer;
@@ -33,7 +31,6 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     private final Supplier<EntityManager> entityManagerSupplier;
     private final Runnable closeHandler;
-    private final AnalyticsReporter analyticsReporter;
     
     private final boolean closeEntityManagers; 
     
@@ -42,9 +39,6 @@ final class StandardJPAStreamer implements JPAStreamer {
         this.entityManagerSupplier = requireNonNull(entityManagerSupplier);
         this.closeEntityManagers = closeEntityManagers; 
         final ApplicationInformation applicationInformation = RootFactory.getOrThrow(ApplicationInformation.class, ServiceLoader::load);
-        final AnalyticsReporterFactory analyticsReporterFactory = RootFactory.getOrThrow(AnalyticsReporterFactory.class, ServiceLoader::load);
-        analyticsReporter = analyticsReporterFactory.createAnalyticsReporter(applicationInformation.implementationVersion(), demoMode);
-        analyticsReporter.start();
         printGreeting(applicationInformation);
     }
 
@@ -70,7 +64,6 @@ final class StandardJPAStreamer implements JPAStreamer {
 
     @Override
     public void close() {
-        analyticsReporter.stop();
         closeHandler.run(); 
     }
 

@@ -12,9 +12,6 @@
  */
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9IntStreamAdditions;
-import com.speedment.jpastreamer.javanine.Java9StreamUtil;
-
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.DoubleStream;
@@ -35,7 +32,7 @@ import java.util.stream.Stream;
  */
 final class AutoClosingIntStream
     extends AbstractAutoClosingBaseStream<Integer, IntStream>
-    implements IntStream, Java9IntStreamAdditions {
+    implements IntStream {
 
     AutoClosingIntStream(final IntStream stream) {
         this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
@@ -105,12 +102,12 @@ final class AutoClosingIntStream
 
     @Override
     public IntStream takeWhile(IntPredicate predicate) {
-        return wrap(Java9StreamUtil.takeWhile(stream(), predicate));
+        return wrap(stream().takeWhile(predicate));
     }
 
     @Override
     public IntStream dropWhile(IntPredicate predicate) {
-        return wrap(Java9StreamUtil.dropWhile(stream(), predicate));
+        return wrap(stream().dropWhile(predicate));
     }
 
     @Override

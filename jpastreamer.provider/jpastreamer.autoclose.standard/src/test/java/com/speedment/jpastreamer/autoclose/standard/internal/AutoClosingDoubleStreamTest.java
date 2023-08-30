@@ -12,17 +12,15 @@
  */
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9StreamUtil;
+import com.speedment.jpastreamer.javasixteen.Java16StreamUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.DoublePredicate;
-import java.util.function.LongPredicate;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -113,14 +111,14 @@ final class AutoClosingDoubleStreamTest extends AbstractAutoClosingStreamTest<Do
 
     @Test
     void takeWhile() {
-        testIntermediate(s -> Java9StreamUtil.takeWhile(s, i -> i < 3));
+        testIntermediate(s -> s.takeWhile(i -> i < 3));
     }
-
+    
     @Test
     void dropWhile() {
-        testIntermediate(s -> Java9StreamUtil.dropWhile(s, i -> i < 3));
+        testIntermediate(s -> s.dropWhile(i -> i < 3));
     }
-
+    
     @Test
     void forEach() {
         final AtomicInteger cnt = new AtomicInteger();

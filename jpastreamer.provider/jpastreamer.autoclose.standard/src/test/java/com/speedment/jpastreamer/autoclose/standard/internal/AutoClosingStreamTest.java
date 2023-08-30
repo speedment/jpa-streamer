@@ -12,17 +12,20 @@
  */
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9StreamUtil;
+import com.speedment.jpastreamer.javasixteen.Java16StreamUtil;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledForJreRange;
+import org.junit.jupiter.api.condition.JRE;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer, Stream<Integer>> {
 
@@ -60,17 +63,17 @@ final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer,
 
     @Test
     void mapToInt() {
-        testTerminal(s -> s.mapToInt(i -> i + 1).boxed().collect(toList()));
+        testTerminal(s -> s.mapToInt(i -> i + 1).boxed().collect(Collectors.toList()));
     }
 
     @Test
     void mapToLong() {
-        testTerminal(s -> s.mapToLong(i -> i + 1).boxed().collect(toList()));
+        testTerminal(s -> s.mapToLong(i -> i + 1).boxed().collect(Collectors.toList()));
     }
 
     @Test
     void mapToDouble() {
-        testTerminal(s -> s.mapToDouble(i -> i + 1).boxed().collect(toList()));
+        testTerminal(s -> s.mapToDouble(i -> i + 1).boxed().collect(Collectors.toList()));
     }
 
     @Test
@@ -109,12 +112,12 @@ final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer,
 
     @Test
     void takeWhile() {
-        testIntermediate(s -> Java9StreamUtil.takeWhile(s, i -> i < 3));
+        testIntermediate(s -> s.takeWhile(i -> i < 3));
     }
 
     @Test
     void dropWhile() {
-        testIntermediate(s -> Java9StreamUtil.dropWhile(s, i -> i < 3));
+        testIntermediate(s -> s.dropWhile(i -> i < 3));
     }
 
     @Test
@@ -182,4 +185,76 @@ final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer,
         testTerminal(Stream::findAny);
     }
 
+    @Test
+    @EnabledForJreRange(min = JRE.JAVA_16)
+    void toList() { testTerminal(Java16StreamUtil::toList); }
+
+    @Test
+    @EnabledForJreRange(min = JRE.JAVA_16)
+    void mapMulti() { testIntermediate(s -> Java16StreamUtil.mapMulti(s, ((i, mapper) -> {
+        if (EVEN.test(i)) {
+            mapper.accept(i);
+        }
+    }))); }
+
+    @Test
+    @EnabledForJreRange(min = JRE.JAVA_16)
+    void mapMultiToInt16() { testTerminal(s -> Java16StreamUtil.mapMultiToInt(s, ((i, mapper) -> {
+        if (EVEN.test(i)) {
+            mapper.accept(i);
+        }
+    })).boxed().collect(Collectors.toList())); }
+    
+    @Test
+    @EnabledForJreRange(max = JRE.JAVA_15) 
+    void mapMultiToInt() {
+        Exception exception = assertThrows(UnsupportedOperationException.class, () -> {
+            testTerminal(s -> Java16StreamUtil.mapMultiToInt(s, ((i, mapper) -> {
+                if (EVEN.test(i)) {
+                    mapper.accept(i);
+                }
+            })).boxed().collect(Collectors.toList()));
+        });
+    }
+
+    @Test
+    @EnabledForJreRange(min = JRE.JAVA_16)
+    void mapMultiToDouble16() { testTerminal(s -> Java16StreamUtil.mapMultiToDouble(s, ((i, mapper) -> {
+        if (EVEN.test(i)) {
+            mapper.accept(i);
+        }
+    })).boxed().collect(Collectors.toList())); }
+
+    @Test
+    @EnabledForJreRange(max = JRE.JAVA_15)
+    void mapMultiToDouble() {
+        Exception exception = assertThrows(UnsupportedOperationException.class, () -> {
+            testTerminal(s -> Java16StreamUtil.mapMultiToDouble(s, ((i, mapper) -> {
+                if (EVEN.test(i)) {
+                    mapper.accept(i);
+                }
+            })).boxed().collect(Collectors.toList()));
+        });
+    }
+    
+    @Test
+    @EnabledForJreRange(min = JRE.JAVA_16)
+    void mapMultiToLong16() { testTerminal(s -> Java16StreamUtil.mapMultiToLong(s, ((i, mapper) -> {
+        if (EVEN.test(i)) {
+            mapper.accept(i);
+        }
+    })).boxed().collect(Collectors.toList())); }
+
+    @Test
+    @EnabledForJreRange(max = JRE.JAVA_15)
+    void mapMultiToLong() {
+        Exception exception = assertThrows(UnsupportedOperationException.class, () -> {
+            testTerminal(s -> Java16StreamUtil.mapMultiToLong(s, ((i, mapper) -> {
+                if (EVEN.test(i)) {
+                    mapper.accept(i);
+                }
+            })).boxed().collect(Collectors.toList()));
+        });
+    }
+    
 }

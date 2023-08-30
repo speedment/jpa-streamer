@@ -15,7 +15,7 @@ import com.speedment.jpastreamer.autoclose.standard.StandardAutoCloseFactory;
  */
 module jpastreamer.autoclose.standard {
     requires transitive jpastreamer.autoclose;
-    requires jpastreamer.javanine;
+    requires jpastreamer.javasixteen;
 
     exports com.speedment.jpastreamer.autoclose.standard;
     

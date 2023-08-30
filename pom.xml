@@ -30,7 +30,7 @@
     
     <groupId>com.speedment.jpastreamer</groupId>
     <artifactId>jpastreamer-parent</artifactId>
-    <version>3.0.3</version>
+    <version>3.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <!-- Project Metadata -->
@@ -45,7 +45,7 @@
         <module>jpastreamer.rootfactory</module>
         <module>jpastreamer.field</module>
         <module>jpastreamer.application</module>
-        <module>jpastreamer.javanine</module>
+        <module>jpastreamer.javasixteen</module>
         <module>jpastreamer.autoclose</module>
         <module>jpastreamer.pipeline</module>
         <module>jpastreamer.builder</module>
@@ -59,7 +59,6 @@
         <module>jpastreamer.fieldgenerator</module>
         <module>jpastreamer.core</module>
         <module>jpastreamer.integration</module>
-        <module>jpastreamer.analytics</module>
         <module>jpastreamer.appinfo</module>
         <module>jpastreamer.streamconfiguration</module>
         <module>jpastreamer.announcer</module>
@@ -173,7 +172,7 @@
 
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>3.1.2</version>
 
                     <configuration>
                         <useFile>false</useFile>
@@ -198,7 +197,7 @@
 
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.3.1</version>
                 </plugin>
 
                 <plugin>
@@ -428,7 +427,7 @@
 
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.4.0</version>
                 <executions>
                     <execution>
                         <id>enforce</id>
@@ -939,25 +938,13 @@
 
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>javanine</artifactId>
+                <artifactId>javasixteen</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.speedment.jpastreamer</groupId>
                 <artifactId>appinfo-standard</artifactId>
-                <version>${jpa-streamer.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>analytics</artifactId>
-                <version>${jpa-streamer.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.speedment.jpastreamer</groupId>
-                <artifactId>analytics-standard</artifactId>
                 <version>${jpa-streamer.version}</version>
             </dependency>
 

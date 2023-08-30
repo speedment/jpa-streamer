@@ -1,0 +1,33 @@
+#
+# JPAstreamer - Express JPA queries with Java Streams
+# Copyright (c) 2020-2022, Speedment, Inc. All Rights Reserved.
+#
+# License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+#
+# This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
+#
+
+version: '3.8'
+
+services:
+  test-db-2:
+    container_name: test-db-2
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - "./scripts/schema.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./scripts/data.sql:/docker-entrypoint-initdb.d/2.sql"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3304:3306"
+    expose: 
+      - "3304"
