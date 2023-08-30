@@ -28,175 +28,186 @@ The following terminal operations are accepted by a `Stream`:
 | `findAny`         | -                    | Returns any element in this stream (if any)
 | `toArray`         | -                    | Returns an array containing all the elements in this stream
 | `toArray`         | `IntFunction`        | Returns an array containing all the elements in this stream whereby the array is created using the provided `IntFunction`
+| `toList`         | -                    | Returns a list containing all the elements in this stream
 |==========================================================
 
-=== forEach
+=== forEach()
 
 [source,java]
 ----
-     Stream.of("B", "A", "C" , "B")
-        .forEach(System.out::print);
+Stream.of("B", "A", "C" , "B")
+    .forEach(System.out::print);
 ----
 might output "CBBA". However, there is no guarantee of a particular order  using `forEach`. Despite this, most `Stream` implementations actually _would_ output "BACB".
 
-=== forEachOrdered
+=== forEachOrdered()
 
 [source,java]
 ----
-     Stream.of("B", "A", "C" , "B")
-        .forEachOrdered(System.out::print);
+Stream.of("B", "A", "C" , "B")
+    .forEachOrdered(System.out::print);
 ----
 *always* outputs "BACB" (as opposed to `forEach`).
 
-=== collect
+=== collect()
 
 [source,java]
 ----
-     Stream.of("B", "A", "C" , "B")
-        .collect(Collectors.toList());
+Stream.of("B", "A", "C" , "B")
+    .collect(Collectors.toList());
 ----
 returns a `List<String>` equal to ["B", "A", "C", "B"]
 
 [source,java]
 ----
-     Stream.of("B", "A", "C" , "B")
-        .collect(Collectors.toSet());
+Stream.of("B", "A", "C" , "B")
+    .collect(Collectors.toSet());
 ----
 returns a `Set<String>` equal to ["A", "B", "C"]
 
 [source,java]
 ----
-    Stream.of("I", "am", "a", "stream")
-        .collect(Collectors.toMap(
-            s -> s.toLowerCase(), // Key extractor
-            s -> s.length())      // Value extractor
-        )
+Stream.of("I", "am", "a", "stream")
+    .collect(Collectors.toMap(
+        s -> s.toLowerCase(), // Key extractor
+        s -> s.length())      // Value extractor
+    )
 ----
 returns a `Map<String, Integer>` equal to {a=1, stream=6, i=1, am=2}. Thus, the `Map` contains a mapping from a word (key) to how many characters that word has (value).
 
-=== min
+=== min()
 [source,java]
 ----
-     Stream.of("B", "A", "C" , "B")
-        .min(String::compareTo);
+Stream.of("B", "A", "C" , "B")
+    .min(String::compareTo);
 ----
 returns `Optional[A]` because "A" is the smallest element in the stream.
 
 [source,java]
 ----
-    Stream.<String>empty()
-        .min(String::compareTo);
+Stream.<String>empty()
+    .min(String::compareTo);
 ----
 returns `Optional.empty` because there is no min value because the stream is empty.
 
-=== max
+=== max()
 
 [source,java]
 ----
-     Stream.of("B", "A", "C" , "B")
-        .max(String::compareTo);
+Stream.of("B", "A", "C" , "B")
+    .max(String::compareTo);
 ----
 returns `Optional[C]` because "C" is the largest element in the stream.
 
 [source,java]
 ----
-    Stream.<String>empty()
-        .max(String::compareTo);
+Stream.<String>empty()
+    .max(String::compareTo);
 ----
 returns `Optional.empty` because there is no max value because the stream is empty.
 
-=== count
+=== count()
 
 [source,java]
-----a
-     Stream.of("B", "A", "C" , "B")
-        .count();
+----
+Stream.of("B", "A", "C" , "B")
+    .count();
 ----
 returns 4 because there are four elements in the stream.
 
 [source,java]
-----a
-    Stream.empty()
-        .count();
+----
+Stream.empty()
+    .count();
 ----
 returns 0 because there are no elements in an empty stream.
 
-=== anyMatch
+=== anyMatch()
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .anyMatch("A"::equals);
+Stream.of("B", "A", "C", "B")
+    .anyMatch("A"::equals);
 ----
 returns `true` because there is an "A" element in the stream.
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .anyMatch("Z"::equals);
+Stream.of("B", "A", "C", "B")
+    .anyMatch("Z"::equals);
 ----
 returns `false` because there are no "Z" elements in the stream.
 
-=== noneMatch
+=== noneMatch()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .noneMatch("A"::equals);
+Stream.of("B", "A", "C", "B")
+    .noneMatch("A"::equals);
 ----
 returns `false` because there is an "A" element in the stream.
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .noneMatch("Z"::equals);
+Stream.of("B", "A", "C", "B")
+    .noneMatch("Z"::equals);
 ----
 returns `true` because there are no "Z" elements in the stream.
 
-=== findFirst
+=== findFirst()
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .findFirst();
+Stream.of("B", "A", "C", "B")
+    .findFirst();
 ----
 returns `Optional[B]` because "B" is the first element in the stream.
 
 [source,java]
 ----
-    Stream.<String>empty()
-        .findFirst();
+Stream.<String>empty()
+    .findFirst();
 ----
 returns `Optional.empty` because the stream is empty.
 
-=== findAny
+=== findAny()
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .findAny();
+Stream.of("B", "A", "C", "B")
+    .findAny();
 ----
 might return `Optional[C]` or any other element in the stream.
 
 [source,java]
 ----
-    Stream.<String>empty()
-        .findAny();
+Stream.<String>empty()
+    .findAny();
 ----
 returns `Optional.empty` because the stream is empty.
 
-=== toArray
+=== toArray()
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .toArray();
+Stream.of("B", "A", "C", "B")
+    .toArray();
 ----
 Returns an array containing [B, A, C, B] created automatically by the `toArray` operator.
 
 [source,java]
 ----
-    Stream.of("B", "A", "C", "B")
-        .toArray(String[]::new)
+Stream.of("B", "A", "C", "B")
+    .toArray(String[]::new)
 ----
 Returns an array containing [B, A, C, B] that will be created by the provided constructor, for example using the equivalent to `new String[4]`.
+
+=== toList() 
+[source,java]
+----
+Stream.of("B", "A", "C", "B")
+    .toList();
+----
+Returns a `List` containing [B, A, C, B].
+
+WARNING: Use of this method requires Java 16 or later. 
 
 == Less Common Operations
 
@@ -217,58 +228,56 @@ Here is a list of other terminal operations that are a bit less commonly used by
 
 [source,java]
 ----
-            Stream.of("B", "A", "C", "B")
-                                .collect(
-                    () -> new StringBuilder(),
-                    (sb0, sb1) -> sb0.append(sb1),
-                    (sb0, sb1) -> sb0.append(sb1)
-                )
+Stream.of("B", "A", "C", "B")
+    .collect(
+            () -> new StringBuilder(),
+                (sb0, sb1) -> sb0.append(sb1),
+                (sb0, sb1) -> sb0.append(sb1)
+    );
 ----
 returns a `StringBuilder` containing "BACB" that will be created by the provided supplier and then built up by the append-lambdas.
 
-=== reduce
+=== reduce()
 [source,java]
 ----
-    Stream.of(1, 2, 3, 4)
-        .reduce((a, b) -> a + b)
+Stream.of(1, 2, 3, 4)
+    .reduce((a, b) -> a + b);
 ----
 returns the value of `Optional[10]` because 10 is the sum of all `Integer` elements in the `Stream`. If the `Stream` is empty, `Optional.empty()` is returned.
 
 [source,java]
 ----
-    Stream.of(1, 2, 3, 4)
-        .reduce(100, (a, b) -> a + b)
+Stream.of(1, 2, 3, 4)
+    .reduce(100, (a, b) -> a + b);
 ----
 returns the value of 110 since all the `Integer` elements in the `Stream` are added to the `Integer` 100. If the `Stream` is empty, 100 is returned.
 
 [source,java]
 ----
-    Stream.of(1, 2, 3, 4)
-        .parallel()
-        .reduce(
+Stream.of(1, 2, 3, 4)
+    .parallel()
+    .reduce(
             0,
             (a, b) -> a + b,
             (a, b) -> a + b
-        )
+    );
 ----
 returns the value of 10 since this example simply adds all the `Integer` elements in the `Stream` beginning with 0. The `Stream` can be executed in parallel whereby the last lambda will be used to combine results from each thread. If the `Stream` is empty, 0 is returned.
 
-=== iterator
+=== iterator()
 [source,java]
 ----
-    Iterator<String> iterator
-        = Stream.of("B", "A", "C", "B")
-            .iterator();
+Iterator<String> iterator = Stream.of("B", "A", "C", "B")
+      .iterator();
 ----
 creates a new `Iterator` over all the elements in the `Stream`.
 
-=== spliterator
+=== spliterator()
 
 [source,java]
 ----
-    Spliterator<String> spliterator
-        = Stream.of("B", "A", "C", "B")
-            .spliterator();
+Spliterator<String> spliterator = Stream.of("B", "A", "C", "B")
+    .spliterator();
 ----
 creates a new `Spliterator` over all the elements in the `Stream`.
 
@@ -285,29 +294,29 @@ Here is a list of terminal operations that are available *only* for primitive st
 | `summaryStatistics`| - | Returns a reduction of the elements which is a summary of a number of statistic measurements (min, max, sum, average and count)
 |==========================================================
 
-=== sum
+=== sum()
 
 [source,java]
 ----
-    IntStream.of(1, 2, 3, 4)
-        .sum()
+IntStream.of(1, 2, 3, 4)
+    .sum();
 ----
 returns 10 because 10 is the sum of all elements in the `Stream`.
 
-=== average
+=== average()
 
 [source,java]
 ----
-    IntStream.of(1, 2, 3, 4)
-        .average()
+IntStream.of(1, 2, 3, 4)
+    .average();
 ----
 returns `OptionalDouble[2.5]` because 2.5 is the average of all elements in the `Stream`. If the `Stream` is empty, `OptionalDouble.empty()` is returned.
 
-=== summaryStatistics
+=== summaryStatistics()
 [source,java]
 ----
-    IntStream.of(1, 2, 3, 4)
-        .summaryStatistics()
+IntStream.of(1, 2, 3, 4)
+    .summaryStatistics();
 ----
 returns `IntSummaryStatistics{count=4, sum=10, min=1, average=2.500000, max=4}`.
 
