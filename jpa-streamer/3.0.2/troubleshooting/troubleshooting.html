@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Troubleshooting :: JPAStreamer</title>
+    <link rel="prev" href="../transactions/transactions.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/search.css">
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item logo" href="https://speedment.github.io/jpa-streamer/"></a>
+            <div class="navbar-item" style="background: none">
+                <input id="search-input" type="text" placeholder="Search docs...">
+            </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+          <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+          <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link" href="#">Resources</a>
+              <div class="navbar-dropdown">
+                  <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+                  <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+                  <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+              </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="3.0.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/cdi_integration.html">CDI Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../predicates/predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../fetching-data/fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../fetching-data/stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="troubleshooting.html">Troubleshooting</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">3.0.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version">
+          <a href="../../latest/introduction/introduction.html">3.0.3</a>
+        </li>
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">3.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.1/introduction/introduction.html">3.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.0/introduction/introduction.html">3.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.4/introduction/introduction.html">1.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.3/introduction/introduction.html">1.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.2/introduction/introduction.html">1.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/introduction/introduction.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/introduction/introduction.html">1.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.1/introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.0/introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.5/introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="troubleshooting.html">Troubleshooting</a></li>
+  </ul>
+</nav>
+<h1 class="page">Troubleshooting</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>:toclevels:3
+:source-highlighter: highlight.js</p>
+</div>
+<div class="paragraph">
+<p>This section explores pitfalls that users may encounter while working with JPAStreamer and provides practical solutions to address them.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_metamodel_generation"><a class="anchor" href="#_metamodel_generation"></a>Metamodel Generation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_no_metamodel_is_generated"><a class="anchor" href="#_no_metamodel_is_generated"></a>No Metamodel is Generated</h3>
+<div class="paragraph">
+<p>There can be a number of reasons that explains why the metamodel is not being generated as expected:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#rebuild">Project was not rebuilt after installation</a></p>
+</li>
+<li>
+<p><a href="#compatible">The JPA Entities are not compatible with the annotation processor</a></p>
+</li>
+<li>
+<p><a href="#compilation">Compilation errors arise when metamodel was deleted</a></p>
+</li>
+<li>
+<p><a href="#ide">Annotation processors are not enabled</a></p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="rebuild"><a class="anchor" href="#rebuild"></a>Project was not rebuilt after installation</h4>
+<div class="paragraph">
+<p>If you have installed JPAStreamer using <a href="../get-jpa-streamer/install-maven.html" class="xref page">Maven</a> or <a href="../get-jpa-streamer/install-gradle.html" class="xref page">Gradle</a> you <strong>must</strong> rebuild your project to trigger the annotation processor. If this has no effect, please consider the other common reasons for failure.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="compatible"><a class="anchor" href="#compatible"></a>The JPA Entities are not compatible with the annotation processor</h4>
+<div class="paragraph">
+<p>JPAStreamer 3.0.0 and later adhere to the JPA 3 standard. This means the code generator will only detect classes annotated with <code>jakarta.persistence.Entity</code>.
+Take note that prior to JPA 3 this annotation resided in the package <code>javax.persistence.Entity</code>. Thus, if you are using JPA 2 the code generator will not process the entities and the result is an empty <code>target/generated-sources/annotations</code>-folder.</p>
+</div>
+<div class="paragraph">
+<p>To summarize:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>JPAStreamer 3.0.0 and later</strong> - Entities must be annotated with <code>jakarta.persistence.Entity</code></p>
+</li>
+<li>
+<p><strong>JPAStreamer 1.1.4 and earlier</strong> - Entities must be annotated with <code>javax.persistence.Entity</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In the near future we will be backporting some of the updates to JPA 2 compatible versions.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="compilation"><a class="anchor" href="#compilation"></a>No metamodel is generated after deletion</h3>
+<div class="paragraph">
+<p>If you deleted your metamodel e.g. as a result of an unfinished <code>mvn clean install</code> this might set the code in a limbo. As the project sources are depending on the use of the generated classes, the project fails to compile and might even prohibit rerunning the code generator.</p>
+</div>
+<div class="paragraph">
+<p>In such cases we have found it helpful to use the <a href="https://maven.apache.org/plugins/maven-compiler-plugin/compile-mojo.html">Maven Compiler Plugin</a> to trigger JPAStreamer&#8217;s annotation processor without also compiling the code. Here is a useful configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+    &lt;version&gt;3.10.1&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;proc&gt;only&lt;/proc&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+    &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Only annotation processing is done, no compilation.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>There are parameters available to reference a specific annotation processor, however these should not be needed as Maven will automatically detect all annotation processors on the path (assuming JPAStreamer is installed properly).</p>
+</div>
+<div class="sect3">
+<h4 id="ide"><a class="anchor" href="#ide"></a>Annotation processors are not enabled</h4>
+<div class="paragraph">
+<p>The code generator responsible for creating JPAStreamer&#8217;s metamodel is formally referred to as an <em>annotation processor</em>. The use of annotation processors is sometimes prohibited by default by your IDE. Therefore, if you are building your application via e.g. IntelliJ, you need to make sure that annotation processors are enabled.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+As there are many IDEs to chose from and their interfaces change constantly with new releases we omit describing how to update the settings in this user guide, but googling for "Enable annotation processors" and the name of your IDE is a good start.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_metamodel_cannot_be_found"><a class="anchor" href="#_the_metamodel_cannot_be_found"></a>The Metamodel Cannot be Found</h3>
+<div class="paragraph">
+<p>As the generated metamodel is put into the target folder, your IDE may not recognize the generated sources as source files. This effectively means the generated classes cannot be detected for import in your application. To mark the output folder <code>target/generated-sources/annotations</code> as a source folder, use the Build Helper Maven Plugin as demonstrated below:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">    &lt;plugin&gt;
+        &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+        &lt;artifactId&gt;build-helper-maven-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.4.0&lt;/version&gt;
+        &lt;executions&gt;
+            &lt;execution&gt;
+                &lt;phase&gt;generate-sources&lt;/phase&gt;
+                &lt;goals&gt;
+                    &lt;goal&gt;add-source&lt;/goal&gt;
+                &lt;/goals&gt;
+                &lt;configuration&gt;
+                    &lt;sources&gt;
+                        &lt;source&gt;
+                            ${project.build.directory}/generated-sources/annotations
+                        &lt;/source&gt;
+                    &lt;/sources&gt;
+                &lt;/configuration&gt;
+            &lt;/execution&gt;
+        &lt;/executions&gt;
+    &lt;/plugin&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also right-click on the folder in your IDE and select an option along the lines of "Mark Directory as &#8594; Generated Sources Root". Either of these actions (adding the Maven plugin or manually selecting the folder) should result in the metamodel classes being made available for import in your project.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_paging_join_queries"><a class="anchor" href="#_paging_join_queries"></a>Paging Join Queries</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Join queries unfortunately cannot be combined with <code>.limit()</code> and <code>.skip()</code> operations at this point. This is a known bug, or may we claim - a limitation of the JPA Criteria API. As the Stream query pipeline is translated to a Criteria Query, JPAStreamer is restricted to the operations supported by the underlying API. There are known complications related to setting a limit (maxResult) or a skip (firstResult) in conjunction with a join operation as these operations do not apply to the aggregated table, and can yield unexpected results.</p>
+</div>
+<div class="paragraph">
+<p>For now, this leaves us no other option than asking that you apply a limit/skip in the JVM after executing the query. Here is an example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">List&lt;Film&gt; films = jpaStreamer.stream(StreamConfiguration.of(Film.class).joining(Film$.actors))
+    .filter(Film$.title.startsWith("A"))
+//  .limit(20) <i class="conum" data-value="1"></i><b>(1)</b>
+    .collect(Collectors.toList()); <i class="conum" data-value="2"></i><b>(2)</b>
+
+films.stream().limit(20).forEach(System.out::println); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Applying a limit here will fail due to mentioned constraints</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The terminating operation will trigger the execution of the unlimited query</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Apply the limit on the complete result set on the JVM side</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There is an issue tracking any updates on this matter <a href="https://github.com/speedment/jpa-streamer/issues/53">here</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_issues"><a class="anchor" href="#_other_issues"></a>Other Issues</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This page is a work in progress, and we may not have addressed your concern at this point. If you cannot find an answer to your question here, we recommend that you check out the past and current <a href="https://github.com/speedment/jpa-streamer/issues">issues on GitHub</a>. Still haven&#8217;t found a resolution to your problem? Please help us improve JPAStreamer by opening a new issue.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../transactions/transactions.html">Transactions</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+    <script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+
+  </body>
+</html>

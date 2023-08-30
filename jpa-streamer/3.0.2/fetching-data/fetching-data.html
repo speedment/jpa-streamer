@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Fetching Data :: JPAStreamer</title>
+    <link rel="prev" href="../stream-fundamentals/other_operations.html">
+    <link rel="next" href="sql-equivalents.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/search.css">
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item logo" href="https://speedment.github.io/jpa-streamer/"></a>
+            <div class="navbar-item" style="background: none">
+                <input id="search-input" type="text" placeholder="Search docs...">
+            </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+          <a class="navbar-item" href="https://speedment.github.io/jpa-streamer/">Home</a>
+          <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link" href="#">Resources</a>
+              <div class="navbar-dropdown">
+                  <a class="navbar-item" href="https://gitter.im/speedment/jpa-streamer">Gitter Chat</a>
+                  <a class="navbar-item" href="https://jpastreamer.org">Website</a>
+                  <a class="navbar-item" href="https://github.com/speedment/jpa-streamer">GitHub</a>
+              </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="jpa-streamer" data-version="3.0.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../introduction/introduction.html">Introduction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../why-jpastreamer/why-jpastreamer.html">Why JPAstreamer?</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../how-it-works/how-it-works.html">How JPAstreamer Works</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quick-start/quick-start.html">Quick-start with JPAstreamer</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <span class="nav-text">Get JPAstreamer</span>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-maven.html">Install with Maven</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/install-gradle.html">Install with Gradle</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/spring_integration.html">Spring Integration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../get-jpa-streamer/cdi_integration.html">CDI Integration</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../predicates/predicates.html">Predicates</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/reference-predicates.html">Reference Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/comparable-predicates.html">Comparable Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/string-predicates.html">String Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/primitive-predicates.html">Primitive Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/negating-predicates.html">Negating Predicates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../predicates/combining-predicates.html">Combining Predicates</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../stream-fundamentals/stream_basics.html">Stream Fundamentals</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/intermediate_operations.html">Intermediate Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/terminal_operations.html">Terminal Operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../stream-fundamentals/other_operations.html">Other Operations</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="fetching-data.html">Fetching Data</a>
+    <button class="nav-item-toggle"></button>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="sql-equivalents.html">SQL Equivalents</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="stream-examples.html">Stream Examples</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../transactions/transactions.html">Transactions</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../troubleshooting/troubleshooting.html">Troubleshooting</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">JPAStreamer Docs</span>
+    <span class="version">3.0.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">JPAStreamer Docs</span>
+      <ul class="versions">
+        <li class="version">
+          <a href="../../latest/introduction/introduction.html">3.0.3</a>
+        </li>
+        <li class="version is-current">
+          <a href="../introduction/introduction.html">3.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.1/introduction/introduction.html">3.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.0/introduction/introduction.html">3.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.4/introduction/introduction.html">1.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.3/introduction/introduction.html">1.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.2/introduction/introduction.html">1.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/introduction/introduction.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/introduction/introduction.html">1.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.1/introduction/introduction.html">1.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.0/introduction/introduction.html">1.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.8/introduction/introduction.html">0.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.7/introduction/introduction.html">0.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.6/introduction/introduction.html">0.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.5/introduction/introduction.html">0.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.4/introduction/introduction.html">0.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.3/introduction/introduction.html">0.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.2/introduction/introduction.html">0.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../0.1.0/introduction/introduction.html">0.1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+</div>
+  <div class="content">
+<article class="doc">
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../introduction/introduction.html">JPAStreamer Docs</a></li>
+    <li><a href="fetching-data.html">Fetching Data</a></li>
+  </ul>
+</nav>
+<h1 class="page">Fetching Data</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section details how to create a basic Stream from your datasource. To initiate the data fetching process, you will need to initialize an instance of <code>JPAStreamer</code>. Once you have obtained access to <code>JPAStreamer</code>, you can leverage two main methods to obtain a Stream from your datasource: <code>stream()</code> and <code>createStreamSupplier()</code>. These methods provide efficient and customizable approaches to interact with your data. In this chapter, we will discuss what differentiates the two approaches.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_obtaining_a_jpastreamer_instance"><a class="anchor" href="#_obtaining_a_jpastreamer_instance"></a>Obtaining a JPAStreamer instance</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_from_persistence_unit_name"><a class="anchor" href="#_from_persistence_unit_name"></a>From persistence unit name</h3>
+<div class="paragraph">
+<p>The simplest way to initialize JPAstreamer is by providing the name of the persistence unit like so:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">JPAStreamer jpaStreamer = JPAStreamer.of("sakila"); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>"sakila" is to be replaced with the name of <strong>your</strong> persistence unit that can be found in a configuration-file</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the example, the String "sakila" should refer to the name of your persistence unit. Assuming you are already using a JPA provider, your project should contain an XML-file like the one below, describing the persistence unit:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+     http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"&gt;
+
+    &lt;persistence-unit name="sakila" transaction-type="RESOURCE_LOCAL"&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+        &lt;description&gt;MySQL Sakila Example Database&lt;/description&gt;
+        &lt;provider&gt;org.hibernate.jpa.HibernatePersistenceProvider&lt;/provider&gt;
+        &lt;properties&gt;
+            &lt;!-- Configuring The Database Connection Details --&gt;
+            &lt;property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" /&gt;
+            &lt;property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sakila" /&gt;
+
+            &lt;!-- ... --&gt;
+
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The name of the persistence unit, in this case "sakila", is used to initialize JPAStreamer.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+This configuration is just an example configuration for the <a href="https://dev.mysql.com/doc/sakila/en/">MySQL Sakila example database</a>. You should use the configuration you already have in place.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you have multiple persistence units, you can initiate several instances of <code>JPAStreamer</code> to establish connections with different sources.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>JPAStreamer does not need any additional configuration and depends solely on this file to establish a database connection. If your starting a project from scratch, make sure to set up your JPA project before trying to use JPAStreamer.</p>
+</div>
+<div class="paragraph">
+<p>Having obtained a <code>JPAStreamer</code> instance, you are ready to go. Here is an example that includes both the instantiation and the querying:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public static void main(String[] args) {
+
+    JPAStreamer jpaStreamer = JPAStreamer.createJPAStreamerBuilder("sakila") <i class="conum" data-value="1"></i><b>(1)</b>
+        .build();
+
+    long count = jpaStreamer.stream(Film.class)
+        .filter(Film$.title.startsWith("A"))
+        .count();
+
+    System.out.format("There are %d films with a title that starts with A", count);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_from_entitymanagagerfactory"><a class="anchor" href="#_from_entitymanagagerfactory"></a>From <code>EntityManagagerFactory</code></h3>
+<div class="paragraph">
+<p>When configuring JPAStreamer with the persistence unit name as described above, a new <code>EntityManagerFactory</code> is created and managed by JPAStreamer. In this case, JPAStreamer is responsible for the life cycle of the factory, and calling <code>JPAStreamer::close</code> will close the <code>EntityManagerFactory</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you rather wish to reuse an existing <code>EntityManagerFactory</code> you can initialize JPAStreamer as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">EntityManagerFactory emf = Persistence.createEntityManagerFactory("sakila");
+JPAStreamer jpaStreamer = JPAStreamer.of(emf);</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In this case, JPAStreamer is not responsible for clearing up the factory resources and calling <code>JPAStreamer::close</code> will not close the <code>EntityManagerFactory</code>. However, <code>EntityManager</code> instances obtained via the factory are still managed by JPAStreamer.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_supplier"><a class="anchor" href="#_supplier"></a>From <code>Supplier&lt;EntityManager&gt;</code></h3>
+<div class="paragraph">
+<p>As a third option, JPAStreamer can be handed a <code>Supplier</code> of Entity Managers. In this case, JPAStreamer is not responsible for the lifecycle of any supplied Entity Managers. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">EntityManagerFactory emf = Persistence.createEntityManagerFactory("sakila");
+JPAStreamer jpaStreamer = JPAStreamer.of(emf::createEntityManager);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is especially useful in contexts where JPAStreamer may not be permitted to create and manage its own <code>EntityManagerFactory</code>, and/or no reference to an <code>EntityManagerFactory</code> is present. An example of such an environment is inside a <code>PanacheRepository</code> when running Hibernate and Panache. <code>PanacheRepository</code> inherits <code>getEntityManager()</code> from <code>PanacheEntityBase</code>, which can be used to supply JPAStreamer with Entity Managers as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@ApplicationScoped
+public class FilmRepository implements PanacheRepository&lt;Film&gt; {
+
+    private final JPAStreamer jpaStreamer = JPAStreamer.of(this::getEntityManager);
+
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+When using a Supplier, JPAStreamer is not responsible for the lifecycle of the Entity Managers, thus <code>JPAStreamer::close</code> will not close any supplied Entity Managers.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_a_stream"><a class="anchor" href="#_creating_a_stream"></a>Creating a Stream</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create a Stream, you first need to describe the stream source as a <code>StreamConfiguration</code>. The <code>StreamConfiguration</code> declares what entity to use as the base for the query, and e.g. if any joins or projections should be performed. The <code>StreamConfiguration</code> is then passed to <a href="#_stream"><code>JPAStreamer.stream(StreamConfiguration&lt;T&gt; streamConfiguration)</code></a> or <a href="#_createstreamsupplier"><code>JPAStreamer.createStreamSupplier(StreamConfiguration&lt;T&gt; streamConfiguration)</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>When deciding which of these methods to use, consider whether you will reuse the same stream source frequently or not, and if you are expecting that the source will be updated by an external application in between streams. A more detailed explanation follows in the subsequent sections on each method below.</p>
+</div>
+<div class="paragraph">
+<p>JPAStreamer also offers convenience methods for simple <code>StreamConfigurations</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>JPAStreamer.stream(Class&lt;T&gt; entityClass)</code></p>
+</li>
+<li>
+<p><code>JPAStreamer.stream(Projection&lt;T&gt; projection)</code></p>
+</li>
+<li>
+<p><code>JPAStreamer.createStreamSupplier(Class&lt;T&gt; entityClass)</code></p>
+</li>
+<li>
+<p><code>JPAStreamer.createStreamSupplier(Projection&lt;T&gt; projection)</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The simplest way of creating a <code>Stream</code> is to provide a single entity class, creating a <code>Stream</code> of the single table associated with that JPA entity:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream&lt;Film&gt; stream = jpaStreamer.stream(Film.class); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Creates a Stream over the Film-table. Passing the entity class <code>Film.class</code> is equivalent of passing <code>StreamConfiguration.of(Film.class)</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>All options available for <code>StreamConfiguration</code> is laid out in the table below:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. <code>StreamConfiguration</code></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Modifer and type</th>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StreamConfiguration&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>of(Class&lt;T&gt; entityClass)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates and returns a new StreamConfiguration that can be used to configure streams.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Class&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>entityClass()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the entity class that is to appear in a future Stream.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Set&lt;JoinConfiguration&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>joins()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the fields that shall be joined in a future stream.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StreamConfiguration&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>joining(Field&lt;T&gt; field)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates and returns a new <code>StreamConfiguration</code> configured with the provided field so that it will be eagerly joined when producing elements in the future Stream using join type left.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StreamConfiguration&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>joining(Field&lt;T&gt; field, JoinType joinType)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates and returns a new <code>StreamConfiguration</code> configured with the provided field so that it will be eagerly joined when producing elements in the future Stream using the provided join type.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Optional&lt;Projection&lt;T&gt;&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>selections()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the projected columns to use when creating entities or <code>Optional.empty()</code> if no projection should be used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StreamConfiguration&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>selecting(Projection&lt;T&gt; projection)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Selects the projected columns to initialize when creating initial entities in a future stream.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StreamConfiguration&lt;T&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>withHint(String hintName, Object value)</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adds a query hint.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Map&lt;String, Object&gt;</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>hints()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the map with the query hints that will be configured in a future Stream.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+There are many examples of how to use a <code>StreamConfiguration</code> in <a href="stream-examples.html" class="xref page">Stream Examples</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_stream"><a class="anchor" href="#_stream"></a><code>stream()</code></h3>
+<div class="paragraph">
+<p>Calls to <code>JPAStreamer.stream(StreamConfiguration&lt;T&gt; streamConfiguration)</code> will lead to the creation of a <code>StreamSupplier</code>. The <code>StreamSupplier</code> obtains a JPA <code>EntityManager</code> that JPAStreamer uses internally to issue JPA Criteria Queries.</p>
+</div>
+<div class="paragraph">
+<p>Whenever the <code>Stream</code> is terminated with a terminal operation, e.g. <code>collect()</code>, the underlying <code>StreamSupplier</code> and the <code>EntityManager</code> is closed and can no longer be used.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">final JPAStreamer jpaStreamer = JPAStreamer.of("sakila");
+
+final List&lt;Film&gt; films = jpaStreamer.stream(Film.class) <i class="conum" data-value="1"></i><b>(1)</b>
+    .filter(Film$.name.equal("Casablanca"))
+    .collect(toList()); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Creates a <code>StreamSupplier</code> that returns a <code>Stream</code> over the Film-table</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The terminal operation closes the underlying <code>StreamSupplier</code> and its Entity Manager</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_createstreamsupplier"><a class="anchor" href="#_createstreamsupplier"></a><code>createStreamSupplier()</code></h3>
+<div class="paragraph">
+<p>As calls to <code>JPAStreamer.stream()</code> creates a new <code>StreamSupplier</code> each time, you can potentially save resources by reusing a single <code>StreamSupplier</code> for the creation of many streams. A reusable <code>StreamSupplier</code> can be obtained by calling <code>JPAStreamer.createStreamSupplier()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Like <code>JPAStreamer</code>, the <code>StreamSupplier</code> provides a method <code>stream()</code> that returns a <code>Stream</code> as described by the provided <code>StreamConfiguration</code>. There is one important distinction between calls to these methods:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>JPAStreamer.stream()</code> - the execution of a terminal operation <strong>closes</strong> the underlying <code>StreamSupplier</code> its <code>EntityManager</code></p>
+</li>
+<li>
+<p><code>StreamSupplier.stream()</code> - the execution of a terminal operation <strong>does not close</strong> the <code>StreamSupplier</code> and its <code>EntityManager</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This means repeated calls to <code>StreamSupplier.stream()</code> will reuse the same <code>EntityManager</code>. We recommend using a try-with-resources block to automatically close the <code>StreamSupplier</code> when done with the operations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">final JPAStreamer jpaStreamer = JPAStreamer.of("sakila");
+
+try (final StreamSupplier&lt;Film&gt; streamSupplier = jpaStreamer.createStreamSupplier()) {
+    final List&lt;Film&gt; shortFilms = streamSupplier.stream(Film.class)
+        .filter(Film$.length.lessThan(60))
+        .collect(toList()); <i class="conum" data-value="1"></i><b>(1)</b>
+
+    final List&lt;Film&gt; longFilms = streamSupplier.stream(Film.class)
+        .filter(Film$.length.greatherThanOrEqual(61))
+        .collect(toList()); <i class="conum" data-value="1"></i><b>(1)</b>
+} <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>StreamSupplier</code> and the underlying <code>EntityManager</code> stays open when executing the terminal operation</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>StreamSupplier</code> and the underlying <code>EntityManager</code> is closed</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>javax.persistence.EntityManager</code> associated with the <code>StreamSupplier</code> has a first-layer cache. Thus by default, database changes performed by another application, or made directly on the database, may not be detected between calls to <code>StreamSupplier.stream()</code>. To ensure that the cache is cleared between each fetch, use <a href="#_stream">JPAStreamer.stream()</a> instead.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+If you instantiate <code>JPAStreamer</code> with a <code>Supplier&lt;EntityManager&gt;</code> as described <a href="#_supplier">here</a>, JPAStreamer will not close the underlying Entity Manager. In that case the lifecycle of the obtained Entity Managers is managed by the supplier.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_query_hints"><a class="anchor" href="#_using_query_hints"></a>Using Query Hints</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In complex scenarios or when dealing with specific database systems, it may be necessary to provide additional guidance to the underlying JPA provider for optimal query execution. This is where query hints come into play, allowing developers to control and influence various aspects of the query execution process. The query hints influence e.g. the execution plan chosen by the JPA provider, potentially leading to improved query performance or tailored behavior based on specific requirements.</p>
+</div>
+<div class="paragraph">
+<p>To pass a query hint to the underlying JPA provider with <code>JPAStreamer</code>, you need to use a <code>StreamConfiguration</code>. It exposes a method <code>withHint()</code> that accepts the name and value of the query hint. This method call can be chained to set multiple hints.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">StreamConfiguration&lt;T&gt; withHint(final String hintName, final Object value);</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The available set of query hints is defined in the JPA specification and the documentation of your underlying JPA provider. Thorben Jansen wrote an excellent blog post on useful query hints available to Hibernate users <a href="https://thorben-janssen.com/11-jpa-hibernate-query-hints-every-developer-know/">here</a>. JPAStreamer does not provide any custom query hints.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s bring query hints into the context of a JPAStreamer query. Here is an example that issues a read-only query with a timeout of 50 ms:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">StreamConfiguration sc = StreamConfiguration.of(Film.class)
+    .withHint("javax.persistence.query.timeout", 50)
+    .withHint("org.hibernate.readOnly", true);
+List&lt;Film&gt; films = jpaStreamer.stream(sc)
+    .filter(Film$.title.startsWith("A"))
+    .sorted(Film$.length)
+    .limit(10)
+    .collect(Collectors::toList);</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+While query hints can be powerful tools for query optimization, it&#8217;s important to use them carefully and with a clear understanding of their impact. Misusing or overusing query hints can lead to unintended consequences.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s Next</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <a href="sql-equivalents.html" class="xref page">next section</a> demonstrates how to use the available Stream operators and how they map to SQL constructs.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="../stream-fundamentals/other_operations.html">Other Operations</a></span>
+  <span class="next"><a href="sql-equivalents.html">SQL Equivalents</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>© 2020 Speedment, Inc. All rights reserved.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+    <script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+
+  </body>
+</html>
