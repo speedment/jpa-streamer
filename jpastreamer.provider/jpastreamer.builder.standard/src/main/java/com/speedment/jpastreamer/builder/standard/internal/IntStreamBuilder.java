@@ -12,7 +12,6 @@
  */
 package com.speedment.jpastreamer.builder.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9IntStreamAdditions;
 import com.speedment.jpastreamer.pipeline.intermediate.IntIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.IntTerminalOperationFactory;
 
@@ -25,7 +24,7 @@ import java.util.stream.Stream;
 
 final class IntStreamBuilder<E>
         extends BaseStreamBuilder<E, Integer, IntStream>
-        implements IntStream, Java9IntStreamAdditions {
+        implements IntStream {
 
     IntStreamBuilder(final BaseBuilderState<E> baseState) {
         super(baseState);

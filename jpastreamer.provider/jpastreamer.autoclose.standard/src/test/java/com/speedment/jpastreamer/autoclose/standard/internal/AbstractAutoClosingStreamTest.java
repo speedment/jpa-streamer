@@ -19,10 +19,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
-import java.util.function.IntPredicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.BaseStream;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;

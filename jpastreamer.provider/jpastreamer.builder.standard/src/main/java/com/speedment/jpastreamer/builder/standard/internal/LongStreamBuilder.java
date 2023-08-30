@@ -12,7 +12,6 @@
  */
 package com.speedment.jpastreamer.builder.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9LongStreamAdditions;
 import com.speedment.jpastreamer.pipeline.intermediate.LongIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.LongTerminalOperationFactory;
 
@@ -25,7 +24,7 @@ import java.util.stream.Stream;
 
 final class LongStreamBuilder<E>
         extends BaseStreamBuilder<E, Long, LongStream>
-        implements LongStream, Java9LongStreamAdditions {
+        implements LongStream {
 
     LongStreamBuilder(final BaseBuilderState<E> baseState) {
         super(baseState);

@@ -12,16 +12,16 @@
  */
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9StreamUtil;
+import com.speedment.jpastreamer.javasixteen.Java16StreamUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer, Stream<Integer>> {
@@ -60,17 +60,17 @@ final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer,
 
     @Test
     void mapToInt() {
-        testTerminal(s -> s.mapToInt(i -> i + 1).boxed().collect(toList()));
+        testTerminal(s -> s.mapToInt(i -> i + 1).boxed().collect(Collectors.toList()));
     }
 
     @Test
     void mapToLong() {
-        testTerminal(s -> s.mapToLong(i -> i + 1).boxed().collect(toList()));
+        testTerminal(s -> s.mapToLong(i -> i + 1).boxed().collect(Collectors.toList()));
     }
 
     @Test
     void mapToDouble() {
-        testTerminal(s -> s.mapToDouble(i -> i + 1).boxed().collect(toList()));
+        testTerminal(s -> s.mapToDouble(i -> i + 1).boxed().collect(Collectors.toList()));
     }
 
     @Test
@@ -109,12 +109,12 @@ final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer,
 
     @Test
     void takeWhile() {
-        testIntermediate(s -> Java9StreamUtil.takeWhile(s, i -> i < 3));
+        testIntermediate(s -> s.takeWhile(i -> i < 3));
     }
 
     @Test
     void dropWhile() {
-        testIntermediate(s -> Java9StreamUtil.dropWhile(s, i -> i < 3));
+        testIntermediate(s -> s.dropWhile(i -> i < 3));
     }
 
     @Test
@@ -181,5 +181,36 @@ final class AutoClosingStreamTest extends AbstractAutoClosingStreamTest<Integer,
     void findAny() {
         testTerminal(Stream::findAny);
     }
+
+    @Test
+    void toList() { testTerminal(Java16StreamUtil::toList); }
+
+    @Test
+    void mapMulti() { testIntermediate(s -> Java16StreamUtil.mapMulti(s, ((i, mapper) -> {
+        if (EVEN.test(i)) {
+            mapper.accept(i);
+        }
+    }))); }
+
+    @Test
+    void mapMultiToInt() { testTerminal(s -> Java16StreamUtil.mapMultiToDouble(s, ((i, mapper) -> {
+        if (EVEN.test(i)) {
+            mapper.accept(i);
+        }
+    })).boxed().collect(Collectors.toList())); }
+
+    @Test
+    void mapMultiToDouble() { testTerminal(s -> Java16StreamUtil.mapMultiToDouble(s, ((i, mapper) -> {
+        if (EVEN.test(i)) {
+            mapper.accept(i);
+        }
+    })).boxed().collect(Collectors.toList())); }
+
+    @Test
+    void mapMultiToLong() { testTerminal(s -> Java16StreamUtil.mapMultiToLong(s, ((i, mapper) -> {
+        if (EVEN.test(i)) {
+            mapper.accept(i);
+        }
+    })).boxed().collect(Collectors.toList())); }
 
 }

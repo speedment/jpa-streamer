@@ -12,9 +12,6 @@
  */
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9DoubleStreamAdditions;
-import com.speedment.jpastreamer.javanine.Java9StreamUtil;
-
 import java.util.DoubleSummaryStatistics;
 import java.util.OptionalDouble;
 import java.util.PrimitiveIterator;
@@ -38,7 +35,7 @@ import java.util.stream.Stream;
  */
 final class AutoClosingDoubleStream
     extends AbstractAutoClosingBaseStream<Double, DoubleStream>
-    implements DoubleStream, Java9DoubleStreamAdditions {
+    implements DoubleStream {
 
     AutoClosingDoubleStream(final DoubleStream stream) {
         this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
@@ -108,12 +105,12 @@ final class AutoClosingDoubleStream
 
     @Override
     public DoubleStream takeWhile(DoublePredicate predicate) {
-        return wrap(Java9StreamUtil.takeWhile(stream(), predicate));
+        return wrap(stream().takeWhile(predicate));
     }
 
     @Override
     public DoubleStream dropWhile(DoublePredicate predicate) {
-        return wrap(Java9StreamUtil.dropWhile(stream(), predicate));
+        return wrap(stream().dropWhile(predicate));
     }
 
     @Override

@@ -12,13 +12,10 @@
  */
 package com.speedment.jpastreamer.autoclose.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9StreamAdditions;
-import com.speedment.jpastreamer.javanine.Java9StreamUtil;
+import com.speedment.jpastreamer.javasixteen.Java16StreamAdditions;
+import com.speedment.jpastreamer.javasixteen.Java16StreamUtil;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
@@ -32,11 +29,12 @@ import java.util.stream.*;
  * allowStreamIteratorAndSpliterator flag
  *
  * @param <T>  Stream type
+ * @param <R>  The new Stream type
  * @author     Per Minborg
  */
-final class AutoClosingStream<T>
+final class AutoClosingStream<T, R>
     extends AbstractAutoClosingBaseStream<T, Stream<T>>
-    implements Stream<T>, Java9StreamAdditions<T> {
+    implements Stream<T>, Java16StreamAdditions<T, R> {
 
     AutoClosingStream(final Stream<T> stream) {
         this(stream, Boolean.getBoolean("jpastreamer.allowiteratorandspliterator"));
@@ -126,12 +124,12 @@ final class AutoClosingStream<T>
 
     @Override
     public Stream<T> takeWhile(Predicate<? super T> predicate) {
-        return wrap(Java9StreamUtil.takeWhile(stream(), predicate));
+        return wrap(stream().takeWhile(predicate));
     }
 
     @Override
     public Stream<T> dropWhile(Predicate<? super T> predicate) {
-        return wrap(Java9StreamUtil.dropWhile(stream(), predicate));
+        return wrap(stream().dropWhile(predicate));
     }
 
     @Override
@@ -260,4 +258,28 @@ final class AutoClosingStream<T>
         return wrap(stream().onClose(closeHandler));
     }
 
+    @Override
+    public List<T> toList(Stream<T> stream) {
+        return finallyClose(() -> Java16StreamUtil.toList(stream));
+    }
+
+    @Override
+    public Stream<R> mapMulti(Stream<T> stream, BiConsumer<? super T, ? super Consumer<R>> mapper) {
+        return wrap(Java16StreamUtil.mapMulti(stream, mapper));
+    }
+
+    @Override
+    public IntStream mapMultiToInt(Stream<T> stream, BiConsumer<? super T, ? super IntConsumer> mapper) {
+        return wrap(Java16StreamUtil.mapMultiToInt(stream, mapper));
+    }
+
+    @Override
+    public DoubleStream mapMultiToDouble(Stream<T> stream, BiConsumer<? super T, ? super DoubleConsumer> mapper) {
+        return wrap(Java16StreamUtil.mapMultiToDouble(stream, mapper));
+    }
+
+    @Override
+    public LongStream mapMultiToLong(Stream<T> stream, BiConsumer<? super T, ? super LongConsumer> mapper) {
+        return wrap(Java16StreamUtil.mapMultiToLong(stream, mapper));
+    }
 }

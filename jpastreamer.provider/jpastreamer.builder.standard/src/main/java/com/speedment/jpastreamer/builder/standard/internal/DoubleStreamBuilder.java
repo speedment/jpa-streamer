@@ -12,7 +12,6 @@
  */
 package com.speedment.jpastreamer.builder.standard.internal;
 
-import com.speedment.jpastreamer.javanine.Java9DoubleStreamAdditions;
 import com.speedment.jpastreamer.pipeline.intermediate.DoubleIntermediateOperationFactory;
 import com.speedment.jpastreamer.pipeline.terminal.DoubleTerminalOperationFactory;
 
@@ -28,7 +27,7 @@ import java.util.stream.Stream;
 
 final class DoubleStreamBuilder<E>
         extends BaseStreamBuilder<E, Double, DoubleStream>
-        implements DoubleStream, Java9DoubleStreamAdditions {
+        implements DoubleStream {
 
     DoubleStreamBuilder(final BaseBuilderState<E> baseState) {
         super(baseState);

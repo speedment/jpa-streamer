@@ -10,19 +10,8 @@
  *
  * See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
  */
-package com.speedment.jpastreamer.javanine;
+module jpastreamer.javasixteen {
+    requires jpastreamer.exception;
 
-import java.util.function.DoublePredicate;
-import java.util.stream.DoubleStream;
-
-/**
- *
- * @author Per Minborg
- */
-public interface Java9DoubleStreamAdditions {
-
-    DoubleStream takeWhile(DoublePredicate predicate);
-
-    DoubleStream dropWhile(DoublePredicate predicate);
-
+    exports com.speedment.jpastreamer.javasixteen;
 }
