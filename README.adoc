@@ -91,7 +91,7 @@ More examples are available in the JPAstreamer link:https://speedment.github.io/
 == Install
 Since JPAstreamer acts merely as an API extension for existing JPA providers it requires minimal installation and configuration efforts. You only need to specify that the JPAstreamer dependency is required to compile your source code. 
 
-NOTE: JPAStreamer requires the use of Java 8 or later.
+NOTE: JPAStreamer requires the use of Java 11 or later.
 
 === Maven
 In Maven, the following JPAstreamer dependency is added to the project's pom.xml-file.
