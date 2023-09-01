@@ -40,7 +40,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="jpa-streamer" data-version="3.0.3">
+<div class="nav-container" data-component="jpa-streamer" data-version="3.0.4">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -179,14 +179,17 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">JPAStreamer Docs</span>
-    <span class="version">3.0.3</span>
+    <span class="version">3.0.4</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">JPAStreamer Docs</span>
       <ul class="versions">
         <li class="version is-current">
-          <a href="../introduction/introduction.html">3.0.3</a>
+          <a href="../introduction/introduction.html">3.0.4</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.3/introduction/introduction.html">3.0.3</a>
         </li>
         <li class="version">
           <a href="../../3.0.2/introduction/introduction.html">3.0.2</a>
@@ -305,47 +308,47 @@ In the examples below, many of the lambdas could be replaced by method reference
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>filter</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Predicate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains only the elements that match the <code>Predicate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains only the elements that match the <code>Predicate</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>map</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Function</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the results of applying the given <code>Function</code> to the elements of this stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the results of applying the given <code>Function</code> to the elements of this stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>distinct</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the distinct (i.e. unique) elements in the stream as per the element&#8217;s <code>equals()</code> method</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the distinct (i.e. unique) elements in the stream as per the element&#8217;s <code>equals()</code> method</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sorted</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the elements in the stream in sorted order as per the element&#8217;s <code>compareTo()</code> method</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the elements in the stream in sorted order as per the element&#8217;s <code>compareTo()</code> method</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sorted</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Comparator</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the elements in the stream in sorted order as per the given <code>Comparator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the elements in the stream in sorted order as per the given <code>Comparator</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>limit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the original elements in the stream but truncated to be no longer than the given <code>long</code> value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the original elements in the stream but truncated to be no longer than the given <code>long</code> value</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>skip</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the original elements in the stream but after discarding the given <code>long</code> value of elements</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the original elements in the stream but after discarding the given <code>long</code> value of elements</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>flatMap</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Function</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the elements of the <code>Stream`s in this stream obtained by applying the given `Function</code> to the stream elements of this stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the elements of the <code>Stream`s in this stream obtained by applying the given `Function</code> to the stream elements of this stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>peek</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Consumer</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the original elements in the stream but additionally letting the given <code>Consumer</code> accept each element (side effect)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the original elements in the stream but additionally letting the given <code>Consumer</code> accept each element (side effect)</p></td>
 </tr>
 </tbody>
 </table>
@@ -353,124 +356,124 @@ In the examples below, many of the lambdas could be replaced by method reference
 <p>Below are examples that demonstrate how these operations can be applied.</p>
 </div>
 <div class="sect2">
-<h3 id="_filter"><a class="anchor" href="#_filter"></a>filter</h3>
+<h3 id="_filter"><a class="anchor" href="#_filter"></a>filter()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .filter(s -&gt; s.equals("B"))</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .filter(s -&gt; s.equals("B"))</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B" and "B" because only elements that are equal to "B" will pass the <code>filter</code> operation.</p>
+<p>Returns a <code>Stream</code> with the elements "B" and "B" because only elements that are equal to "B" will pass the <code>filter</code> operation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_map"><a class="anchor" href="#_map"></a>map</h3>
+<h3 id="_map"><a class="anchor" href="#_map"></a>map()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .map(s -&gt; s.toLowerCase())</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .map(s -&gt; s.toLowerCase())</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "b", "a", "c" and "b" because each element will be mapped (converted) to its lower case representation.</p>
+<p>Returns a <code>Stream</code> with the elements "b", "a", "c" and "b" because each element will be mapped (converted) to its lower case representation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_distinct"><a class="anchor" href="#_distinct"></a>distinct</h3>
+<h3 id="_distinct"><a class="anchor" href="#_distinct"></a>distinct()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .distinct()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .distinct()</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B", "A" and "C" because only unique elements will pass the <code>distinct</code> operation.</p>
+<p>Returns a <code>Stream</code> with the elements "B", "A" and "C" because only unique elements will pass the <code>distinct</code> operation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sorted"><a class="anchor" href="#_sorted"></a>sorted</h3>
+<h3 id="_sorted"><a class="anchor" href="#_sorted"></a>sorted()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .sorted()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .sorted()</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "A", "B", "B" and "C" because the <code>sort</code> operation will sort all elements in the stream in natural order.</p>
+<p>Returns a <code>Stream</code> with the elements "A", "B", "B" and "C" because the <code>sort</code> operation will sort all elements in the stream in natural order.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .sorted(Comparator.reverseOrder())</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .sorted(Comparator.reverseOrder())</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "C", "B", "B" and "A" because the <code>sort</code> operation will sort all elements in the stream according to the provided <code>Comparator</code> (in reversed natural order).</p>
+<p>Returns a <code>Stream</code> with the elements "C", "B", "B" and "A" because the <code>sort</code> operation will sort all elements in the stream according to the provided <code>Comparator</code> (in reversed natural order).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_limit"><a class="anchor" href="#_limit"></a>limit</h3>
+<h3 id="_limit"><a class="anchor" href="#_limit"></a>limit()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .limit(2)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .limit(2)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B" and "A" because after the two first elements the rest of the elements will be discarded.</p>
+<p>Returns a <code>Stream</code> with the elements "B" and "A" because after the two first elements the rest of the elements will be discarded.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_skip"><a class="anchor" href="#_skip"></a>skip</h3>
+<h3 id="_skip"><a class="anchor" href="#_skip"></a>skip()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .skip(1)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .skip(1)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "A", "C" and "B" because the first element in the stream will be skipped.</p>
+<p>Returns a <code>Stream</code> with the elements "A", "C" and "B" because the first element in the stream will be skipped.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_flatmap"><a class="anchor" href="#_flatmap"></a>flatMap</h3>
+<h3 id="_flatmap"><a class="anchor" href="#_flatmap"></a>flatMap()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(
-        Stream.of("B", "A"),
-        Stream.of("C", "B")
-    )
-        .flatMap(Function.identity())
-        .forEachOrdered(System.out::println);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(
+    Stream.of("B", "A"),
+    Stream.of("C", "B")
+)
+    .flatMap(Function.identity())
+    .forEachOrdered(System.out::println);</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B", "A", "C" and "B" because the two streams (that each contain two elements) are "flattened" to a single <code>Stream</code> with four elements.</p>
+<p>Returns a <code>Stream</code> with the elements "B", "A", "C" and "B" because the two streams (that each contain two elements) are "flattened" to a single <code>Stream</code> with four elements.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(
-        Arrays.asList("B", "A"),
-        Arrays.asList("C", "B")
-    )
-        .flatMap(l -&gt; l.stream())</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(
+    Arrays.asList("B", "A"),
+    Arrays.asList("C", "B")
+)
+    .flatMap(l -&gt; l.stream())</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B", "A", "C" and "B" because the two lists (that each contain two elements) are "flattened" to a single <code>Stream</code> with four elements. The lists are converted to sub-streams using the <code>List::stream</code> mapper method.</p>
+<p>Returns a <code>Stream</code> with the elements "B", "A", "C" and "B" because the two lists (that each contain two elements) are "flattened" to a single <code>Stream</code> with four elements. The lists are converted to sub-streams using the <code>List::stream</code> mapper method.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_peek"><a class="anchor" href="#_peek"></a>peek</h3>
+<h3 id="_peek"><a class="anchor" href="#_peek"></a>peek()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .peek(System.out::print)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .peek(System.out::print)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect.</p>
+<p>Returns a <code>Stream</code> with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -530,52 +533,52 @@ Side-effect usage is discouraged in Streams. Use this operation for debug only.
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_parallel"><a class="anchor" href="#_parallel"></a>parallel</h3>
+<h3 id="_parallel"><a class="anchor" href="#_parallel"></a>parallel()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .parallel()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .parallel()</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B", "A", "C" and "B" but, when consumed, elements in the <code>Stream</code> may be propagated through the pipeline using different <code>Threads. By default, parallel streams are executed on the default `ForkJoinPool</code>.</p>
+<p>Returns a <code>Stream</code> with the elements "B", "A", "C" and "B" but, when consumed, elements in the <code>Stream</code> may be propagated through the pipeline using different <code>Threads. By default, parallel streams are executed on the default `ForkJoinPool</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sequential"><a class="anchor" href="#_sequential"></a>sequential</h3>
+<h3 id="_sequential"><a class="anchor" href="#_sequential"></a>sequential()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .parallel()
-        .sequential()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .parallel()
+    .sequential()</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B", "A", "C" and "B" that is not parallel.</p>
+<p>Returns a <code>Stream</code> with the elements "B", "A", "C" and "B" that is not parallel.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_unordered"><a class="anchor" href="#_unordered"></a>unordered</h3>
+<h3 id="_unordered"><a class="anchor" href="#_unordered"></a>unordered()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .unordered()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .unordered()</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the given elements but not necessary in any particular order. So when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A". Note that <code>unordered</code> is just a relaxation of the stream requirements. Unordered streams can retain their original element order or elements can appear in any other order.</p>
+<p>Returns a <code>Stream</code> with the given elements but not necessary in any particular order. So when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A". Note that <code>unordered</code> is just a relaxation of the stream requirements. Unordered streams can retain their original element order or elements can appear in any other order.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_onclose"><a class="anchor" href="#_onclose"></a>onClose</h3>
+<h3 id="_onclose"><a class="anchor" href="#_onclose"></a>onClose()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .onClose( () -&gt; System.out.println("The Stream was closed") );</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .onClose( () -&gt; System.out.println("The Stream was closed") );</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>is a <code>Stream</code> with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".</p>
+<p>Is a <code>Stream</code> with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".</p>
 </div>
 </div>
 </div>
@@ -603,32 +606,32 @@ Side-effect usage is discouraged in Streams. Use this operation for debug only.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mapToInt</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ToIntFunction</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">is an <code>IntStream</code> containing <code>int</code> elements obtained by applying the given <code>ToIntFunction</code> to the elements of this stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is an <code>IntStream</code> containing <code>int</code> elements obtained by applying the given <code>ToIntFunction</code> to the elements of this stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mapToLong</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ToLongFunction</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">is a <code>LongStream</code> containing <code>long</code> elements obtained by applying the given <code>ToLongFunction</code> to the elements of this stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is a <code>LongStream</code> containing <code>long</code> elements obtained by applying the given <code>ToLongFunction</code> to the elements of this stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mapToDouble</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ToDoubleFunction</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">is a <code>DoubleStream</code> containing <code>double</code> elements obtained by applying the given <code>ToDoubleFunction</code> to the elements of this stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is a <code>DoubleStream</code> containing <code>double</code> elements obtained by applying the given <code>ToDoubleFunction</code> to the elements of this stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>flatMapToInt</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Function</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the <code>int</code> elements of the <code>IntStream`s in this stream obtained by applying the given `Function</code> to the stream elements of this stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the <code>int</code> elements of the <code>IntStream`s in this stream obtained by applying the given `Function</code> to the stream elements of this stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>flatMapToLong</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Function</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the <code>long</code> elements of the <code>LongStream`s in this stream obtained by applying the given `Function</code> to the stream elements of this stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the <code>long</code> elements of the <code>LongStream`s in this stream obtained by applying the given `Function</code> to the stream elements of this stream</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>flatMapToDouble</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Function</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the <code>double</code> elements of the <code>DoubleStream`s in this stream obtained by applying the given `Function</code> to the stream elements of this stream</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the <code>double</code> elements of the <code>DoubleStream`s in this stream obtained by applying the given `Function</code> to the stream elements of this stream</p></td>
 </tr>
 </tbody>
 </table>
@@ -645,82 +648,207 @@ In many cases, primitive streams provide better performance but can only handle 
 </table>
 </div>
 <div class="sect2">
-<h3 id="_maptoint"><a class="anchor" href="#_maptoint"></a>mapToInt</h3>
+<h3 id="_maptoint"><a class="anchor" href="#_maptoint"></a>mapToInt()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C" , "B")
-        .mapToInt(s -&gt; s.hashCode())</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .mapToInt(s -&gt; s.hashCode())</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns an <code>IntStream</code> with the <code>int</code> elements 66, 65, 67 and 66. (A is 65, B is 66 and so on)</p>
+<p>Returns an <code>IntStream</code> with the <code>int</code> elements 66, 65, 67 and 66. (A is 65, B is 66 and so on)</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_maptolong"><a class="anchor" href="#_maptolong"></a>mapToLong</h3>
+<h3 id="_maptolong"><a class="anchor" href="#_maptolong"></a>mapToLong()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .mapToLong(s -&gt; s.hashCode() * 1_000_000_000_000l)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .mapToLong(s -&gt; s.hashCode() * 1_000_000_000_000l)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>LongStream</code> with the <code>long</code> elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.</p>
+<p>Returns a <code>LongStream</code> with the <code>long</code> elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_maptodouble"><a class="anchor" href="#_maptodouble"></a>mapToDouble</h3>
+<h3 id="_maptodouble"><a class="anchor" href="#_maptodouble"></a>mapToDouble()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .mapToDouble(s -&gt; s.hashCode() / 10.0)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .mapToDouble(s -&gt; s.hashCode() / 10.0)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>DoubleStream</code> with the <code>double</code> elements 6.6, 6.5, 6.7 and 6.6.
+<p>Returns a <code>DoubleStream</code> with the <code>double</code> elements 6.6, 6.5, 6.7 and 6.6.
 === flatMapToInt</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(
-        IntStream.of(1, 2),
-        IntStream.of(3, 4)
-    )
-        .flatMapToInt(s -&gt; s.map(i -&gt; i + 1))</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(
+    IntStream.of(1, 2),
+    IntStream.of(3, 4)
+)
+    .flatMapToInt(s -&gt; s.map(i -&gt; i + 1))</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns an <code>IntStream</code> with the <code>int</code> elements 2, 3, 4 and 5 because the two `IntStream`s where flattened to one stream whereby 1 was added to each element.</p>
+<p>Returns an <code>IntStream</code> with the <code>int</code> elements 2, 3, 4 and 5 because the two `IntStream`s where flattened to one stream whereby 1 was added to each element.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_flatmaptolong"><a class="anchor" href="#_flatmaptolong"></a>flatMapToLong</h3>
+<h3 id="_flatmaptolong"><a class="anchor" href="#_flatmaptolong"></a>flatMapToLong()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(
-        LongStream.of(1, 2),
-        LongStream.of(3, 4)
-    )
-        .flatMapToLong(s -&gt; s.map(i -&gt; i + 1))</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(
+    LongStream.of(1, 2),
+    LongStream.of(3, 4)
+)
+    .flatMapToLong(s -&gt; s.map(i -&gt; i + 1))</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>LongStream</code> with the <code>long</code> elements 2, 3, 4 and 5 because the two <code>LongStreams</code> where flattened to one stream whereby 1 was added to each element.</p>
+<p>Returns a <code>LongStream</code> with the <code>long</code> elements 2, 3, 4 and 5 because the two <code>LongStreams</code> where flattened to one stream whereby 1 was added to each element.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_flatmaptodouble"><a class="anchor" href="#_flatmaptodouble"></a>flatMapToDouble</h3>
+<h3 id="_flatmaptodouble"><a class="anchor" href="#_flatmaptodouble"></a>flatMapToDouble()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(
-        DoubleStream.of(1.0, 2.0),
-        DoubleStream.of(3.0, 4.0)
-    )
-        .flatMapToDouble(s -&gt; s.map(i -&gt; i + 1))</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(
+    DoubleStream.of(1.0, 2.0),
+    DoubleStream.of(3.0, 4.0)
+)
+    .flatMapToDouble(s -&gt; s.map(i -&gt; i + 1))</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>DoubleStream</code> with the <code>double</code> elements 2.0, 3.0, 4.0 and 5.0 because the two `DoubleStream`s where flattened to one stream whereby 1 was added to each element.</p>
+<p>Returns a <code>DoubleStream</code> with the <code>double</code> elements 2.0, 3.0, 4.0 and 5.0 because the two `DoubleStream`s where flattened to one stream whereby 1 was added to each element.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_map_multi_operations_java_16_only"><a class="anchor" href="#_map_multi_operations_java_16_only"></a>Map Multi Operations (Java 16 Only)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Java 16 introduced several new map operations, expanding the capabilities of Streams. The <code>mapMulti()</code> function enables the mapping of a single element within the Stream to zero or multiple elements, contingent on specific conditions.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Operation</th>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Returns a <code>Stream</code> that:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mapMulti</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BiConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a stream consisting of the results of replacing each element of this stream with multiple elements, specifically zero or more elements.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mapMultiToDouble</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BiConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a <code>DoubleStream</code> consisting of the results of replacing each element of this stream with multiple elements, specifically zero or more elements.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mapMultiToInt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BiConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns an <code>IntStream</code>
+consisting of the results of replacing each element of this stream with multiple elements, specifically zero or more elements.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mapMultiToLong</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BiConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a <code>LongStream</code> consisting of the results of replacing each element of this stream with multiple elements, specifically zero or more elements.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+These operations are only available in applications running Java 16 or later.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_mapmulti"><a class="anchor" href="#_mapmulti"></a>mapMulti()</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(1.0, 2.0, 3.0, 4.0, 5.0)
+    .mapMulti((i, mapper) -&gt; {
+        if (i % 2 == 0) {
+            mapper.accept(i);
+            mapper.accept(i);
+        }
+    });</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns a <code>Stream</code> with the elements [2.0, 2.0, 4.0, 4.0] because the even elements were duplicated by accepting them twice.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mapmultitodouble"><a class="anchor" href="#_mapmultitodouble"></a>mapMultiToDouble()</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(1.0, 2.0, 3.0, 4.0, 5.0)
+    .mapMulti((i, mapper) -&gt; {
+        if (i % 2 == 0) {
+            mapper.accept(i);
+            mapper.accept(i);
+        }
+    });</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns an <code>DoubleStream</code> with the elements [2.0, 2.0, 4.0, 4.0] because the even elements were duplicated by accepting them twice.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mapmultitoint"><a class="anchor" href="#_mapmultitoint"></a>mapMultiToInt()</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(1, 2, 3, 4, 5)
+    .mapMulti((i, mapper) -&gt; {
+        if (i % 2 == 0) {
+            mapper.accept(i);
+            mapper.accept(i);
+        }
+    });</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns an <code>IntStream</code> with the elements [2, 2, 4, 4] because the even elements were duplicated by accepting them twice.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mapmultitolong"><a class="anchor" href="#_mapmultitolong"></a>mapMultiToLong()</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(1.0, 2.0, 3.0, 4.0, 5.0)
+    .mapMulti((i, mapper) -&gt; {
+        if (i % 2 == 0) {
+            mapper.accept(i.longValue());
+            mapper.accept(i.longValue());
+        }
+    });</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns an <code>LongStream</code> with the elements [2, 2, 4, 4] because the even elements were duplicated by accepting them twice.</p>
 </div>
 </div>
 </div>
@@ -764,11 +892,11 @@ Here is a table of some additional <strong>Intermediate Operations</strong> that
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_boxed"><a class="anchor" href="#_boxed"></a>boxed</h3>
+<h3 id="_boxed"><a class="anchor" href="#_boxed"></a>boxed()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    IntStream.of(1, 2, 3, 4)
-        .boxed()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IntStream.of(1, 2, 3, 4)
+    .boxed()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -776,11 +904,11 @@ Here is a table of some additional <strong>Intermediate Operations</strong> that
 </div>
 </div>
 <div class="sect2">
-<h3 id="_aslongstream"><a class="anchor" href="#_aslongstream"></a>asLongStream</h3>
+<h3 id="_aslongstream"><a class="anchor" href="#_aslongstream"></a>asLongStream()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     IntStream.of(1, 2, 3, 4)
-        .asLongStream()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IntStream.of(1, 2, 3, 4)
+    .asLongStream()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -788,11 +916,11 @@ Here is a table of some additional <strong>Intermediate Operations</strong> that
 </div>
 </div>
 <div class="sect2">
-<h3 id="_asdoublestream"><a class="anchor" href="#_asdoublestream"></a>asDoubleStream</h3>
+<h3 id="_asdoublestream"><a class="anchor" href="#_asdoublestream"></a>asDoubleStream()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    IntStream.of(1, 2, 3, 4)
-        .asDoubleStream()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IntStream.of(1, 2, 3, 4)
+    .asDoubleStream()</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -802,10 +930,10 @@ Here is a table of some additional <strong>Intermediate Operations</strong> that
 </div>
 </div>
 <div class="sect1">
-<h2 id="_java_9_operations"><a class="anchor" href="#_java_9_operations"></a>Java 9 Operations</h2>
+<h2 id="_selective_operations"><a class="anchor" href="#_selective_operations"></a>Selective Operations</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Two new intermediate operations were introduced in Java 9. Since these methods were added to the <code>Stream</code> interface with default implementations, these methods can be used by any <code>Stream</code> implementation written in either Java 8 or Java 9.</p>
+<p>Two stream operations exist for capturing or omitting elements within the stream until a particular condition is satisfied. Unlike a filter, these operations discontinue predicate evaluation once it turns true for the first time.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -824,37 +952,37 @@ Here is a table of some additional <strong>Intermediate Operations</strong> that
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>takeWhile</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Predicate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the elements in the original stream until the the first one fails the <code>Predicate</code> test</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the elements in the original stream until the the first one fails the <code>Predicate</code> test</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>dropWhile</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Predicate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">contains the elements in the original stream dropping all elements until the the first one fails the <code>Predicate</code> test then containing the rest of the elements</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains the elements in the original stream dropping all elements until the the first one fails the <code>Predicate</code> test then containing the rest of the elements</p></td>
 </tr>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_takewhile_java_9_only"><a class="anchor" href="#_takewhile_java_9_only"></a>takeWhile (Java 9 only)</h3>
+<h3 id="_takewhile"><a class="anchor" href="#_takewhile"></a>takeWhile()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .takeWhile(s -&gt; "B".compareTo(s) &gt;= 0)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .takeWhile(s -&gt; "B".compareTo(s) &gt;= 0)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "B" and "A" because when "C" is encountered in the <code>Stream</code>, that element and all following are dropped.</p>
+<p>Returns a <code>Stream</code> with the elements "B" and "A" because when "C" is encountered in the <code>Stream</code>, that element and all following are dropped.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_dropwhile_java_9_only"><a class="anchor" href="#_dropwhile_java_9_only"></a>dropWhile (Java 9 only)</h3>
+<h3 id="_dropwhile"><a class="anchor" href="#_dropwhile"></a>dropWhile()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .dropWhile(s -&gt; "B".compareTo(s) &gt;= 0)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .dropWhile(s -&gt; "B".compareTo(s) &gt;= 0)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>returns a <code>Stream</code> with the elements "C" and "B" because elements are dropped from the <code>Stream</code> but when "C" in encountered, subsequent elements are not dropped.</p>
+<p>Returns a <code>Stream</code> with the elements "C" and "B" because elements are dropped from the <code>Stream</code> but when "C" in encountered, subsequent elements are not dropped.</p>
 </div>
 </div>
 </div>

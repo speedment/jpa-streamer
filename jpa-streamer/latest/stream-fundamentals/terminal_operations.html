@@ -40,7 +40,7 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="jpa-streamer" data-version="3.0.3">
+<div class="nav-container" data-component="jpa-streamer" data-version="3.0.4">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
@@ -179,14 +179,17 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">JPAStreamer Docs</span>
-    <span class="version">3.0.3</span>
+    <span class="version">3.0.4</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">JPAStreamer Docs</span>
       <ul class="versions">
         <li class="version is-current">
-          <a href="../introduction/introduction.html">3.0.3</a>
+          <a href="../introduction/introduction.html">3.0.4</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.3/introduction/introduction.html">3.0.3</a>
         </li>
         <li class="version">
           <a href="../../3.0.2/introduction/introduction.html">3.0.2</a>
@@ -367,14 +370,19 @@ In the examples below, many of the lambdas could be replaced by method reference
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>IntFunction</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Returns an array containing all the elements in this stream whereby the array is created using the provided <code>IntFunction</code></p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>toList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a list containing all the elements in this stream</p></td>
+</tr>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_foreach"><a class="anchor" href="#_foreach"></a>forEach</h3>
+<h3 id="_foreach"><a class="anchor" href="#_foreach"></a>forEach()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
-        .forEach(System.out::print);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .forEach(System.out::print);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -382,11 +390,11 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 </div>
 <div class="sect2">
-<h3 id="_foreachordered"><a class="anchor" href="#_foreachordered"></a>forEachOrdered</h3>
+<h3 id="_foreachordered"><a class="anchor" href="#_foreachordered"></a>forEachOrdered()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
-        .forEachOrdered(System.out::print);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .forEachOrdered(System.out::print);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -394,11 +402,11 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 </div>
 <div class="sect2">
-<h3 id="_collect"><a class="anchor" href="#_collect"></a>collect</h3>
+<h3 id="_collect"><a class="anchor" href="#_collect"></a>collect()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
-        .collect(Collectors.toList());</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .collect(Collectors.toList());</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -406,8 +414,8 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
-        .collect(Collectors.toSet());</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .collect(Collectors.toSet());</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -415,11 +423,11 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("I", "am", "a", "stream")
-        .collect(Collectors.toMap(
-            s -&gt; s.toLowerCase(), // Key extractor
-            s -&gt; s.length())      // Value extractor
-        )</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("I", "am", "a", "stream")
+    .collect(Collectors.toMap(
+        s -&gt; s.toLowerCase(), // Key extractor
+        s -&gt; s.length())      // Value extractor
+    )</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -427,11 +435,11 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 </div>
 <div class="sect2">
-<h3 id="_min"><a class="anchor" href="#_min"></a>min</h3>
+<h3 id="_min"><a class="anchor" href="#_min"></a>min()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
-        .min(String::compareTo);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .min(String::compareTo);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -439,8 +447,8 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.&lt;String&gt;empty()
-        .min(String::compareTo);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.&lt;String&gt;empty()
+    .min(String::compareTo);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -448,11 +456,11 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 </div>
 <div class="sect2">
-<h3 id="_max"><a class="anchor" href="#_max"></a>max</h3>
+<h3 id="_max"><a class="anchor" href="#_max"></a>max()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">     Stream.of("B", "A", "C" , "B")
-        .max(String::compareTo);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .max(String::compareTo);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -460,8 +468,8 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.&lt;String&gt;empty()
-        .max(String::compareTo);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.&lt;String&gt;empty()
+    .max(String::compareTo);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -469,32 +477,32 @@ In the examples below, many of the lambdas could be replaced by method reference
 </div>
 </div>
 <div class="sect2">
-<h3 id="_count"><a class="anchor" href="#_count"></a>count</h3>
+<h3 id="_count"><a class="anchor" href="#_count"></a>count()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">----a
-     Stream.of("B", "A", "C" , "B")
-        .count();
-----
-returns 4 because there are four elements in the stream.</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C" , "B")
+    .count();</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>returns 4 because there are four elements in the stream.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">----a
-    Stream.empty()
-        .count();
-----
-returns 0 because there are no elements in an empty stream.</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.empty()
+    .count();</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>returns 0 because there are no elements in an empty stream.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_anymatch"><a class="anchor" href="#_anymatch"></a>anyMatch</h3>
+<h3 id="_anymatch"><a class="anchor" href="#_anymatch"></a>anyMatch()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .anyMatch("A"::equals);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .anyMatch("A"::equals);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -502,8 +510,8 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .anyMatch("Z"::equals);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .anyMatch("Z"::equals);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -511,11 +519,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_nonematch"><a class="anchor" href="#_nonematch"></a>noneMatch</h3>
+<h3 id="_nonematch"><a class="anchor" href="#_nonematch"></a>noneMatch()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .noneMatch("A"::equals);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .noneMatch("A"::equals);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -523,8 +531,8 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .noneMatch("Z"::equals);</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .noneMatch("Z"::equals);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -532,11 +540,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_findfirst"><a class="anchor" href="#_findfirst"></a>findFirst</h3>
+<h3 id="_findfirst"><a class="anchor" href="#_findfirst"></a>findFirst()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .findFirst();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .findFirst();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -544,8 +552,8 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.&lt;String&gt;empty()
-        .findFirst();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.&lt;String&gt;empty()
+    .findFirst();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -553,11 +561,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_findany"><a class="anchor" href="#_findany"></a>findAny</h3>
+<h3 id="_findany"><a class="anchor" href="#_findany"></a>findAny()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .findAny();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .findAny();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -565,8 +573,8 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.&lt;String&gt;empty()
-        .findAny();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.&lt;String&gt;empty()
+    .findAny();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -574,11 +582,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_toarray"><a class="anchor" href="#_toarray"></a>toArray</h3>
+<h3 id="_toarray"><a class="anchor" href="#_toarray"></a>toArray()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .toArray();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .toArray();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -586,12 +594,36 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of("B", "A", "C", "B")
-        .toArray(String[]::new)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .toArray(String[]::new)</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Returns an array containing [B, A, C, B] that will be created by the provided constructor, for example using the equivalent to <code>new String[4]</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_tolist"><a class="anchor" href="#_tolist"></a>toList()</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .toList();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns a <code>List</code> containing [B, A, C, B].</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Use of this method requires Java 16 or later.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -652,12 +684,12 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 <h3 id="_collect_with_3_parameters"><a class="anchor" href="#_collect_with_3_parameters"></a>collect with 3 Parameters</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">            Stream.of("B", "A", "C", "B")
-                                .collect(
-                    () -&gt; new StringBuilder(),
-                    (sb0, sb1) -&gt; sb0.append(sb1),
-                    (sb0, sb1) -&gt; sb0.append(sb1)
-                )</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of("B", "A", "C", "B")
+    .collect(
+            () -&gt; new StringBuilder(),
+                (sb0, sb1) -&gt; sb0.append(sb1),
+                (sb0, sb1) -&gt; sb0.append(sb1)
+    );</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -665,11 +697,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_reduce"><a class="anchor" href="#_reduce"></a>reduce</h3>
+<h3 id="_reduce"><a class="anchor" href="#_reduce"></a>reduce()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(1, 2, 3, 4)
-        .reduce((a, b) -&gt; a + b)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(1, 2, 3, 4)
+    .reduce((a, b) -&gt; a + b);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -677,8 +709,8 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(1, 2, 3, 4)
-        .reduce(100, (a, b) -&gt; a + b)</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(1, 2, 3, 4)
+    .reduce(100, (a, b) -&gt; a + b);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -686,13 +718,13 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Stream.of(1, 2, 3, 4)
-        .parallel()
-        .reduce(
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Stream.of(1, 2, 3, 4)
+    .parallel()
+    .reduce(
             0,
             (a, b) -&gt; a + b,
             (a, b) -&gt; a + b
-        )</code></pre>
+    );</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -700,12 +732,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_iterator"><a class="anchor" href="#_iterator"></a>iterator</h3>
+<h3 id="_iterator"><a class="anchor" href="#_iterator"></a>iterator()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Iterator&lt;String&gt; iterator
-        = Stream.of("B", "A", "C", "B")
-            .iterator();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Iterator&lt;String&gt; iterator = Stream.of("B", "A", "C", "B")
+      .iterator();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -713,12 +744,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_spliterator"><a class="anchor" href="#_spliterator"></a>spliterator</h3>
+<h3 id="_spliterator"><a class="anchor" href="#_spliterator"></a>spliterator()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    Spliterator&lt;String&gt; spliterator
-        = Stream.of("B", "A", "C", "B")
-            .spliterator();</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Spliterator&lt;String&gt; spliterator = Stream.of("B", "A", "C", "B")
+    .spliterator();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -768,11 +798,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </tbody>
 </table>
 <div class="sect2">
-<h3 id="_sum"><a class="anchor" href="#_sum"></a>sum</h3>
+<h3 id="_sum"><a class="anchor" href="#_sum"></a>sum()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    IntStream.of(1, 2, 3, 4)
-        .sum()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IntStream.of(1, 2, 3, 4)
+    .sum();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -780,11 +810,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_average"><a class="anchor" href="#_average"></a>average</h3>
+<h3 id="_average"><a class="anchor" href="#_average"></a>average()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    IntStream.of(1, 2, 3, 4)
-        .average()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IntStream.of(1, 2, 3, 4)
+    .average();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -792,11 +822,11 @@ returns 0 because there are no elements in an empty stream.</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_summarystatistics"><a class="anchor" href="#_summarystatistics"></a>summaryStatistics</h3>
+<h3 id="_summarystatistics"><a class="anchor" href="#_summarystatistics"></a>summaryStatistics()</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    IntStream.of(1, 2, 3, 4)
-        .summaryStatistics()</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IntStream.of(1, 2, 3, 4)
+    .summaryStatistics();</code></pre>
 </div>
 </div>
 <div class="paragraph">
