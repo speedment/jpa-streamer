@@ -36,7 +36,7 @@ read -p "Press enter to continue"
 
 echo "** Building version $VERSION"
 cd docs
-./build-local.sh
+./build.sh
 
 echo "** Push changes to GitHub"
 cd ../../../jpa-streamer-gh-pages/jpa-streamer
