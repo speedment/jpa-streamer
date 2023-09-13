@@ -56,7 +56,7 @@ You should now be able to access JPAStreamer using Spring's Dependency Injection
 public class DummyService {
 
     @Autowired
-    private final JPAStreamer jpaStreamer;
+    private JPAStreamer jpaStreamer;
 }
 ----
 
