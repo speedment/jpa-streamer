@@ -81,7 +81,7 @@
 
         <!-- later maven-javadoc-plugin versions does not support aggregate? -->
         <jakarta.version>3.1.0</jakarta.version>
-        <maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
+        <maven-javadoc-plugin-version>3.6.2</maven-javadoc-plugin-version>
         <maven-source-plugin-version>3.3.0</maven-source-plugin-version>
         <maven-dependency-plugin-version>3.6.0</maven-dependency-plugin-version>
         <maven-shade-plugin-version>3.5.0</maven-shade-plugin-version>
