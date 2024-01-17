@@ -30,7 +30,6 @@ import java.util.Set;
 
 @SupportedAnnotationTypes("jakarta.persistence.Entity")
 @SupportedOptions({"jpaStreamerPackage", "jpaStreamerPrefix", "jpaStreamerSuffix"})
-@SupportedSourceVersion(SourceVersion.RELEASE_11)
 @AutoService(Processor.class)
 public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
 
@@ -44,6 +43,11 @@ public final class StandardFieldGeneratorProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         return delegate.process(annotations, roundEnv);
+    }
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latest();
     }
 
 }
