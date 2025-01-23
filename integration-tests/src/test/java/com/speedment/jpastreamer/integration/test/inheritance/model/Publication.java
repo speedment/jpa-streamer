@@ -17,7 +17,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-public abstract class Publication {
+public abstract class Publication extends Versionable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +30,6 @@ public abstract class Publication {
     @Column(name = "title", nullable = false, updatable = false, columnDefinition = "varchar(255)")
     private String title;
     
-    @Version
-    @Column(name = "version", nullable = false, updatable = false, columnDefinition = "int(6)")
-    private Integer version;
-
     public Integer getId() {
         return id;
     }
@@ -58,11 +54,4 @@ public abstract class Publication {
         this.title = title;
     }
 
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
 }

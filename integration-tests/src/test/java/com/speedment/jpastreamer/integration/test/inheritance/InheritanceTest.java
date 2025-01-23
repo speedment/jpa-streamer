@@ -93,5 +93,20 @@ public class InheritanceTest {
         assertEquals(expected, actual);
     }
 
-    
+    @Test
+    void inheritanceTest4(){
+        final List<BlogPost> collect = jpaStreamer.stream(BlogPost.class)
+                .collect(Collectors.toList());
+
+        final long expected = collect.stream()
+                .filter(b -> b.getVersion() == 3)
+                .count();
+
+        final long actual = jpaStreamer.stream(BlogPost.class)
+                .filter(BlogPost$.version.equal(3))
+                .count();
+
+        assertEquals(expected, actual);
+    }
+
 }

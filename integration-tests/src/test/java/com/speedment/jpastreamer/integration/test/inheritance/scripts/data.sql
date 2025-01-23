@@ -23,7 +23,8 @@ VALUES  (1, '2008-7-04', 'Book 1', 2, 213),
         (9, '2016-7-04', 'Book 9', 2, 523),
         (10, '2017-7-04', 'Book 10', 2, 432),
         (11, '2018-7-04', 'Book 11', 2, 322),
-        (12, '2019-7-04', 'Book 12', 2, 121);
+        (12, '2019-7-04', 'Book 12', 2, 121),
+        (13, '2020-7-04', 'Book 13', 3, 148);
 
 INSERT INTO blogposts (id, publishing_date, title, version, url)
 VALUES  (1, '2008-7-04', 'Blog Post 1', 2, 'http://speedment.com'),
@@ -38,11 +39,14 @@ VALUES  (1, '2008-7-04', 'Blog Post 1', 2, 'http://speedment.com'),
         (10, '2017-7-04', 'Blog Post 10', 2, 'http://speedment.com'),
         (11, '2018-7-04', 'Blog Post 11', 2, 'http://speedment.com'),
         (12, '2019-7-04', 'Blog Post 12', 2, 'http://speedment.com'),
+        (13, '2020-7-04', 'Blog Post 13', 3, 'http://speedment.com');
+        
 
 INSERT INTO author (id, firstname, lastname, version)
         (1, 'Author 1', 'Lastname', 2),
         (2, 'Author 2', 'Blog Post 2', 2),
         (3, 'Author 3', 'Blog Post 3', 2),
         (4, 'Author 5', 'Blog Post 4', 2),
-        (5, 'Author 6', 'Blog Post 5', 2);
+        (5, 'Author 6', 'Blog Post 5', 2),
+        (6, 'Author 7', 'Blog Post 6', 3);
 

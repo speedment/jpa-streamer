@@ -25,3 +25,6 @@
 /docs/package-lock.json
 .project
 /javadoc
+
+
+.vscode/

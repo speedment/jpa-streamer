@@ -12,10 +12,10 @@
     See: https://github.com/speedment/jpa-streamer/blob/master/LICENSE
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jpastreamer-parent</artifactId>
         <groupId>com.speedment.jpastreamer</groupId>
         <version>3.0.5-SNAPSHOT</version>
     </parent>
@@ -26,7 +26,7 @@
     <name>Maven</name>
     <url>http://maven.apache.org/</url>
     <inceptionYear>2001</inceptionYear>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -74,7 +74,7 @@
         </dependency>
 
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>

@@ -53,6 +53,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.speedment.common.codegen.util.Formatting.*;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
@@ -135,26 +136,10 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         Writer writer = builderFile.openWriter();
 
                         TypeMirror type = ae.asType();
-                        List<? extends TypeMirror> typeMirrors = processingEnvironment.getTypeUtils().directSupertypes(type);
 
-                        Optional<String> superClass = typeMirrors.stream()
-                                .filter(DeclaredType.class::isInstance)
-                                .map(DeclaredType.class::cast)
-                                .map(DeclaredType::asElement)
-                                .filter(e -> e.getAnnotation(MappedSuperclass.class) != null || e.getAnnotation(Entity.class ) != null)
-                                .map(e -> e.getSimpleName().toString())
-                                .findFirst();
-                        
-                        Optional<? extends Element> superClassElement = Optional.empty();  
-                        if (superClass.isPresent()) {
-                                // Entity should inherit fields from the superclass, retrieve element 
-                                superClassElement = Stream.concat(entities.stream(), superClasses.stream())
-                                        .filter(sc -> sc.getKind() == ElementKind.CLASS)
-                                        .filter(sc -> sc.getSimpleName().toString().equals(superClass.get()))
-                                        .findFirst();
-                        }
+                        Set<? extends Element> superClassHierarchy = walkSuperClass(entities, superClasses, type);
 
-                        generateFields(ae, entityName, genEntityName, packageName, superClassElement, writer);
+                        generateFields(ae, entityName, genEntityName, packageName, superClassHierarchy, writer);
                         writer.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -168,10 +153,15 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                         final String entityName, 
                         final String genEntityName, 
                         final String packageName, 
-                        final Optional<? extends Element> superClass, 
+                        final Set<? extends Element> superClassHierarchy, 
                         final Writer writer) throws IOException {
+
+        final Collection<? extends Element> enclosedElementsHierarchy = Stream.concat(
+                annotatedElement.getEnclosedElements().stream(),
+                superClassHierarchy.stream().flatMap(e -> e.getEnclosedElements().stream()))
+                .collect(toList());
         
-        final Map<String, Element> getters = annotatedElement.getEnclosedElements().stream()
+        final Map<String, Element> getters = enclosedElementsHierarchy.stream()
                 .filter(ee -> ee.getKind() == ElementKind.METHOD)
                 // Only consider methods with no parameters
                 .filter(ee -> ee.getEnclosedElements().stream().noneMatch(eee -> eee.getKind() == ElementKind.PARAMETER))
@@ -187,24 +177,24 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
                 .map(Formatting::lcfirst)
                 .collect(toSet());
 
-        Stream<? extends Element> fields = annotatedElement.getEnclosedElements().stream();
-        
-        if (superClass.isPresent()) {
-            // Add parent fields 
-            fields = Stream.concat(fields, superClass.get().getEnclosedElements().stream());
-        }
-        
-        // Retrieve all declared non-final instance fields of the annotated class
-        Map<? extends Element, String> enclosedFields = fields
+        Collection<? extends Element> fields = enclosedElementsHierarchy.stream()
                 .filter(ee -> ee.getKind().isField()
                         && !ee.getModifiers().contains(Modifier.STATIC) // Ignore static fields
                         && !ee.getModifiers().contains(Modifier.FINAL)) // Ignore final fields
+                .collect(toMap(
+                    e -> e.getSimpleName().toString(),
+                    Function.identity(),
+                    (k1, k2) -> k1
+                )).values();
+
+        // Retrieve all declared non-final instance fields of the annotated class
+        Map<? extends Element, String> enclosedFields = fields.stream()
                 .collect(
                         toMap(
                                 Function.identity(),
                                 ee -> findGetter(ee, getters, isGetters, shortName(entityName), lombokGetterAvailable(annotatedElement, ee)))
                 );
-        
+
         final File file = generatedEntity(annotatedElement, enclosedFields, entityName, genEntityName, packageName);
         writer.write(generator.on(file).orElseThrow(NoSuchElementException::new));
     }
@@ -484,6 +474,36 @@ public final class InternalFieldGeneratorProcessor extends AbstractProcessor {
         Set<String> validAccessLevels = Stream.of("PACKAGE", "NONE", "PRIVATE", "MODULE", "PROTECTED", "PUBLIC")
                 .collect(Collectors.collectingAndThen(toSet(), Collections::unmodifiableSet));
         return validAccessLevels.contains(s);
+    }
+
+    private Set<? extends Element> walkSuperClass(
+            Set<? extends Element> entities,
+            Set<? extends Element> superClasses,
+            TypeMirror clazz) {
+        Set<Element> result = new HashSet<>();
+        List<? extends TypeMirror> typeMirrors = processingEnvironment.getTypeUtils().directSupertypes(clazz);
+
+        typeMirrors.stream()
+                .filter(DeclaredType.class::isInstance)
+                .map(DeclaredType.class::cast)
+                .map(DeclaredType::asElement)
+                .filter(e -> e.getAnnotation(MappedSuperclass.class) != null || e.getAnnotation(Entity.class) != null)
+                .map(e -> e.getSimpleName().toString())
+                .findFirst()
+                .ifPresent(superClassName -> findAndAddSuperClass(entities, superClasses, result, superClassName));
+
+        return result;
+    }
+
+    private void findAndAddSuperClass(Set<? extends Element> entities, Set<? extends Element> superClasses, Set<Element> result, String superClassName) {
+        Stream.concat(entities.stream(), superClasses.stream())
+                .filter(sc -> sc.getKind() == ElementKind.CLASS)
+                .filter(sc -> sc.getSimpleName().toString().equals(superClassName))
+                .findFirst()
+                .ifPresent(superClass -> {
+                    result.add(superClass);
+                    result.addAll(walkSuperClass(entities, superClasses, superClass.asType()));
+                });
     }
 
 }
